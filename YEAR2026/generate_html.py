@@ -899,12 +899,16 @@ html_template = '''<!DOCTYPE html>
         <span id="lastSyncedText">Synced: Live</span>
       </div>
 
+      <a href="arena.html" class="btn btn-orange" style="box-shadow: 0 0 16px rgba(252, 76, 2, 0.45); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Enter The Arena: Badges, 1v1 Duels & Challenges">
+        <span>⚡</span> The Arena ↗
+      </a>
+
       <button id="schemaBtn" class="btn btn-outline" title="View Points Marking Schema & Rules" onclick="openSchemaModal()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
         Marking Schema
       </button>
 
-      <button id="exportCsvBtn" class="btn btn-orange" title="Export all activities as CSV">
+      <button id="exportCsvBtn" class="btn btn-outline" title="Export all activities as CSV">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         Export CSV
       </button>
@@ -2205,3 +2209,11 @@ for target_dir in [YEAR_DIR, WEB_DIR, EXPORT_DIR]:
     shutil.copy2(os.path.join(ROOT_DIR, "dashboard_data.json"), os.path.join(target_dir, "dashboard_data.json"))
 
 print("[+] Synchronized activities.csv and dashboard_data.json to all targets.")
+
+# Also generate The Arena (arena.html) across all targets
+try:
+    import generate_arena
+    generate_arena.build_arena(ROOT_DIR, YEAR_DIR, WEB_DIR, EXPORT_DIR)
+    print("[+] Generated The Arena (arena.html) to all targets.")
+except Exception as e:
+    print(f"[!] Warning on arena generation: {e}")

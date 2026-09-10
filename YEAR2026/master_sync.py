@@ -283,7 +283,7 @@ def run_pipeline(
     for target in ["YEAR2026", "web", "export"]:
         target_dir = os.path.join(BASE_DIR, target)
         os.makedirs(target_dir, exist_ok=True)
-        for fname in ["activities.csv", "dashboard_data.json", "index.html", "ANTI_CHEAT_AND_DATA_INTEGRITY.md"]:
+        for fname in ["activities.csv", "dashboard_data.json", "index.html", "arena.html", "ANTI_CHEAT_AND_DATA_INTEGRITY.md"]:
             src = os.path.join(BASE_DIR, fname)
             dst = os.path.join(target_dir, fname)
             if os.path.exists(src):
@@ -309,11 +309,13 @@ def run_pipeline(
                     "activities.csv",
                     "dashboard_data.json",
                     "index.html",
+                    "arena.html",
                     "ANTI_CHEAT_AND_DATA_INTEGRITY.md",
                     "status.html",
                     "activity_log.csv",
                     "memberlist.csv",
                     "generate_html.py",
+                    "generate_arena.py",
                     "export_dashboard.py",
                     "points.py",
                     "master_sync.py",
