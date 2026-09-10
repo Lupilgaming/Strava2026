@@ -1869,8 +1869,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         if (btn) btn.classList.add('active');
       }
 
-      if (tabId === 'tabDuel' && duelRadarChartInstance) {
-        setTimeout(() => duelRadarChartInstance.resize(), 100);
+      if (tabId === 'tabDuel') {
+        setTimeout(() => updateDuel(), 50);
       }
     }
 
@@ -2327,32 +2327,35 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     function copyTeamRoster() {
       const statsMap = computeAthleteStats(getFilteredActivities());
-      let text = "🏆 CONNECTIVITY SPORTS DAY 2026 - BALANCED SQUADS 🏆\n";
-      text += `Period: ${window.currentPreset === 'tournament' ? 'Official Tournament (Sep 9+)' : (window.currentPreset === '7days' ? 'Last 7 Days' : 'All-Time')}\n`;
-      text += `Total Squads: ${currentTeamCount}\n`;
-      text += "====================================================\n\n";
+      const lines = [];
+      lines.push("🏆 CONNECTIVITY SPORTS DAY 2026 - BALANCED SQUADS 🏆");
+      lines.push("Period: " + (window.currentPreset === 'tournament' ? 'Official Tournament (Sep 9+)' : (window.currentPreset === '7days' ? 'Last 7 Days' : 'All-Time')));
+      lines.push("Total Squads: " + currentTeamCount);
+      lines.push("====================================================");
+      lines.push("");
 
       for (let i = 0; i < currentTeamCount; i++) {
         const meta = SQUAD_METAS[i % SQUAD_METAS.length];
         const teamData = calculateTeamSynergies(activeRosters[i] || [], statsMap);
-        text += `${meta.icon} ${meta.name.toUpperCase()}\n`;
-        text += `Total Score: ${teamData.adjustedPoints.toLocaleString()} pts (Base: ${teamData.basePoints.toLocaleString()} pts + ${teamData.totalBuffPct}% Synergy Buff)\n`;
-        text += `Distance: ${teamData.totalDist} km | Hours: ${teamData.totalHours} hrs | Squad Size: ${teamData.totalMemberCount} (${teamData.activeMembers.length} active)\n`;
+        lines.push(meta.icon + " " + meta.name.toUpperCase());
+        lines.push("Total Score: " + teamData.adjustedPoints.toLocaleString() + " pts (Base: " + teamData.basePoints.toLocaleString() + " pts + " + teamData.totalBuffPct + "% Synergy Buff)");
+        lines.push("Distance: " + teamData.totalDist + " km | Hours: " + teamData.totalHours + " hrs | Squad Size: " + teamData.totalMemberCount + " (" + teamData.activeMembers.length + " active)");
         if (teamData.activeBuffs.length > 0) {
-          text += `Active Buffs: ${teamData.activeBuffs.map(b => `${b.name} (+${b.pct}%)`).join(' | ')}\n`;
+          lines.push("Active Buffs: " + teamData.activeBuffs.map(b => b.name + " (+" + b.pct + "%)").join(" | "));
         }
-        text += "Active Scorers:\n";
+        lines.push("Active Scorers:");
         teamData.activeMembers.forEach(m => {
-          text += ` • ${m.athlete_name} (${m.hero_class}) — ${Math.round(m.total_points).toLocaleString()} pts (${(Math.round(m.total_distance * 10) / 10).toFixed(1)} km)\n`;
+          lines.push(" • " + m.athlete_name + " (" + m.hero_class + ") — " + Math.round(m.total_points).toLocaleString() + " pts (" + (Math.round(m.total_distance * 10) / 10).toFixed(1) + " km)");
         });
         if (teamData.reserveMembers.length > 0) {
-          text += `Registered Candidates (${teamData.reserveMembers.length}): ${teamData.reserveMembers.map(r => r.athlete_name).join(', ')}\n`;
+          lines.push("Registered Candidates (" + teamData.reserveMembers.length + "): " + teamData.reserveMembers.map(r => r.athlete_name).join(", "));
         }
-        text += "\n";
+        lines.push("");
       }
-      text += "View & Simulate in The Arena: https://lupilgaming.github.io/Strava2026/arena.html\n";
+      lines.push("View & Simulate in The Arena: https://lupilgaming.github.io/Strava2026/arena.html");
 
-      navigator.clipboard.writeText(text).then(() => {
+      const fullText = lines.join(String.fromCharCode(10));
+      navigator.clipboard.writeText(fullText).then(() => {
         showToast("✅ Squad roster copied to clipboard!");
       }).catch(() => {
         alert("Roster generated! Please copy from console or share card.");
@@ -2459,8 +2462,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
       redSel.innerHTML = athletes.map((a, i) => `<option value="${a.athlete_name}" ${i === 0 ? 'selected' : ''}>${a.athlete_name} (${Math.round(a.total_points)} pts)</option>`).join('');
       blueSel.innerHTML = athletes.map((a, i) => `<option value="${a.athlete_name}" ${i === 1 ? 'selected' : ''}>${a.athlete_name} (${Math.round(a.total_points)} pts)</option>`).join('');
-
-      updateDuel();
     }
 
     function updateDuel() {
