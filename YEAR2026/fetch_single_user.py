@@ -12,7 +12,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from points import convert_distance_to_km, convert_duration_to_minutes, calculate_activity_points
+from points import convert_distance_to_km, convert_duration_to_minutes, calculate_activity_points, format_pace, is_indoor_ride
 
 if sys.platform == "win32":
     try:
@@ -29,7 +29,7 @@ DEFAULT_HEADERS = {
 
 CSV_FIELDNAMES = [
     "activity_id", "athlete_id", "athlete_name", "activity_type",
-    "datetime_utc", "distance_km", "duration_minutes", "points", "activity_url"
+    "datetime_utc", "distance_km", "duration_minutes", "points", "pace", "is_indoor", "activity_url"
 ]
 
 LOG_FIELDNAMES = [
@@ -235,8 +235,8 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
             if "dist" in txt_l and distance_km == 0.0:
                 val = re.sub(r"dist\w*", "", txt, flags=re.I).strip()
                 distance_km = convert_distance_to_km(val)
-            elif ("moving time" in txt_l or "time" in txt_l) and duration_minutes == 0.0:
-                val = re.sub(r"(moving\s+)?time", "", txt, flags=re.I).strip()
+            elif ("moving time" in txt_l or "time" in txt_l or "duration" in txt_l) and duration_minutes == 0.0:
+                val = re.sub(r"(moving\s+)?(time|duration)", "", txt, flags=re.I).strip()
                 duration_minutes = convert_duration_to_minutes(val)
 
     # 4. Fallback timestamp
@@ -256,7 +256,13 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
     elif "hike" in type_lower: act_type = "Hike"
     elif "swim" in type_lower: act_type = "Swim"
 
-    points = calculate_activity_points(act_type, distance_km, duration_minutes)
+    indoor_flag = is_indoor_ride(act_type, distance_km)
+
+    pace_str = ""
+    if type_lower in ["run", "trail run", "walk", "hike"]:
+        pace_str = format_pace(distance_km, duration_minutes)
+
+    points = calculate_activity_points(act_type, distance_km, duration_minutes, is_indoor=indoor_flag)
 
     return {
         "activity_id": act_id,
@@ -267,8 +273,11 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
         "distance_km": distance_km,
         "duration_minutes": duration_minutes,
         "points": points,
+        "pace": pace_str,
+        "is_indoor": "true" if indoor_flag else "false",
         "activity_url": act_url
     }
+
 
 def fetch_single_user(athlete_id: str, months_back: int = 2, activities_csv: str = "activities.csv", log_csv: str = "activity_log.csv"):
     m = re.search(r"/athletes/(\d+)", str(athlete_id))

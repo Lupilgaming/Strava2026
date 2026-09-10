@@ -7,6 +7,9 @@ import argparse
 from collections import defaultdict
 from dateutil import parser as dt_parser
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from points import calculate_activity_points, format_pace, is_indoor_ride
+
 def clean_and_filter_activities(
     input_csv="activities.csv",
     output_csv="activities.csv",
@@ -106,12 +109,36 @@ def clean_and_filter_activities(
                 row["athlete_id"] = true_aid
                 row["athlete_name"] = club_members.get(true_aid, true_name)
 
-        # 3. Fix sensor / watch-timer outliers
+        # 3. Fix sensor / watch-timer outliers and restore missing durations
         # Activity 20035504028: 2,025m swim left running for 35 hours
         if act_id == "20035504028":
             # Normal swim duration for 2,025m (~2.03 km) is ~50.6 minutes
             row["distance_km"] = "2.03"
             row["duration_minutes"] = "50.6"
+            fixed_timer_glitches += 1
+        elif act_id == "20103393824":  # Walk 7.00 km (1:06:00 duration)
+            row["distance_km"] = "7.00"
+            row["duration_minutes"] = "66.0"
+            fixed_timer_glitches += 1
+        elif act_id == "20103404501":  # Weight Training 5x5 split (1:10:00 duration)
+            row["distance_km"] = "0.0"
+            row["duration_minutes"] = "70.0"
+            fixed_timer_glitches += 1
+        elif act_id == "20103416049":  # Workout Morning shift (47:00 duration)
+            row["distance_km"] = "0.0"
+            row["duration_minutes"] = "47.0"
+            fixed_timer_glitches += 1
+        elif act_id == "19917167043":  # Run 5.00 km (32:00 duration)
+            row["distance_km"] = "5.00"
+            row["duration_minutes"] = "32.0"
+            fixed_timer_glitches += 1
+        elif act_id == "20088869641":  # Run 3.00 km (24:00 duration)
+            row["distance_km"] = "3.00"
+            row["duration_minutes"] = "24.0"
+            fixed_timer_glitches += 1
+        elif act_id == "19593209953":  # Run 3.10 km (26:33 duration)
+            row["distance_km"] = "3.10"
+            row["duration_minutes"] = "26.55"
             fixed_timer_glitches += 1
 
         # 4. Filter by Competition Period (August & September 2026)
@@ -130,7 +157,7 @@ def clean_and_filter_activities(
         except Exception:
             pass
 
-        # 5. Recalculate Points accurately
+        # 5. Recalculate Points accurately, detect indoor rides, and calculate pace
         stype = row.get("activity_type", "Workout")
         try:
             dist = float(row.get("distance_km", 0.0) or 0.0)
@@ -138,19 +165,18 @@ def clean_and_filter_activities(
         except ValueError:
             dist, dur = 0.0, 0.0
 
-        t = stype.strip().lower()
-        if t == "walk":
-            calc_pts = round(dist * 100, 2)
-        elif t in ["run", "trail run"]:
-            calc_pts = round(dist * 120, 2)
-        elif t in ["ride", "virtual ride", "ebike ride"]:
-            calc_pts = round(dist * 40, 2)
-        else:
-            calc_pts = round(dur * 10, 2)
+        indoor_flag = is_indoor_ride(stype, dist)
+        pace_str = ""
+        if stype.lower() in ["run", "trail run", "walk", "hike"]:
+            pace_str = format_pace(dist, dur)
 
-        row["points"] = str(calc_pts)
+        calc_pts = calculate_activity_points(stype, dist, dur, is_indoor=indoor_flag)
+
+        row["points"] = str(round(calc_pts, 2))
         row["distance_km"] = str(round(dist, 2))
         row["duration_minutes"] = str(round(dur, 2))
+        row["pace"] = pace_str
+        row["is_indoor"] = "true" if indoor_flag else "false"
 
         cleaned_activities.append(row)
 
@@ -164,8 +190,10 @@ def clean_and_filter_activities(
     # Output to CSV destinations
     headers = [
         "activity_id", "athlete_id", "athlete_name", "activity_type",
-        "datetime_utc", "distance_km", "duration_minutes", "points", "activity_url"
+        "datetime_utc", "distance_km", "duration_minutes", "points",
+        "pace", "is_indoor", "activity_url"
     ]
+
 
     dest_paths = [
         "activities.csv",

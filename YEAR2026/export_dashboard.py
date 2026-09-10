@@ -53,6 +53,9 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
                 except Exception:
                     iso_dt = raw_dt
 
+            is_ind = str(r.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"]
+            pace_val = str(r.get("pace", "")).strip()
+
             activities.append({
                 "activity_id": str(r.get("activity_id", "")),
                 "athlete_id": str(r.get("athlete_id", "")),
@@ -64,8 +67,11 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
                 "distance_km": round(dist, 2),
                 "duration_minutes": round(dur, 2),
                 "points": round(pts, 2),
+                "pace": pace_val,
+                "is_indoor": is_ind,
                 "activity_url": str(r.get("activity_url", ""))
             })
+
 
     # Group by athlete
     athletes_map: Dict[str, Dict[str, Any]] = {}
