@@ -1,11 +1,183 @@
 import os
 import json
+import csv
 import shutil
+from datetime import datetime
 
 ROOT_DIR = r"C:\Users\ds-ga\Documents\automations\strava club download"
 YEAR_DIR = os.path.join(ROOT_DIR, "YEAR2026")
 WEB_DIR = os.path.join(ROOT_DIR, "web")
 EXPORT_DIR = os.path.join(ROOT_DIR, "export")
+
+SQUAD_METAS = [
+    {"id": 0, "name": "Red Phoenix", "color": "#ef4444", "bg": "rgba(239, 68, 68, 0.12)", "border": "rgba(239, 68, 68, 0.35)", "icon": "🔴"},
+    {"id": 1, "name": "Blue Hydra", "color": "#3b82f6", "bg": "rgba(59, 130, 246, 0.12)", "border": "rgba(59, 130, 246, 0.35)", "icon": "🔵"},
+    {"id": 2, "name": "Emerald Dragons", "color": "#10b981", "bg": "rgba(16, 185, 129, 0.12)", "border": "rgba(16, 185, 129, 0.35)", "icon": "🟢"},
+    {"id": 3, "name": "Golden Gryphons", "color": "#f59e0b", "bg": "rgba(245, 158, 11, 0.12)", "border": "rgba(245, 158, 11, 0.35)", "icon": "🟡"},
+    {"id": 4, "name": "Shadow Vipers", "color": "#a855f7", "bg": "rgba(168, 85, 247, 0.12)", "border": "rgba(168, 85, 247, 0.35)", "icon": "🟣"},
+    {"id": 5, "name": "Solar Titans", "color": "#f97316", "bg": "rgba(249, 115, 22, 0.12)", "border": "rgba(249, 115, 22, 0.35)", "icon": "🟠"},
+    {"id": 6, "name": "Silver Wolves", "color": "#94a3b8", "bg": "rgba(148, 163, 184, 0.12)", "border": "rgba(148, 163, 184, 0.35)", "icon": "⚪"},
+    {"id": 7, "name": "Neon Cyber", "color": "#06b6d4", "bg": "rgba(6, 182, 212, 0.12)", "border": "rgba(6, 182, 212, 0.35)", "icon": "🔷"},
+    {"id": 8, "name": "Thunder Hawks", "color": "#eab308", "bg": "rgba(234, 179, 8, 0.12)", "border": "rgba(234, 179, 8, 0.35)", "icon": "⚡"},
+    {"id": 9, "name": "Magma Giants", "color": "#dc2626", "bg": "rgba(220, 38, 38, 0.12)", "border": "rgba(220, 38, 38, 0.35)", "icon": "🌋"},
+    {"id": 10, "name": "Frost Phantoms", "color": "#38bdf8", "bg": "rgba(56, 189, 248, 0.12)", "border": "rgba(56, 189, 248, 0.35)", "icon": "❄️"},
+    {"id": 11, "name": "Iron Rangers", "color": "#84cc16", "bg": "rgba(132, 204, 22, 0.12)", "border": "rgba(132, 204, 22, 0.35)", "icon": "🏹"},
+    {"id": 12, "name": "Tidal Krakens", "color": "#2563eb", "bg": "rgba(37, 99, 235, 0.12)", "border": "rgba(37, 99, 235, 0.35)", "icon": "🌊"},
+    {"id": 13, "name": "Forest Striders", "color": "#059669", "bg": "rgba(5, 150, 105, 0.12)", "border": "rgba(5, 150, 105, 0.35)", "icon": "🌲"},
+    {"id": 14, "name": "Cosmic Nova", "color": "#ec4899", "bg": "rgba(236, 72, 153, 0.12)", "border": "rgba(236, 72, 153, 0.35)", "icon": "🌌"},
+    {"id": 15, "name": "Aegis Knights", "color": "#64748b", "bg": "rgba(100, 116, 139, 0.12)", "border": "rgba(100, 116, 139, 0.35)", "icon": "🛡️"},
+    {"id": 16, "name": "Vortex Storm", "color": "#8b5cf6", "bg": "rgba(139, 92, 246, 0.12)", "border": "rgba(139, 92, 246, 0.35)", "icon": "🌪️"},
+    {"id": 17, "name": "Orbit Centurions", "color": "#d97706", "bg": "rgba(217, 119, 6, 0.12)", "border": "rgba(217, 119, 6, 0.35)", "icon": "🪐"},
+    {"id": 18, "name": "Mystic Sorcerers", "color": "#c084fc", "bg": "rgba(192, 132, 252, 0.12)", "border": "rgba(192, 132, 252, 0.35)", "icon": "🔮"},
+    {"id": 19, "name": "Apex Predators", "color": "#b91c1c", "bg": "rgba(185, 28, 28, 0.12)", "border": "rgba(185, 28, 28, 0.35)", "icon": "🦁"}
+]
+
+def precalculate_all_squads(activities, members):
+    def aggregate_stats(act_list):
+        stats = {}
+        for m in members:
+            stats[m] = {
+                "name": m,
+                "points": 0.0,
+                "distance": 0.0,
+                "activities": 0,
+                "sports": {},
+                "max_single_dist": 0.0,
+                "max_single_dur": 0.0,
+                "fastest_pace_val": 999.0,
+                "fastest_pace_str": "N/A",
+                "night_owl": 0,
+                "dawn_patrol": 0
+            }
+        for act in act_list:
+            name = act.get("athlete_name", "").strip()
+            if not name:
+                continue
+            if name not in stats:
+                stats[name] = {
+                    "name": name,
+                    "points": 0.0,
+                    "distance": 0.0,
+                    "activities": 0,
+                    "sports": {},
+                    "max_single_dist": 0.0,
+                    "max_single_dur": 0.0,
+                    "fastest_pace_val": 999.0,
+                    "fastest_pace_str": "N/A",
+                    "night_owl": 0,
+                    "dawn_patrol": 0
+                }
+            st = stats[name]
+            pts = float(act.get("points_dynamic") or act.get("points") or 0.0)
+            dist = float(act.get("distance_km") or 0.0)
+            dur = float(act.get("duration_minutes") or 0.0)
+            st["points"] += pts
+            st["distance"] += dist
+            st["activities"] += 1
+            sp = act.get("activity_type") or "Other"
+            st["sports"][sp] = st["sports"].get(sp, 0) + 1
+            if dist > st["max_single_dist"]:
+                st["max_single_dist"] = dist
+            if dur > st["max_single_dur"]:
+                st["max_single_dur"] = dur
+
+            iso = act.get("datetime_iso") or act.get("datetime_utc") or ""
+            if iso:
+                try:
+                    d = datetime.fromisoformat(iso)
+                    if d.hour >= 20:
+                        st["night_owl"] += 1
+                    elif d.hour < 7 or (d.hour == 7 and d.minute <= 30):
+                        st["dawn_patrol"] += 1
+                except Exception:
+                    pass
+
+            if "run" in sp.lower() and dist >= 2.5 and dur > 0:
+                pace_dec = dur / dist
+                if 2.5 < pace_dec < st["fastest_pace_val"]:
+                    st["fastest_pace_val"] = pace_dec
+                    st["fastest_pace_str"] = act.get("pace") or f"{int(pace_dec)}:{int((pace_dec%1)*60):02d} /km"
+
+        # Classify
+        for st in stats.values():
+            sc = len(st["sports"])
+            if sc >= 2:
+                st["hero_class"] = "🧙‍♂️ Polymath"
+                st["hero_color"] = "#38bdf8"
+            elif st["fastest_pace_val"] < 5.4:
+                st["hero_class"] = "⚡ Assassin"
+                st["hero_color"] = "#a855f7"
+            elif st["distance"] >= 25.0 or st["max_single_dist"] >= 10.0:
+                st["hero_class"] = "🏹 Ranger"
+                st["hero_color"] = "#22c55e"
+            elif "Weight Training" in st["sports"] or "Workout" in st["sports"] or "Swim" in st["sports"] or st["max_single_dur"] >= 60.0:
+                st["hero_class"] = "🏋️ Berserker"
+                st["hero_color"] = "#ef4444"
+            else:
+                st["hero_class"] = "🛡️ Sentinel"
+                st["hero_color"] = "#fbbf24"
+        return stats
+
+    def balance_k(k, stats_map):
+        active = [m for m in members if stats_map[m]["points"] > 0]
+        active.sort(key=lambda m: (stats_map[m]["points"], stats_map[m]["distance"]), reverse=True)
+        inactive = [m for m in members if stats_map[m]["points"] == 0]
+        inactive.sort(key=lambda m: m.lower())
+
+        squads = [[] for _ in range(k)]
+        squad_pts = [0.0 for _ in range(k)]
+
+        for ath in active:
+            min_sq = min(range(k), key=lambda i: squad_pts[i])
+            squads[min_sq].append(ath)
+            squad_pts[min_sq] += stats_map[ath]["points"]
+
+        for _ in range(50):
+            max_sq = max(range(k), key=lambda i: squad_pts[i])
+            min_sq = min(range(k), key=lambda i: squad_pts[i])
+            diff = squad_pts[max_sq] - squad_pts[min_sq]
+            if diff <= 5:
+                break
+            best_swap = None
+            best_diff = diff
+            for a_i, ath_a in enumerate(squads[max_sq]):
+                p_a = stats_map[ath_a]["points"]
+                for b_i, ath_b in enumerate(squads[min_sq]):
+                    p_b = stats_map[ath_b]["points"]
+                    change = p_a - p_b
+                    if change > 0:
+                        new_diff = abs((squad_pts[max_sq] - change) - (squad_pts[min_sq] + change))
+                        if new_diff < best_diff:
+                            best_diff = new_diff
+                            best_swap = (a_i, b_i, change)
+            if best_swap and best_diff < diff - 2:
+                a_i, b_i, change = best_swap
+                squads[max_sq][a_i], squads[min_sq][b_i] = squads[min_sq][b_i], squads[max_sq][a_i]
+                squad_pts[max_sq] -= change
+                squad_pts[min_sq] += change
+            else:
+                break
+
+        for ath in inactive:
+            min_len_sq = min(range(k), key=lambda i: len(squads[i]))
+            squads[min_len_sq].append(ath)
+
+        return squads
+
+    act_tourn = [a for a in activities if (a.get("datetime_iso") or "")[:10] >= "2026-09-09"]
+    stats_tourn = aggregate_stats(act_tourn)
+    stats_all = aggregate_stats(activities)
+
+    precalc_dict = {
+        "tournament": {},
+        "all_time": {}
+    }
+
+    for k in range(2, 21):
+        precalc_dict["tournament"][k] = balance_k(k, stats_tourn)
+        precalc_dict["all_time"][k] = balance_k(k, stats_all)
+
+    return precalc_dict
 
 def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     if root_dir is None:
@@ -24,8 +196,29 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     with open(json_path, "r", encoding="utf-8") as f:
         dashboard_data = json.load(f)
 
+    # Load memberlist
+    member_csv = os.path.join(root_dir, "memberlist.csv")
+    if not os.path.exists(member_csv):
+        member_csv = os.path.join(year_dir, "memberlist.csv")
+
+    members = []
+    if os.path.exists(member_csv):
+        with open(member_csv, "r", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                m_name = r.get("athlete_name", "").strip()
+                if m_name and m_name not in members:
+                    members.append(m_name)
+
+    if not members and dashboard_data.get("athletes"):
+        members = [a["athlete_name"] for a in dashboard_data["athletes"]]
+
+    # Precalculate squads for k=2..20
+    precalculated = precalculate_all_squads(dashboard_data.get("activities", []), members)
+    precalc_json_str = json.dumps(precalculated)
+
     json_str = json.dumps(dashboard_data, indent=2)
 
+    # HTML Template begins
     arena_template = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -420,7 +613,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       TEAM BUILDER STYLES
+       TEAM BUILDER STYLES (Precalculated & Ultra-Lightweight)
        ========================================================================= */
     .tb-controls {
       background: var(--card-bg);
@@ -446,9 +639,9 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 7px 14px;
+      padding: 7px 13px;
       border-radius: 10px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
@@ -462,6 +655,18 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       border-color: var(--accent-purple);
       color: #fff;
       box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+    }
+
+    .tb-select-dropdown {
+      background: #0f172a;
+      border: 1px solid var(--accent-purple);
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
     }
 
     /* Balance Meter Bar */
@@ -480,6 +685,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       margin-bottom: 10px;
       font-size: 12.5px;
       font-weight: 700;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .tb-balance-meter {
@@ -493,14 +700,64 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     .tb-meter-segment {
       height: 100%;
-      transition: width 0.4s ease;
+      transition: width 0.3s ease;
       position: relative;
+    }
+
+    /* Squad Filter Toolbar */
+    .tb-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tb-view-toggle {
+      display: flex;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .tb-view-pill {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tb-view-pill.active {
+      background: #334155;
+      color: #fff;
+    }
+
+    .tb-search-input {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      outline: none;
+      width: 200px;
+      transition: border-color 0.2s;
+    }
+    .tb-search-input:focus {
+      border-color: var(--strava-orange);
     }
 
     /* Squad Cards Grid */
     .tb-squad-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
       gap: 20px;
       margin-bottom: 30px;
     }
@@ -520,7 +777,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     .tb-squad-header {
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
@@ -529,7 +786,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     .tb-squad-name {
       font-family: 'Outfit', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -538,13 +795,13 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     .tb-squad-score {
       font-family: 'Outfit', sans-serif;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       letter-spacing: -0.5px;
     }
 
     .tb-squad-meta-bar {
-      padding: 10px 20px;
+      padding: 9px 18px;
       background: rgba(15, 23, 42, 0.4);
       display: flex;
       justify-content: space-between;
@@ -554,21 +811,21 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     .tb-synergy-tray {
-      padding: 12px 18px;
+      padding: 10px 16px;
       background: rgba(255, 255, 255, 0.02);
       border-bottom: 1px solid var(--card-border);
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      min-height: 48px;
+      min-height: 44px;
       align-items: center;
     }
 
     .tb-synergy-pill {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 8px;
+      padding: 3px 8px;
+      border-radius: 7px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -581,10 +838,10 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     .tb-roster-list {
-      padding: 14px 16px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       flex: 1;
       max-height: 440px;
       overflow-y: auto;
@@ -594,11 +851,11 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       transition: all 0.2s;
     }
     .tb-player-card:hover {
@@ -606,29 +863,35 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       border-color: rgba(255, 255, 255, 0.2);
     }
 
+    .tb-player-card.reserve {
+      opacity: 0.75;
+      background: rgba(15, 23, 42, 0.35);
+      border-style: dashed;
+    }
+
     .tb-player-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       min-width: 0;
     }
 
     .tb-player-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
       background: #1e293b;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       color: #cbd5e1;
       flex-shrink: 0;
     }
 
     .tb-player-name {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       color: #fff;
       white-space: nowrap;
@@ -637,14 +900,14 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     .tb-class-badge {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      padding: 1px 7px;
-      border-radius: 6px;
+      padding: 1px 6px;
+      border-radius: 5px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       display: inline-block;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .tb-player-stats {
@@ -654,13 +917,13 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     .tb-player-pts {
       font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: var(--gold);
     }
 
     .tb-player-sub {
-      font-size: 10.5px;
+      font-size: 10px;
       color: var(--text-dim);
     }
 
@@ -669,8 +932,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       border: 1px solid var(--card-border);
       color: var(--text-muted);
       border-radius: 6px;
-      font-size: 11px;
-      padding: 3px 6px;
+      font-size: 10.5px;
+      padding: 2px 5px;
       outline: none;
       cursor: pointer;
     }
@@ -684,26 +947,26 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 24px;
+      padding: 22px;
       margin-bottom: 30px;
     }
 
     .tb-guide-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
     }
 
     .tb-class-item {
       background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 12px;
+      padding: 12px;
     }
 
     .tb-class-item-title {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -712,15 +975,14 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     .tb-class-item-desc {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.4;
     }
 
     /* =========================================================================
-       EXISTING PANELS STYLES (Trophies, Duel, Road Trip, Momentum, Roulette)
+       OTHER TABS STYLES (Roulette, Momentum, Road Trip, Duel, Trophies)
        ========================================================================= */
-    /* Trophy Cards Grid */
     .trophy-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -735,7 +997,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       padding: 24px;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
     }
     .trophy-card:hover {
       transform: translateY(-4px);
@@ -744,16 +1006,16 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     .trophy-icon-box {
-      width: 54px;
-      height: 54px;
+      width: 52px;
+      height: 52px;
       border-radius: 16px;
       background: linear-gradient(135deg, rgba(252, 76, 2, 0.2), rgba(255, 106, 43, 0.1));
       border: 1px solid rgba(252, 76, 2, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
-      margin-bottom: 16px;
+      font-size: 26px;
+      margin-bottom: 14px;
       box-shadow: 0 0 16px var(--orange-glow);
     }
 
@@ -1152,7 +1414,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       <div>
         <div class="arena-hero-title">⚡ The Connectivity Arena</div>
         <div class="arena-hero-sub">
-          The gamified clubhouse for Connectivity Sports Day 2026. Build balanced squads with RPG party synergies, spin the workout roulette, track momentum velocity, simulate 1v1 duels, and explore algorithmic trophies.
+          The gamified clubhouse for Connectivity Sports Day 2026. Pre-balanced squads for up to 20 squads, RPG party synergies, workout roulette, momentum velocity, 1v1 duels, and algorithmic trophies.
         </div>
       </div>
       <div>
@@ -1191,7 +1453,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       </div>
     </div>
 
-    <!-- Arena Navigation Tabs (Reordered with Team Builder 1st, others in reverse order) -->
+    <!-- Arena Navigation Tabs (Reordered: Team Builder 1st, others in reverse order) -->
     <div class="arena-nav-bar">
       <button id="tabBtnTeamBuilder" class="arena-nav-tab active" onclick="switchArenaTab('tabTeamBuilder')">
         <span>👥</span> Team Builder
@@ -1214,35 +1476,41 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 1: TEAM BUILDER & RPG SYNERGIES -->
+    <!-- TAB 1: TEAM BUILDER (Precalculated & Instantaneous) -->
     <!-- =================================================================== -->
     <div id="tabTeamBuilder" class="arena-panel active">
       <div class="section-header">
         <div class="section-title">
-          <span>👥</span> AI Fair-Play Team Builder & RPG Synergies
+          <span>👥</span> Pre-Balanced Team Builder & RPG Synergies
         </div>
         <div class="section-desc">
-          Partition club athletes into mathematically balanced squads using a multi-objective greedy snake partition. Athletes are assigned RPG Hero Classes based on their Strava profile, unlocking team synergy buffs when drafting diverse, well-rounded squads!
+          Instantly load mathematically pre-balanced squads (2 to 20 squads) with zero client calculation lag. Active scorers and registered candidates (118 club members) are distributed evenly, with real-time party synergy buffs!
         </div>
       </div>
 
       <!-- Team Builder Controls -->
       <div class="tb-controls">
         <div class="tb-group">
-          <span style="font-size:12.5px; font-weight:700; color:var(--text-muted);">Squad Count:</span>
-          <button id="squadBtn2" class="tb-squad-btn active" onclick="setSquadCount(2)">2 Squads</button>
-          <button id="squadBtn3" class="tb-squad-btn" onclick="setSquadCount(3)">3 Squads</button>
-          <button id="squadBtn4" class="tb-squad-btn" onclick="setSquadCount(4)">4 Squads</button>
+          <span style="font-size:12.5px; font-weight:700; color:var(--text-muted);">Popular Squads:</span>
+          <button id="squadBtn2" class="tb-squad-btn" onclick="setSquadCount(2)">2</button>
+          <button id="squadBtn3" class="tb-squad-btn" onclick="setSquadCount(3)">3</button>
+          <button id="squadBtn4" class="tb-squad-btn active" onclick="setSquadCount(4)">4</button>
+          <button id="squadBtn6" class="tb-squad-btn" onclick="setSquadCount(6)">6</button>
+          <button id="squadBtn8" class="tb-squad-btn" onclick="setSquadCount(8)">8</button>
+          <button id="squadBtn10" class="tb-squad-btn" onclick="setSquadCount(10)">10</button>
+          <button id="squadBtn15" class="tb-squad-btn" onclick="setSquadCount(15)">15</button>
+          <button id="squadBtn20" class="tb-squad-btn" onclick="setSquadCount(20)" title="Recommended for 100+ candidates: ~5-6 per squad!">20 ⚡</button>
+
+          <select id="squadSelectDropdown" class="tb-select-dropdown" onchange="setSquadCount(parseInt(this.value))">
+            <!-- Populated 2..20 via JS -->
+          </select>
         </div>
 
         <div class="tb-group">
-          <button class="btn btn-orange" onclick="autoBalanceTeams()" title="Run AI algorithm to equalize points and sports">
-            <span>⚡</span> Auto-Balance
+          <button class="btn btn-orange" onclick="resetToPrecalculated()" title="Restore the optimal pre-calculated AI balance in 0ms">
+            <span>⚡</span> Reset Pre-Balance
           </button>
-          <button class="btn btn-outline" onclick="shuffleTeams()" title="Randomly shuffle roster across squads">
-            <span>🎲</span> Shuffle
-          </button>
-          <button class="btn btn-outline" onclick="copyTeamRoster()" title="Copy formatted roster text to clipboard for Slack / WhatsApp">
+          <button class="btn btn-outline" onclick="copyTeamRoster()" title="Copy clean roster text for Slack / WhatsApp">
             <span>📋</span> Copy Roster
           </button>
         </div>
@@ -1252,11 +1520,25 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       <div class="tb-balance-card">
         <div class="tb-balance-header">
           <span id="tbBalanceTitle">⚖️ Squad Balance Meter</span>
-          <span id="tbBalanceStatus" style="color:var(--accent-green);">Calculating...</span>
+          <span id="tbBalanceStatus" style="color:var(--accent-green);">Instant 0ms Pre-Calculated Balance</span>
         </div>
         <div id="tbBalanceMeter" class="tb-balance-meter">
           <!-- Injected via JS -->
         </div>
+      </div>
+
+      <!-- Squad View Options & Member Search -->
+      <div class="tb-toolbar">
+        <div class="tb-view-toggle">
+          <button id="viewActiveOnly" class="tb-view-pill active" onclick="setViewMode('active')">
+            Active Scorers (<span id="activeScorerCount">0</span>)
+          </button>
+          <button id="viewFullRoster" class="tb-view-pill" onclick="setViewMode('full')">
+            Full Squad Roster (All 118 Candidates)
+          </button>
+        </div>
+
+        <input type="text" id="memberSearch" class="tb-search-input" placeholder="🔍 Search member squad..." oninput="onSearchMember(this.value)">
       </div>
 
       <!-- Squad Columns Grid -->
@@ -1266,17 +1548,17 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
       <!-- RPG Hero Class & Synergies Explainer -->
       <div class="tb-class-guide">
-        <div style="font-family:'Outfit',sans-serif; font-size:18px; font-weight:800; color:#fff; margin-bottom:4px;">
+        <div style="font-family:'Outfit',sans-serif; font-size:17px; font-weight:800; color:#fff; margin-bottom:4px;">
           🧙‍♂️ RPG Hero Classes & Team Synergies
         </div>
-        <div style="font-size:12.5px; color:var(--text-muted); line-height:1.5;">
-          Every athlete is classified based on their pace, volume, and sport diversity. Combining different classes unlocks powerful team synergy buffs!
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+          Every athlete is classified based on pace, volume, and sport diversity. Combining different classes unlocks automatic team synergy buffs!
         </div>
 
         <div class="tb-guide-grid">
           <div class="tb-class-item">
             <div class="tb-class-item-title" style="color:#22c55e;">🏹 The Ranger</div>
-            <div class="tb-class-item-desc">High-volume endurance specialist (&ge; 25 km distance or long continuous runs/rides).</div>
+            <div class="tb-class-item-desc">High-volume endurance specialist (&ge; 25 km distance or long continuous outings).</div>
           </div>
           <div class="tb-class-item">
             <div class="tb-class-item-title" style="color:#a855f7;">⚡ The Assassin</div>
@@ -1296,7 +1578,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
           </div>
         </div>
 
-        <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--card-border); font-size:12px; color:var(--text-dim); display:flex; flex-wrap:wrap; gap:16px;">
+        <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--card-border); font-size:11.5px; color:var(--text-dim); display:flex; flex-wrap:wrap; gap:16px;">
           <span>✨ <strong>Tri-Sport Mastery (+8%):</strong> Squad covers Run, Walk, & Ride/Workout.</span>
           <span>🌙 <strong>24-Hour Watch (+5%):</strong> Squad features Dawn Patrol (&lt;7 AM) & Night Owl (&gt;8 PM).</span>
           <span>🛡️ <strong>Class Quintet (+10%):</strong> Squad includes 3+ distinct Hero Classes.</span>
@@ -1490,6 +1772,11 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     <span id="toastMsg">✅ Roster copied!</span>
   </div>
 
+  <!-- Precalculated Squads for Instant Client-Side Zero-Latency Rendering -->
+  <script id="precalculated-squads-data" type="application/json">
+<!-- PRECALCULATED_SQUADS_PLACEHOLDER -->
+  </script>
+
   <!-- Embedded fallback JSON data for seamless offline rendering -->
   <script id="fallback-data" type="application/json">
 <!-- FALLBACK_DATA_PLACEHOLDER -->
@@ -1497,25 +1784,43 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
   <script>
     let globalData = null;
+    let PRECALC_SQUADS = null;
     let duelRadarChartInstance = null;
 
-    // Date Filter State (Default: Sep 9, 2026 onwards for the official tournament)
+    // Date Filter State (Default: Sep 9, 2026 onwards)
     window.currentDateStart = '2026-09-09';
     window.currentDateEnd = '';
     window.currentPreset = 'tournament';
 
     // Team Builder State
-    let currentTeamCount = 2;
-    let teamRosters = { 0: [], 1: [], 2: [], 3: [] };
+    let currentTeamCount = 4;
+    let activeRosters = []; // array of member name arrays
+    let viewMode = 'active'; // 'active' or 'full'
+    let memberFilterQuery = '';
 
     const SQUAD_METAS = [
-      { id: 0, name: "Red Phoenix", color: "#ef4444", bg: "rgba(239, 68, 68, 0.12)", border: "rgba(239, 68, 68, 0.35)", icon: "🔴" },
-      { id: 1, name: "Blue Hydra", color: "#3b82f6", bg: "rgba(59, 130, 246, 0.12)", border: "rgba(59, 130, 246, 0.35)", icon: "🔵" },
-      { id: 2, name: "Emerald Dragons", color: "#10b981", bg: "rgba(16, 185, 129, 0.12)", border: "rgba(16, 185, 129, 0.35)", icon: "🟢" },
-      { id: 3, name: "Golden Gryphons", color: "#f59e0b", bg: "rgba(245, 158, 11, 0.12)", border: "rgba(245, 158, 11, 0.35)", icon: "🟡" }
+      {"id": 0, "name": "Red Phoenix", "color": "#ef4444", "bg": "rgba(239, 68, 68, 0.12)", "border": "rgba(239, 68, 68, 0.35)", "icon": "🔴"},
+      {"id": 1, "name": "Blue Hydra", "color": "#3b82f6", "bg": "rgba(59, 130, 246, 0.12)", "border": "rgba(59, 130, 246, 0.35)", "icon": "🔵"},
+      {"id": 2, "name": "Emerald Dragons", "color": "#10b981", "bg": "rgba(16, 185, 129, 0.12)", "border": "rgba(16, 185, 129, 0.35)", "icon": "🟢"},
+      {"id": 3, "name": "Golden Gryphons", "color": "#f59e0b", "bg": "rgba(245, 158, 11, 0.12)", "border": "rgba(245, 158, 11, 0.35)", "icon": "🟡"},
+      {"id": 4, "name": "Shadow Vipers", "color": "#a855f7", "bg": "rgba(168, 85, 247, 0.12)", "border": "rgba(168, 85, 247, 0.35)", "icon": "🟣"},
+      {"id": 5, "name": "Solar Titans", "color": "#f97316", "bg": "rgba(249, 115, 22, 0.12)", "border": "rgba(249, 115, 22, 0.35)", "icon": "🟠"},
+      {"id": 6, "name": "Silver Wolves", "color": "#94a3b8", "bg": "rgba(148, 163, 184, 0.12)", "border": "rgba(148, 163, 184, 0.35)", "icon": "⚪"},
+      {"id": 7, "name": "Neon Cyber", "color": "#06b6d4", "bg": "rgba(6, 182, 212, 0.12)", "border": "rgba(6, 182, 212, 0.35)", "icon": "🔷"},
+      {"id": 8, "name": "Thunder Hawks", "color": "#eab308", "bg": "rgba(234, 179, 8, 0.12)", "border": "rgba(234, 179, 8, 0.35)", "icon": "⚡"},
+      {"id": 9, "name": "Magma Giants", "color": "#dc2626", "bg": "rgba(220, 38, 38, 0.12)", "border": "rgba(220, 38, 38, 0.35)", "icon": "🌋"},
+      {"id": 10, "name": "Frost Phantoms", "color": "#38bdf8", "bg": "rgba(56, 189, 248, 0.12)", "border": "rgba(56, 189, 248, 0.35)", "icon": "❄️"},
+      {"id": 11, "name": "Iron Rangers", "color": "#84cc16", "bg": "rgba(132, 204, 22, 0.12)", "border": "rgba(132, 204, 22, 0.35)", "icon": "🏹"},
+      {"id": 12, "name": "Tidal Krakens", "color": "#2563eb", "bg": "rgba(37, 99, 235, 0.12)", "border": "rgba(37, 99, 235, 0.35)", "icon": "🌊"},
+      {"id": 13, "name": "Forest Striders", "color": "#059669", "bg": "rgba(5, 150, 105, 0.12)", "border": "rgba(5, 150, 105, 0.35)", "icon": "🌲"},
+      {"id": 14, "name": "Cosmic Nova", "color": "#ec4899", "bg": "rgba(236, 72, 153, 0.12)", "border": "rgba(236, 72, 153, 0.35)", "icon": "🌌"},
+      {"id": 15, "name": "Aegis Knights", "color": "#64748b", "bg": "rgba(100, 116, 139, 0.12)", "border": "rgba(100, 116, 139, 0.35)", "icon": "🛡️"},
+      {"id": 16, "name": "Vortex Storm", "color": "#8b5cf6", "bg": "rgba(139, 92, 246, 0.12)", "border": "rgba(139, 92, 246, 0.35)", "icon": "🌪️"},
+      {"id": 17, "name": "Orbit Centurions", "color": "#d97706", "bg": "rgba(217, 119, 6, 0.12)", "border": "rgba(217, 119, 6, 0.35)", "icon": "🪐"},
+      {"id": 18, "name": "Mystic Sorcerers", "color": "#c084fc", "bg": "rgba(192, 132, 252, 0.12)", "border": "rgba(192, 132, 252, 0.35)", "icon": "🔮"},
+      {"id": 19, "name": "Apex Predators", "color": "#b91c1c", "bg": "rgba(185, 28, 28, 0.12)", "border": "rgba(185, 28, 28, 0.35)", "icon": "🦁"}
     ];
 
-    // Road Trip Milestones
     const MILESTONES = [
       { city: "Bangalore", km: 0, icon: "🏁" },
       { city: "Mysore", km: 140, icon: "🏰" },
@@ -1527,44 +1832,13 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       { city: "New Delhi", km: 2220, icon: "🏛️" }
     ];
 
-    // Workout Roulette Dares
     const DARES = [
-      {
-        icon: "🌅",
-        title: "The Sunrise 5k Cruise",
-        desc: "Log a continuous 5.0 km run or walk before 7:30 AM. Earn a dynamic pace bonus and lead the Dawn Patrol trophy.",
-        pts: "~110 - 145 pts"
-      },
-      {
-        icon: "⚡",
-        title: "Negative Split 4k",
-        desc: "Run 4 km outdoor where your second 2 km is at least 15 sec/km faster than your first 2 km.",
-        pts: "~120 - 160 pts"
-      },
-      {
-        icon: "🚴",
-        title: "Virtual Century Sprint",
-        desc: "Complete 15.0+ km on an indoor smart trainer or outdoor cycling route maintaining steady cadence.",
-        pts: "~95 - 130 pts"
-      },
-      {
-        icon: "🔥",
-        title: "The Midday 30m Tabata Burn",
-        desc: "Log 30 minutes of high-intensity functional workout or weight training during lunch hour.",
-        pts: "~90 - 120 pts"
-      },
-      {
-        icon: "🦉",
-        title: "Night Hawk Recovery Stride",
-        desc: "Log a 4.0 km walk or gentle jog after 8:30 PM under the stars to claim the Night Owl badge.",
-        pts: "~80 - 100 pts"
-      },
-      {
-        icon: "⛰️",
-        title: "The Elevation Challenge",
-        desc: "Find a route with at least 50m of elevation gain across your run or walk.",
-        pts: "~130 - 170 pts"
-      }
+      { icon: "🌅", title: "The Sunrise 5k Cruise", desc: "Log a continuous 5.0 km run or walk before 7:30 AM. Earn dynamic pace points and lead the Dawn Patrol trophy.", pts: "~110 - 145 pts" },
+      { icon: "⚡", title: "Negative Split 4k", desc: "Run 4 km outdoor where your second 2 km is at least 15 sec/km faster than your first 2 km.", pts: "~120 - 160 pts" },
+      { icon: "🚴", title: "Virtual Century Sprint", desc: "Complete 15.0+ km on an indoor smart trainer or outdoor cycling route maintaining steady cadence.", pts: "~95 - 130 pts" },
+      { icon: "🔥", title: "Midday 30m Tabata Burn", desc: "Log 30 minutes of high-intensity functional workout or weight training during lunch hour.", pts: "~90 - 120 pts" },
+      { icon: "🦉", title: "Night Hawk Recovery Stride", desc: "Log a 4.0 km walk or gentle jog after 8:30 PM under the stars to claim the Night Owl badge.", pts: "~80 - 100 pts" },
+      { icon: "⛰️", title: "The Elevation Challenge", desc: "Find a route with at least 50m of elevation gain across your run or walk.", pts: "~130 - 170 pts" }
     ];
 
     function showToast(msg) {
@@ -1574,7 +1848,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       setTimeout(() => t.classList.remove('show'), 3200);
     }
 
-    /* Tab Switching */
     function switchArenaTab(tabId) {
       document.querySelectorAll('.arena-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.arena-nav-tab').forEach(b => b.classList.remove('active'));
@@ -1601,7 +1874,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       }
     }
 
-    /* Date Filter Handlers */
     function setDatePreset(preset) {
       window.currentPreset = preset;
       document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
@@ -1623,7 +1895,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         endInput.value = '';
       } else if (preset === '7days') {
         document.getElementById('preset7Days').classList.add('active');
-        const d = new Date('2026-09-10'); // align with latest dataset date
+        const d = new Date('2026-09-10');
         d.setDate(d.getDate() - 7);
         const startStr = d.toISOString().slice(0, 10);
         window.currentDateStart = startStr;
@@ -1636,11 +1908,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     function onCustomDateChange() {
-      const s = document.getElementById('dateStart').value;
-      const e = document.getElementById('dateEnd').value;
-      window.currentDateStart = s;
-      window.currentDateEnd = e;
-
+      window.currentDateStart = document.getElementById('dateStart').value;
+      window.currentDateEnd = document.getElementById('dateEnd').value;
       document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
       applyFilterAndRerender();
     }
@@ -1663,25 +1932,20 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         badge.innerText = `Showing ${acts.length} activities (${window.currentDateStart ? window.currentDateStart : 'Earliest'} → ${window.currentDateEnd ? window.currentDateEnd : 'Present'})`;
       }
 
-      // Re-render components with filtered dataset
-      autoBalanceTeams();
+      resetToPrecalculated();
       renderTrophies();
       updateDuel();
       renderVirtualJourney();
       renderMomentum();
     }
 
-    /* Athlete Stats Aggregation & Hero Class Assignment */
     function computeAthleteStats(activities) {
       const statsMap = {};
 
-      // Initialize all athletes from global roster
       (globalData.athletes || []).forEach(a => {
         statsMap[a.athlete_name] = {
-          athlete_id: a.athlete_id,
           athlete_name: a.athlete_name,
           total_points: 0,
-          total_points_legacy: 0,
           total_distance: 0,
           total_duration_hours: 0,
           total_activities: 0,
@@ -1692,24 +1956,19 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
           max_single_duration: 0,
           night_owl_count: 0,
           dawn_patrol_count: 0,
-          weekend_count: 0,
           active_dates: new Set(),
           hero_class_name: 'Sentinel',
           hero_class_icon: '🛡️',
-          hero_class_desc: 'Consistent Daily Streaker',
           hero_class_color: '#fbbf24'
         };
       });
 
-      // Aggregate filtered activities
       activities.forEach(act => {
         const name = act.athlete_name;
         if (!statsMap[name]) {
           statsMap[name] = {
-            athlete_id: act.athlete_id,
             athlete_name: name,
             total_points: 0,
-            total_points_legacy: 0,
             total_distance: 0,
             total_duration_hours: 0,
             total_activities: 0,
@@ -1720,11 +1979,9 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
             max_single_duration: 0,
             night_owl_count: 0,
             dawn_patrol_count: 0,
-            weekend_count: 0,
             active_dates: new Set(),
             hero_class_name: 'Sentinel',
             hero_class_icon: '🛡️',
-            hero_class_desc: 'Consistent Daily Streaker',
             hero_class_color: '#fbbf24'
           };
         }
@@ -1735,7 +1992,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         const durMin = parseFloat(act.duration_minutes || 0);
 
         st.total_points += pts;
-        st.total_points_legacy += parseFloat(act.points_legacy || 0);
         st.total_distance += dist;
         st.total_duration_hours += durMin / 60;
         st.total_activities += 1;
@@ -1753,7 +2009,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
             const h = d.getHours();
             if (h >= 20) st.night_owl_count += 1;
             if (h < 7 || (h === 7 && d.getMinutes() <= 30)) st.dawn_patrol_count += 1;
-            if (d.getDay() === 0 || d.getDay() === 6) st.weekend_count += 1;
           }
         }
 
@@ -1766,38 +2021,27 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         }
       });
 
-      // Classify Hero Archetypes
       Object.values(statsMap).forEach(st => {
-        const sportsCount = Object.keys(st.sports).length;
-        const isFastRunner = st.fastest_pace_val < 5.4;
-        const isEndurance = st.total_distance >= 25 || st.max_single_dist >= 10;
-        const isPowerCrusher = (st.sports['Weight Training'] || 0) + (st.sports['Workout'] || 0) + (st.sports['Swim'] || 0) > 0 || st.max_single_duration >= 60;
-        const isStreakMaster = st.active_dates.size >= 4 || st.total_activities >= 5;
-
-        if (sportsCount >= 2) {
+        const sc = Object.keys(st.sports).length;
+        if (sc >= 2) {
           st.hero_class_name = 'Polymath';
           st.hero_class_icon = '🧙‍♂️';
-          st.hero_class_desc = 'Hybrid Multi-Sport Athlete';
           st.hero_class_color = '#38bdf8';
-        } else if (isFastRunner) {
+        } else if (st.fastest_pace_val < 5.4) {
           st.hero_class_name = 'Assassin';
           st.hero_class_icon = '⚡';
-          st.hero_class_desc = 'Sub-5:30 High-Speed Specialist';
           st.hero_class_color = '#a855f7';
-        } else if (isEndurance) {
+        } else if (st.total_distance >= 25 || st.max_single_dist >= 10) {
           st.hero_class_name = 'Ranger';
           st.hero_class_icon = '🏹';
-          st.hero_class_desc = 'High-Distance Stamina Specialist';
           st.hero_class_color = '#22c55e';
-        } else if (isPowerCrusher) {
+        } else if ((st.sports['Weight Training']||0) + (st.sports['Workout']||0) + (st.sports['Swim']||0) > 0 || st.max_single_duration >= 60) {
           st.hero_class_name = 'Berserker';
           st.hero_class_icon = '🏋️';
-          st.hero_class_desc = 'High-Intensity Power Crusher';
           st.hero_class_color = '#ef4444';
         } else {
           st.hero_class_name = 'Sentinel';
           st.hero_class_icon = '🛡️';
-          st.hero_class_desc = 'Consistent Daily Streaker';
           st.hero_class_color = '#fbbf24';
         }
         st.hero_class = `${st.hero_class_icon} ${st.hero_class_name}`;
@@ -1807,125 +2051,84 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       1. TEAM BUILDER & RPG SYNERGIES LOGIC
+       1. TEAM BUILDER - PRECALCULATED & ZERO-LATENCY LOGIC
        ========================================================================= */
+    function initSquadDropdown() {
+      const sel = document.getElementById('squadSelectDropdown');
+      if (!sel) return;
+      let opts = '';
+      for (let k = 2; k <= 20; k++) {
+        const approxPerSquad = Math.round(118 / k);
+        opts += `<option value="${k}" ${k === currentTeamCount ? 'selected' : ''}>${k} Squads (~${approxPerSquad} members each)</option>`;
+      }
+      sel.innerHTML = opts;
+    }
+
     function setSquadCount(count) {
       currentTeamCount = count;
       document.querySelectorAll('.tb-squad-btn').forEach(b => b.classList.remove('active'));
       const activeBtn = document.getElementById(`squadBtn${count}`);
       if (activeBtn) activeBtn.classList.add('active');
 
-      autoBalanceTeams();
+      const sel = document.getElementById('squadSelectDropdown');
+      if (sel) sel.value = count;
+
+      resetToPrecalculated();
     }
 
-    function autoBalanceTeams() {
-      const statsMap = computeAthleteStats(getFilteredActivities());
-      const athleteList = Object.values(statsMap).sort((a, b) => {
-        if (b.total_points !== a.total_points) return b.total_points - a.total_points;
-        return b.total_distance - a.total_distance;
-      });
-
-      const newRosters = {};
-      const squadTotals = {};
-      for (let i = 0; i < currentTeamCount; i++) {
-        newRosters[i] = [];
-        squadTotals[i] = 0;
+    function resetToPrecalculated() {
+      const mode = (window.currentDateStart && window.currentDateStart >= '2026-09-09') ? 'tournament' : 'all_time';
+      if (PRECALC_SQUADS && PRECALC_SQUADS[mode] && PRECALC_SQUADS[mode][currentTeamCount]) {
+        // Deep copy precalculated member arrays
+        activeRosters = PRECALC_SQUADS[mode][currentTeamCount].map(arr => arr.slice());
+      } else {
+        // Fallback
+        activeRosters = Array.from({ length: currentTeamCount }, () => []);
       }
-
-      // Greedy Snake Partition with load balancing
-      athleteList.forEach((ath) => {
-        let minTeam = 0;
-        let minVal = Infinity;
-        for (let i = 0; i < currentTeamCount; i++) {
-          if (squadTotals[i] < minVal) {
-            minVal = squadTotals[i];
-            minTeam = i;
-          }
-        }
-        newRosters[minTeam].push(ath.athlete_name);
-        squadTotals[minTeam] += Math.max(ath.total_points, 10);
-      });
-
-      // 2-Opt local refinement to minimize variance
-      for (let step = 0; step < 40; step++) {
-        let improved = false;
-        let maxTeam = 0, minTeam = 0;
-        for (let i = 0; i < currentTeamCount; i++) {
-          if (squadTotals[i] > squadTotals[maxTeam]) maxTeam = i;
-          if (squadTotals[i] < squadTotals[minTeam]) minTeam = i;
-        }
-
-        const currentDiff = squadTotals[maxTeam] - squadTotals[minTeam];
-        if (currentDiff <= 4) break;
-
-        let bestSwap = null;
-        let bestNewDiff = currentDiff;
-        const maxMembers = newRosters[maxTeam];
-        const minMembers = newRosters[minTeam];
-
-        for (let aIdx = 0; aIdx < maxMembers.length; aIdx++) {
-          const pA = statsMap[maxMembers[aIdx]] ? statsMap[maxMembers[aIdx]].total_points : 0;
-          for (let bIdx = 0; bIdx < minMembers.length; bIdx++) {
-            const pB = statsMap[minMembers[bIdx]] ? statsMap[minMembers[bIdx]].total_points : 0;
-            const change = pA - pB;
-            if (change > 0) {
-              const diff = Math.abs((squadTotals[maxTeam] - change) - (squadTotals[minTeam] + change));
-              if (diff < bestNewDiff) {
-                bestNewDiff = diff;
-                bestSwap = { aIdx, bIdx, change };
-              }
-            }
-          }
-        }
-
-        if (bestSwap && bestNewDiff < currentDiff - 2) {
-          const temp = maxMembers[bestSwap.aIdx];
-          maxMembers[bestSwap.aIdx] = minMembers[bestSwap.bIdx];
-          minMembers[bestSwap.bIdx] = temp;
-          squadTotals[maxTeam] -= bestSwap.change;
-          squadTotals[minTeam] += bestSwap.change;
-          improved = true;
-        }
-        if (!improved) break;
-      }
-
-      teamRosters = newRosters;
       renderTeamBuilder();
     }
 
-    function shuffleTeams() {
-      const statsMap = computeAthleteStats(getFilteredActivities());
-      const athleteNames = Object.keys(statsMap).sort(() => Math.random() - 0.5);
-
-      const newRosters = {};
-      for (let i = 0; i < currentTeamCount; i++) newRosters[i] = [];
-
-      athleteNames.forEach((name, idx) => {
-        newRosters[idx % currentTeamCount].push(name);
-      });
-
-      teamRosters = newRosters;
+    function setViewMode(mode) {
+      viewMode = mode;
+      document.getElementById('viewActiveOnly').classList.toggle('active', mode === 'active');
+      document.getElementById('viewFullRoster').classList.toggle('active', mode === 'full');
       renderTeamBuilder();
-      showToast("🎲 Squads shuffled!");
+    }
+
+    function onSearchMember(query) {
+      memberFilterQuery = query.toLowerCase().trim();
+      renderTeamBuilder();
     }
 
     function moveAthlete(athleteName, targetIdx) {
       targetIdx = parseInt(targetIdx);
       for (let i = 0; i < currentTeamCount; i++) {
-        teamRosters[i] = (teamRosters[i] || []).filter(n => n !== athleteName);
+        activeRosters[i] = (activeRosters[i] || []).filter(n => n !== athleteName);
       }
-      if (teamRosters[targetIdx]) {
-        teamRosters[targetIdx].push(athleteName);
+      if (activeRosters[targetIdx]) {
+        activeRosters[targetIdx].push(athleteName);
       }
       renderTeamBuilder();
     }
 
     function calculateTeamSynergies(memberNames, statsMap) {
-      const members = memberNames.map(n => statsMap[n]).filter(Boolean);
+      const members = memberNames.map(n => statsMap[n] || {
+        athlete_name: n,
+        total_points: 0,
+        total_distance: 0,
+        total_duration_hours: 0,
+        total_activities: 0,
+        sports: {},
+        night_owl_count: 0,
+        dawn_patrol_count: 0,
+        hero_class: '🛡️ Sentinel',
+        hero_class_name: 'Sentinel',
+        hero_class_color: '#fbbf24'
+      });
+
       const activeBuffs = [];
       let totalBuffPct = 0;
 
-      // 1. Tri-Sport Mastery (+8%)
       const allSports = new Set();
       members.forEach(m => Object.keys(m.sports).forEach(s => allSports.add(s.toLowerCase())));
       const hasRun = Array.from(allSports).some(s => s.includes('run'));
@@ -1936,7 +2139,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         totalBuffPct += 8;
       }
 
-      // 2. 24-Hour Watch (+5%)
       const totalNight = members.reduce((sum, m) => sum + m.night_owl_count, 0);
       const totalDawn = members.reduce((sum, m) => sum + m.dawn_patrol_count, 0);
       if (totalNight >= 1 && totalDawn >= 1) {
@@ -1944,14 +2146,12 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         totalBuffPct += 5;
       }
 
-      // 3. Class Quintet (+10%)
-      const uniqueClasses = new Set(members.map(m => m.hero_class_name));
+      const uniqueClasses = new Set(members.filter(m => m.total_activities > 0).map(m => m.hero_class_name));
       if (uniqueClasses.size >= 3) {
         activeBuffs.push({ name: "🛡️ Class Quintet", pct: 10, desc: `Balanced party of ${uniqueClasses.size} distinct Hero Classes` });
         totalBuffPct += 10;
       }
 
-      // 4. Speed & Stamina (+6%)
       if (uniqueClasses.has('Ranger') && uniqueClasses.has('Assassin')) {
         activeBuffs.push({ name: "⚡ Speed & Stamina", pct: 6, desc: "Pairs endurance Ranger with speed Assassin" });
         totalBuffPct += 6;
@@ -1962,6 +2162,9 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       const totalDist = members.reduce((sum, m) => sum + m.total_distance, 0);
       const totalHours = members.reduce((sum, m) => sum + m.total_duration_hours, 0);
 
+      const activeMembers = members.filter(m => m.total_activities > 0).sort((a, b) => b.total_points - a.total_points);
+      const reserveMembers = members.filter(m => m.total_activities === 0).sort((a, b) => a.athlete_name.localeCompare(b.athlete_name));
+
       return {
         basePoints: Math.round(basePoints),
         totalBuffPct,
@@ -1969,7 +2172,9 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         totalDist: (Math.round(totalDist * 10) / 10).toFixed(1),
         totalHours: (Math.round(totalHours * 10) / 10).toFixed(1),
         activeBuffs,
-        members
+        activeMembers,
+        reserveMembers,
+        totalMemberCount: members.length
       };
     }
 
@@ -1979,11 +2184,15 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       const balanceMeter = document.getElementById('tbBalanceMeter');
       if (!grid || !balanceMeter) return;
 
+      let totalActiveScorers = 0;
+      Object.values(statsMap).forEach(s => { if (s.total_activities > 0) totalActiveScorers++; });
+      document.getElementById('activeScorerCount').innerText = totalActiveScorers;
+
       const squadData = [];
       for (let i = 0; i < currentTeamCount; i++) {
-        const meta = SQUAD_METAS[i];
-        const data = calculateTeamSynergies(teamRosters[i] || [], statsMap);
-        squadData.push({ meta, data });
+        const meta = SQUAD_METAS[i % SQUAD_METAS.length];
+        const data = calculateTeamSynergies(activeRosters[i] || [], statsMap);
+        squadData.push({ meta, data, idx: i });
       }
 
       // Render Balance Meter
@@ -2000,23 +2209,22 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       const minPts = Math.min(...squadData.map(s => s.data.adjustedPoints));
       const delta = maxPts - minPts;
       const statusEl = document.getElementById('tbBalanceStatus');
-      if (delta <= 25) {
-        statusEl.innerHTML = `⚖️ Statistically Even: Δ ${delta} pts difference`;
+      if (delta <= 30) {
+        statusEl.innerHTML = `⚖️ Statistically Even: Δ ${delta} pts variance across ${currentTeamCount} squads`;
         statusEl.style.color = 'var(--accent-green)';
       } else {
         const leader = squadData.find(s => s.data.adjustedPoints === maxPts);
-        statusEl.innerHTML = `⚡ Lead: ${leader.meta.name} (+${delta} pts)`;
+        statusEl.innerHTML = `⚡ Leader: ${leader.meta.name} (+${delta} pts delta)`;
         statusEl.style.color = 'var(--gold)';
       }
 
       // Render Squad Columns
-      grid.innerHTML = squadData.map((s, idx) => {
-        const { meta, data } = s;
+      grid.innerHTML = squadData.map(s => {
+        const { meta, data, idx } = s;
 
-        // Synergy badges
         let synergyHtml = '';
         if (data.activeBuffs.length === 0) {
-          synergyHtml = `<span style="font-size:11px; color:var(--text-dim); font-style:italic;">No active synergies. Draft diverse classes to trigger buffs!</span>`;
+          synergyHtml = `<span style="font-size:10.5px; color:var(--text-dim); font-style:italic;">No active synergies.</span>`;
         } else {
           synergyHtml = data.activeBuffs.map(b => `
             <span class="tb-synergy-pill" style="background:${meta.bg}; border-color:${meta.border}; color:${meta.color};" title="${b.desc}">
@@ -2025,19 +2233,26 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
           `).join('');
         }
 
-        // Roster items
-        const rosterHtml = data.members.map(m => {
+        // Filter members by search query if any
+        let displayedActive = data.activeMembers;
+        let displayedReserve = data.reserveMembers;
+        if (memberFilterQuery) {
+          displayedActive = displayedActive.filter(m => m.athlete_name.toLowerCase().includes(memberFilterQuery));
+          displayedReserve = displayedReserve.filter(m => m.athlete_name.toLowerCase().includes(memberFilterQuery));
+        }
+
+        const renderPlayerRow = (m, isReserve) => {
           let moveOptions = '';
           for (let o = 0; o < currentTeamCount; o++) {
             if (o !== idx) {
-              moveOptions += `<option value="${o}">Move → ${SQUAD_METAS[o].name}</option>`;
+              moveOptions += `<option value="${o}">Move → ${SQUAD_METAS[o % SQUAD_METAS.length].name}</option>`;
             }
           }
 
           const initials = m.athlete_name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
 
           return `
-            <div class="tb-player-card">
+            <div class="tb-player-card ${isReserve ? 'reserve' : ''}">
               <div class="tb-player-info">
                 <div class="tb-player-avatar">${initials}</div>
                 <div>
@@ -2047,10 +2262,10 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
                   </span>
                 </div>
               </div>
-              <div style="display:flex; align-items:center; gap:12px;">
+              <div style="display:flex; align-items:center; gap:8px;">
                 <div class="tb-player-stats">
                   <div class="tb-player-pts">${Math.round(m.total_points).toLocaleString()} <span style="font-size:10px; color:var(--text-muted);">pts</span></div>
-                  <div class="tb-player-sub">${(Math.round(m.total_distance * 10) / 10).toFixed(1)} km • ${m.total_activities} acts</div>
+                  <div class="tb-player-sub">${(Math.round(m.total_distance * 10) / 10).toFixed(1)} km • ${m.total_activities} logs</div>
                 </div>
                 <select class="tb-move-select" onchange="moveAthlete('${m.athlete_name.replace(/'/g, "\\'")}', this.value)">
                   <option value="${idx}" selected>Team</option>
@@ -2059,7 +2274,26 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
               </div>
             </div>
           `;
-        }).join('');
+        };
+
+        const activeRows = displayedActive.map(m => renderPlayerRow(m, false)).join('');
+        const reserveRows = displayedReserve.map(m => renderPlayerRow(m, true)).join('');
+
+        let listContent = activeRows;
+        if (viewMode === 'full') {
+          if (displayedReserve.length > 0) {
+            listContent += `
+              <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px dashed var(--card-border);">
+                Registered Candidates (${displayedReserve.length})
+              </div>
+              ${reserveRows}
+            `;
+          }
+        }
+
+        if (!listContent.trim()) {
+          listContent = `<div style="text-align:center; padding:18px; color:var(--text-dim); font-size:12px;">No matching members</div>`;
+        }
 
         return `
           <div class="tb-squad-card" style="border-top: 4px solid ${meta.color};">
@@ -2069,14 +2303,14 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
               </div>
               <div style="text-align:right;">
                 <div class="tb-squad-score" style="color:${meta.color};">${data.adjustedPoints.toLocaleString()}</div>
-                <div style="font-size:11px; color:var(--text-muted);">Base: ${data.basePoints.toLocaleString()} pts (+${data.totalBuffPct}%)</div>
+                <div style="font-size:10.5px; color:var(--text-muted);">Base: ${data.basePoints.toLocaleString()} pts (+${data.totalBuffPct}%)</div>
               </div>
             </div>
 
             <div class="tb-squad-meta-bar">
               <span>🏃‍♂️ ${data.totalDist} km</span>
               <span>⏱️ ${data.totalHours} hrs</span>
-              <span>👥 ${data.members.length} athletes</span>
+              <span>👥 ${data.activeMembers.length} active (${data.totalMemberCount} total)</span>
             </div>
 
             <div class="tb-synergy-tray">
@@ -2084,7 +2318,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
             </div>
 
             <div class="tb-roster-list">
-              ${rosterHtml.length ? rosterHtml : '<div style="text-align:center; padding:20px; color:var(--text-dim); font-size:12px;">Empty Squad</div>'}
+              ${listContent}
             </div>
           </div>
         `;
@@ -2095,21 +2329,25 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       const statsMap = computeAthleteStats(getFilteredActivities());
       let text = "🏆 CONNECTIVITY SPORTS DAY 2026 - BALANCED SQUADS 🏆\n";
       text += `Period: ${window.currentPreset === 'tournament' ? 'Official Tournament (Sep 9+)' : (window.currentPreset === '7days' ? 'Last 7 Days' : 'All-Time')}\n`;
+      text += `Total Squads: ${currentTeamCount}\n`;
       text += "====================================================\n\n";
 
       for (let i = 0; i < currentTeamCount; i++) {
-        const meta = SQUAD_METAS[i];
-        const teamData = calculateTeamSynergies(teamRosters[i] || [], statsMap);
+        const meta = SQUAD_METAS[i % SQUAD_METAS.length];
+        const teamData = calculateTeamSynergies(activeRosters[i] || [], statsMap);
         text += `${meta.icon} ${meta.name.toUpperCase()}\n`;
         text += `Total Score: ${teamData.adjustedPoints.toLocaleString()} pts (Base: ${teamData.basePoints.toLocaleString()} pts + ${teamData.totalBuffPct}% Synergy Buff)\n`;
-        text += `Distance: ${teamData.totalDist} km | Time: ${teamData.totalHours} hrs | Squad Size: ${teamData.members.length}\n`;
+        text += `Distance: ${teamData.totalDist} km | Hours: ${teamData.totalHours} hrs | Squad Size: ${teamData.totalMemberCount} (${teamData.activeMembers.length} active)\n`;
         if (teamData.activeBuffs.length > 0) {
           text += `Active Buffs: ${teamData.activeBuffs.map(b => `${b.name} (+${b.pct}%)`).join(' | ')}\n`;
         }
-        text += "Roster:\n";
-        teamData.members.forEach(m => {
-          text += ` • ${m.athlete_name} (${m.hero_class}) — ${Math.round(m.total_points).toLocaleString()} pts (${(Math.round(m.total_distance * 10) / 10).toFixed(1)} km, ${m.total_activities} acts)\n`;
+        text += "Active Scorers:\n";
+        teamData.activeMembers.forEach(m => {
+          text += ` • ${m.athlete_name} (${m.hero_class}) — ${Math.round(m.total_points).toLocaleString()} pts (${(Math.round(m.total_distance * 10) / 10).toFixed(1)} km)\n`;
         });
+        if (teamData.reserveMembers.length > 0) {
+          text += `Registered Candidates (${teamData.reserveMembers.length}): ${teamData.reserveMembers.map(r => r.athlete_name).join(', ')}\n`;
+        }
         text += "\n";
       }
       text += "View & Simulate in The Arena: https://lupilgaming.github.io/Strava2026/arena.html\n";
@@ -2122,7 +2360,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       2. WORKOUT ROULETTE LOGIC
+       2. WORKOUT ROULETTE
        ========================================================================= */
     let lastDareIdx = 0;
     function spinRoulette() {
@@ -2149,7 +2387,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       3. MOMENTUM TRACKER LOGIC
+       3. MOMENTUM TRACKER
        ========================================================================= */
     function renderMomentum() {
       const statsMap = computeAthleteStats(getFilteredActivities());
@@ -2158,8 +2396,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       const listEl = document.getElementById('momentumList');
       if (!listEl) return;
 
-      const top5 = athletes.slice(0, 6);
-      listEl.innerHTML = top5.map((a, idx) => `
+      const top6 = athletes.slice(0, 6);
+      listEl.innerHTML = top6.map((a, idx) => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(15,23,42,0.6); border-radius:10px; font-size:13px; border:1px solid var(--card-border);">
           <div style="display:flex; align-items:center; gap:10px;">
             <span style="font-weight:800; color:var(--text-dim); font-size:12px;">#${idx+1}</span>
@@ -2172,7 +2410,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       4. VIRTUAL ROAD TRIP LOGIC
+       4. VIRTUAL ROAD TRIP
        ========================================================================= */
     function renderVirtualJourney() {
       const activities = getFilteredActivities();
@@ -2209,7 +2447,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       5. 1v1 DUEL ARENA LOGIC
+       5. 1v1 DUEL ARENA
        ========================================================================= */
     function initDuelSelectors() {
       const statsMap = computeAthleteStats(globalData.activities || []);
@@ -2258,7 +2496,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         `;
       }).join('');
 
-      // Verdict
       let verdict = "";
       if (aRed.total_points > aBlue.total_points * 1.1) {
         verdict = `🏆 Tale of the Tape: <strong>${aRed.athlete_name}</strong> holds a commanding points lead (+${Math.round(aRed.total_points - aBlue.total_points)} pts)!`;
@@ -2269,7 +2506,6 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       }
       document.getElementById('duelVerdict').innerHTML = verdict;
 
-      // Update Radar Chart
       const maxPts = Math.max(aRed.total_points, aBlue.total_points, 100);
       const maxDist = Math.max(aRed.total_distance, aBlue.total_distance, 10);
       const maxActs = Math.max(aRed.total_activities, aBlue.total_activities, 5);
@@ -2341,7 +2577,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     /* =========================================================================
-       6. TROPHY ROOM LOGIC
+       6. THE TROPHY ROOM
        ========================================================================= */
     function renderTrophies() {
       const activities = getFilteredActivities();
@@ -2350,87 +2586,31 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
       const nightOwls = {};
       const earlyBirds = {};
-      const weekendKms = {};
-      const sportDiversity = {};
       let fastestPace = { athlete: 'N/A', paceStr: 'N/A', paceVal: 999, dist: 0 };
-      let longestSingle = { athlete: 'N/A', dist: 0, sport: 'N/A' };
+      let longestSingle = { athlete: 'N/A', dist: 0 };
 
       athletes.forEach(a => {
         nightOwls[a.athlete_name] = a.night_owl_count;
         earlyBirds[a.athlete_name] = a.dawn_patrol_count;
-        weekendKms[a.athlete_name] = a.weekend_count;
-        sportDiversity[a.athlete_name] = Object.keys(a.sports).length || 1;
         if (a.fastest_pace_val < fastestPace.paceVal && a.fastest_pace_val > 2.5) {
           fastestPace = { athlete: a.athlete_name, paceStr: a.fastest_pace_str, paceVal: a.fastest_pace_val, dist: a.max_single_dist };
         }
         if (a.max_single_dist > longestSingle.dist) {
-          longestSingle = { athlete: a.athlete_name, dist: a.max_single_dist, sport: Object.keys(a.sports)[0] || 'Sport' };
+          longestSingle = { athlete: a.athlete_name, dist: a.max_single_dist };
         }
       });
 
       const topNightOwl = Object.entries(nightOwls).sort((a, b) => b[1] - a[1])[0] || ['N/A', 0];
       const topEarlyBird = Object.entries(earlyBirds).sort((a, b) => b[1] - a[1])[0] || ['N/A', 0];
-      const topWeekend = Object.entries(weekendKms).sort((a, b) => b[1] - a[1])[0] || ['N/A', 0];
-      const topDiversity = Object.entries(sportDiversity).sort((a, b) => b[1] - a[1])[0] || ['N/A', 0];
       const topPoints = athletes.sort((a, b) => b.total_points - a.total_points)[0] || { athlete_name: 'N/A', total_points: 0 };
 
       const trophies = [
-        {
-          icon: "⚡",
-          title: "Speed Demon",
-          criteria: "Fastest sustained pace recorded on an outdoor run (>= 2.5 km)",
-          holder: fastestPace.athlete,
-          stat: fastestPace.paceStr !== 'N/A' ? `${fastestPace.paceStr} pace` : 'Awaiting runs'
-        },
-        {
-          icon: "🦉",
-          title: "The Night Owl",
-          criteria: "Most workouts logged in the evening after 8:00 PM",
-          holder: topNightOwl[0],
-          stat: `${topNightOwl[1]} night logs`
-        },
-        {
-          icon: "🌅",
-          title: "Dawn Patrol",
-          criteria: "Most workouts logged in the early morning before 7:00 AM",
-          holder: topEarlyBird[0],
-          stat: `${topEarlyBird[1]} sunrise logs`
-        },
-        {
-          icon: "🫁",
-          title: "Iron Lungs",
-          criteria: "Single longest continuous distance logged in an activity",
-          holder: longestSingle.athlete,
-          stat: `${(Math.round(longestSingle.dist * 10) / 10).toFixed(1)} km single effort`
-        },
-        {
-          icon: "⚔️",
-          title: "Weekend Warrior",
-          criteria: "Highest workout volume logged on Saturdays and Sundays",
-          holder: topWeekend[0],
-          stat: `${topWeekend[1]} weekend sessions`
-        },
-        {
-          icon: "🎯",
-          title: "Points Titan",
-          criteria: "Overall leader in Dynamic MET points in active window",
-          holder: topPoints.athlete_name,
-          stat: `${Math.round(topPoints.total_points).toLocaleString()} pts`
-        },
-        {
-          icon: "🧙‍♂️",
-          title: "Decathlete Hybrid",
-          criteria: "Active across the widest variety of distinct sport disciplines",
-          holder: topDiversity[0],
-          stat: `${topDiversity[1]} sports logged`
-        },
-        {
-          icon: "🏅",
-          title: "Half-Marathoner",
-          criteria: "Awarded to any athlete who has crossed the 21.1 km barrier",
-          holder: longestSingle.dist >= 21.1 ? longestSingle.athlete : "Open Contender",
-          stat: longestSingle.dist >= 21.1 ? `${longestSingle.dist} km logged` : "Target: 21.1 km"
-        }
+        { icon: "⚡", title: "Speed Demon", criteria: "Fastest sustained pace recorded on an outdoor run (>= 2.5 km)", holder: fastestPace.athlete, stat: fastestPace.paceStr !== 'N/A' ? `${fastestPace.paceStr} pace` : 'Awaiting runs' },
+        { icon: "🦉", title: "The Night Owl", criteria: "Most workouts logged in the evening after 8:00 PM", holder: topNightOwl[0], stat: `${topNightOwl[1]} night logs` },
+        { icon: "🌅", title: "Dawn Patrol", criteria: "Most workouts logged in the early morning before 7:00 AM", holder: topEarlyBird[0], stat: `${topEarlyBird[1]} sunrise logs` },
+        { icon: "🫁", title: "Iron Lungs", criteria: "Single longest continuous distance logged in an activity", holder: longestSingle.athlete, stat: `${(Math.round(longestSingle.dist * 10) / 10).toFixed(1)} km single effort` },
+        { icon: "🎯", title: "Points Titan", criteria: "Overall leader in Dynamic MET points in active window", holder: topPoints.athlete_name, stat: `${Math.round(topPoints.total_points).toLocaleString()} pts` },
+        { icon: "🏅", title: "Half-Marathoner", criteria: "Awarded to any athlete who has crossed the 21.1 km barrier", holder: longestSingle.dist >= 21.1 ? longestSingle.athlete : "Open Contender", stat: longestSingle.dist >= 21.1 ? `${longestSingle.dist} km logged` : "Target: 21.1 km" }
       ];
 
       const container = document.getElementById('trophiesContainer');
@@ -2451,25 +2631,19 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     /* Initialize Data Loading */
     async function loadArenaData() {
-      const candidateUrls = [
-        'dashboard_data.json?t=' + Date.now(),
-        './dashboard_data.json?t=' + Date.now(),
-        'web/dashboard_data.json?t=' + Date.now(),
-        '../dashboard_data.json?t=' + Date.now()
-      ];
+      initSquadDropdown();
 
-      for (const url of candidateUrls) {
-        try {
-          const resp = await fetch(url, { cache: 'no-store' });
-          if (resp.ok) {
-            globalData = await resp.json();
-            initArena();
-            return;
-          }
-        } catch (e) {}
+      // Read precalculated squads
+      try {
+        const precalcEl = document.getElementById('precalculated-squads-data');
+        if (precalcEl && precalcEl.textContent.trim()) {
+          PRECALC_SQUADS = JSON.parse(precalcEl.textContent);
+        }
+      } catch (err) {
+        console.error('Failed to parse precalculated squads:', err);
       }
 
-      // Offline fallback
+      // Read fallback data
       try {
         const fallbackEl = document.getElementById('fallback-data');
         if (fallbackEl && fallbackEl.textContent.trim()) {
@@ -2479,6 +2653,15 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       } catch (err) {
         console.error('Failed to parse embedded data:', err);
       }
+
+      // Live fetch attempt
+      try {
+        const resp = await fetch('dashboard_data.json?t=' + Date.now(), { cache: 'no-store' });
+        if (resp.ok) {
+          globalData = await resp.json();
+          initArena();
+        }
+      } catch (e) {}
     }
 
     function initArena() {
@@ -2494,6 +2677,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 """
 
     full_arena_html = arena_template.replace("<!-- FALLBACK_DATA_PLACEHOLDER -->", json_str)
+    full_arena_html = full_arena_html.replace("<!-- PRECALCULATED_SQUADS_PLACEHOLDER -->", precalc_json_str)
 
     destinations = [
         os.path.join(root_dir, "arena.html"),
