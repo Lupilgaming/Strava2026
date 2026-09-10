@@ -1,0 +1,264 @@
+{
+  "dataset_summary": {
+    "total_activities": 146,
+    "unique_athletes": 21,
+    "first_athlete": {
+      "id": "156538003",
+      "name": "Satyaprakash Karsharma",
+      "raw_activities": 75,
+      "raw_points": 99786.8,
+      "misattributed_activities": 14,
+      "timer_glitches": 1,
+      "historical_prs": 13,
+      "total_distorted_points": 68778.0
+    }
+  },
+  "misattributions": [
+    {
+      "activity_id": "20041069989",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Muni Asheesh Potta",
+      "true_athlete_id": "178279476",
+      "is_club_member": true,
+      "points": 1801.2,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19957207427",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Muni Asheesh Potta",
+      "true_athlete_id": "178279476",
+      "is_club_member": true,
+      "points": 1922.4,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19662532293",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Srinivas K R",
+      "true_athlete_id": "123461241",
+      "is_club_member": true,
+      "points": 1892.4,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19628232467",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "pritam Panigrahy",
+      "true_athlete_id": "181332418",
+      "is_club_member": false,
+      "points": 1226.4,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19628253900",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "aadhar sharma",
+      "true_athlete_id": "180079292",
+      "is_club_member": true,
+      "points": 1201.2,
+      "type": "Run"
+    },
+    {
+      "activity_id": "17057440050",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 360.0,
+      "type": "Run"
+    },
+    {
+      "activity_id": "18845057178",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 612.0,
+      "type": "Run"
+    },
+    {
+      "activity_id": "17030281673",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 600.0,
+      "type": "Run"
+    },
+    {
+      "activity_id": "16930171186",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 2520.0,
+      "type": "Run"
+    },
+    {
+      "activity_id": "20103416049",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 0.0,
+      "type": "Workout"
+    },
+    {
+      "activity_id": "20103404501",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 0.0,
+      "type": "Weight Training"
+    },
+    {
+      "activity_id": "20103393824",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 700.0,
+      "type": "Walk"
+    },
+    {
+      "activity_id": "19917167043",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 600.0,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19720008251",
+      "current_athlete": "Satyaprakash Karsharma",
+      "current_athlete_id": "156538003",
+      "true_athlete": "Divyansh Singh",
+      "true_athlete_id": "178453532",
+      "is_club_member": true,
+      "points": 110.0,
+      "type": "Walk"
+    },
+    {
+      "activity_id": "19923785855",
+      "current_athlete": "kumar sudhanshu singh",
+      "current_athlete_id": "175936330",
+      "true_athlete": "Muni Asheesh Potta",
+      "true_athlete_id": "178279476",
+      "is_club_member": true,
+      "points": 1201.2,
+      "type": "Run"
+    },
+    {
+      "activity_id": "20041095636",
+      "current_athlete": "Muni Asheesh Potta",
+      "current_athlete_id": "178279476",
+      "true_athlete": "Prateek Giri",
+      "true_athlete_id": "50127060",
+      "is_club_member": true,
+      "points": 1803.6,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19923787876",
+      "current_athlete": "Narendra Babu",
+      "current_athlete_id": "90052118",
+      "true_athlete": "pritam Panigrahy",
+      "true_athlete_id": "181332418",
+      "is_club_member": false,
+      "points": 1200.0,
+      "type": "Run"
+    },
+    {
+      "activity_id": "19184023245",
+      "current_athlete": "Poorvi Rao",
+      "current_athlete_id": "110506531",
+      "true_athlete": "Atul Soni",
+      "true_athlete_id": "158271875",
+      "is_club_member": false,
+      "points": 620.4,
+      "type": "Run"
+    }
+  ],
+  "outliers": [
+    {
+      "activity_id": "20035504028",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Swim",
+      "distance_km": 0.0,
+      "duration_minutes": 2103.4,
+      "points": 21034.0,
+      "date": "8:45 PM on Friday, September 4, 2026",
+      "reasons": [
+        "Points (21034.0) > 4,000",
+        "Duration (2103.4 mins / 35.1 hrs) > 10 hours",
+        "Swim duration (2103.4 mins) > 2 hours"
+      ]
+    },
+    {
+      "activity_id": "18712229852",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Ride",
+      "distance_km": 139.09,
+      "duration_minutes": 468.73,
+      "points": 5563.6,
+      "date": "4:23 AM on Saturday, May 30, 2026",
+      "reasons": [
+        "Points (5563.6) > 4,000",
+        "Distance (139.09 km) > 100 km"
+      ]
+    },
+    {
+      "activity_id": "17313681626",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Ride",
+      "distance_km": 132.07,
+      "duration_minutes": 456.73,
+      "points": 5282.8,
+      "date": "4:46 AM on Saturday, February 7, 2026",
+      "reasons": [
+        "Points (5282.8) > 4,000",
+        "Distance (132.07 km) > 100 km"
+      ]
+    },
+    {
+      "activity_id": "17896158214",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Ride",
+      "distance_km": 102.17,
+      "duration_minutes": 275.0,
+      "points": 4086.8,
+      "date": "5:11 AM on Sunday, March 29, 2026",
+      "reasons": [
+        "Points (4086.8) > 4,000",
+        "Distance (102.17 km) > 100 km"
+      ]
+    }
+  ],
+  "monthly_distribution": {
+    "2026-01": 6,
+    "2026-02": 2,
+    "2026-03": 6,
+    "2026-04": 3,
+    "2026-05": 6,
+    "2026-06": 5,
+    "2026-07": 11,
+    "2026-08": 78,
+    "2026-09": 29
+  }
+}

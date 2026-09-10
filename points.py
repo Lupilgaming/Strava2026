@@ -6,7 +6,7 @@ def convert_distance_to_km(distance_str: Any) -> float:
         return 0.0
     if isinstance(distance_str, (int, float)):
         return float(distance_str)
-    val = str(distance_str).strip().lower()
+    val = str(distance_str).strip().lower().replace(",", "")
     try:
         if "km" in val:
             return round(float(val.replace("km", "").strip()), 2)
