@@ -1,0 +1,37 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.spec
+
+# Secrets & Credentials
+config.json
+YEAR2026/config.json
+.env
+*.env
+
+# Dumps, logs & scratch
+*.dmp
+dmpfolder/
+tempdump/
+htmls/
+h1
+h2
+l3
+archive/
+test_brave_dump.html
+YEAR2026/test_brave_dump.html
+*.log
+downloaderros.log
+error.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,704 @@
+[
+  {
+    "athlete_id": "156538003",
+    "athlete_name": "Satyaprakash Karsharma",
+    "total_activities": 66,
+    "unique_types": 6,
+    "total_distance_km": 163.7,
+    "total_duration_minutes": 3861.16,
+    "total_points": 41516.52
+  },
+  {
+    "athlete_id": "132282073",
+    "athlete_name": "Vishal Rohilla",
+    "total_activities": 135,
+    "unique_types": 7,
+    "total_distance_km": 217.3,
+    "total_duration_minutes": 3228.43,
+    "total_points": 31765.34
+  },
+  {
+    "athlete_id": "70005224",
+    "athlete_name": "Prakhar Verma",
+    "total_activities": 100,
+    "unique_types": 4,
+    "total_distance_km": 240.9,
+    "total_duration_minutes": 3897.12,
+    "total_points": 29108.84
+  },
+  {
+    "athlete_id": "24666680",
+    "athlete_name": "Atul Lele",
+    "total_activities": 79,
+    "unique_types": 6,
+    "total_distance_km": 390.3,
+    "total_duration_minutes": 2826.42,
+    "total_points": 28919.84
+  },
+  {
+    "athlete_id": "178453532",
+    "athlete_name": "Divyansh",
+    "total_activities": 68,
+    "unique_types": 5,
+    "total_distance_km": 105.5,
+    "total_duration_minutes": 2669.93,
+    "total_points": 28651.84
+  },
+  {
+    "athlete_id": "177796904",
+    "athlete_name": "Pradyumna Pandey",
+    "total_activities": 115,
+    "unique_types": 6,
+    "total_distance_km": 191.5,
+    "total_duration_minutes": 4092.63,
+    "total_points": 28174.0
+  },
+  {
+    "athlete_id": "178305741",
+    "athlete_name": "Abhishek Verma",
+    "total_activities": 93,
+    "unique_types": 4,
+    "total_distance_km": 154.8,
+    "total_duration_minutes": 2340.57,
+    "total_points": 24383.34
+  },
+  {
+    "athlete_id": "175936330",
+    "athlete_name": "kumar sudhanshu singh",
+    "total_activities": 85,
+    "unique_types": 6,
+    "total_distance_km": 136.3,
+    "total_duration_minutes": 2023.02,
+    "total_points": 20723.67
+  },
+  {
+    "athlete_id": "123461241",
+    "athlete_name": "Srinivas K R",
+    "total_activities": 42,
+    "unique_types": 4,
+    "total_distance_km": 111.6,
+    "total_duration_minutes": 2072.66,
+    "total_points": 20102.0
+  },
+  {
+    "athlete_id": "177388708",
+    "athlete_name": "Pratyush Dargan",
+    "total_activities": 62,
+    "unique_types": 1,
+    "total_distance_km": 173.7,
+    "total_duration_minutes": 2406.35,
+    "total_points": 17370.0
+  },
+  {
+    "athlete_id": "47483671",
+    "athlete_name": "Manish Mukherjee",
+    "total_activities": 45,
+    "unique_types": 6,
+    "total_distance_km": 141.0,
+    "total_duration_minutes": 1865.54,
+    "total_points": 17290.18
+  },
+  {
+    "athlete_id": "178305107",
+    "athlete_name": "PEEYUSH KUMAR",
+    "total_activities": 31,
+    "unique_types": 3,
+    "total_distance_km": 160.8,
+    "total_duration_minutes": 1015.57,
+    "total_points": 15340.0
+  },
+  {
+    "athlete_id": "178203464",
+    "athlete_name": "Ashlesha Yerramsetty",
+    "total_activities": 38,
+    "unique_types": 2,
+    "total_distance_km": 59.9,
+    "total_duration_minutes": 1602.11,
+    "total_points": 15241.8
+  },
+  {
+    "athlete_id": "177609128",
+    "athlete_name": "srikar ranganath",
+    "total_activities": 58,
+    "unique_types": 5,
+    "total_distance_km": 80.6,
+    "total_duration_minutes": 1840.26,
+    "total_points": 15179.0
+  },
+  {
+    "athlete_id": "128890667",
+    "athlete_name": "Sudhish Raj G J",
+    "total_activities": 57,
+    "unique_types": 2,
+    "total_distance_km": 138.2,
+    "total_duration_minutes": 1916.92,
+    "total_points": 13902.0
+  },
+  {
+    "athlete_id": "174727555",
+    "athlete_name": "giftbabu yeluri",
+    "total_activities": 46,
+    "unique_types": 3,
+    "total_distance_km": 130.4,
+    "total_duration_minutes": 1617.47,
+    "total_points": 13685.99
+  },
+  {
+    "athlete_id": "179599619",
+    "athlete_name": "Srinivas Veeramreddy",
+    "total_activities": 21,
+    "unique_types": 4,
+    "total_distance_km": 147.5,
+    "total_duration_minutes": 1507.52,
+    "total_points": 13643.17
+  },
+  {
+    "athlete_id": "178398946",
+    "athlete_name": "Sannidhya Bajpai",
+    "total_activities": 17,
+    "unique_types": 3,
+    "total_distance_km": 4.2,
+    "total_duration_minutes": 1180.23,
+    "total_points": 11600.0
+  },
+  {
+    "athlete_id": "178431281",
+    "athlete_name": "Kaushik Chakravorty",
+    "total_activities": 26,
+    "unique_types": 2,
+    "total_distance_km": 105.0,
+    "total_duration_minutes": 1273.46,
+    "total_points": 11250.0
+  },
+  {
+    "athlete_id": "126739661",
+    "athlete_name": "Pari \ud83d\udc1d",
+    "total_activities": 16,
+    "unique_types": 3,
+    "total_distance_km": 45.5,
+    "total_duration_minutes": 931.54,
+    "total_points": 11018.0
+  },
+  {
+    "athlete_id": "178278060",
+    "athlete_name": "Sumantha Madhyastha",
+    "total_activities": 71,
+    "unique_types": 1,
+    "total_distance_km": 109.7,
+    "total_duration_minutes": 1319.91,
+    "total_points": 10970.0
+  },
+  {
+    "athlete_id": "118605880",
+    "athlete_name": "pooja bansal",
+    "total_activities": 25,
+    "unique_types": 1,
+    "total_distance_km": 108.1,
+    "total_duration_minutes": 1518.11,
+    "total_points": 10810.0
+  },
+  {
+    "athlete_id": "104299092",
+    "athlete_name": "Sriram Murali",
+    "total_activities": 24,
+    "unique_types": 2,
+    "total_distance_km": 85.5,
+    "total_duration_minutes": 742.89,
+    "total_points": 9552.0
+  },
+  {
+    "athlete_id": "47622577",
+    "athlete_name": "Abhinav Parashar",
+    "total_activities": 41,
+    "unique_types": 5,
+    "total_distance_km": 30.1,
+    "total_duration_minutes": 992.12,
+    "total_points": 9500.0
+  },
+  {
+    "athlete_id": "90052118",
+    "athlete_name": "Narendra Babu",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 93.6,
+    "total_duration_minutes": 784.5,
+    "total_points": 9360.0
+  },
+  {
+    "athlete_id": "110487247",
+    "athlete_name": "Prakhar Agrawal",
+    "total_activities": 18,
+    "unique_types": 2,
+    "total_distance_km": 69.8,
+    "total_duration_minutes": 1167.66,
+    "total_points": 9110.0
+  },
+  {
+    "athlete_id": "178345650",
+    "athlete_name": "Ram Narayan K",
+    "total_activities": 11,
+    "unique_types": 2,
+    "total_distance_km": 5.0,
+    "total_duration_minutes": 869.83,
+    "total_points": 8698.33
+  },
+  {
+    "athlete_id": "110412408",
+    "athlete_name": "Adithya Jayan",
+    "total_activities": 35,
+    "unique_types": 2,
+    "total_distance_km": 62.5,
+    "total_duration_minutes": 958.16,
+    "total_points": 8374.34
+  },
+  {
+    "athlete_id": "70287435",
+    "athlete_name": "Parthasarathy Ramesh",
+    "total_activities": 23,
+    "unique_types": 2,
+    "total_distance_km": 55.3,
+    "total_duration_minutes": 790.78,
+    "total_points": 6730.0
+  },
+  {
+    "athlete_id": "43953896",
+    "athlete_name": "debapriya sahu",
+    "total_activities": 19,
+    "unique_types": 3,
+    "total_distance_km": 63.39,
+    "total_duration_minutes": 670.21,
+    "total_points": 6543.58
+  },
+  {
+    "athlete_id": "178269218",
+    "athlete_name": "drashti nariya",
+    "total_activities": 16,
+    "unique_types": 3,
+    "total_distance_km": 5.0,
+    "total_duration_minutes": 602.73,
+    "total_points": 5940.0
+  },
+  {
+    "athlete_id": "50127060",
+    "athlete_name": "Prateek Giri",
+    "total_activities": 13,
+    "unique_types": 3,
+    "total_distance_km": 103.8,
+    "total_duration_minutes": 606.17,
+    "total_points": 5935.83
+  },
+  {
+    "athlete_id": "178986659",
+    "athlete_name": "MOHAMMED KAIF",
+    "total_activities": 25,
+    "unique_types": 2,
+    "total_distance_km": 48.9,
+    "total_duration_minutes": 414.97,
+    "total_points": 5810.0
+  },
+  {
+    "athlete_id": "164314860",
+    "athlete_name": "Nikhila Gorja",
+    "total_activities": 13,
+    "unique_types": 3,
+    "total_distance_km": 32.3,
+    "total_duration_minutes": 515.24,
+    "total_points": 5520.0
+  },
+  {
+    "athlete_id": "179642952",
+    "athlete_name": "Abhishek Singh",
+    "total_activities": 6,
+    "unique_types": 2,
+    "total_distance_km": 0.0,
+    "total_duration_minutes": 510.29,
+    "total_points": 5102.99
+  },
+  {
+    "athlete_id": "180242239",
+    "athlete_name": "Ojusteja Dhoti",
+    "total_activities": 15,
+    "unique_types": 2,
+    "total_distance_km": 37.9,
+    "total_duration_minutes": 432.69,
+    "total_points": 4390.67
+  },
+  {
+    "athlete_id": "70228945",
+    "athlete_name": "Krishan Prajapat",
+    "total_activities": 13,
+    "unique_types": 3,
+    "total_distance_km": 26.3,
+    "total_duration_minutes": 443.2,
+    "total_points": 3938.0
+  },
+  {
+    "athlete_id": "70284000",
+    "athlete_name": "Harish M",
+    "total_activities": 7,
+    "unique_types": 1,
+    "total_distance_km": 38.13,
+    "total_duration_minutes": 414.22,
+    "total_points": 3814.13
+  },
+  {
+    "athlete_id": "180069021",
+    "athlete_name": "Harishankar R",
+    "total_activities": 6,
+    "unique_types": 1,
+    "total_distance_km": 36.6,
+    "total_duration_minutes": 127.25,
+    "total_points": 3660.0
+  },
+  {
+    "athlete_id": "178926458",
+    "athlete_name": "Harshal Gokhale",
+    "total_activities": 21,
+    "unique_types": 3,
+    "total_distance_km": 25.9,
+    "total_duration_minutes": 441.65,
+    "total_points": 3630.0
+  },
+  {
+    "athlete_id": "178279476",
+    "athlete_name": "Muni Asheesh Potta",
+    "total_activities": 11,
+    "unique_types": 3,
+    "total_distance_km": 27.7,
+    "total_duration_minutes": 263.91,
+    "total_points": 3552.17
+  },
+  {
+    "athlete_id": "178911879",
+    "athlete_name": "Janhavi Laturkar",
+    "total_activities": 16,
+    "unique_types": 1,
+    "total_distance_km": 31.0,
+    "total_duration_minutes": 433.34,
+    "total_points": 3100.0
+  },
+  {
+    "athlete_id": "178271205",
+    "athlete_name": "Eswar Pentakota",
+    "total_activities": 20,
+    "unique_types": 5,
+    "total_distance_km": 60.5,
+    "total_duration_minutes": 338.74,
+    "total_points": 3098.0
+  },
+  {
+    "athlete_id": "178358351",
+    "athlete_name": "Dundappa sankapal",
+    "total_activities": 13,
+    "unique_types": 1,
+    "total_distance_km": 26.1,
+    "total_duration_minutes": 385.5,
+    "total_points": 2610.0
+  },
+  {
+    "athlete_id": "179095838",
+    "athlete_name": "Raksha A R",
+    "total_activities": 5,
+    "unique_types": 1,
+    "total_distance_km": 0.0,
+    "total_duration_minutes": 249.1,
+    "total_points": 2491.0
+  },
+  {
+    "athlete_id": "179564075",
+    "athlete_name": "Praveen Kumar N",
+    "total_activities": 11,
+    "unique_types": 2,
+    "total_distance_km": 4.8,
+    "total_duration_minutes": 267.57,
+    "total_points": 2330.0
+  },
+  {
+    "athlete_id": "110506531",
+    "athlete_name": "Poorvi Rao",
+    "total_activities": 6,
+    "unique_types": 2,
+    "total_distance_km": 20.7,
+    "total_duration_minutes": 224.4,
+    "total_points": 2290.0
+  },
+  {
+    "athlete_id": "73528842",
+    "athlete_name": "Adarsh Tripathi",
+    "total_activities": 11,
+    "unique_types": 2,
+    "total_distance_km": 19.14,
+    "total_duration_minutes": 231.17,
+    "total_points": 2059.94
+  },
+  {
+    "athlete_id": "179089572",
+    "athlete_name": "Dhruv Makwana",
+    "total_activities": 6,
+    "unique_types": 2,
+    "total_distance_km": 1.6,
+    "total_duration_minutes": 202.77,
+    "total_points": 1960.0
+  },
+  {
+    "athlete_id": "33675736",
+    "athlete_name": "Sooraj Sekhar",
+    "total_activities": 5,
+    "unique_types": 1,
+    "total_distance_km": 15.7,
+    "total_duration_minutes": 179.16,
+    "total_points": 1570.0
+  },
+  {
+    "athlete_id": "178451353",
+    "athlete_name": "Srijan Sameer",
+    "total_activities": 6,
+    "unique_types": 1,
+    "total_distance_km": 14.6,
+    "total_duration_minutes": 227.12,
+    "total_points": 1460.0
+  },
+  {
+    "athlete_id": "70179883",
+    "athlete_name": "Anand Kumar",
+    "total_activities": 7,
+    "unique_types": 1,
+    "total_distance_km": 14.32,
+    "total_duration_minutes": 204.64,
+    "total_points": 1432.31
+  },
+  {
+    "athlete_id": "180560020",
+    "athlete_name": "Sagar Jogur",
+    "total_activities": 8,
+    "unique_types": 2,
+    "total_distance_km": 13.0,
+    "total_duration_minutes": 149.61,
+    "total_points": 1336.0
+  },
+  {
+    "athlete_id": "178305380",
+    "athlete_name": "Luffy Stark",
+    "total_activities": 8,
+    "unique_types": 1,
+    "total_distance_km": 13.0,
+    "total_duration_minutes": 152.11,
+    "total_points": 1300.0
+  },
+  {
+    "athlete_id": "124224153",
+    "athlete_name": "Sai Harshita",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 10.0,
+    "total_duration_minutes": 82.5,
+    "total_points": 1200.0
+  },
+  {
+    "athlete_id": "47299421",
+    "athlete_name": "Aniruddha P N",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 9.9,
+    "total_duration_minutes": 160.07,
+    "total_points": 990.0
+  },
+  {
+    "athlete_id": "71937227",
+    "athlete_name": "Juluri Radhika",
+    "total_activities": 5,
+    "unique_types": 2,
+    "total_distance_km": 4.8,
+    "total_duration_minutes": 129.58,
+    "total_points": 890.67
+  },
+  {
+    "athlete_id": "180114717",
+    "athlete_name": "yerraguntla manideep",
+    "total_activities": 8,
+    "unique_types": 2,
+    "total_distance_km": 8.4,
+    "total_duration_minutes": 87.05,
+    "total_points": 881.0
+  },
+  {
+    "athlete_id": "72489407",
+    "athlete_name": "Jawaharlal Tangudu",
+    "total_activities": 4,
+    "unique_types": 1,
+    "total_distance_km": 8.6,
+    "total_duration_minutes": 76.75,
+    "total_points": 860.0
+  },
+  {
+    "athlete_id": "180410819",
+    "athlete_name": "Vijesh V",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 7.9,
+    "total_duration_minutes": 86.11,
+    "total_points": 790.0
+  },
+  {
+    "athlete_id": "178280229",
+    "athlete_name": "Ruchi Shankar",
+    "total_activities": 5,
+    "unique_types": 1,
+    "total_distance_km": 7.5,
+    "total_duration_minutes": 131.17,
+    "total_points": 750.0
+  },
+  {
+    "athlete_id": "72565184",
+    "athlete_name": "Ankitha M",
+    "total_activities": 7,
+    "unique_types": 2,
+    "total_distance_km": 5.14,
+    "total_duration_minutes": 83.82,
+    "total_points": 677.65
+  },
+  {
+    "athlete_id": "118959550",
+    "athlete_name": "Somalatha T",
+    "total_activities": 2,
+    "unique_types": 1,
+    "total_distance_km": 6.2,
+    "total_duration_minutes": 84.0,
+    "total_points": 620.0
+  },
+  {
+    "athlete_id": "178484696",
+    "athlete_name": "Yaswanth Ram Mittapalli",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 4.7,
+    "total_duration_minutes": 36.63,
+    "total_points": 470.0
+  },
+  {
+    "athlete_id": "180117147",
+    "athlete_name": "Mitali Singal",
+    "total_activities": 2,
+    "unique_types": 2,
+    "total_distance_km": 3.86,
+    "total_duration_minutes": 39.8,
+    "total_points": 424.86
+  },
+  {
+    "athlete_id": "94585542",
+    "athlete_name": "rajesh mittal",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 2.9,
+    "total_duration_minutes": 60.0,
+    "total_points": 347.62
+  },
+  {
+    "athlete_id": "180414881",
+    "athlete_name": "Meghna Agrawal",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 3.4,
+    "total_duration_minutes": 60.09,
+    "total_points": 340.0
+  },
+  {
+    "athlete_id": "180091718",
+    "athlete_name": "Gaurika Bindal",
+    "total_activities": 2,
+    "unique_types": 1,
+    "total_distance_km": 3.1,
+    "total_duration_minutes": 42.98,
+    "total_points": 310.0
+  },
+  {
+    "athlete_id": "162707894",
+    "athlete_name": "Osho Anand",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 3.1,
+    "total_duration_minutes": 44.57,
+    "total_points": 310.0
+  },
+  {
+    "athlete_id": "47851032",
+    "athlete_name": "Khyati Bansal",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 6.2,
+    "total_duration_minutes": 25.03,
+    "total_points": 248.0
+  },
+  {
+    "athlete_id": "64282861",
+    "athlete_name": "nitin narayan",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 1.5,
+    "total_duration_minutes": 10.0,
+    "total_points": 180.0
+  },
+  {
+    "athlete_id": "110269377",
+    "athlete_name": "Pankaj Gupta",
+    "total_activities": 2,
+    "unique_types": 1,
+    "total_distance_km": 1.5,
+    "total_duration_minutes": 15.48,
+    "total_points": 180.0
+  },
+  {
+    "athlete_id": "70100660",
+    "athlete_name": "Sundarrajan Rangachari",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 1.4,
+    "total_duration_minutes": 15.48,
+    "total_points": 140.0
+  },
+  {
+    "athlete_id": "179564733",
+    "athlete_name": "chirag sharma",
+    "total_activities": 3,
+    "unique_types": 1,
+    "total_distance_km": 1.4,
+    "total_duration_minutes": 18.57,
+    "total_points": 140.0
+  },
+  {
+    "athlete_id": "47259158",
+    "athlete_name": "Kiran Rajmohan",
+    "total_activities": 2,
+    "unique_types": 1,
+    "total_distance_km": 1.3,
+    "total_duration_minutes": 29.42,
+    "total_points": 130.0
+  },
+  {
+    "athlete_id": "162204937",
+    "athlete_name": "Parth Ahluwalia",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 1.1,
+    "total_duration_minutes": 16.05,
+    "total_points": 110.0
+  },
+  {
+    "athlete_id": "180239706",
+    "athlete_name": "Kamalapuram Madhu Sudana Rao",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 0.8,
+    "total_duration_minutes": 12.53,
+    "total_points": 80.0
+  },
+  {
+    "athlete_id": "178414517",
+    "athlete_name": "Poornima Kulkarni",
+    "total_activities": 1,
+    "unique_types": 1,
+    "total_distance_km": 0.6,
+    "total_duration_minutes": 5.93,
+    "total_points": 60.0
+  }
+]

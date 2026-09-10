@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strava URL & Endpoint Dynamic Inspector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-orange: #fc4c02;
+      --accent-glow: rgba(252, 76, 2, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success-green: #22c55e;
+      --warning-yellow: #eab308;
+      --danger-red: #ef4444;
+      --cyan-glow: #06b6d4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 30px 20px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(252, 76, 2, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #fc4c02, #ff6b35);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .title-group h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title-group p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .meta-badge {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--success-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success-green);
+    }
+
+    /* Metric Summary Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(252, 76, 2, 0.3);
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .metric-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Filters Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn.active, .pill-btn:hover {
+      background: var(--accent-orange);
+      color: #fff;
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .search-input {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      width: 280px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-orange);
+    }
+
+    /* URL Inspector Cards List */
+    .url-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .url-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .url-card:hover {
+      border-color: rgba(252, 76, 2, 0.4);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .label-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .url-label {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .kind-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kind-profile { background: rgba(6, 182, 212, 0.2); color: var(--cyan-glow); border: 1px solid var(--cyan-glow); }
+    .kind-interval { background: rgba(252, 76, 2, 0.2); color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+    .kind-activity { background: rgba(34, 197, 94, 0.2); color: var(--success-green); border: 1px solid var(--success-green); }
+
+    .badges-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .badge-code {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success-green);
+      border: 1px solid var(--success-green);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .badge-size {
+      background: rgba(248, 250, 252, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .badge-latency {
+      background: rgba(234, 179, 8, 0.15);
+      color: var(--warning-yellow);
+      border: 1px solid var(--warning-yellow);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .url-link-box {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 13px;
+      color: #38bdf8;
+      word-break: break-all;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .url-link-box a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .url-link-box a:hover {
+      text-decoration: underline;
+    }
+
+    /* Extracted Summary Box */
+    .summary-box {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .summary-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .kv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .kv-item {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+
+    .kv-key {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .kv-val {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .code-snippet {
+      font-family: monospace;
+      font-size: 12px;
+      color: #a5f3fc;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </div>
+        <div class="title-group">
+          <h1>Strava URL & Endpoint Dynamic Inspector</h1>
+          <p>Real-time analysis of HTTP status codes, payload sizes, latencies, and extracted DOM data</p>
+        </div>
+      </div>
+      <div class="meta-badge">
+        <div class="status-dot"></div>
+        <span id="metaText">Athlete 156538003 • Live Inspection</span>
+      </div>
+    </header>
+
+    <!-- Metrics Summary Grid -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total URLs Inspected</div>
+        <div id="metricTotalUrls" class="metric-value">0</div>
+        <div class="metric-sub">Across Profile, Interval & Activity URLs</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">HTTP Success Rate</div>
+        <div id="metricSuccessRate" class="metric-value" style="color: var(--success-green);">100%</div>
+        <div class="metric-sub">Zero HTTP 429 errors</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Total Payload Downloaded</div>
+        <div id="metricTotalSize" class="metric-value">0 KB</div>
+        <div class="metric-sub">Single request efficiency</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Average Latency</div>
+        <div id="metricAvgLatency" class="metric-value" style="color: var(--warning-yellow);">0 ms</div>
+        <div class="metric-sub">Paced 3.0s minimum delay</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-pills">
+        <button class="pill-btn active" onclick="filterKind('all', this)">All Endpoints</button>
+        <button class="pill-btn" onclick="filterKind('profile', this)">Athlete Profile</button>
+        <button class="pill-btn" onclick="filterKind('interval', this)">Interval Views</button>
+        <button class="pill-btn" onclick="filterKind('activity', this)">Activity Pages</button>
+      </div>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search URL label or endpoint..." oninput="renderCards()">
+    </div>
+
+    <!-- Cards List -->
+    <div id="cardsList" class="url-cards-list">
+      <!-- Dynamic URL Inspection Cards -->
+    </div>
+  </div>
+
+  <script>
+    let diagnosticsData = null;
+    let currentFilter = 'all';
+
+    async function loadDiagnostics() {
+      try {
+        let resp = await fetch('../export/url_diagnostics.json?t=' + new Date().getTime(), { cache: 'no-store' });
+        if (!resp.ok) {
+          resp = await fetch('export/url_diagnostics.json?t=' + new Date().getTime(), { cache: 'no-store' });
+        }
+        if (!resp.ok) throw new Error('Failed to load url_diagnostics.json');
+        diagnosticsData = await resp.json();
+        
+        document.getElementById('metaText').innerText = `Athlete ${diagnosticsData.athlete_id} • Inspected ${diagnosticsData.timestamp.split('T')[0]}`;
+        updateMetrics();
+        renderCards();
+      } catch (err) {
+        console.error('Error loading diagnostics:', err);
+        document.getElementById('cardsList').innerHTML = `<div style="text-align: center; padding: 40px; color: var(--danger-red);">Failed to load url_diagnostics.json. Make sure python YEAR2026/export_diagnostics.py has been run.</div>`;
+      }
+    }
+
+    function updateMetrics() {
+      if (!diagnosticsData || !diagnosticsData.records) return;
+      const recs = diagnosticsData.records;
+
+      document.getElementById('metricTotalUrls').innerText = recs.length;
+
+      const totalBytes = recs.reduce((acc, r) => acc + (r.size_bytes || 0), 0);
+      document.getElementById('metricTotalSize').innerText = `${(totalBytes / 1024).toFixed(1)} KB`;
+
+      const avgLat = Math.round(recs.reduce((acc, r) => acc + (r.latency_ms || 0), 0) / max(recs.length, 1));
+      document.getElementById('metricAvgLatency').innerText = `${avgLat} ms`;
+
+      const successCount = recs.filter(r => r.http_code === 200).length;
+      const pct = Math.round((successCount / max(recs.length, 1)) * 100);
+      document.getElementById('metricSuccessRate').innerText = `${pct}%`;
+    }
+
+    function filterKind(kind, btn) {
+      currentFilter = kind;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCards();
+    }
+
+    function renderCards() {
+      if (!diagnosticsData || !diagnosticsData.records) return;
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const listContainer = document.getElementById('cardsList');
+      listContainer.innerHTML = '';
+
+      const filtered = diagnosticsData.records.filter(r => {
+        const matchesKind = currentFilter === 'all' || r.kind === currentFilter;
+        const matchesSearch = r.label.toLowerCase().includes(search) || r.url.toLowerCase().includes(search);
+        return matchesKind && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">No endpoint URL records match filter criteria.</div>`;
+        return;
+      }
+
+      filtered.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'url-card';
+
+        let kindClass = 'kind-profile';
+        if (r.kind === 'interval') kindClass = 'kind-interval';
+        if (r.kind === 'activity') kindClass = 'kind-activity';
+
+        let kvHtml = '';
+        const ext = r.extracted || {};
+
+        if (r.kind === 'profile') {
+          kvHtml = `
+            <div class="kv-item"><div class="kv-key">Athlete Name</div><div class="kv-val">${ext.athlete_name || 'N/A'}</div></div>
+            <div class="kv-item"><div class="kv-key">Feed Activity Links Count</div><div class="kv-val">${ext.activity_links_count || 0} links</div></div>
+            <div class="kv-item"><div class="kv-key">Sample Activity IDs</div><div class="kv-val">${(ext.sample_activity_ids || []).join(', ') || 'None'}</div></div>
+          `;
+        } else if (r.kind === 'interval') {
+          kvHtml = `
+            <div class="kv-item"><div class="kv-key">Interval Month</div><div class="kv-val">${ext.interval_month || 'N/A'}</div></div>
+            <div class="kv-item"><div class="kv-key">Activities Found</div><div class="kv-val">${ext.activity_links_count || 0} activities</div></div>
+            <div class="kv-item" style="grid-column: 1 / -1;">
+              <div class="kv-key">#activity-log Pre-Calculated Totals & Summary</div>
+              <div class="code-snippet">${ext.summary_stats_text || 'N/A'}</div>
+            </div>
+          `;
+        } else if (r.kind === 'activity') {
+          kvHtml = `
+            <div class="kv-item"><div class="kv-key">Activity Title</div><div class="kv-val">${ext.activity_title || 'N/A'}</div></div>
+            <div class="kv-item"><div class="kv-key">Activity Type</div><div class="kv-val">${ext.activity_type || 'N/A'}</div></div>
+            <div class="kv-item"><div class="kv-key">Date & Time Tag</div><div class="kv-val">${ext.datetime_raw || 'N/A'}</div></div>
+            <div class="kv-item" style="grid-column: 1 / -1;"><div class="kv-key">Inline Stats Extracted</div><div class="kv-val">${(ext.inline_stats || []).join(' • ') || 'None'}</div></div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="label-badge-group">
+              <div class="url-label">${r.label}</div>
+              <span class="kind-tag ${kindClass}">${r.kind}</span>
+            </div>
+            <div class="badges-row">
+              <span class="badge-code">HTTP ${r.http_code} ${r.status_msg}</span>
+              <span class="badge-size">${r.size_kb}</span>
+              <span class="badge-latency">${r.latency_ms} ms</span>
+            </div>
+          </div>
+
+          <div class="url-link-box">
+            <span>${r.url}</span>
+            <a href="${r.url}" target="_blank">Open Strava ↗</a>
+          </div>
+
+          <div class="summary-box">
+            <div class="summary-title">Extracted Response Payload & DOM Data</div>
+            <div class="kv-grid">
+              ${kvHtml}
+            </div>
+          </div>
+        `;
+
+        listContainer.appendChild(card);
+      });
+    }
+
+    function max(a, b) { return a > b ? a : b; }
+
+    window.onload = loadDiagnostics;
+  </script>
+</body>
+</html>

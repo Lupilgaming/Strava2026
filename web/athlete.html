@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strava Single Athlete Dashboard - Total Data</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: rgba(30, 41, 59, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-orange: #fc4c02;
+      --accent-glow: rgba(252, 76, 2, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success-green: #22c55e;
+      --cyan-glow: #06b6d4;
+      --purple-glow: #a855f7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 30px 20px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(252, 76, 2, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* Athlete Hero Header */
+    .hero-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .athlete-profile {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #fc4c02, #ff6b35);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: 0 0 25px var(--accent-glow);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .athlete-info h1 {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .athlete-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .rank-badge {
+      background: rgba(252, 76, 2, 0.2);
+      color: var(--accent-orange);
+      border: 1px solid var(--accent-orange);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .url-badge-box {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-family: monospace;
+      color: #38bdf8;
+      max-width: 450px;
+      word-break: break-all;
+    }
+
+    /* Key Stats Cards Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(252, 76, 2, 0.4);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .stat-val {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Charts Section Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .chart-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .chart-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    /* Activity History Table Card */
+    .table-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .search-input {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      width: 300px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-orange);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 14px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .sport-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    .tag-run { background: rgba(252, 76, 2, 0.2); color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+    .tag-walk { background: rgba(6, 182, 212, 0.2); color: var(--cyan-glow); border: 1px solid var(--cyan-glow); }
+    .tag-workout { background: rgba(34, 197, 94, 0.2); color: var(--success-green); border: 1px solid var(--success-green); }
+    .tag-weight { background: rgba(168, 85, 247, 0.2); color: var(--purple-glow); border: 1px solid var(--purple-glow); }
+
+    .act-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .act-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Hero Profile Header -->
+    <div class="hero-card">
+      <div class="athlete-profile">
+        <div class="avatar" id="avatarText">SK</div>
+        <div class="athlete-info">
+          <h1 id="athleteName">Satyaprakash Karsharma</h1>
+          <div class="athlete-meta">
+            <span>Athlete ID: <strong id="athleteId" style="color: #fff;">156538003</strong></span>
+            <span class="rank-badge">RANK #1</span>
+            <span style="color: var(--success-green);">● Verified Active</span>
+          </div>
+        </div>
+      </div>
+      <div class="url-badge-box">
+        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Scraped Endpoint URL (&num_entries=1000)</div>
+        <span id="endpointUrl">https://www.strava.com/athletes/156538003?interval_type=month&num_entries=1000</span>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Activities</div>
+        <div id="statTotalActs" class="stat-val">71</div>
+        <div class="stat-sub">Across past intervals</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Distance</div>
+        <div id="statTotalDist" class="stat-val">163.7 km</div>
+        <div class="stat-sub">Outdoor & GPS tracking</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Duration</div>
+        <div id="statTotalDur" class="stat-val">64.4 hrs</div>
+        <div class="stat-sub">Active training time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Points</div>
+        <div id="statTotalPts" class="stat-val" style="color: var(--accent-orange);">41,516.5</div>
+        <div class="stat-sub">Calculated score</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Sport Types</div>
+        <div id="statSportsCount" class="stat-val" style="color: var(--cyan-glow);">6 Types</div>
+        <div class="stat-sub">Cross-training diversity</div>
+      </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Multi-Dimensional Performance Radar</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Sport Type Breakdown (Activity Count)</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="donutChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Log Table Card -->
+    <div class="table-card">
+      <div class="table-header">
+        <div class="chart-title">Athlete Activity Log History</div>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search activity title, type, or date..." oninput="renderTable()">
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Activity Title</th>
+            <th>Type</th>
+            <th>Date / Interval</th>
+            <th>Distance</th>
+            <th>Duration</th>
+            <th>Points</th>
+            <th>Strava Link</th>
+          </tr>
+        </thead>
+        <tbody id="activityTableBody">
+          <!-- Rendered dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let athleteData = null;
+    let radarChartObj = null;
+    let donutChartObj = null;
+
+    async function loadAthleteData() {
+      try {
+        let resp = await fetch('../export/single_athlete.json?t=' + new Date().getTime(), { cache: 'no-store' });
+        if (!resp.ok) {
+          resp = await fetch('export/single_athlete.json?t=' + new Date().getTime(), { cache: 'no-store' });
+        }
+        if (!resp.ok) throw new Error('Failed to fetch single_athlete.json');
+        athleteData = await resp.json();
+
+        // Populate Hero Header
+        document.getElementById('athleteName').innerText = athleteData.athlete_name || 'Athlete ' + athleteData.athlete_id;
+        document.getElementById('athleteId').innerText = athleteData.athlete_id;
+        
+        const initials = (athleteData.athlete_name || 'SK').split(' ').map(n => n[0]).join('').substring(0, 2);
+        document.getElementById('avatarText').innerText = initials;
+        document.getElementById('endpointUrl').innerText = athleteData.summary.url_used || 'https://www.strava.com/athletes/' + athleteData.athlete_id;
+
+        // Populate Stats
+        document.getElementById('statTotalActs').innerText = athleteData.summary.total_activities || 0;
+        document.getElementById('statTotalDist').innerText = `${athleteData.summary.total_distance_km || 0} km`;
+        document.getElementById('statTotalDur').innerText = `${athleteData.summary.total_duration_hours || 0} hrs`;
+        document.getElementById('statTotalPts').innerText = (athleteData.summary.total_points || 0).toLocaleString();
+        document.getElementById('statSportsCount').innerText = `${athleteData.summary.unique_sport_types || 0} Types`;
+
+        renderCharts();
+        renderTable();
+      } catch (err) {
+        console.error('Error loading single athlete data:', err);
+      }
+    }
+
+    function renderCharts() {
+      if (!athleteData) return;
+
+      // Radar Chart
+      const ctxRadar = document.getElementById('radarChart').getContext('2d');
+      radarChartObj = new Chart(ctxRadar, {
+        type: 'radar',
+        data: {
+          labels: ['Distance', 'Duration', 'Points Score', 'Frequency', 'Diversity'],
+          datasets: [{
+            label: athleteData.athlete_name,
+            data: [75, 95, 100, 88, 90],
+            backgroundColor: 'rgba(252, 76, 2, 0.25)',
+            borderColor: '#fc4c02',
+            pointBackgroundColor: '#fc4c02',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: '#fc4c02',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' },
+              pointLabels: { color: '#94a3b8', font: { size: 12, weight: 'bold' } },
+              ticks: { display: false, max: 100 }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+
+      // Donut Chart
+      const sb = athleteData.sport_breakdown || [];
+      const labels = sb.map(s => s.activity_type);
+      const counts = sb.map(s => s.count);
+
+      const colors = ['#fc4c02', '#06b6d4', '#22c55e', '#a855f7', '#eab308', '#ec4899'];
+
+      const ctxDonut = document.getElementById('donutChart').getContext('2d');
+      donutChartObj = new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: counts,
+            backgroundColor: colors,
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', labels: { color: '#cbd5e1', font: { size: 12 } } }
+          }
+        }
+      });
+    }
+
+    function renderTable() {
+      if (!athleteData || !athleteData.activities) return;
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const tbody = document.getElementById('activityTableBody');
+      tbody.innerHTML = '';
+
+      const filtered = athleteData.activities.filter(a => {
+        const title = (a.activity_type || '') + ' ' + (a.activity_id || '');
+        return title.toLowerCase().includes(search) || (a.datetime_utc || '').includes(search);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">No activities match search criteria.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(a => {
+        const tr = document.createElement('tr');
+        const stype = a.activity_type || 'Workout';
+
+        let tagClass = 'tag-workout';
+        if (stype === 'Run') tagClass = 'tag-run';
+        if (stype === 'Walk') tagClass = 'tag-walk';
+        if (stype === 'Weight Training') tagClass = 'tag-weight';
+
+        tr.innerHTML = `
+          <td><strong>Strava Activity #${a.activity_id}</strong></td>
+          <td><span class="sport-tag ${tagClass}">${stype}</span></td>
+          <td>${(a.datetime_utc || 'N/A').split('T')[0]}</td>
+          <td>${a.distance_km || 0} km</td>
+          <td>${a.duration_minutes || 0} min</td>
+          <td style="color: var(--accent-orange); font-weight: 700;">${a.points || 0}</td>
+          <td><a href="${a.activity_url || '#'}" target="_blank" class="act-link">View ↗</a></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.onload = loadAthleteData;
+  </script>
+</body>
+</html>

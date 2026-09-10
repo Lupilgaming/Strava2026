@@ -1,0 +1,46 @@
+{
+  "athlete_id": "124224153",
+  "athlete_name": "Sai Harshita",
+  "summary": {
+    "total_activities": 3,
+    "total_distance_km": 10.0,
+    "total_duration_hours": 1.4,
+    "total_points": 1200.0,
+    "last_updated": "2026-09-10T04:19:37.132188+00:00"
+  },
+  "activities": [
+    {
+      "activity_id": "15440108352",
+      "athlete_id": "124224153",
+      "athlete_name": "Sai Harshita",
+      "activity_type": "Run",
+      "datetime_utc": "2025-08-13T08:04:39",
+      "distance_km": "3.3",
+      "duration_minutes": "27.883333333333333",
+      "points": "396.0",
+      "activity_url": "https://www.strava.com/activities/15440108352"
+    },
+    {
+      "activity_id": "15428118049",
+      "athlete_id": "124224153",
+      "athlete_name": "Sai Harshita",
+      "activity_type": "Run",
+      "datetime_utc": "2025-08-12T08:26:52",
+      "distance_km": "5.0",
+      "duration_minutes": "41.016666666666666",
+      "points": "600.0",
+      "activity_url": "https://www.strava.com/activities/15428118049"
+    },
+    {
+      "activity_id": "15520063198",
+      "athlete_id": "124224153",
+      "athlete_name": "Sai Harshita",
+      "activity_type": "Run",
+      "datetime_utc": "2025-08-20T08:46:00",
+      "distance_km": "1.7",
+      "duration_minutes": "13.6",
+      "points": "204.0",
+      "activity_url": "https://www.strava.com/activities/15520063198"
+    }
+  ]
+}

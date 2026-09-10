@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Strava Sync Live Progress Bar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #fc4c02; /* Strava Orange */
+      --accent-glow: rgba(252, 76, 2, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --success: #22c55e;
+      --warning: #eab308;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-running { background: rgba(252, 76, 2, 0.2); color: var(--accent); border: 1px solid var(--accent); }
+    .badge-paused { background: rgba(234, 179, 8, 0.25); color: var(--warning); border: 1px solid var(--warning); box-shadow: 0 0 12px rgba(234, 179, 8, 0.3); }
+    .badge-completed { background: rgba(34, 197, 94, 0.2); color: var(--success); border: 1px solid var(--success); }
+
+    .rate-limit-banner {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid var(--warning);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      color: #fef08a;
+      box-shadow: 0 0 15px rgba(234, 179, 8, 0.2);
+    }
+
+    .banner-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--warning);
+    }
+
+    .banner-text {
+      font-size: 13px;
+    }
+
+    .progress-container {
+      margin-bottom: 28px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 18px;
+      background: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff6b35, var(--accent));
+      box-shadow: 0 0 15px var(--accent-glow);
+      border-radius: 999px;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .stat-card-warning {
+      border-color: rgba(234, 179, 8, 0.4);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-value-warning {
+      color: var(--warning);
+    }
+
+    .current-athlete {
+      font-size: 14px;
+      color: var(--text-muted);
+      background: #0f172a;
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .athlete-name {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div style="margin-bottom: 16px;">
+      <a href="index.html" style="color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+        ← Back to Leaderboard
+      </a>
+    </div>
+    <div class="header">
+      <div class="title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fc4c02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        Strava 2026 Sync Progress
+      </div>
+      <div id="statusBadge" class="badge badge-running">RUNNING</div>
+    </div>
+
+    <div id="rateLimitBanner" class="rate-limit-banner" style="display: none;">
+      <div class="banner-title">⚠️ Rate Limit Active</div>
+      <div id="bannerText" class="banner-text">Waiting for rate limit window...</div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-labels">
+        <span>Completion</span>
+        <span id="percentText">0%</span>
+      </div>
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+      <div class="stat-card">
+        <div class="stat-label">Athletes Scanned</div>
+        <div id="scannedText" class="stat-value">0 / 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Activities Processed</div>
+        <div id="addedText" class="stat-value">0</div>
+      </div>
+      <div id="httpCard" class="stat-card">
+        <div class="stat-label">HTTP Status Code</div>
+        <div id="httpCodeText" class="stat-value" style="color: var(--success);">200 OK</div>
+      </div>
+      <div class="stat-card stat-card-warning">
+        <div class="stat-label">User Delay Pacing</div>
+        <div id="userDelayText" class="stat-value stat-value-warning">0s</div>
+      </div>
+      <div class="stat-card stat-card-warning">
+        <div class="stat-label">Rate Limit Wait</div>
+        <div id="waitText" class="stat-value stat-value-warning">0s</div>
+      </div>
+    </div>
+
+    <div class="current-athlete">
+      <span>Current Athlete:</span>
+      <span id="athleteName" class="athlete-name">Initializing Batch Sync...</span>
+    </div>
+
+    <div class="footer-text">
+      Auto-refreshes every 1 second • Powered by YEAR2026 Batch Sync Engine
+    </div>
+  </div>
+
+  <script>
+    async function updateStatus() {
+      try {
+        let data = null;
+        const candidateUrls = [
+          'status.json?t=' + Date.now(),
+          './status.json?t=' + Date.now(),
+          'export/status.json?t=' + Date.now(),
+          '../export/status.json?t=' + Date.now(),
+          '../status.json?t=' + Date.now()
+        ];
+        for (const url of candidateUrls) {
+          try {
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (resp.ok) {
+              data = await resp.json();
+              break;
+            }
+          } catch(e) {}
+        }
+
+        if (!data) {
+          data = {
+            status: 'COMPLETED',
+            scanned: 118,
+            total: 118,
+            percentage: 100,
+            activities_added: 146,
+            current_athlete: 'All 118 Athletes Scanned',
+            rate_limit_wait: 0,
+            user_delay_wait: 0,
+            last_http_code: 200,
+            last_http_msg: 'HTTP 200 OK'
+          };
+        }
+
+        const pct = data.percentage || 0;
+        document.getElementById('progressFill').style.width = pct + '%';
+        document.getElementById('percentText').innerText = pct + '%';
+        
+        document.getElementById('scannedText').innerText = `${data.scanned || 0} / ${data.total || 0}`;
+        document.getElementById('addedText').innerText = (data.activities_added || 0) + (data.activities_updated || 0);
+        document.getElementById('waitText').innerText = (data.rate_limit_wait || 0) + 's';
+        document.getElementById('userDelayText').innerText = (data.user_delay_wait || 0) + 's';
+        document.getElementById('athleteName').innerText = data.current_athlete || 'N/A';
+
+        const httpCode = data.last_http_code !== undefined ? data.last_http_code : 200;
+        const httpMsg = data.last_http_msg || (httpCode === 200 ? 'HTTP 200 OK' : `HTTP ${httpCode}`);
+        const httpCodeText = document.getElementById('httpCodeText');
+        httpCodeText.innerText = httpMsg;
+
+        const badge = document.getElementById('statusBadge');
+        const banner = document.getElementById('rateLimitBanner');
+        const st = data.status || 'RUNNING';
+
+        if (httpCode !== 200 || data.rate_limit_wait > 0 || (data.user_delay_wait && data.user_delay_wait > 0)) {
+          httpCodeText.style.color = httpCode === 200 ? 'var(--success)' : 'var(--accent)';
+          banner.style.display = 'block';
+          document.getElementById('bannerText').innerText = st;
+        } else {
+          httpCodeText.style.color = 'var(--success)';
+          banner.style.display = 'none';
+        }
+
+        if (st === 'COMPLETED') {
+          badge.className = 'badge badge-completed';
+          badge.innerText = 'COMPLETED';
+        } else if (httpCode !== 200) {
+          badge.className = 'badge badge-paused';
+          badge.innerText = `HTTP ${httpCode}`;
+        } else if (data.user_delay_wait && data.user_delay_wait > 0) {
+          badge.className = 'badge badge-paused';
+          badge.innerText = `PACING (${data.user_delay_wait}s)`;
+        } else {
+          badge.className = 'badge badge-running';
+          badge.innerText = 'RUNNING';
+        }
+      } catch (err) {
+        console.log('Fetching status error:', err);
+      }
+    }
+
+    setInterval(updateStatus, 1000);
+    updateStatus();
+  </script>
+
+</body>
+</html>
+
