@@ -1,12 +1,14 @@
 athlete_id,athlete_name,profile_url
+178453532,Divyansh Singh,https://www.strava.com/athletes/178453532
+24666680,Atul Lele,https://www.strava.com/athletes/24666680
+174727555,giftbabu yeluri,https://www.strava.com/athletes/174727555
+156538003,Satyaprakash Karsharma,https://www.strava.com/athletes/156538003
+178451353,Srijan Sameer,https://www.strava.com/athletes/178451353
+132282073,Vishal Rohilla,https://www.strava.com/athletes/132282073
 180079292,aadhar sharma,https://www.strava.com/athletes/180079292
 180573762,Abhidi Gupta,https://www.strava.com/athletes/180573762
 47622577,Abhinav Parashar,https://www.strava.com/athletes/47622577
 179642952,Abhishek Singh,https://www.strava.com/athletes/179642952
-178453532,Divyansh,https://www.strava.com/athletes/178453532
-174727555,giftbabu yeluri,https://www.strava.com/athletes/174727555
-24666680,Atul Lele,https://www.strava.com/athletes/24666680
-156538003,Satyaprakash Karsharma,https://www.strava.com/athletes/156538003
 178305741,Abhishek Verma,https://www.strava.com/athletes/178305741
 180243393,Abhranil Bose,https://www.strava.com/athletes/180243393
 47506672,Achyuta M,https://www.strava.com/athletes/47506672
@@ -20,7 +22,6 @@ athlete_id,athlete_name,profile_url
 72565184,Ankitha M,https://www.strava.com/athletes/72565184
 180406233,Arpitha M S,https://www.strava.com/athletes/180406233
 178203464,Ashlesha Yerramsetty,https://www.strava.com/athletes/178203464
-138936014,Ashutosh Mishra,https://www.strava.com/athletes/138936014
 178920353,Bhumika Chaudhari,https://www.strava.com/athletes/178920353
 179564733,chirag sharma,https://www.strava.com/athletes/179564733
 43953896,debapriya sahu,https://www.strava.com/athletes/43953896
@@ -36,7 +37,6 @@ athlete_id,athlete_name,profile_url
 180069021,Harishankar R,https://www.strava.com/athletes/180069021
 178926458,Harshal Gokhale,https://www.strava.com/athletes/178926458
 128332560,Hrishikesh H,https://www.strava.com/athletes/128332560
-71849020,Jaiganesh Balakrishnan,https://www.strava.com/athletes/71849020
 178911879,Janhavi Laturkar,https://www.strava.com/athletes/178911879
 72489407,Jawaharlal Tangudu,https://www.strava.com/athletes/72489407
 179593751,Juhi Zanje,https://www.strava.com/athletes/179593751
@@ -57,6 +57,7 @@ athlete_id,athlete_name,profile_url
 180117147,Mitali Singal,https://www.strava.com/athletes/180117147
 178986659,MOHAMMED KAIF,https://www.strava.com/athletes/178986659
 178279476,Muni Asheesh Potta,https://www.strava.com/athletes/178279476
+180256348,Naga Venkata Durga Prasad  Bokka,https://www.strava.com/athletes/180256348
 90052118,Narendra Babu,https://www.strava.com/athletes/90052118
 164314860,Nikhila Gorja,https://www.strava.com/athletes/164314860
 64282861,nitin narayan,https://www.strava.com/athletes/64282861
@@ -67,12 +68,11 @@ athlete_id,athlete_name,profile_url
 162204937,Parth Ahluwalia,https://www.strava.com/athletes/162204937
 70287435,Parthasarathy Ramesh,https://www.strava.com/athletes/70287435
 178305107,PEEYUSH KUMAR,https://www.strava.com/athletes/178305107
-180242652,Penchal kumar Gajula,https://www.strava.com/athletes/180242652
+180242652,Penchal kumar  Gajula,https://www.strava.com/athletes/180242652
 118605880,pooja bansal,https://www.strava.com/athletes/118605880
 178414517,Poornima Kulkarni,https://www.strava.com/athletes/178414517
 110506531,Poorvi Rao,https://www.strava.com/athletes/110506531
 179599586,Potturu Jahnavi,https://www.strava.com/athletes/179599586
-177796904,Pradyumna Pandey,https://www.strava.com/athletes/177796904
 110487247,Prakhar Agrawal,https://www.strava.com/athletes/110487247
 70005224,Prakhar Verma,https://www.strava.com/athletes/70005224
 70012491,Prasanth Kumar Narava,https://www.strava.com/athletes/70012491
@@ -86,11 +86,10 @@ athlete_id,athlete_name,profile_url
 178345650,Ram Narayan K,https://www.strava.com/athletes/178345650
 11495141,Rohit Chatterjee,https://www.strava.com/athletes/11495141
 178280229,Ruchi Shankar,https://www.strava.com/athletes/178280229
-180560020,Sagar Jogur,https://www.strava.com/athletes/180560020
 124224153,Sai Harshita,https://www.strava.com/athletes/124224153
 180066595,Sanjeev Kumar,https://www.strava.com/athletes/180066595
 180399476,Sanket Wadhwa,https://www.strava.com/athletes/180399476
-178398946,Sannidhya Bajpai,https://www.strava.com/athletes/178398946
+178398946,Sannidhya  Bajpai,https://www.strava.com/athletes/178398946
 178855948,Sasi Pavan Kumar,https://www.strava.com/athletes/178855948
 178220736,Saurabh Kandpal,https://www.strava.com/athletes/178220736
 180407677,Setti Manoj Kumar,https://www.strava.com/athletes/180407677
@@ -101,12 +100,10 @@ athlete_id,athlete_name,profile_url
 118959550,Somalatha T,https://www.strava.com/athletes/118959550
 33675736,Sooraj Sekhar,https://www.strava.com/athletes/33675736
 88066726,Sowmya Narayanan,https://www.strava.com/athletes/88066726
-178451353,Srijan Sameer,https://www.strava.com/athletes/178451353
 177609128,srikar ranganath,https://www.strava.com/athletes/177609128
 123461241,Srinivas K R,https://www.strava.com/athletes/123461241
 179599619,Srinivas Veeramreddy,https://www.strava.com/athletes/179599619
 104299092,Sriram Murali,https://www.strava.com/athletes/104299092
-180638199,Sudarsan Sai,https://www.strava.com/athletes/180638199
 128890667,Sudhish Raj G J,https://www.strava.com/athletes/128890667
 178278060,Sumantha Madhyastha,https://www.strava.com/athletes/178278060
 70100660,Sundarrajan Rangachari,https://www.strava.com/athletes/70100660
@@ -114,6 +111,5 @@ athlete_id,athlete_name,profile_url
 179077271,VELMURUGAN SOUNDARARAJAN,https://www.strava.com/athletes/179077271
 180410819,Vijesh V,https://www.strava.com/athletes/180410819
 78419005,Vinit Shinde,https://www.strava.com/athletes/78419005
-132282073,Vishal Rohilla,https://www.strava.com/athletes/132282073
 178484696,Yaswanth Ram Mittapalli,https://www.strava.com/athletes/178484696
 180114717,yerraguntla manideep,https://www.strava.com/athletes/180114717
