@@ -1,25 +1,25 @@
 {
   "summary": {
-    "total_athletes": 13,
-    "total_activities": 115,
-    "total_distance_km": 670.28,
-    "total_duration_hours": 110.5,
-    "total_points": 68100.36,
-    "total_points_dynamic": 68100.36,
-    "total_points_legacy": 100704.0,
-    "last_updated": "2026-09-10T20:53:53.486182+00:00"
+    "total_athletes": 14,
+    "total_activities": 123,
+    "total_distance_km": 695.67,
+    "total_duration_hours": 115.1,
+    "total_points": 70594.75,
+    "total_points_dynamic": 70594.75,
+    "total_points_legacy": 103871.8,
+    "last_updated": "2026-09-11T18:53:22.694204+00:00"
   },
   "athletes": [
     {
       "athlete_id": "156538003",
       "athlete_name": "Satyaprakash Karsharma",
-      "total_activities": 53,
+      "total_activities": 55,
       "unique_types": 4,
-      "total_distance_km": 207.81,
-      "total_duration_minutes": 3150.46,
-      "total_points": 25577.8,
-      "total_points_dynamic": 25577.8,
-      "total_points_legacy": 42289.1,
+      "total_distance_km": 208.63,
+      "total_duration_minutes": 3207.98,
+      "total_points": 25830.45,
+      "total_points_dynamic": 25830.45,
+      "total_points_legacy": 42864.3,
       "rank_legacy": 1,
       "rank": 1,
       "rank_dynamic": 1,
@@ -59,59 +59,59 @@
       "rank": 2,
       "rank_dynamic": 2,
       "radar_metrics": {
-        "distance": 74.6,
-        "duration": 30.8,
-        "points": 55.0,
-        "frequency": 26.4,
+        "distance": 74.3,
+        "duration": 30.3,
+        "points": 54.5,
+        "frequency": 25.5,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
-        "distance": 74.6,
-        "duration": 30.8,
-        "points": 55.0,
-        "frequency": 26.4,
+        "distance": 74.3,
+        "duration": 30.3,
+        "points": 54.5,
+        "frequency": 25.5,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
-        "distance": 74.6,
-        "duration": 30.8,
-        "points": 44.0,
-        "frequency": 26.4,
+        "distance": 74.3,
+        "duration": 30.3,
+        "points": 43.4,
+        "frequency": 25.5,
         "diversity": 25.0
       }
     },
     {
       "athlete_id": "124224153",
       "athlete_name": "Sai Harshita",
-      "total_activities": 15,
+      "total_activities": 16,
       "unique_types": 2,
-      "total_distance_km": 74.89,
-      "total_duration_minutes": 590.34,
-      "total_points": 6410.02,
-      "total_points_dynamic": 6410.02,
-      "total_points_legacy": 8902.2,
+      "total_distance_km": 77.29,
+      "total_duration_minutes": 602.36,
+      "total_points": 6671.46,
+      "total_points_dynamic": 6671.46,
+      "total_points_legacy": 9190.2,
       "rank_legacy": 3,
       "rank": 3,
       "rank_dynamic": 3,
       "radar_metrics": {
-        "distance": 36.0,
-        "duration": 18.7,
-        "points": 25.1,
-        "frequency": 28.3,
+        "distance": 37.0,
+        "duration": 18.8,
+        "points": 25.8,
+        "frequency": 29.1,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
-        "distance": 36.0,
-        "duration": 18.7,
-        "points": 25.1,
-        "frequency": 28.3,
+        "distance": 37.0,
+        "duration": 18.8,
+        "points": 25.8,
+        "frequency": 29.1,
         "diversity": 50.0
       },
       "radar_metrics_legacy": {
-        "distance": 36.0,
-        "duration": 18.7,
-        "points": 21.1,
-        "frequency": 28.3,
+        "distance": 37.0,
+        "duration": 18.8,
+        "points": 21.4,
+        "frequency": 29.1,
         "diversity": 50.0
       }
     },
@@ -129,24 +129,24 @@
       "rank": 4,
       "rank_dynamic": 4,
       "radar_metrics": {
-        "distance": 28.8,
-        "duration": 12.6,
-        "points": 20.9,
-        "frequency": 15.1,
+        "distance": 28.6,
+        "duration": 12.4,
+        "points": 20.7,
+        "frequency": 14.5,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
-        "distance": 28.8,
-        "duration": 12.6,
-        "points": 20.9,
-        "frequency": 15.1,
+        "distance": 28.6,
+        "duration": 12.4,
+        "points": 20.7,
+        "frequency": 14.5,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
-        "distance": 28.8,
-        "duration": 12.6,
-        "points": 17.0,
-        "frequency": 15.1,
+        "distance": 28.6,
+        "duration": 12.4,
+        "points": 16.7,
+        "frequency": 14.5,
         "diversity": 25.0
       }
     },
@@ -164,24 +164,24 @@
       "rank": 5,
       "rank_dynamic": 5,
       "radar_metrics": {
-        "distance": 17.8,
-        "duration": 6.8,
-        "points": 13.2,
-        "frequency": 3.8,
+        "distance": 17.7,
+        "duration": 6.7,
+        "points": 13.1,
+        "frequency": 3.6,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
-        "distance": 17.8,
-        "duration": 6.8,
-        "points": 13.2,
-        "frequency": 3.8,
+        "distance": 17.7,
+        "duration": 6.7,
+        "points": 13.1,
+        "frequency": 3.6,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
-        "distance": 17.8,
-        "duration": 6.8,
-        "points": 10.5,
-        "frequency": 3.8,
+        "distance": 17.7,
+        "duration": 6.7,
+        "points": 10.3,
+        "frequency": 3.6,
         "diversity": 25.0
       }
     },
@@ -200,23 +200,23 @@
       "rank_dynamic": 6,
       "radar_metrics": {
         "distance": 16.8,
-        "duration": 8.6,
-        "points": 12.7,
-        "frequency": 5.7,
+        "duration": 8.4,
+        "points": 12.5,
+        "frequency": 5.5,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 16.8,
-        "duration": 8.6,
-        "points": 12.7,
-        "frequency": 5.7,
+        "duration": 8.4,
+        "points": 12.5,
+        "frequency": 5.5,
         "diversity": 50.0
       },
       "radar_metrics_legacy": {
         "distance": 16.8,
-        "duration": 8.6,
-        "points": 10.8,
-        "frequency": 5.7,
+        "duration": 8.4,
+        "points": 10.7,
+        "frequency": 5.5,
         "diversity": 50.0
       }
     },
@@ -234,24 +234,24 @@
       "rank": 7,
       "rank_dynamic": 7,
       "radar_metrics": {
-        "distance": 16.7,
-        "duration": 8.7,
-        "points": 12.7,
-        "frequency": 9.4,
+        "distance": 16.6,
+        "duration": 8.5,
+        "points": 12.5,
+        "frequency": 9.1,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
-        "distance": 16.7,
-        "duration": 8.7,
-        "points": 12.7,
-        "frequency": 9.4,
+        "distance": 16.6,
+        "duration": 8.5,
+        "points": 12.5,
+        "frequency": 9.1,
         "diversity": 50.0
       },
       "radar_metrics_legacy": {
-        "distance": 16.7,
-        "duration": 8.7,
-        "points": 10.7,
-        "frequency": 9.4,
+        "distance": 16.6,
+        "duration": 8.5,
+        "points": 10.6,
+        "frequency": 9.1,
         "diversity": 50.0
       }
     },
@@ -270,23 +270,23 @@
       "rank_dynamic": 8,
       "radar_metrics": {
         "distance": 12.1,
-        "duration": 5.4,
-        "points": 8.7,
-        "frequency": 3.8,
+        "duration": 5.3,
+        "points": 8.6,
+        "frequency": 3.6,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 12.1,
-        "duration": 5.4,
-        "points": 8.7,
-        "frequency": 3.8,
+        "duration": 5.3,
+        "points": 8.6,
+        "frequency": 3.6,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 12.1,
-        "duration": 5.4,
-        "points": 7.1,
-        "frequency": 3.8,
+        "duration": 5.3,
+        "points": 7.0,
+        "frequency": 3.6,
         "diversity": 25.0
       }
     },
@@ -305,24 +305,59 @@
       "rank_dynamic": 9,
       "radar_metrics": {
         "distance": 7.7,
-        "duration": 11.3,
+        "duration": 11.1,
         "points": 8.2,
-        "frequency": 13.2,
+        "frequency": 12.7,
         "diversity": 100.0
       },
       "radar_metrics_dynamic": {
         "distance": 7.7,
-        "duration": 11.3,
+        "duration": 11.1,
         "points": 8.2,
-        "frequency": 13.2,
+        "frequency": 12.7,
         "diversity": 100.0
       },
       "radar_metrics_legacy": {
         "distance": 7.7,
-        "duration": 11.3,
-        "points": 8.9,
-        "frequency": 13.2,
+        "duration": 11.1,
+        "points": 8.8,
+        "frequency": 12.7,
         "diversity": 100.0
+      }
+    },
+    {
+      "athlete_id": "125109915",
+      "athlete_name": "Harsh Anand",
+      "total_activities": 5,
+      "unique_types": 2,
+      "total_distance_km": 22.17,
+      "total_duration_minutes": 205.93,
+      "total_points": 1980.3,
+      "total_points_dynamic": 1980.3,
+      "total_points_legacy": 2304.6,
+      "rank_legacy": 10,
+      "rank": 10,
+      "rank_dynamic": 10,
+      "radar_metrics": {
+        "distance": 10.6,
+        "duration": 6.4,
+        "points": 7.7,
+        "frequency": 9.1,
+        "diversity": 50.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 10.6,
+        "duration": 6.4,
+        "points": 7.7,
+        "frequency": 9.1,
+        "diversity": 50.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 10.6,
+        "duration": 6.4,
+        "points": 5.4,
+        "frequency": 9.1,
+        "diversity": 50.0
       }
     },
     {
@@ -335,28 +370,28 @@
       "total_points": 1718.98,
       "total_points_dynamic": 1718.98,
       "total_points_legacy": 2068.2,
-      "rank_legacy": 10,
-      "rank": 10,
-      "rank_dynamic": 10,
+      "rank_legacy": 11,
+      "rank": 11,
+      "rank_dynamic": 11,
       "radar_metrics": {
-        "distance": 9.2,
-        "duration": 4.1,
+        "distance": 9.1,
+        "duration": 4.0,
         "points": 6.7,
-        "frequency": 5.7,
+        "frequency": 5.5,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
-        "distance": 9.2,
-        "duration": 4.1,
+        "distance": 9.1,
+        "duration": 4.0,
         "points": 6.7,
-        "frequency": 5.7,
+        "frequency": 5.5,
         "diversity": 50.0
       },
       "radar_metrics_legacy": {
-        "distance": 9.2,
-        "duration": 4.1,
-        "points": 4.9,
-        "frequency": 5.7,
+        "distance": 9.1,
+        "duration": 4.0,
+        "points": 4.8,
+        "frequency": 5.5,
         "diversity": 50.0
       }
     },
@@ -370,28 +405,28 @@
       "total_points": 445.92,
       "total_points_dynamic": 445.92,
       "total_points_legacy": 628.8,
-      "rank_legacy": 12,
-      "rank": 11,
-      "rank_dynamic": 11,
+      "rank_legacy": 13,
+      "rank": 12,
+      "rank_dynamic": 12,
       "radar_metrics": {
         "distance": 2.5,
-        "duration": 1.3,
+        "duration": 1.2,
         "points": 1.7,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 2.5,
-        "duration": 1.3,
+        "duration": 1.2,
         "points": 1.7,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 2.5,
-        "duration": 1.3,
+        "duration": 1.2,
         "points": 1.5,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       }
     },
@@ -405,28 +440,28 @@
       "total_points": 259.08,
       "total_points_dynamic": 259.08,
       "total_points_legacy": 647.7,
-      "rank_legacy": 11,
-      "rank": 12,
-      "rank_dynamic": 12,
+      "rank_legacy": 12,
+      "rank": 13,
+      "rank_dynamic": 13,
       "radar_metrics": {
         "distance": 0.0,
-        "duration": 2.1,
+        "duration": 2.0,
         "points": 1.0,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 0.0,
-        "duration": 2.1,
+        "duration": 2.0,
         "points": 1.0,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 0.0,
-        "duration": 2.1,
+        "duration": 2.0,
         "points": 1.5,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       }
     },
@@ -440,28 +475,28 @@
       "total_points": 54.1,
       "total_points_dynamic": 54.1,
       "total_points_legacy": 72.0,
-      "rank_legacy": 13,
-      "rank": 13,
-      "rank_dynamic": 13,
+      "rank_legacy": 14,
+      "rank": 14,
+      "rank_dynamic": 14,
       "radar_metrics": {
         "distance": 0.3,
         "duration": 0.1,
         "points": 0.2,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 0.3,
         "duration": 0.1,
         "points": 0.2,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 0.3,
         "duration": 0.1,
         "points": 0.2,
-        "frequency": 1.9,
+        "frequency": 1.8,
         "diversity": 25.0
       }
     }
@@ -469,21 +504,21 @@
   "sport_breakdown": [
     {
       "activity_type": "Run",
-      "count": 65,
-      "total_distance_km": 640.09,
-      "total_duration_minutes": 4275.25,
-      "total_points": 57100.76,
-      "total_points_dynamic": 57100.76,
-      "total_points_legacy": 76810.8
+      "count": 67,
+      "total_distance_km": 646.87,
+      "total_duration_minutes": 4301.24,
+      "total_points": 57981.38,
+      "total_points_dynamic": 57981.38,
+      "total_points_legacy": 77624.4
     },
     {
       "activity_type": "Weight Training",
-      "count": 18,
+      "count": 19,
       "total_distance_km": 0.0,
-      "total_duration_minutes": 1006.93,
-      "total_points": 4027.72,
-      "total_points_dynamic": 4027.72,
-      "total_points_legacy": 10069.3
+      "total_duration_minutes": 1041.88,
+      "total_points": 4167.52,
+      "total_points_dynamic": 4167.52,
+      "total_points_legacy": 10418.8
     },
     {
       "activity_type": "Ride",
@@ -496,21 +531,21 @@
     },
     {
       "activity_type": "Swim",
-      "count": 10,
-      "total_distance_km": 3.79,
-      "total_duration_minutes": 333.3,
-      "total_points": 1666.5,
-      "total_points_dynamic": 1666.5,
-      "total_points_legacy": 3333.0
+      "count": 11,
+      "total_distance_km": 4.61,
+      "total_duration_minutes": 355.87,
+      "total_points": 1779.35,
+      "total_points_dynamic": 1779.35,
+      "total_points_legacy": 3558.7
     },
     {
       "activity_type": "Walk",
-      "count": 6,
-      "total_distance_km": 26.4,
-      "total_duration_minutes": 228.98,
-      "total_points": 2165.02,
-      "total_points_dynamic": 2165.02,
-      "total_points_legacy": 2640.0
+      "count": 10,
+      "total_distance_km": 44.19,
+      "total_duration_minutes": 420.94,
+      "total_points": 3526.14,
+      "total_points_dynamic": 3526.14,
+      "total_points_legacy": 4419.0
     },
     {
       "activity_type": "Workout",
@@ -2477,6 +2512,142 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/19650911402"
+    },
+    {
+      "activity_id": "20132274737",
+      "athlete_id": "156538003",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Swim",
+      "datetime_utc": "9:33 PM on Friday, September 11, 2026",
+      "datetime_iso": "2026-09-11T21:33:00",
+      "datetime_display": "Sep 11, 2026 09:33 PM",
+      "distance_km": 0.82,
+      "duration_minutes": 22.57,
+      "points": 112.85,
+      "points_dynamic": 112.85,
+      "points_legacy": 225.7,
+      "pace": "",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/20132274737"
+    },
+    {
+      "activity_id": "20131028788",
+      "athlete_id": "156538003",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Weight Training",
+      "datetime_utc": "7:35 PM on Friday, September 11, 2026",
+      "datetime_iso": "2026-09-11T19:35:00",
+      "datetime_display": "Sep 11, 2026 07:35 PM",
+      "distance_km": 0.0,
+      "duration_minutes": 34.95,
+      "points": 139.8,
+      "points_dynamic": 139.8,
+      "points_legacy": 349.5,
+      "pace": "",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/20131028788"
+    },
+    {
+      "activity_id": "19932806179",
+      "athlete_id": "125109915",
+      "athlete_name": "Harsh Anand",
+      "activity_type": "Walk",
+      "datetime_utc": "Thursday, August 27, 2026",
+      "datetime_iso": "2026-08-27T00:00:00",
+      "datetime_display": "Aug 27, 2026",
+      "distance_km": 7.86,
+      "duration_minutes": 97.22,
+      "points": 568.19,
+      "points_dynamic": 568.19,
+      "points_legacy": 786.0,
+      "pace": "12:22 /km",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/19932806179"
+    },
+    {
+      "activity_id": "19932801320",
+      "athlete_id": "125109915",
+      "athlete_name": "Harsh Anand",
+      "activity_type": "Walk",
+      "datetime_utc": "Wednesday, August 26, 2026",
+      "datetime_iso": "2026-08-26T00:00:00",
+      "datetime_display": "Aug 26, 2026",
+      "distance_km": 6.58,
+      "duration_minutes": 64.37,
+      "points": 508.01,
+      "points_dynamic": 508.01,
+      "points_legacy": 658.0,
+      "pace": "9:47 /km",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/19932801320"
+    },
+    {
+      "activity_id": "19932795755",
+      "athlete_id": "125109915",
+      "athlete_name": "Harsh Anand",
+      "activity_type": "Run",
+      "datetime_utc": "Tuesday, August 25, 2026",
+      "datetime_iso": "2026-08-25T00:00:00",
+      "datetime_display": "Aug 25, 2026",
+      "distance_km": 4.38,
+      "duration_minutes": 13.97,
+      "points": 619.18,
+      "points_dynamic": 619.18,
+      "points_legacy": 525.6,
+      "pace": "3:11 /km",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/19932795755"
+    },
+    {
+      "activity_id": "19932793359",
+      "athlete_id": "125109915",
+      "athlete_name": "Harsh Anand",
+      "activity_type": "Walk",
+      "datetime_utc": "Monday, August 24, 2026",
+      "datetime_iso": "2026-08-24T00:00:00",
+      "datetime_display": "Aug 24, 2026",
+      "distance_km": 0.63,
+      "duration_minutes": 2.47,
+      "points": 84.82,
+      "points_dynamic": 84.82,
+      "points_legacy": 63.0,
+      "pace": "3:55 /km",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/19932793359"
+    },
+    {
+      "activity_id": "19932792378",
+      "athlete_id": "125109915",
+      "athlete_name": "Harsh Anand",
+      "activity_type": "Walk",
+      "datetime_utc": "Monday, August 24, 2026",
+      "datetime_iso": "2026-08-24T00:00:00",
+      "datetime_display": "Aug 24, 2026",
+      "distance_km": 2.72,
+      "duration_minutes": 27.9,
+      "points": 200.1,
+      "points_dynamic": 200.1,
+      "points_legacy": 272.0,
+      "pace": "10:15 /km",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/19932792378"
+    },
+    {
+      "activity_id": "20130930805",
+      "athlete_id": "124224153",
+      "athlete_name": "Sai Harshita",
+      "activity_type": "Run",
+      "datetime_utc": "Friday, September 11, 2026",
+      "datetime_iso": "2026-09-11T00:00:00",
+      "datetime_display": "Sep 11, 2026",
+      "distance_km": 2.4,
+      "duration_minutes": 12.02,
+      "points": 261.44,
+      "points_dynamic": 261.44,
+      "points_legacy": 288.0,
+      "pace": "5:01 /km",
+      "is_indoor": false,
+      "activity_url": "https://www.strava.com/activities/20130930805"
     }
   ]
 }

@@ -114,3 +114,11 @@ activity_id,athlete_id,athlete_name,activity_type,datetime_utc,distance_km,durat
 19662378427,178279476,Muni Asheesh Potta,Run,"Sunday, August 9, 2026",10.02,57.77,949.07,949.07,1202.4,5:46 /km,False,https://www.strava.com/activities/19662378427
 19563863445,178279476,Muni Asheesh Potta,Run,"Sunday, August 2, 2026",20.02,125.1,1793.23,1793.23,2402.4,6:15 /km,False,https://www.strava.com/activities/19563863445
 19650911402,180242239,Ojusteja Dhoti,Workout,"Wednesday, August 5, 2026",0.0,64.77,259.08,259.08,647.7,,False,https://www.strava.com/activities/19650911402
+20132274737,156538003,Satyaprakash Karsharma,Swim,"9:33 PM on Friday, September 11, 2026",0.82,22.57,112.85,112.85,225.7,,False,https://www.strava.com/activities/20132274737
+20131028788,156538003,Satyaprakash Karsharma,Weight Training,"7:35 PM on Friday, September 11, 2026",0.0,34.95,139.8,139.8,349.5,,False,https://www.strava.com/activities/20131028788
+19932806179,125109915,Harsh Anand,Walk,"Thursday, August 27, 2026",7.86,97.22,568.19,568.19,786.0,12:22 /km,False,https://www.strava.com/activities/19932806179
+19932801320,125109915,Harsh Anand,Walk,"Wednesday, August 26, 2026",6.58,64.37,508.01,508.01,658.0,9:47 /km,False,https://www.strava.com/activities/19932801320
+19932795755,125109915,Harsh Anand,Run,"Tuesday, August 25, 2026",4.38,13.97,619.18,619.18,525.6,3:11 /km,False,https://www.strava.com/activities/19932795755
+19932793359,125109915,Harsh Anand,Walk,"Monday, August 24, 2026",0.63,2.47,84.82,84.82,63.0,3:55 /km,False,https://www.strava.com/activities/19932793359
+19932792378,125109915,Harsh Anand,Walk,"Monday, August 24, 2026",2.72,27.9,200.1,200.1,272.0,10:15 /km,False,https://www.strava.com/activities/19932792378
+20130930805,124224153,Sai Harshita,Run,"Friday, September 11, 2026",2.4,12.02,261.44,261.44,288.0,5:01 /km,False,https://www.strava.com/activities/20130930805
