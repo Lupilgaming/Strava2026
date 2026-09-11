@@ -913,18 +913,50 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     .tb-player-stats {
       text-align: right;
       flex-shrink: 0;
+      white-space: nowrap;
     }
 
-    .tb-player-pts {
+    .tb-player-pts-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.32);
+      border-radius: 7px;
+      padding: 2px 8px;
       font-family: 'Outfit', sans-serif;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       color: var(--gold);
+      white-space: nowrap;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .tb-player-pts-tag .pts-unit {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: rgba(251, 191, 36, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .tb-player-pts-tag.zero-pts {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-dim);
+      box-shadow: none;
+    }
+
+    .tb-player-pts-tag.zero-pts .pts-unit {
+      color: var(--text-dim);
     }
 
     .tb-player-sub {
       font-size: 10px;
       color: var(--text-dim);
+      white-space: nowrap;
+      margin-top: 3px;
     }
 
     .tb-move-select {
@@ -1453,13 +1485,16 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       </div>
     </div>
 
-    <!-- Arena Navigation Tabs (Reordered: Team Builder 1st, others in reverse order) -->
+    <!-- Arena Navigation Tabs -->
     <div class="arena-nav-bar">
-      <button id="tabBtnTeamBuilder" class="arena-nav-tab active" onclick="switchArenaTab('tabTeamBuilder')">
+      <button id="tabBtnDuel" class="arena-nav-tab active" onclick="switchArenaTab('tabDuel')">
+        <span>🥊</span> 1v1 Duel Arena
+      </button>
+      <button id="tabBtnTeamBuilder" class="arena-nav-tab" onclick="switchArenaTab('tabTeamBuilder')">
         <span>👥</span> Team Builder
       </button>
-      <button id="tabBtnRoulette" class="arena-nav-tab" onclick="switchArenaTab('tabRoulette')">
-        <span>🎲</span> Workout Roulette
+      <button id="tabBtnTrophies" class="arena-nav-tab" onclick="switchArenaTab('tabTrophies')">
+        <span>🏆</span> The Trophy Room
       </button>
       <button id="tabBtnMomentum" class="arena-nav-tab" onclick="switchArenaTab('tabMomentum')">
         <span>🔥</span> Momentum Tracker
@@ -1467,18 +1502,68 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       <button id="tabBtnJourney" class="arena-nav-tab" onclick="switchArenaTab('tabJourney')">
         <span>🗺️</span> Virtual Road Trip
       </button>
-      <button id="tabBtnDuel" class="arena-nav-tab" onclick="switchArenaTab('tabDuel')">
-        <span>🥊</span> 1v1 Duel Arena
-      </button>
-      <button id="tabBtnTrophies" class="arena-nav-tab" onclick="switchArenaTab('tabTrophies')">
-        <span>🏆</span> The Trophy Room
+      <button id="tabBtnRoulette" class="arena-nav-tab" onclick="switchArenaTab('tabRoulette')">
+        <span>🎲</span> Workout Roulette
       </button>
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 1: TEAM BUILDER (Precalculated & Instantaneous) -->
+    <!-- TAB 1: 1v1 DUEL ARENA (Default Active) -->
     <!-- =================================================================== -->
-    <div id="tabTeamBuilder" class="arena-panel active">
+    <div id="tabDuel" class="arena-panel active">
+      <div class="section-header">
+        <div class="section-title">
+          <span>🥊</span> 1v1 Head-to-Head Athlete Duel Arena
+        </div>
+        <div class="section-desc">
+          Select any two athletes to simulate an athletic tale-of-the-tape comparison across 6 core fitness dimensions.
+        </div>
+      </div>
+
+      <div class="duel-selectors">
+        <div class="fighter-select-box">
+          <span class="fighter-label red">🔴 Red Corner</span>
+          <select id="fighterRed" class="fighter-select" onchange="updateDuel()"></select>
+        </div>
+
+        <div class="duel-vs-badge">VS</div>
+
+        <div class="fighter-select-box">
+          <span class="fighter-label blue">🔵 Blue Corner</span>
+          <select id="fighterBlue" class="fighter-select" onchange="updateDuel()"></select>
+        </div>
+      </div>
+
+      <div class="duel-layout">
+        <div class="duel-chart-box">
+          <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:12px; text-transform:uppercase;">
+            Athletic Profile Radar
+          </div>
+          <div style="width: 100%; max-width: 380px; height: 320px; position: relative;">
+            <canvas id="duelRadarChart"></canvas>
+          </div>
+        </div>
+
+        <div class="duel-stats-box">
+          <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase;">
+            Head-to-Head Stats Breakdown
+          </div>
+
+          <div id="duelStatsRows">
+            <!-- Injected via JavaScript -->
+          </div>
+
+          <div class="duel-verdict" id="duelVerdict">
+            Select two athletes above to generate duel comparison.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TAB 2: TEAM BUILDER (Precalculated & Instantaneous) -->
+    <!-- =================================================================== -->
+    <div id="tabTeamBuilder" class="arena-panel">
       <div class="section-header">
         <div class="section-title">
           <span>👥</span> Pre-Balanced Team Builder & RPG Synergies
@@ -1588,40 +1673,25 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 2: WORKOUT ROULETTE -->
+    <!-- TAB 3: THE TROPHY ROOM -->
     <!-- =================================================================== -->
-    <div id="tabRoulette" class="arena-panel">
+    <div id="tabTrophies" class="arena-panel">
       <div class="section-header">
         <div class="section-title">
-          <span>🎲</span> The Workout Roulette
+          <span>🏆</span> The Clubhouse Trophy Room
         </div>
         <div class="section-desc">
-          Feeling indecisive? Spin the wheel to receive a spontaneous club fitness dare with estimated points!
+          Automated superlative badges awarded algorithmically across all Strava activities logged within the active date window.
         </div>
       </div>
 
-      <div class="roulette-box">
-        <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--strava-orange); font-weight: 800;">
-          Your Daily Fitness Dare
-        </div>
-
-        <div class="roulette-card-display" id="rouletteDisplay">
-          <div class="roulette-icon" id="dareIcon">🌅</div>
-          <div class="roulette-title" id="dareTitle">The Sunrise 5k Cruise</div>
-          <div class="roulette-desc" id="dareDesc">
-            Log a brisk 5.0 km run or walk before 7:30 AM. Earn a dynamic pace bonus and secure the Dawn Patrol trophy lead.
-          </div>
-          <div class="roulette-pts-tag" id="darePts">Est. Reward: ~120 - 150 pts</div>
-        </div>
-
-        <button class="btn btn-orange" style="font-size: 15px; padding: 12px 28px;" onclick="spinRoulette()">
-          🎲 Spin Again
-        </button>
+      <div id="trophiesContainer" class="trophy-grid">
+        <!-- Injected via JavaScript -->
       </div>
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 3: MOMENTUM TRACKER -->
+    <!-- TAB 4: MOMENTUM TRACKER -->
     <!-- =================================================================== -->
     <div id="tabMomentum" class="arena-panel">
       <div class="section-header">
@@ -1658,7 +1728,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 4: VIRTUAL ROAD TRIP -->
+    <!-- TAB 5: VIRTUAL ROAD TRIP -->
     <!-- =================================================================== -->
     <div id="tabJourney" class="arena-panel">
       <div class="section-header">
@@ -1695,73 +1765,35 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 5: 1v1 DUEL ARENA -->
+    <!-- TAB 6: WORKOUT ROULETTE -->
     <!-- =================================================================== -->
-    <div id="tabDuel" class="arena-panel">
+    <div id="tabRoulette" class="arena-panel">
       <div class="section-header">
         <div class="section-title">
-          <span>🥊</span> 1v1 Head-to-Head Athlete Duel Arena
+          <span>🎲</span> The Workout Roulette
         </div>
         <div class="section-desc">
-          Select any two athletes to simulate an athletic tale-of-the-tape comparison across 6 core fitness dimensions.
+          Feeling indecisive? Spin the wheel to receive a spontaneous club fitness dare with estimated points!
         </div>
       </div>
 
-      <div class="duel-selectors">
-        <div class="fighter-select-box">
-          <span class="fighter-label red">🔴 Red Corner</span>
-          <select id="fighterRed" class="fighter-select" onchange="updateDuel()"></select>
+      <div class="roulette-box">
+        <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--strava-orange); font-weight: 800;">
+          Your Daily Fitness Dare
         </div>
 
-        <div class="duel-vs-badge">VS</div>
-
-        <div class="fighter-select-box">
-          <span class="fighter-label blue">🔵 Blue Corner</span>
-          <select id="fighterBlue" class="fighter-select" onchange="updateDuel()"></select>
-        </div>
-      </div>
-
-      <div class="duel-layout">
-        <div class="duel-chart-box">
-          <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:12px; text-transform:uppercase;">
-            Athletic Profile Radar
+        <div class="roulette-card-display" id="rouletteDisplay">
+          <div class="roulette-icon" id="dareIcon">🌅</div>
+          <div class="roulette-title" id="dareTitle">The Sunrise 5k Cruise</div>
+          <div class="roulette-desc" id="dareDesc">
+            Log a brisk 5.0 km run or walk before 7:30 AM. Earn a dynamic pace bonus and secure the Dawn Patrol trophy lead.
           </div>
-          <div style="width: 100%; max-width: 380px; height: 320px; position: relative;">
-            <canvas id="duelRadarChart"></canvas>
-          </div>
+          <div class="roulette-pts-tag" id="darePts">Est. Reward: ~120 - 150 pts</div>
         </div>
 
-        <div class="duel-stats-box">
-          <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase;">
-            Head-to-Head Stats Breakdown
-          </div>
-
-          <div id="duelStatsRows">
-            <!-- Injected via JavaScript -->
-          </div>
-
-          <div class="duel-verdict" id="duelVerdict">
-            Select two athletes above to generate duel comparison.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- =================================================================== -->
-    <!-- TAB 6: THE TROPHY ROOM -->
-    <!-- =================================================================== -->
-    <div id="tabTrophies" class="arena-panel">
-      <div class="section-header">
-        <div class="section-title">
-          <span>🏆</span> The Clubhouse Trophy Room
-        </div>
-        <div class="section-desc">
-          Automated superlative badges awarded algorithmically across all Strava activities logged within the active date window.
-        </div>
-      </div>
-
-      <div id="trophiesContainer" class="trophy-grid">
-        <!-- Injected via JavaScript -->
+        <button class="btn btn-orange" style="font-size: 15px; padding: 12px 28px;" onclick="spinRoulette()">
+          🎲 Spin Again
+        </button>
       </div>
     </div>
 
@@ -1856,12 +1888,12 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       if (activePanel) activePanel.classList.add('active');
 
       const btnMap = {
+        'tabDuel': 'tabBtnDuel',
         'tabTeamBuilder': 'tabBtnTeamBuilder',
-        'tabRoulette': 'tabBtnRoulette',
+        'tabTrophies': 'tabBtnTrophies',
         'tabMomentum': 'tabBtnMomentum',
         'tabJourney': 'tabBtnJourney',
-        'tabDuel': 'tabBtnDuel',
-        'tabTrophies': 'tabBtnTrophies'
+        'tabRoulette': 'tabBtnRoulette'
       };
 
       if (btnMap[tabId]) {
@@ -1871,6 +1903,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
       if (tabId === 'tabDuel') {
         setTimeout(() => updateDuel(), 50);
+      } else if (tabId === 'tabTeamBuilder') {
+        setTimeout(() => renderTeamBuilder(), 50);
       }
     }
 
@@ -2251,6 +2285,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
           const initials = m.athlete_name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
 
+          const ptsVal = Math.round(m.total_points || 0);
+
           return `
             <div class="tb-player-card ${isReserve ? 'reserve' : ''}">
               <div class="tb-player-info">
@@ -2264,8 +2300,10 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
               </div>
               <div style="display:flex; align-items:center; gap:8px;">
                 <div class="tb-player-stats">
-                  <div class="tb-player-pts">${Math.round(m.total_points).toLocaleString()} <span style="font-size:10px; color:var(--text-muted);">pts</span></div>
-                  <div class="tb-player-sub">${(Math.round(m.total_distance * 10) / 10).toFixed(1)} km • ${m.total_activities} logs</div>
+                  <div class="tb-player-pts-tag ${ptsVal === 0 ? 'zero-pts' : ''}">
+                    ${ptsVal.toLocaleString()} <span class="pts-unit">pts</span>
+                  </div>
+                  <div class="tb-player-sub">${(Math.round((m.total_distance || 0) * 10) / 10).toFixed(1)} km • ${m.total_activities || 0} logs</div>
                 </div>
                 <select class="tb-move-select" onchange="moveAthlete('${m.athlete_name.replace(/'/g, "\\'")}', this.value)">
                   <option value="${idx}" selected>Team</option>
