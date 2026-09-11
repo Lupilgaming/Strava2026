@@ -584,9 +584,35 @@ html_template = '''<!DOCTYPE html>
       border-color: var(--strava-orange);
     }
 
+    .table-bar-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .results-count {
       font-size: 12px;
       color: var(--text-muted);
+    }
+
+    .table-scroll-hint {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--strava-orange);
+      background: rgba(252, 76, 2, 0.1);
+      border: 1px solid rgba(252, 76, 2, 0.25);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    @media (max-width: 860px) {
+      .table-scroll-hint {
+        display: inline-flex;
+      }
     }
 
     /* Leaderboard Table */
@@ -596,8 +622,31 @@ html_template = '''<!DOCTYPE html>
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .table-container::-webkit-scrollbar {
+      height: 6px;
+    }
+    .table-container::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 0 0 16px 16px;
+    }
+    .table-container::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: var(--strava-orange);
+    }
+
+    .table-container .data-table {
+      min-width: 820px;
     }
 
     .data-table {
@@ -607,7 +656,7 @@ html_template = '''<!DOCTYPE html>
     }
 
     .data-table th {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.9);
       color: var(--text-muted);
       font-size: 12px;
       font-weight: 700;
@@ -617,6 +666,7 @@ html_template = '''<!DOCTYPE html>
       border-bottom: 1px solid var(--card-border);
       cursor: pointer;
       user-select: none;
+      white-space: nowrap;
     }
     .data-table th:hover {
       color: var(--text-primary);
@@ -626,11 +676,13 @@ html_template = '''<!DOCTYPE html>
       padding: 16px 18px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       font-size: 13px;
+      white-space: nowrap;
     }
 
     .data-table tbody tr {
       transition: background-color 0.15s ease;
       cursor: pointer;
+      -webkit-tap-highlight-color: rgba(252, 76, 2, 0.1);
     }
     .data-table tbody tr:hover {
       background-color: rgba(252, 76, 2, 0.06);
@@ -641,6 +693,7 @@ html_template = '''<!DOCTYPE html>
       font-size: 16px;
       font-weight: 800;
       width: 60px;
+      min-width: 60px;
     }
     .rank-top1 { color: var(--gold); }
     .rank-top2 { color: var(--silver); }
@@ -650,6 +703,7 @@ html_template = '''<!DOCTYPE html>
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 180px;
     }
 
     .athlete-badge {
@@ -861,11 +915,17 @@ html_template = '''<!DOCTYPE html>
       .podium-container { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
+      .container { padding: 18px 12px; }
       .hero-summary { grid-template-columns: 1fr 1fr; }
-      .controls-bar { flex-direction: column; align-items: stretch; }
+      .controls-bar { flex-direction: column; align-items: stretch; gap: 10px; }
       .filter-group { flex-direction: column; align-items: stretch; }
       .search-input { width: 100%; }
+      .table-bar-meta { justify-content: space-between; width: 100%; }
       .modal-stat-cards { grid-template-columns: 1fr 1fr; }
+      .table-container { border-radius: 14px; }
+      .data-table th, .data-table td { padding: 12px 14px; font-size: 12px; }
+      .rank-cell { font-size: 14px; width: 50px; min-width: 50px; }
+      .athlete-badge { width: 32px; height: 32px; font-size: 12px; }
     }
   </style>
 </head>
@@ -1038,7 +1098,13 @@ html_template = '''<!DOCTYPE html>
         <button id="resetFiltersBtn" class="btn btn-outline" style="padding: 7px 12px; font-size: 12px;" title="Reset all filters">Reset</button>
       </div>
 
-      <div id="resultsCounter" class="results-count">Showing all athletes</div>
+      <div class="table-bar-meta">
+        <div id="resultsCounter" class="results-count">Showing all athletes</div>
+        <div class="table-scroll-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 8 4 4-4 4M6 8l-4 4 4 4M2 12h20"/></svg>
+          <span>Swipe horizontally for full stats</span>
+        </div>
+      </div>
     </div>
 
     <!-- Leaderboard Table -->
@@ -2108,8 +2174,8 @@ html_template = '''<!DOCTYPE html>
           <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:700;">Activity History (${activities.length})</h3>
         </div>
 
-        <div style="max-height: 380px; overflow-y: auto; border: 1px solid var(--card-border); border-radius: 14px;">
-          <table class="data-table">
+        <div style="max-height: 380px; overflow: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--card-border); border-radius: 14px;">
+          <table class="data-table" style="min-width: 580px;">
             <thead>
               <tr>
                 <th>Type</th>
