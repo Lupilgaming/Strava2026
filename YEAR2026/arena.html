@@ -897,6 +897,32 @@
       gap: 8px;
     }
 
+    .fighter-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .fighter-score-pill {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .fighter-score-pill.red {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+    .fighter-score-pill.blue {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #60a5fa;
+    }
+
     .fighter-label {
       font-size: 11px;
       text-transform: uppercase;
@@ -1301,14 +1327,20 @@
 
       <div class="duel-selectors">
         <div class="fighter-select-box">
-          <span class="fighter-label red">🔴 Red Corner</span>
+          <div class="fighter-box-header">
+            <span class="fighter-label red">🔴 Red Corner</span>
+            <span id="fighterRedScore" class="fighter-score-pill red">0 pts</span>
+          </div>
           <select id="fighterRed" class="fighter-select" onchange="updateDuel()"></select>
         </div>
 
         <div class="duel-vs-badge">VS</div>
 
         <div class="fighter-select-box">
-          <span class="fighter-label blue">🔵 Blue Corner</span>
+          <div class="fighter-box-header">
+            <span class="fighter-label blue">🔵 Blue Corner</span>
+            <span id="fighterBlueScore" class="fighter-score-pill blue">0 pts</span>
+          </div>
           <select id="fighterBlue" class="fighter-select" onchange="updateDuel()"></select>
         </div>
       </div>
@@ -4757,6 +4789,7 @@
 
       resetToPrecalculated();
       renderTrophies();
+      initDuelSelectors(true);
       updateDuel();
       renderVirtualJourney();
       renderMomentum();
@@ -5279,16 +5312,41 @@
     /* =========================================================================
        5. 1v1 DUEL ARENA
        ========================================================================= */
-    function initDuelSelectors() {
-      const statsMap = computeAthleteStats(globalData.activities || []);
-      const athletes = Object.values(statsMap).sort((a, b) => b.total_points - a.total_points);
-
+    function initDuelSelectors(preserveSelection = true) {
       const redSel = document.getElementById('fighterRed');
       const blueSel = document.getElementById('fighterBlue');
       if (!redSel || !blueSel) return;
 
-      redSel.innerHTML = athletes.map((a, i) => `<option value="${a.athlete_name}" ${i === 0 ? 'selected' : ''}>${a.athlete_name} (${Math.round(a.total_points)} pts)</option>`).join('');
-      blueSel.innerHTML = athletes.map((a, i) => `<option value="${a.athlete_name}" ${i === 1 ? 'selected' : ''}>${a.athlete_name} (${Math.round(a.total_points)} pts)</option>`).join('');
+      const currentRed = preserveSelection ? redSel.value : '';
+      const currentBlue = preserveSelection ? blueSel.value : '';
+
+      const filteredActivities = getFilteredActivities();
+      const statsMap = computeAthleteStats(filteredActivities);
+      const athletes = Object.values(statsMap).sort((a, b) => b.total_points - a.total_points || a.athlete_name.localeCompare(b.athlete_name));
+
+      redSel.innerHTML = athletes.map((a, i) => {
+        const isSelected = currentRed ? a.athlete_name === currentRed : i === 0;
+        return `<option value="${a.athlete_name}" ${isSelected ? 'selected' : ''}>${a.athlete_name} (${Math.round(a.total_points).toLocaleString()} pts)</option>`;
+      }).join('');
+
+      blueSel.innerHTML = athletes.map((a, i) => {
+        const isSelected = currentBlue ? a.athlete_name === currentBlue : i === 1;
+        return `<option value="${a.athlete_name}" ${isSelected ? 'selected' : ''}>${a.athlete_name} (${Math.round(a.total_points).toLocaleString()} pts)</option>`;
+      }).join('');
+
+      if (currentRed && athletes.some(a => a.athlete_name === currentRed)) {
+        redSel.value = currentRed;
+      } else if (athletes.length > 0) {
+        redSel.value = athletes[0].athlete_name;
+      }
+
+      if (currentBlue && athletes.some(a => a.athlete_name === currentBlue)) {
+        blueSel.value = currentBlue;
+      } else if (athletes.length > 1) {
+        blueSel.value = athletes[1].athlete_name;
+      } else if (athletes.length > 0) {
+        blueSel.value = athletes[0].athlete_name;
+      }
     }
 
     function updateDuel() {
@@ -5303,12 +5361,21 @@
       const aRed = statsMap[nameRed] || { athlete_name: nameRed, total_distance: 0, total_activities: 0, total_duration_hours: 0, total_points: 0, fastest_pace_val: 999, fastest_pace_str: 'N/A' };
       const aBlue = statsMap[nameBlue] || { athlete_name: nameBlue, total_distance: 0, total_activities: 0, total_duration_hours: 0, total_points: 0, fastest_pace_val: 999, fastest_pace_str: 'N/A' };
 
+      const redScoreEl = document.getElementById('fighterRedScore');
+      if (redScoreEl) {
+        redScoreEl.textContent = `${Math.round(aRed.total_points).toLocaleString()} pts`;
+      }
+      const blueScoreEl = document.getElementById('fighterBlueScore');
+      if (blueScoreEl) {
+        blueScoreEl.textContent = `${Math.round(aBlue.total_points).toLocaleString()} pts`;
+      }
+
       const stats = [
         { label: "Total Points", val1: Math.round(aRed.total_points).toLocaleString(), val2: Math.round(aBlue.total_points).toLocaleString(), raw1: aRed.total_points, raw2: aBlue.total_points },
         { label: "Distance", val1: `${(Math.round(aRed.total_distance * 10) / 10).toFixed(1)} km`, val2: `${(Math.round(aBlue.total_distance * 10) / 10).toFixed(1)} km`, raw1: aRed.total_distance, raw2: aBlue.total_distance },
         { label: "Activities", val1: `${aRed.total_activities} logs`, val2: `${aBlue.total_activities} logs`, raw1: aRed.total_activities, raw2: aBlue.total_activities },
         { label: "Time on Trail", val1: `${(Math.round(aRed.total_duration_hours * 10) / 10).toFixed(1)} hrs`, val2: `${(Math.round(aBlue.total_duration_hours * 10) / 10).toFixed(1)} hrs`, raw1: aRed.total_duration_hours, raw2: aBlue.total_duration_hours },
-        { label: "Hero Class", val1: aRed.hero_class || 'N/A', val2: aBlue.hero_class || 'N/A', raw1: 0, raw2: 0, isText: true }
+        { label: "Hero Class", val1: `${aRed.hero_class_icon || '🛡️'} ${aRed.hero_class_name || 'Sentinel'}`, val2: `${aBlue.hero_class_icon || '🛡️'} ${aBlue.hero_class_name || 'Sentinel'}`, raw1: 0, raw2: 0, isText: true }
       ];
 
       const rowsEl = document.getElementById('duelStatsRows');
@@ -5494,7 +5561,6 @@
 
     function initArena() {
       if (!globalData) return;
-      initDuelSelectors();
       applyFilterAndRerender();
     }
 
