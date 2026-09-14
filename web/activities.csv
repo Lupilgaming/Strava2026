@@ -172,3 +172,10 @@ activity_id,athlete_id,athlete_name,activity_type,datetime_utc,distance_km,durat
 20160789678,125109915,Harsh Anand,Walk,"Sunday, September 13, 2026",1.63,25.27,98.51,98.51,163.0,15:30 /km,False,https://www.strava.com/activities/20160789678
 20151622731,178279476,Muni Asheesh Potta,Run,"Sunday, September 13, 2026",12.02,67.82,1137.81,1137.81,1442.4,5:39 /km,False,https://www.strava.com/activities/20151622731
 20152209803,178278060,Sumantha Madhyastha,Walk,"Sunday, September 13, 2026",4.96,56.25,358.64,358.64,496.0,11:20 /km,False,https://www.strava.com/activities/20152209803
+20172370069,156538003,Satyaprakash Karsharma,Swim,"8:26 PM on Monday, September 14, 2026",0.7,17.58,87.9,87.9,175.8,,False,https://www.strava.com/activities/20172370069
+20170798946,156538003,Satyaprakash Karsharma,Run,"6:18 PM on Monday, September 14, 2026",7.03,50.62,612.33,612.33,843.6,7:12 /km,False,https://www.strava.com/activities/20170798946
+20165679538,47299421,Aniruddha P N,Run,"Monday, September 14, 2026",2.7,23.55,214.48,214.48,324.0,8:43 /km,False,https://www.strava.com/activities/20165679538
+20165657130,47299421,Aniruddha P N,Run,"Monday, September 14, 2026",2.74,24.95,213.17,213.17,328.8,9:06 /km,False,https://www.strava.com/activities/20165657130
+20041175499,195109124,Raghav N,Ride,"Saturday, September 5, 2026",5.14,21.0,128.5,128.5,205.6,,False,https://www.strava.com/activities/20041175499
+20041076722,195109124,Raghav N,Ride,"Saturday, September 5, 2026",5.06,20.08,126.5,126.5,202.4,,False,https://www.strava.com/activities/20041076722
+20165741571,178278060,Sumantha Madhyastha,Walk,"Monday, September 14, 2026",4.57,45.02,347.54,347.54,457.0,9:51 /km,False,https://www.strava.com/activities/20165741571
