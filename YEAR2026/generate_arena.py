@@ -164,7 +164,7 @@ def precalculate_all_squads(activities, members):
 
         return squads
 
-    act_tourn = [a for a in activities if (a.get("datetime_iso") or "")[:10] >= "2026-09-09"]
+    act_tourn = [a for a in activities if (a.get("datetime_iso") or "")[:10] >= "2026-09-14"]
     stats_tourn = aggregate_stats(act_tourn)
     stats_all = aggregate_stats(activities)
 
@@ -1488,7 +1488,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         <span class="filter-label">🗓️ Date Filter:</span>
         <div class="preset-group">
           <button id="presetTournament" class="preset-pill active" onclick="setDatePreset('tournament')">
-            ⚡ Official (Sep 9+)
+            ⚡ Contest (Sep 14+)
           </button>
           <button id="presetAll" class="preset-pill" onclick="setDatePreset('all')">
             🌐 All-Time
@@ -1501,7 +1501,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       <div class="filter-right">
         <div class="date-input-wrap">
           <span>From:</span>
-          <input type="date" id="dateStart" class="date-input" value="2026-09-09" onchange="onCustomDateChange()">
+          <input type="date" id="dateStart" class="date-input" value="2026-09-14" onchange="onCustomDateChange()">
         </div>
         <div class="date-input-wrap">
           <span>To:</span>
@@ -1851,8 +1851,8 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     let PRECALC_SQUADS = null;
     let duelRadarChartInstance = null;
 
-    // Date Filter State (Default: Sep 9, 2026 onwards)
-    window.currentDateStart = '2026-09-09';
+    // Date Filter State (Default: Sep 14, 2026 onwards)
+    window.currentDateStart = '2026-09-14';
     window.currentDateEnd = '';
     window.currentPreset = 'tournament';
 
@@ -1949,9 +1949,9 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
       if (preset === 'tournament') {
         document.getElementById('presetTournament').classList.add('active');
-        window.currentDateStart = '2026-09-09';
+        window.currentDateStart = '2026-09-14';
         window.currentDateEnd = '';
-        startInput.value = '2026-09-09';
+        startInput.value = '2026-09-14';
         endInput.value = '';
       } else if (preset === 'all') {
         document.getElementById('presetAll').classList.add('active');
@@ -2144,7 +2144,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
     }
 
     function resetToPrecalculated() {
-      const mode = (window.currentDateStart && window.currentDateStart >= '2026-09-09') ? 'tournament' : 'all_time';
+      const mode = (window.currentDateStart && window.currentDateStart >= '2026-09-14') ? 'tournament' : 'all_time';
       if (PRECALC_SQUADS && PRECALC_SQUADS[mode] && PRECALC_SQUADS[mode][currentTeamCount]) {
         // Deep copy precalculated member arrays
         activeRosters = PRECALC_SQUADS[mode][currentTeamCount].map(arr => arr.slice());
@@ -2400,7 +2400,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
       const statsMap = computeAthleteStats(getFilteredActivities());
       const lines = [];
       lines.push("🏆 CONNECTIVITY SPORTS DAY 2026 - BALANCED SQUADS 🏆");
-      lines.push("Period: " + (window.currentPreset === 'tournament' ? 'Official Tournament (Sep 9+)' : (window.currentPreset === '7days' ? 'Last 7 Days' : 'All-Time')));
+      lines.push("Period: " + (window.currentPreset === 'tournament' ? 'Official Contest (Sep 14+)' : (window.currentPreset === '7days' ? 'Last 7 Days' : 'All-Time')));
       lines.push("Total Squads: " + currentTeamCount);
       lines.push("====================================================");
       lines.push("");

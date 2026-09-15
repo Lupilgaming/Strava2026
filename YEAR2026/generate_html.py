@@ -1076,7 +1076,8 @@ html_template = '''<!DOCTYPE html>
           <option value="ALL">All Activity Types</option>
         </select>
         <select id="dateFilter" class="select-input">
-          <option value="ALL" selected>All Time (Aug - Sep 2026)</option>
+          <option value="CONTEST" selected>🏆 Contest: Sep 14 - Latest</option>
+          <option value="ALL">All Time (September 2026)</option>
           <option value="PAST_7_DAYS">Past 7 Days</option>
           <option value="PAST_14_DAYS">Past 14 Days</option>
           <option value="PAST_20_DAYS">Past 20 Days</option>
@@ -1408,6 +1409,14 @@ html_template = '''<!DOCTYPE html>
       'Workout': '💪',
       'Swim': '🏊',
       'Yoga': '🧘',
+      'Badminton': '🏸',
+      'Cricket': '🏏',
+      'Tennis': '🎾',
+      'Table Tennis': '🏓',
+      'Football': '⚽',
+      'Soccer': '⚽',
+      'Basketball': '🏀',
+      'Rowing': '🚣',
       'Default': '⚡'
     };
 
@@ -1601,7 +1610,7 @@ html_template = '''<!DOCTYPE html>
     function resetFilters() {
       document.getElementById('searchInput').value = '';
       document.getElementById('sportFilter').value = 'ALL';
-      document.getElementById('dateFilter').value = 'ALL';
+      document.getElementById('dateFilter').value = 'CONTEST';
       document.getElementById('customDateBox').style.display = 'none';
       document.getElementById('startDateInput').value = '';
       document.getElementById('endDateInput').value = '';
@@ -1644,7 +1653,9 @@ html_template = '''<!DOCTYPE html>
 
       let startDate = null;
       let endDate = null;
-      if (dateMode === 'CUSTOM') {
+      if (dateMode === 'CONTEST') {
+        startDate = new Date('2026-09-14T00:00:00');
+      } else if (dateMode === 'CUSTOM') {
         const sVal = document.getElementById('startDateInput').value;
         const eVal = document.getElementById('endDateInput').value;
         if (sVal) startDate = new Date(sVal + 'T00:00:00');

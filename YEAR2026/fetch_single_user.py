@@ -111,7 +111,7 @@ def get_target_months(months_back: int = 2) -> list:
         months.append(f"{y}{m:02d}")
     return months
 
-def discover_activity_ids(session: requests.Session, athlete_id: str, months_back: int = 2) -> list:
+def discover_activity_ids(session: requests.Session, athlete_id: str, months_back: int = 1) -> list:
     cfg = load_config()
     session_cookie = cfg.get("session_cookies", {}).get("_strava4_session", "")
     target_months = get_target_months(months_back=months_back)
@@ -126,6 +126,7 @@ def discover_activity_ids(session: requests.Session, athlete_id: str, months_bac
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--log-level=3")
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
     service = webdriver.ChromeService(executable_path=driver_path) if os.path.exists(driver_path) else None
     driver = webdriver.Chrome(service=service, options=options) if service else webdriver.Chrome(options=options)
@@ -255,14 +256,24 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
     elif "yoga" in type_lower: act_type = "Yoga"
     elif "hike" in type_lower: act_type = "Hike"
     elif "swim" in type_lower: act_type = "Swim"
+    elif "badminton" in type_lower: act_type = "Badminton"
+    elif "cricket" in type_lower: act_type = "Cricket"
+    elif "table tennis" in type_lower or "ping pong" in type_lower: act_type = "Table Tennis"
+    elif "tennis" in type_lower: act_type = "Tennis"
+    elif "football" in type_lower or "soccer" in type_lower: act_type = "Football"
+    elif "basketball" in type_lower: act_type = "Basketball"
+    elif "row" in type_lower: act_type = "Rowing"
+    else:
+        # Default clause: clean title casing for any unseen sports
+        act_type = act_type.strip().title() if act_type.strip() else "Workout"
 
     indoor_flag = is_indoor_ride(act_type, distance_km)
 
     pace_str = ""
-    if type_lower in ["run", "trail run", "walk", "hike"]:
-        pace_str = format_pace(distance_km, duration_minutes)
+    if any(k in act_type.lower() for k in ["run", "trail", "walk", "hike", "swim"]):
+        pace_str = format_pace(distance_km, duration_minutes, sport=act_type)
 
-    points = calculate_activity_points(act_type, distance_km, duration_minutes, is_indoor=indoor_flag)
+    points = calculate_activity_points(act_type, distance_km, duration_minutes, is_indoor=indoor_flag, pace_str=pace_str)
 
     return {
         "activity_id": act_id,
@@ -279,7 +290,7 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
     }
 
 
-def fetch_single_user(athlete_id: str, months_back: int = 2, activities_csv: str = "activities.csv", log_csv: str = "activity_log.csv"):
+def fetch_single_user(athlete_id: str, months_back: int = 1, activities_csv: str = "activities.csv", log_csv: str = "activity_log.csv"):
     m = re.search(r"/athletes/(\d+)", str(athlete_id))
     if m:
         athlete_id = m.group(1)

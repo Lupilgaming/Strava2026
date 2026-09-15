@@ -153,8 +153,8 @@ def run_pipeline(
         for idx, (aid, aname) in enumerate(athlete_list, 1):
             log(f" -> [{idx}/{len(athlete_list)}] Discovering activities for {aname} (ID: {aid})...")
             try:
-                # Discover active activities for current & previous months (Aug & Sep 2026)
-                act_ids = discover_activity_ids(session, aid, months_back=2)
+                # Discover active activities for current contest month (Sep 2026 onwards)
+                act_ids = discover_activity_ids(session, aid, months_back=1)
                 discovered_active_by_athlete[aid] = set(act_ids)
                 log(f"    Discovered {len(act_ids)} activity link(s) on Strava.")
 

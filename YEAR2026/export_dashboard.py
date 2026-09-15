@@ -63,8 +63,8 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
 
             is_ind = str(r.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"] or is_indoor_ride(act_type, dist)
             pace_val = str(r.get("pace", "")).strip()
-            if not pace_val and any(k in act_type.lower() for k in ["run", "walk", "hike", "trail"]):
-                pace_val = format_pace(dist, dur)
+            if not pace_val and any(k in act_type.lower() for k in ["run", "walk", "hike", "trail", "swim"]):
+                pace_val = format_pace(dist, dur, sport=act_type)
 
             # Compute points under both schemas
             pts_dyn = calculate_dynamic_points(act_type, dist, dur, pace_str=pace_val, is_indoor=is_ind)

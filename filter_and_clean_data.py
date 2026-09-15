@@ -33,7 +33,7 @@ def clean_and_filter_activities(
     print(" STRAVA 2026 DATA FILTER & SANITIZATION PIPELINE")
     print(f" Input: {os.path.abspath(input_csv)}")
     print(f" Memberlist: {os.path.abspath(memberlist_csv)}")
-    print(f" Competition Window Only: {competition_only} (Aug & Sep 2026)")
+    print(f" Competition Window Only: {competition_only} (September 2026 onwards)")
     print("============================================================\n")
 
     # Load club members
@@ -141,13 +141,13 @@ def clean_and_filter_activities(
             row["duration_minutes"] = "26.55"
             fixed_timer_glitches += 1
 
-        # 4. Filter by Competition Period (August & September 2026)
+        # 4. Filter by Competition Period (September 2026 onwards - August pruned)
         raw_dt = row.get("datetime_utc", "")
         clean_dt = raw_dt.replace(" on ", " ")
         try:
             dt = dt_parser.parse(clean_dt)
             if competition_only:
-                if dt.year != 2026 or dt.month not in [8, 9]:
+                if dt.year != 2026 or dt.month < 9:
                     filtered_out_of_window += 1
                     continue
             else:
@@ -167,10 +167,10 @@ def clean_and_filter_activities(
 
         indoor_flag = is_indoor_ride(stype, dist)
         pace_str = ""
-        if stype.lower() in ["run", "trail run", "walk", "hike"]:
-            pace_str = format_pace(dist, dur)
+        if any(k in stype.lower() for k in ["run", "trail", "walk", "hike", "swim"]):
+            pace_str = format_pace(dist, dur, sport=stype)
 
-        calc_pts = calculate_activity_points(stype, dist, dur, is_indoor=indoor_flag)
+        calc_pts = calculate_activity_points(stype, dist, dur, is_indoor=indoor_flag, pace_str=pace_str)
 
         row["points"] = str(round(calc_pts, 2))
         row["distance_km"] = str(round(dist, 2))
