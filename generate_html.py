@@ -982,7 +982,7 @@ html_template = '''<!DOCTYPE html>
       <div class="schema-banner-text" id="schemaBannerText">
         <span id="schemaBannerIcon">⚡</span> <strong>Active Scoring System:</strong> <span id="schemaBannerTitle">Dynamic MET Schema</span> — Continuous pace-weighted speed scaling with endurance distance dampening.
       </div>
-      <div style="font-size:12px; color:var(--text-dim);">Toggle system anytime in top navigation</div>
+      <div style="font-size:12px; color:var(--text-dim);">Toggle system anytime in the top navigation</div>
     </div>
 
     <!-- KPI Summary Cards -->
@@ -1043,7 +1043,7 @@ html_template = '''<!DOCTYPE html>
         <div class="viz-header">
           <div class="viz-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fc4c02" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            Multi-Dimensional Athlete Radar (Spider Chart)
+            Multi-Dimensional Athlete Radar
           </div>
           <span class="viz-badge">Top 5 Compared</span>
         </div>
@@ -1499,6 +1499,19 @@ html_template = '''<!DOCTYPE html>
     }
 
     async function loadDashboardData() {
+      // 1. Instant 0ms Paint using embedded dataset (zero network lag)
+      try {
+        const fallbackEl = document.getElementById('fallback-data');
+        if (fallbackEl && fallbackEl.textContent.trim()) {
+          globalData = JSON.parse(fallbackEl.textContent);
+          console.log('Loaded dashboard data instantly from embedded dataset.');
+          initDashboard();
+        }
+      } catch (err) {
+        console.warn('Embedded data parse notice:', err);
+      }
+
+      // 2. Background fresh sync check across candidate paths
       const candidateUrls = [
         'dashboard_data.json?t=' + Date.now(),
         './dashboard_data.json?t=' + Date.now(),
@@ -1511,25 +1524,17 @@ html_template = '''<!DOCTYPE html>
         try {
           const resp = await fetch(url, { cache: 'no-store' });
           if (resp.ok) {
-            globalData = await resp.json();
-            console.log('Successfully loaded dashboard data from:', url);
-            initDashboard();
+            const freshData = await resp.json();
+            const freshTime = freshData && freshData.summary ? freshData.summary.last_updated : null;
+            const currTime = globalData && globalData.summary ? globalData.summary.last_updated : null;
+            if (!globalData || freshTime !== currTime) {
+              globalData = freshData;
+              console.log('Updated dashboard data from live sync:', url);
+              initDashboard();
+            }
             return;
           }
         } catch (e) {}
-      }
-
-      // Offline / Local Fallback
-      try {
-        const fallbackEl = document.getElementById('fallback-data');
-        if (fallbackEl && fallbackEl.textContent.trim()) {
-          globalData = JSON.parse(fallbackEl.textContent);
-          console.log('Loaded dashboard data from embedded fallback.');
-          initDashboard();
-          return;
-        }
-      } catch (err) {
-        console.error('Failed to parse embedded data:', err);
       }
     }
 
@@ -2279,13 +2284,16 @@ with open(nojekyll_path, "w", encoding="utf-8") as f:
     f.write("")
 print(f"[+] Created .nojekyll -> {nojekyll_path}")
 
-# Sync activities.csv and dashboard_data.json
+# Sync activities.csv, dashboard_data.json, and memberlist.csv
 for target_dir in [YEAR_DIR, WEB_DIR, EXPORT_DIR]:
     os.makedirs(target_dir, exist_ok=True)
     shutil.copy2(os.path.join(ROOT_DIR, "activities.csv"), os.path.join(target_dir, "activities.csv"))
     shutil.copy2(os.path.join(ROOT_DIR, "dashboard_data.json"), os.path.join(target_dir, "dashboard_data.json"))
+    mem_src = os.path.join(ROOT_DIR, "memberlist.csv")
+    if os.path.exists(mem_src):
+        shutil.copy2(mem_src, os.path.join(target_dir, "memberlist.csv"))
 
-print("[+] Synchronized activities.csv and dashboard_data.json to all targets.")
+print("[+] Synchronized activities.csv, dashboard_data.json, and memberlist.csv to all targets.")
 
 # Also generate The Arena (arena.html) across all targets
 try:

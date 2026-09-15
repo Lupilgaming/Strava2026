@@ -13,10 +13,16 @@ DEFAULT_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 }
 
-def fetch_club_members(club_id: str = "1649493", max_pages: int = 10, min_delay: float = 2.0, out_csv: str = "memberlist.csv"):
+def fetch_club_members(club_id: str = "1649493", max_pages: int = 15, min_delay: float = 2.0, out_csv: str = "memberlist.csv"):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     session = requests.Session()
     session.headers.update(DEFAULT_HEADERS)
-    for cfg_path in ["config.json", "../config.json"]:
+    for cfg_path in [
+        os.path.join(base_dir, "config.json"),
+        "config.json",
+        "../config.json",
+        os.path.join(base_dir, "..", "config.json")
+    ]:
         if os.path.exists(cfg_path):
             try:
                 with open(cfg_path, "r", encoding="utf-8") as f:
@@ -27,16 +33,37 @@ def fetch_club_members(club_id: str = "1649493", max_pages: int = 10, min_delay:
             except Exception:
                 pass
 
-    members = {}
-    print(f"\n[+] Fetching member list for Strava Club ID: {club_id}")
+    out_csv_path = out_csv if os.path.isabs(out_csv) else os.path.join(base_dir, out_csv)
+    existing_members = {}
+    for p in [out_csv_path, os.path.join(base_dir, "memberlist.csv"), "memberlist.csv"]:
+        if os.path.exists(p):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    for r in csv.DictReader(f):
+                        aid = str(r.get("athlete_id", "")).strip()
+                        aname = str(r.get("athlete_name", "")).strip()
+                        purl = str(r.get("profile_url", "")).strip() or f"https://www.strava.com/athletes/{aid}"
+                        if aid and aname:
+                            existing_members[aid] = {
+                                "athlete_id": aid,
+                                "athlete_name": aname,
+                                "profile_url": purl
+                            }
+                if existing_members:
+                    break
+            except Exception:
+                pass
+
+    scraped_members = {}
+    print(f"\n[+] Fetching latest member list for Strava Club ID: {club_id} (max_pages={max_pages})")
     with tqdm(total=max_pages, desc="Scraping Club Pages", unit="page") as pbar:
         for page in range(1, max_pages + 1):
             url = f"https://www.strava.com/clubs/{club_id}/members?page={page}&page_uses_modern_javascript=true"
+            found_on_page = 0
             try:
                 resp = session.get(url, timeout=15)
                 if resp.status_code == 200:
                     soup = BeautifulSoup(resp.text, "html.parser")
-                    found_on_page = 0
                     script = soup.find("script", id="__NEXT_DATA__")
                     if script and script.string:
                         try:
@@ -47,8 +74,8 @@ def fetch_club_members(club_id: str = "1649493", max_pages: int = 10, min_delay:
                                 ath = n.get("athlete", {})
                                 aid = str(ath.get("id", "")).strip()
                                 name = f"{ath.get('firstName', '')} {ath.get('lastName', '')}".strip()
-                                if aid and aid not in members:
-                                    members[aid] = {
+                                if aid and aid not in scraped_members:
+                                    scraped_members[aid] = {
                                         "athlete_id": aid,
                                         "athlete_name": name or f"Athlete {aid}",
                                         "profile_url": f"https://www.strava.com/athletes/{aid}"
@@ -62,20 +89,20 @@ def fetch_club_members(club_id: str = "1649493", max_pages: int = 10, min_delay:
                         name = a.get_text().strip()
                         if m and "log" not in href and len(name) > 2:
                             aid = m.group(1)
-                            if aid not in members:
-                                members[aid] = {
+                            if aid not in scraped_members:
+                                scraped_members[aid] = {
                                     "athlete_id": aid,
                                     "athlete_name": name,
                                     "profile_url": f"https://www.strava.com/athletes/{aid}"
                                 }
                                 found_on_page += 1
 
-                    pbar.set_postfix({"members": len(members)})
+                    pbar.set_postfix({"scraped": len(scraped_members)})
                     if found_on_page == 0 and page > 1:
                         pbar.update(max_pages - pbar.n)
                         break
                 elif resp.status_code == 429:
-                    pbar.write(f"[!] Rate limited (429) on page {page}. Stopping.")
+                    pbar.write(f"[!] Rate limited (429) on page {page}. Stopping further pagination.")
                     break
             except Exception as e:
                 pbar.write(f"[!] Error on page {page}: {e}")
@@ -84,9 +111,27 @@ def fetch_club_members(club_id: str = "1649493", max_pages: int = 10, min_delay:
             pbar.update(1)
             time.sleep(min_delay)
 
-    # Fallback to local cached lists if unauthenticated response was truncated
+    # Merge scraped results with existing members
+    new_athletes_found = 0
+    if len(scraped_members) > 0:
+        # If scrape succeeded and got reasonable results, update members
+        members = dict(existing_members)
+        for aid, data in scraped_members.items():
+            if aid not in members:
+                new_athletes_found += 1
+            members[aid] = data
+    else:
+        # Network / rate-limit failure guard: retain existing members rather than wiping
+        print("[!] Warning: Scrape returned 0 members (possible rate limit or offline). Retaining existing memberlist.")
+        members = dict(existing_members)
+
+    # Fallback to local cached lists if both scrape and existing members are empty
     if len(members) < 10:
-        fallback_files = ["../memberlist.csv", "../archive/db.csv", "../archive/out.csv", "db.csv", "out.csv"]
+        fallback_files = [
+            os.path.join(base_dir, "archive", "db.csv"),
+            os.path.join(base_dir, "archive", "out.csv"),
+            os.path.join(base_dir, "..", "memberlist.csv")
+        ]
         for fb in fallback_files:
             if os.path.exists(fb):
                 try:
@@ -110,13 +155,30 @@ def fetch_club_members(club_id: str = "1649493", max_pages: int = 10, min_delay:
                     pass
 
     member_list = list(members.values())
-    fieldnames = ["athlete_id", "athlete_name", "profile_url"]
-    with open(out_csv, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(member_list)
+    if not member_list:
+        print("[!] Error: No members could be discovered or loaded. Leaving memberlist intact.")
+        return []
 
-    print(f"[OK] Saved {len(member_list)} members to {out_csv}\n")
+    fieldnames = ["athlete_id", "athlete_name", "profile_url"]
+    
+    # Save to primary and mirror destinations
+    dest_paths = [out_csv_path]
+    for sub in ["YEAR2026", "web", "export"]:
+        target_dir = os.path.join(base_dir, sub)
+        if os.path.exists(target_dir):
+            dest_paths.append(os.path.join(target_dir, "memberlist.csv"))
+
+    for dest in set(dest_paths):
+        try:
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            with open(dest, "w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(member_list)
+        except Exception as err:
+            print(f"[-] Notice: Could not sync memberlist to {dest}: {err}")
+
+    print(f"[OK] Successfully saved {len(member_list)} members ({new_athletes_found} new) to {out_csv_path}\n")
     return member_list
 
 if __name__ == "__main__":

@@ -108,7 +108,7 @@ def run_pipeline(
     members_csv = "memberlist.csv"
     if not skip_scrape:
         try:
-            fetch_club_members(club_id="1649493", max_pages=8, min_delay=1.5, out_csv=members_csv)
+            fetch_club_members(club_id="1649493", max_pages=15, min_delay=1.5, out_csv=members_csv)
             log("[+] Member list refreshed successfully from Strava.")
         except Exception as e:
             log(f"[!] Warning: Memberlist fetch notice ({e}). Continuing with existing members.")
@@ -283,7 +283,7 @@ def run_pipeline(
     for target in ["YEAR2026", "web", "export"]:
         target_dir = os.path.join(BASE_DIR, target)
         os.makedirs(target_dir, exist_ok=True)
-        for fname in ["activities.csv", "dashboard_data.json", "index.html", "arena.html", "ANTI_CHEAT_AND_DATA_INTEGRITY.md"]:
+        for fname in ["activities.csv", "dashboard_data.json", "index.html", "arena.html", "ANTI_CHEAT_AND_DATA_INTEGRITY.md", "memberlist.csv"]:
             src = os.path.join(BASE_DIR, fname)
             dst = os.path.join(target_dir, fname)
             if os.path.exists(src):

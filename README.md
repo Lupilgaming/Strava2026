@@ -13,7 +13,7 @@ Live interactive leaderboard and multi-dimensional analytics dashboard for the S
 
 - **Status Hero Cards**: Real-time aggregated metrics for Total Athletes, Activities, Distance (km), Duration (hrs), and Club Total Points.
 - **Top 3 Podium**: Gold 🥇, Silver 🥈, and Bronze 🥉 cards with glowing badges and summary stats.
-- **5-Axis Athlete Radar (Spider Chart)**: Standardized multi-dimensional comparison across Distance, Duration, Points, Activity Frequency, and Sport Diversity. Includes interactive athlete toggle pills.
+- **5-Axis Athlete Radar**: Standardized multi-dimensional comparison across Distance, Duration, Points, Activity Frequency, and Sport Diversity. Includes interactive athlete toggle pills.
 - **Activity Type Breakdown**: Donut chart showing distribution across Run, Ride, Weight Training, Swim, Walk, and Workout.
 - **Dynamic Filters**: Instant search by athlete name, sport dropdown, date range filter (All Time, Past 7/14/20/30 Days, Custom Range), and sort options.
 - **Leaderboard Table**: Sticky dark glass table with rank medals, athlete avatars, sport badges, distance, duration, and points.

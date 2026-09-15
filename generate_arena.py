@@ -1601,7 +1601,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
           <span>👥</span> Pre-Balanced Team Builder & RPG Synergies
         </div>
         <div class="section-desc">
-          Instantly load mathematically pre-balanced squads (2 to 20 squads) with zero client calculation lag. Active scorers and registered candidates (118 club members) are distributed evenly, with real-time party synergy buffs!
+          Instantly load mathematically pre-balanced squads (2 to 20 squads) with zero client calculation lag. Active scorers and registered candidates ({num_members} club members) are distributed evenly, with real-time party synergy buffs!
         </div>
       </div>
 
@@ -1651,7 +1651,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
             Active Scorers (<span id="activeScorerCount">0</span>)
           </button>
           <button id="viewFullRoster" class="tb-view-pill" onclick="setViewMode('full')">
-            Full Squad Roster (All 118 Candidates)
+            Full Squad Roster (All {num_members} Candidates)
           </button>
         </div>
 
@@ -2783,6 +2783,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     full_arena_html = arena_template.replace("<!-- FALLBACK_DATA_PLACEHOLDER -->", json_str)
     full_arena_html = full_arena_html.replace("<!-- PRECALCULATED_SQUADS_PLACEHOLDER -->", precalc_json_str)
+    full_arena_html = full_arena_html.replace("{num_members}", str(len(members)))
 
     destinations = [
         os.path.join(root_dir, "arena.html"),

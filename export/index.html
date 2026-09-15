@@ -963,7 +963,7 @@
       <div class="schema-banner-text" id="schemaBannerText">
         <span id="schemaBannerIcon">⚡</span> <strong>Active Scoring System:</strong> <span id="schemaBannerTitle">Dynamic MET Schema</span> — Continuous pace-weighted speed scaling with endurance distance dampening.
       </div>
-      <div style="font-size:12px; color:var(--text-dim);">Toggle system anytime in top navigation</div>
+      <div style="font-size:12px; color:var(--text-dim);">Toggle system anytime in the top navigation</div>
     </div>
 
     <!-- KPI Summary Cards -->
@@ -1024,7 +1024,7 @@
         <div class="viz-header">
           <div class="viz-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fc4c02" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            Multi-Dimensional Athlete Radar (Spider Chart)
+            Multi-Dimensional Athlete Radar
           </div>
           <span class="viz-badge">Top 5 Compared</span>
         </div>
@@ -1376,7 +1376,7 @@
     "total_points": 31449.85,
     "total_points_dynamic": 31449.85,
     "total_points_legacy": 45396.6,
-    "last_updated": "2026-09-15T08:16:47.783278+00:00"
+    "last_updated": "2026-09-15T13:34:00.967626+00:00"
   },
   "athletes": [
     {
@@ -3196,6 +3196,19 @@
     }
 
     async function loadDashboardData() {
+      // 1. Instant 0ms Paint using embedded dataset (zero network lag)
+      try {
+        const fallbackEl = document.getElementById('fallback-data');
+        if (fallbackEl && fallbackEl.textContent.trim()) {
+          globalData = JSON.parse(fallbackEl.textContent);
+          console.log('Loaded dashboard data instantly from embedded dataset.');
+          initDashboard();
+        }
+      } catch (err) {
+        console.warn('Embedded data parse notice:', err);
+      }
+
+      // 2. Background fresh sync check across candidate paths
       const candidateUrls = [
         'dashboard_data.json?t=' + Date.now(),
         './dashboard_data.json?t=' + Date.now(),
@@ -3208,25 +3221,17 @@
         try {
           const resp = await fetch(url, { cache: 'no-store' });
           if (resp.ok) {
-            globalData = await resp.json();
-            console.log('Successfully loaded dashboard data from:', url);
-            initDashboard();
+            const freshData = await resp.json();
+            const freshTime = freshData && freshData.summary ? freshData.summary.last_updated : null;
+            const currTime = globalData && globalData.summary ? globalData.summary.last_updated : null;
+            if (!globalData || freshTime !== currTime) {
+              globalData = freshData;
+              console.log('Updated dashboard data from live sync:', url);
+              initDashboard();
+            }
             return;
           }
         } catch (e) {}
-      }
-
-      // Offline / Local Fallback
-      try {
-        const fallbackEl = document.getElementById('fallback-data');
-        if (fallbackEl && fallbackEl.textContent.trim()) {
-          globalData = JSON.parse(fallbackEl.textContent);
-          console.log('Loaded dashboard data from embedded fallback.');
-          initDashboard();
-          return;
-        }
-      } catch (err) {
-        console.error('Failed to parse embedded data:', err);
       }
     }
 
