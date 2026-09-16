@@ -147,6 +147,8 @@ def discover_activity_ids(session: requests.Session, athlete_id: str, months_bac
             time.sleep(3.5)
 
             soup = BeautifulSoup(driver.page_source, "html.parser")
+            for elem in soup.select("footer, .footer, .footer-promos, #global-footer, .athlete-widget, .recent-activities"):
+                elem.decompose()
             log_sec = soup.find(id="activity-log")
             search_scope = log_sec if log_sec else soup
 
@@ -162,6 +164,8 @@ def discover_activity_ids(session: requests.Session, athlete_id: str, months_bac
         driver.get(f"https://www.strava.com/athletes/{athlete_id}")
         time.sleep(2.5)
         soup_feed = BeautifulSoup(driver.page_source, "html.parser")
+        for elem in soup_feed.select("footer, .footer, .footer-promos, #global-footer, .athlete-widget, .recent-activities"):
+            elem.decompose()
         feed_sec = soup_feed.find(class_=re.compile(r"feed|activity", re.I))
         search_feed = feed_sec if feed_sec else soup_feed
         for a in search_feed.find_all("a", href=re.compile(r"/activities/\d+")):
@@ -184,10 +188,18 @@ def discover_activity_ids(session: requests.Session, athlete_id: str, months_bac
             try:
                 r = session.get(url, timeout=12)
                 if r.status_code == 200:
-                    for act_id in re.findall(r"/activities/(\d+)", r.text):
-                        if act_id not in seen:
-                            seen.add(act_id)
-                            activity_ids.append(act_id)
+                    soup_fallback = BeautifulSoup(r.text, "html.parser")
+                    for elem in soup_fallback.select("footer, .footer, .footer-promos, #global-footer, .athlete-widget, .recent-activities"):
+                        elem.decompose()
+                    log_sec = soup_fallback.find(id="activity-log")
+                    search_scope = log_sec if log_sec else soup_fallback
+                    for a in search_scope.find_all("a", href=re.compile(r"/activities/\d+")):
+                        m = re.search(r"/activities/(\d+)", a.get("href", ""))
+                        if m:
+                            aid = m.group(1)
+                            if aid not in seen:
+                                seen.add(aid)
+                                activity_ids.append(aid)
             except Exception:
                 pass
 
@@ -217,6 +229,9 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
                 act_type = activity.get("activityKind", {}).get("sportType") or activity.get("type") or act_type
                 datetime_utc = activity.get("startLocal") or activity.get("startDateLocal") or ""
                 ath_info = activity.get("athlete", {})
+                true_aid = ath_info.get("id")
+                if true_aid:
+                    athlete_id = str(true_aid)
                 first = ath_info.get("firstName", "")
                 last = ath_info.get("lastName", "")
                 if first or last:
@@ -227,6 +242,15 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
                     duration_minutes = round(float(activity["movingTime"]) / 60.0, 2)
         except Exception:
             pass
+
+    # 2b. Author check from activity header in DOM (failsafe for true author identification)
+    ath_header = soup.select_one('.activity-summary a[href*="/athletes/"], a.minimal[href*="/athletes/"]')
+    if ath_header and ath_header.get("href"):
+        m_head = re.search(r"/athletes/(\d+)", ath_header["href"])
+        if m_head:
+            true_aid = m_head.group(1)
+            athlete_id = str(true_aid)
+            athlete_name = resolve_athlete_name(true_aid)
 
     # 3. Rails inline-stats & activity-stats list items
     if distance_km == 0.0 or duration_minutes == 0.0:

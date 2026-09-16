@@ -8,7 +8,7 @@ from collections import defaultdict
 from dateutil import parser as dt_parser
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from points import calculate_activity_points, format_pace, is_indoor_ride
+from points import calculate_activity_points, format_pace, is_indoor_ride, apply_dataset_scoring_rules
 
 def clean_and_filter_activities(
     input_csv="activities.csv",
@@ -64,7 +64,8 @@ def clean_and_filter_activities(
         "19923785855": ("178279476", "Muni Asheesh Potta"),
         "20041095636": ("50127060", "Prateek Giri"),
         "19923787876": ("181332418", "pritam Panigrahy"), # external non-club
-        "19184023245": ("158271875", "Atul Soni")        # external non-club
+        "19184023245": ("158271875", "Atul Soni"),        # external non-club
+        "20193831931": ("178453532", "Divyansh Singh")
     }
 
     with open(input_csv, "r", encoding="utf-8") as f:
@@ -108,6 +109,11 @@ def clean_and_filter_activities(
                 corrected_ownership += 1
                 row["athlete_id"] = true_aid
                 row["athlete_name"] = club_members.get(true_aid, true_name)
+
+        # Standardize athlete name from official club memberlist
+        curr_aid = str(row.get("athlete_id", "")).strip()
+        if curr_aid in club_members:
+            row["athlete_name"] = club_members[curr_aid]
 
         # 3. Fix sensor / watch-timer outliers and restore missing durations
         # Activity 20035504028: 2,025m swim left running for 35 hours
@@ -187,11 +193,14 @@ def clean_and_filter_activities(
     print(f"    - Watch timer outliers corrected: {fixed_timer_glitches}")
     print(f"    - Out-of-competition activities filtered: {filtered_out_of_window}")
 
+    # Apply cohort-wide dynamic scoring rules (cycling percentile + slow-MET weekly multiplier)
+    cleaned_activities = apply_dataset_scoring_rules(cleaned_activities)
+
     # Output to CSV destinations
     headers = [
         "activity_id", "athlete_id", "athlete_name", "activity_type",
         "datetime_utc", "distance_km", "duration_minutes", "points",
-        "pace", "is_indoor", "activity_url"
+        "points_dynamic", "points_legacy", "pace", "is_indoor", "activity_url"
     ]
 
 

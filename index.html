@@ -1138,6 +1138,7 @@
         <button id="tabBtnDynamic" class="schema-tab-btn active" onclick="switchSchemaTab('tabDynamic')">⚡ Dynamic MET Schema (Active)</button>
         <button id="tabBtnLegacy" class="schema-tab-btn" onclick="switchSchemaTab('tabLegacy')">🏛️ Legacy 2025 Schema</button>
         <button id="tabBtnSafeguards" class="schema-tab-btn" onclick="switchSchemaTab('tabSafeguards')">🛡️ Anti-Cheat & Safeguards</button>
+        <button id="tabBtnJustifications" class="schema-tab-btn" onclick="switchSchemaTab('tabJustifications')">⚖️ System Rationale & Justifications</button>
       </div>
 
       <!-- TAB 1: DYNAMIC MET SCHEMA -->
@@ -1208,8 +1209,87 @@
           </table>
         </div>
 
+        <!-- Slow-MET Weekly Frequency Escalator Card -->
+        <div class="formula-card" style="border-color: rgba(168, 85, 247, 0.35); background: rgba(168, 85, 247, 0.05); margin-top: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--accent-purple); text-transform:uppercase; letter-spacing:0.5px;">
+              🏋️ Slow-MET Consistency Escalator (Gym, Weights, Yoga, Workout)
+            </h3>
+            <span style="font-size:11px; background:rgba(168, 85, 247, 0.2); color:var(--accent-purple); padding:2px 8px; border-radius:10px; font-weight:700;">Habit & Dedication Multiplier</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
+            To welcome new participants and reward dedicated gym regulars, non-distance resistance and studio workouts receive an <strong>escalating weekly consistency multiplier</strong>. Running, swimming, cycling, and walking are strictly outside this system.
+          </p>
+
+          <table class="data-table" style="font-size:12px; margin-top:8px; margin-bottom:10px;">
+            <thead>
+              <tr>
+                <th>Active Gym Days in Week</th>
+                <th>Multiplier Tier</th>
+                <th>Effective Rate</th>
+                <th>60-Min Session</th>
+                <th>Weekly Cumulative (4x 60m)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Day 1</strong> (Introductory)</td>
+                <td><span style="font-weight:700; color:var(--text-muted);">1.00× (Base)</span></td>
+                <td>4.0 pts / min (240 /hr)</td>
+                <td>240 pts</td>
+                <td>240 pts</td>
+              </tr>
+              <tr>
+                <td><strong>Day 2</strong> (Committed)</td>
+                <td><span style="font-weight:700; color:var(--accent-blue);">1.25× (+25%)</span></td>
+                <td>5.0 pts / min (300 /hr)</td>
+                <td>300 pts</td>
+                <td>540 pts</td>
+              </tr>
+              <tr>
+                <td><strong>Day 3</strong> (Consistent Regular)</td>
+                <td><span style="font-weight:700; color:var(--accent-green);">1.50× (+50%)</span></td>
+                <td>6.0 pts / min (360 /hr)</td>
+                <td>360 pts</td>
+                <td>900 pts</td>
+              </tr>
+              <tr>
+                <td><strong>Day 4+</strong> (Iron Discipline)</td>
+                <td><span style="font-weight:700; color:var(--gold);">1.75× (+75%)</span></td>
+                <td>7.0 pts / min (420 /hr)</td>
+                <td>420 pts</td>
+                <td><strong>1,320 pts</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="font-size:11.5px; color:var(--text-dim); line-height:1.4;">
+            🛡️ <em>Integrity Controls:</em> Qualifying session threshold is &ge; 25 minutes moving time. At most <strong>1 credit per calendar day</strong> increments the weekly tier (multiple sessions on the same day receive points at that day's tier but do not double-advance the streak).
+          </div>
+        </div>
+
+        <!-- Cyclist Cohort Percentile Card -->
+        <div class="formula-card" style="border-color: rgba(56, 189, 248, 0.35); background: rgba(56, 189, 248, 0.05); margin-top: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--accent-blue); text-transform:uppercase; letter-spacing:0.5px;">
+              🚴 Outdoor Cycling Percentile Engine (Commute Normalization)
+            </h3>
+            <span style="font-size:11px; background:rgba(56, 189, 248, 0.2); color:var(--accent-blue); padding:2px 8px; border-radius:10px; font-weight:700;">Cohort Empirical CDF</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
+            Because mechanical gear ratios allow casual 5 km bike commutes to effortlessly rack up points, total cycling score is normalized by placing cumulative distance on the <strong>empirical percentile rank (P) of all club cyclists</strong> (derived from 213+ historical and current rides).
+          </p>
+
+          <div class="formula-box">
+            <div><strong>1. 100th Percentile Ceiling:</strong> <code>Ceiling = 25.0 pts/km × Max All-Time Cyclist km (335.80) × Factor (0.10) = 839.5 pts</code></div>
+            <div><strong>2. Empirical Percentile:</strong> <code>P = (Rank in All-Time Cyclist Cohort / N) × 100%</code></div>
+            <div><strong>3. Cycling Score:</strong> <code>Total Cycling Pts = min(Distance × 25.0, Ceiling × P)</code></div>
+            <div><strong>4. Per-Ride Allocation:</strong> Apportioned proportionally by distance: <code>Ride Pts = Ride Distance × (Total Cycling Pts / Total Distance)</code></div>
+          </div>
+        </div>
+
         <!-- All Sports Table -->
-        <div style="margin-bottom:20px;">
+        <div style="margin-bottom:20px; margin-top: 14px;">
           <h3 style="font-family:'Outfit', sans-serif; font-size:14px; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">
             Cross-Sport Caloric Effort Ratios
           </h3>
@@ -1218,7 +1298,7 @@
               <tr>
                 <th>Sport</th>
                 <th>Unit / Basis</th>
-                <th>Multiplier</th>
+                <th>Multiplier / Scoring</th>
                 <th>Equivalence / Rationale</th>
               </tr>
             </thead>
@@ -1232,8 +1312,8 @@
               <tr>
                 <td><span style="font-weight:600;">🚴 Outdoor Cycling</span></td>
                 <td>Distance (GPS)</td>
-                <td style="color:var(--accent-blue); font-weight:700;">25 pts / km</td>
-                <td>20 km cycling = 500 pts (~equivalent caloric burn to 5 km run)</td>
+                <td style="color:var(--accent-blue); font-weight:700;">Cohort Percentile (P)</td>
+                <td>Ceiling = 839.5 pts. Commute rides normalized; long endurance rides honored.</td>
               </tr>
               <tr>
                 <td>
@@ -1245,15 +1325,15 @@
                 <td>Stationary cardio effort without GPS distance</td>
               </tr>
               <tr>
-                <td><span style="font-weight:600;">🏋️ Weight Training / Gym / Workout</span></td>
+                <td><span style="font-weight:600;">🏋️ Weight Training / Gym / Workout / Yoga</span></td>
                 <td>Duration (Time)</td>
-                <td style="color:var(--accent-purple); font-weight:700;">4 pts / min (240 /hr)</td>
-                <td>Cardio & resistance session calibrated to active MET burn</td>
+                <td style="color:var(--accent-purple); font-weight:700;">4 – 7 pts / min (240 – 420 /hr)</td>
+                <td>Cardio & resistance session with escalating weekly consistency multiplier (1.0x &rarr; 1.75x)</td>
               </tr>
               <tr>
                 <td><span style="font-weight:600;">🏊 Swimming</span></td>
-                <td>Duration (Time)</td>
-                <td style="color:var(--accent-blue); font-weight:700;">5 pts / min (300 /hr)</td>
+                <td>Duration or Pace (100m)</td>
+                <td style="color:var(--accent-blue); font-weight:700;">5 pts / min or 250 – 450 pts / km</td>
                 <td>High-MET dense full-body cardiovascular workout</td>
               </tr>
             </tbody>
@@ -1359,6 +1439,70 @@
         </div>
       </div>
 
+      <!-- TAB 4: JUSTIFICATIONS & RATIONALE -->
+      <div id="tabJustifications" class="schema-tab-pane">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          
+          <!-- Justification 1: Slow-MET Consistency -->
+          <div class="formula-card" style="border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🏋️</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--accent-purple); margin:0;">
+                  Why Gym & Slow-MET Activities Receive a Weekly Consistency Escalator
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Addressing the Resistance Training Dilemma & Onboarding Fairness</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <strong style="color:#fff;">1. The Problem with Raw Duration in Strength Training:</strong><br>
+                Resistance training, HIIT, and gym workouts impose intense physiological and muscular strain, but yield zero GPS distance. Under a flat duration rate of 240 pts/hr, an intense 60-minute weight session yielded only 240 points—barely more than a quick 20-minute casual bike ride or a short jog. This created a severe onboarding barrier for non-runners and penalized athletes whose primary fitness journey is strength-focused.
+              </div>
+              <div>
+                <strong style="color:#fff;">2. Physiological Adaptation through Habitual Regularity:</strong><br>
+                Unlike running where score grows with distance, resistance training adaptations (muscle hypertrophy, neuromuscular recruitment, metabolic conditioning) depend critically on <em>weekly regularity</em> (3 to 5 sessions per week). By introducing an escalating weekly frequency multiplier (1.00&times; &rarr; 1.25&times; &rarr; 1.50&times; &rarr; 1.75&times;), the system directly rewards dedication, discipline, and habit formation, allowing a committed 4-day-per-week gym athlete to earn 1,320 points and remain competitive with 5K/10K base runners.
+              </div>
+              <div>
+                <strong style="color:#fff;">3. Why Running, Swimming, and Cycling are Excluded:</strong><br>
+                Running, swimming, and cycling already possess continuous physical speed and distance equations where effort is organically captured per kilometer. Layering consistency bonuses on top of high-MET cardio would lead to exponential score runaway, destroying cross-sport parity.
+              </div>
+            </div>
+          </div>
+
+          <!-- Justification 2: Cycling Percentile -->
+          <div class="formula-card" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🚴</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--accent-blue); margin:0;">
+                  Why Cycling Uses an All-Time Cohort Percentile Ceiling
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Eliminating Commute Distortions While Honoring True Endurance Distance</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <strong style="color:#fff;">1. The Commute Inflation Distortion:</strong><br>
+                Bicycles are mechanically geared vehicles with rolling friction coefficients under 0.005. A relaxed 5 km commute requires negligible metabolic exertion (~20 minutes of leisurely spinning), yet at a flat 25 pts/km, it yielded 125&ndash;150 points. A few daily errands effortlessly outscored grueling 60-minute workouts or 5 km runs. Conversely, massive 70&ndash;100 km weekend rides generated 1,700&ndash;2,500+ points in a single morning, overpowering the entire multi-sport leaderboard.
+              </div>
+              <div>
+                <strong style="color:#fff;">2. Real Community Empirical Benchmark:</strong><br>
+                Rather than inventing an arbitrary flat distance cap, our pipeline analyzed the club's all-time historical archive of <strong>213 rides and 15+ cyclists</strong>. In this community, the median ride is 3.1 km, and the 75th percentile is 5.1 km. By grounding the percentile rank in this empirical cohort, the system accurately distinguishes between everyday utility commutes and exceptional endurance cycling.
+              </div>
+              <div>
+                <strong style="color:#fff;">3. The 100th Percentile Ceiling Formula:</strong><br>
+                <code>Ceiling = 25.0 pts/km &times; Max All-Time Cyclist km (335.80) &times; Factor (0.10) = 839.5 pts</code><br>
+                An athlete's total cycling volume is scaled by their percentile position P, ensuring that routine 5 km commute rides stay in a balanced range (~80&ndash;95 pts) while an epic 70+ km ride is rewarded with a substantial score (~690 pts) without breaking the multi-sport competition.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <div style="text-align:right; border-top:1px solid var(--card-border); padding-top:14px;">
         <button class="btn btn-orange" onclick="closeSchemaModal()" style="padding:7px 20px; font-size:12px;">Close</button>
       </div>
@@ -1369,14 +1513,14 @@
   <script id="fallback-data" type="application/json">
 {
   "summary": {
-    "total_athletes": 18,
-    "total_activities": 90,
-    "total_distance_km": 440.22,
-    "total_duration_hours": 64.1,
-    "total_points": 36589.41,
-    "total_points_dynamic": 36589.41,
-    "total_points_legacy": 52786.6,
-    "last_updated": "2026-09-16T02:05:21.986943+00:00"
+    "total_athletes": 17,
+    "total_activities": 92,
+    "total_distance_km": 449.36,
+    "total_duration_hours": 65.4,
+    "total_points": 35937.07,
+    "total_points_dynamic": 35937.07,
+    "total_points_legacy": 53437.2,
+    "last_updated": "2026-09-16T11:19:43.891702+00:00"
   },
   "athletes": [
     {
@@ -1386,8 +1530,8 @@
       "unique_types": 4,
       "total_distance_km": 152.63,
       "total_duration_minutes": 1259.1,
-      "total_points": 12360.29,
-      "total_points_dynamic": 12360.29,
+      "total_points": 11406.17,
+      "total_points_dynamic": 11406.17,
       "total_points_legacy": 18027.3,
       "rank_legacy": 1,
       "rank": 1,
@@ -1430,14 +1574,14 @@
       "radar_metrics": {
         "distance": 31.0,
         "duration": 23.9,
-        "points": 34.9,
+        "points": 37.8,
         "frequency": 25.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 31.0,
         "duration": 23.9,
-        "points": 34.9,
+        "points": 37.8,
         "frequency": 25.0,
         "diversity": 25.0
       },
@@ -1465,14 +1609,14 @@
       "radar_metrics": {
         "distance": 29.4,
         "duration": 28.4,
-        "points": 31.2,
+        "points": 33.8,
         "frequency": 35.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 29.4,
         "duration": 28.4,
-        "points": 31.2,
+        "points": 33.8,
         "frequency": 35.0,
         "diversity": 25.0
       },
@@ -1487,35 +1631,35 @@
     {
       "athlete_id": "127833753",
       "athlete_name": "krishna A",
-      "total_activities": 4,
+      "total_activities": 5,
       "unique_types": 3,
-      "total_distance_km": 34.64,
-      "total_duration_minutes": 171.21,
-      "total_points": 3078.61,
-      "total_points_dynamic": 3078.61,
-      "total_points_legacy": 3752.6,
+      "total_distance_km": 39.03,
+      "total_duration_minutes": 190.53,
+      "total_points": 3166.38,
+      "total_points_dynamic": 3166.38,
+      "total_points_legacy": 3928.2,
       "rank_legacy": 6,
       "rank": 4,
       "rank_dynamic": 4,
       "radar_metrics": {
-        "distance": 22.7,
-        "duration": 13.6,
-        "points": 24.9,
-        "frequency": 20.0,
+        "distance": 25.6,
+        "duration": 15.1,
+        "points": 27.8,
+        "frequency": 25.0,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
-        "distance": 22.7,
-        "duration": 13.6,
-        "points": 24.9,
-        "frequency": 20.0,
+        "distance": 25.6,
+        "duration": 15.1,
+        "points": 27.8,
+        "frequency": 25.0,
         "diversity": 75.0
       },
       "radar_metrics_legacy": {
-        "distance": 22.7,
-        "duration": 13.6,
-        "points": 20.8,
-        "frequency": 20.0,
+        "distance": 25.6,
+        "duration": 15.1,
+        "points": 21.8,
+        "frequency": 25.0,
         "diversity": 75.0
       }
     },
@@ -1529,20 +1673,20 @@
       "total_points": 2906.04,
       "total_points_dynamic": 2906.04,
       "total_points_legacy": 3872.0,
-      "rank_legacy": 5,
+      "rank_legacy": 7,
       "rank": 5,
       "rank_dynamic": 5,
       "radar_metrics": {
         "distance": 25.4,
         "duration": 31.7,
-        "points": 23.5,
+        "points": 25.5,
         "frequency": 80.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 25.4,
         "duration": 31.7,
-        "points": 23.5,
+        "points": 25.5,
         "frequency": 80.0,
         "diversity": 25.0
       },
@@ -1570,14 +1714,14 @@
       "radar_metrics": {
         "distance": 20.7,
         "duration": 32.0,
-        "points": 20.7,
+        "points": 22.4,
         "frequency": 60.0,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
         "distance": 20.7,
         "duration": 32.0,
-        "points": 20.7,
+        "points": 22.4,
         "frequency": 60.0,
         "diversity": 75.0
       },
@@ -1591,36 +1735,36 @@
     },
     {
       "athlete_id": "178453532",
-      "athlete_name": "Divyansh",
-      "total_activities": 8,
+      "athlete_name": "Divyansh Singh",
+      "total_activities": 9,
       "unique_types": 3,
       "total_distance_km": 12.13,
-      "total_duration_minutes": 372.34,
-      "total_points": 1865.95,
-      "total_points_dynamic": 1865.95,
-      "total_points_legacy": 3643.0,
-      "rank_legacy": 7,
+      "total_duration_minutes": 409.34,
+      "total_points": 2101.95,
+      "total_points_dynamic": 2101.95,
+      "total_points_legacy": 4013.0,
+      "rank_legacy": 5,
       "rank": 7,
       "rank_dynamic": 7,
       "radar_metrics": {
         "distance": 7.9,
-        "duration": 29.6,
-        "points": 15.1,
-        "frequency": 40.0,
+        "duration": 32.5,
+        "points": 18.4,
+        "frequency": 45.0,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
         "distance": 7.9,
-        "duration": 29.6,
-        "points": 15.1,
-        "frequency": 40.0,
+        "duration": 32.5,
+        "points": 18.4,
+        "frequency": 45.0,
         "diversity": 75.0
       },
       "radar_metrics_legacy": {
         "distance": 7.9,
-        "duration": 29.6,
-        "points": 20.2,
-        "frequency": 40.0,
+        "duration": 32.5,
+        "points": 22.3,
+        "frequency": 45.0,
         "diversity": 75.0
       }
     },
@@ -1640,14 +1784,14 @@
       "radar_metrics": {
         "distance": 10.0,
         "duration": 8.2,
-        "points": 10.9,
+        "points": 11.8,
         "frequency": 10.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 10.0,
         "duration": 8.2,
-        "points": 10.9,
+        "points": 11.8,
         "frequency": 10.0,
         "diversity": 25.0
       },
@@ -1675,14 +1819,14 @@
       "radar_metrics": {
         "distance": 9.8,
         "duration": 8.8,
-        "points": 10.4,
+        "points": 11.3,
         "frequency": 5.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 9.8,
         "duration": 8.8,
-        "points": 10.4,
+        "points": 11.3,
         "frequency": 5.0,
         "diversity": 25.0
       },
@@ -1710,14 +1854,14 @@
       "radar_metrics": {
         "distance": 6.7,
         "duration": 5.4,
-        "points": 7.3,
+        "points": 8.0,
         "frequency": 5.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 6.7,
         "duration": 5.4,
-        "points": 7.3,
+        "points": 8.0,
         "frequency": 5.0,
         "diversity": 25.0
       },
@@ -1730,37 +1874,37 @@
       }
     },
     {
-      "athlete_id": "195109124",
-      "athlete_name": "Raghav N",
-      "total_activities": 4,
+      "athlete_id": "177796904",
+      "athlete_name": "Pradyumna Pandey",
+      "total_activities": 3,
       "unique_types": 1,
-      "total_distance_km": 22.13,
-      "total_duration_minutes": 83.97,
-      "total_points": 553.25,
-      "total_points_dynamic": 553.25,
-      "total_points_legacy": 885.2,
-      "rank_legacy": 11,
+      "total_distance_km": 7.54,
+      "total_duration_minutes": 84.65,
+      "total_points": 543.63,
+      "total_points_dynamic": 543.63,
+      "total_points_legacy": 754.0,
+      "rank_legacy": 12,
       "rank": 11,
       "rank_dynamic": 11,
       "radar_metrics": {
-        "distance": 14.5,
+        "distance": 4.9,
         "duration": 6.7,
-        "points": 4.5,
-        "frequency": 20.0,
+        "points": 4.8,
+        "frequency": 15.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
-        "distance": 14.5,
+        "distance": 4.9,
         "duration": 6.7,
-        "points": 4.5,
-        "frequency": 20.0,
+        "points": 4.8,
+        "frequency": 15.0,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
-        "distance": 14.5,
+        "distance": 4.9,
         "duration": 6.7,
-        "points": 4.9,
-        "frequency": 20.0,
+        "points": 4.2,
+        "frequency": 15.0,
         "diversity": 25.0
       }
     },
@@ -1774,20 +1918,20 @@
       "total_points": 505.49,
       "total_points_dynamic": 505.49,
       "total_points_legacy": 650.4,
-      "rank_legacy": 12,
+      "rank_legacy": 13,
       "rank": 12,
       "rank_dynamic": 12,
       "radar_metrics": {
         "distance": 3.6,
         "duration": 2.7,
-        "points": 4.1,
+        "points": 4.4,
         "frequency": 15.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 3.6,
         "duration": 2.7,
-        "points": 4.1,
+        "points": 4.4,
         "frequency": 15.0,
         "diversity": 25.0
       },
@@ -1796,6 +1940,41 @@
         "duration": 2.7,
         "points": 3.6,
         "frequency": 15.0,
+        "diversity": 25.0
+      }
+    },
+    {
+      "athlete_id": "195109124",
+      "athlete_name": "Raghav N",
+      "total_activities": 4,
+      "unique_types": 1,
+      "total_distance_km": 22.13,
+      "total_duration_minutes": 83.97,
+      "total_points": 345.68,
+      "total_points_dynamic": 345.68,
+      "total_points_legacy": 885.2,
+      "rank_legacy": 11,
+      "rank": 13,
+      "rank_dynamic": 13,
+      "radar_metrics": {
+        "distance": 14.5,
+        "duration": 6.7,
+        "points": 3.0,
+        "frequency": 20.0,
+        "diversity": 25.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 14.5,
+        "duration": 6.7,
+        "points": 3.0,
+        "frequency": 20.0,
+        "diversity": 25.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 14.5,
+        "duration": 6.7,
+        "points": 4.9,
+        "frequency": 20.0,
         "diversity": 25.0
       }
     },
@@ -1809,20 +1988,20 @@
       "total_points": 297.89,
       "total_points_dynamic": 297.89,
       "total_points_legacy": 445.2,
-      "rank_legacy": 13,
-      "rank": 13,
-      "rank_dynamic": 13,
+      "rank_legacy": 14,
+      "rank": 14,
+      "rank_dynamic": 14,
       "radar_metrics": {
         "distance": 2.4,
         "duration": 2.5,
-        "points": 2.4,
+        "points": 2.6,
         "frequency": 5.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 2.4,
         "duration": 2.5,
-        "points": 2.4,
+        "points": 2.6,
         "frequency": 5.0,
         "diversity": 25.0
       },
@@ -1831,41 +2010,6 @@
         "duration": 2.5,
         "points": 2.5,
         "frequency": 5.0,
-        "diversity": 25.0
-      }
-    },
-    {
-      "athlete_id": "177796904",
-      "athlete_name": "Pradyumna Pandey",
-      "total_activities": 2,
-      "unique_types": 1,
-      "total_distance_km": 2.79,
-      "total_duration_minutes": 26.65,
-      "total_points": 210.05,
-      "total_points_dynamic": 210.05,
-      "total_points_legacy": 279.0,
-      "rank_legacy": 16,
-      "rank": 14,
-      "rank_dynamic": 14,
-      "radar_metrics": {
-        "distance": 1.8,
-        "duration": 2.1,
-        "points": 1.7,
-        "frequency": 10.0,
-        "diversity": 25.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 1.8,
-        "duration": 2.1,
-        "points": 1.7,
-        "frequency": 10.0,
-        "diversity": 25.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 1.8,
-        "duration": 2.1,
-        "points": 1.5,
-        "frequency": 10.0,
         "diversity": 25.0
       }
     },
@@ -1879,20 +2023,20 @@
       "total_points": 150.2,
       "total_points_dynamic": 150.2,
       "total_points_legacy": 375.5,
-      "rank_legacy": 14,
+      "rank_legacy": 15,
       "rank": 15,
       "rank_dynamic": 15,
       "radar_metrics": {
         "distance": 0.0,
         "duration": 3.0,
-        "points": 1.2,
+        "points": 1.3,
         "frequency": 5.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 0.0,
         "duration": 3.0,
-        "points": 1.2,
+        "points": 1.3,
         "frequency": 5.0,
         "diversity": 25.0
       },
@@ -1914,20 +2058,20 @@
       "total_points": 148.96,
       "total_points_dynamic": 148.96,
       "total_points_legacy": 215.0,
-      "rank_legacy": 17,
+      "rank_legacy": 16,
       "rank": 16,
       "rank_dynamic": 16,
       "radar_metrics": {
         "distance": 1.4,
         "duration": 2.0,
-        "points": 1.2,
+        "points": 1.3,
         "frequency": 5.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.4,
         "duration": 2.0,
-        "points": 1.2,
+        "points": 1.3,
         "frequency": 5.0,
         "diversity": 25.0
       },
@@ -1935,41 +2079,6 @@
         "distance": 1.4,
         "duration": 2.0,
         "points": 1.2,
-        "frequency": 5.0,
-        "diversity": 25.0
-      }
-    },
-    {
-      "athlete_id": "180573762",
-      "athlete_name": "Abhidi Gupta",
-      "total_activities": 1,
-      "unique_types": 1,
-      "total_distance_km": 0.0,
-      "total_duration_minutes": 37.0,
-      "total_points": 148.0,
-      "total_points_dynamic": 148.0,
-      "total_points_legacy": 370.0,
-      "rank_legacy": 15,
-      "rank": 17,
-      "rank_dynamic": 17,
-      "radar_metrics": {
-        "distance": 0.0,
-        "duration": 2.9,
-        "points": 1.2,
-        "frequency": 5.0,
-        "diversity": 25.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 0.0,
-        "duration": 2.9,
-        "points": 1.2,
-        "frequency": 5.0,
-        "diversity": 25.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 0.0,
-        "duration": 2.9,
-        "points": 2.1,
         "frequency": 5.0,
         "diversity": 25.0
       }
@@ -1984,20 +2093,20 @@
       "total_points": 98.51,
       "total_points_dynamic": 98.51,
       "total_points_legacy": 163.0,
-      "rank_legacy": 18,
-      "rank": 18,
-      "rank_dynamic": 18,
+      "rank_legacy": 17,
+      "rank": 17,
+      "rank_dynamic": 17,
       "radar_metrics": {
         "distance": 1.1,
         "duration": 2.0,
-        "points": 0.8,
+        "points": 0.9,
         "frequency": 5.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.1,
         "duration": 2.0,
-        "points": 0.8,
+        "points": 0.9,
         "frequency": 5.0,
         "diversity": 25.0
       },
@@ -2022,29 +2131,29 @@
     },
     {
       "activity_type": "Walk",
-      "count": 30,
-      "total_distance_km": 69.21,
-      "total_duration_minutes": 768.34,
-      "total_points": 5089.11,
-      "total_points_dynamic": 5089.11,
-      "total_points_legacy": 6921.0
+      "count": 31,
+      "total_distance_km": 73.96,
+      "total_duration_minutes": 826.34,
+      "total_points": 5422.69,
+      "total_points_dynamic": 5422.69,
+      "total_points_legacy": 7396.0
     },
     {
       "activity_type": "Ride",
-      "count": 9,
-      "total_distance_km": 98.34,
-      "total_duration_minutes": 426.06,
-      "total_points": 2999.18,
-      "total_points_dynamic": 2999.18,
-      "total_points_legacy": 5285.3
+      "count": 10,
+      "total_distance_km": 102.73,
+      "total_duration_minutes": 445.38,
+      "total_points": 1775.23,
+      "total_points_dynamic": 1775.23,
+      "total_points_legacy": 5460.9
     },
     {
       "activity_type": "Weight Training",
       "count": 7,
       "total_distance_km": 0.0,
       "total_duration_minutes": 376.74,
-      "total_points": 1506.96,
-      "total_points_dynamic": 1506.96,
+      "total_points": 1656.99,
+      "total_points_dynamic": 1656.99,
       "total_points_legacy": 3767.4
     },
     {
@@ -2061,8 +2170,8 @@
       "count": 6,
       "total_distance_km": 2.01,
       "total_duration_minutes": 255.0,
-      "total_points": 1020.0,
-      "total_points_dynamic": 1020.0,
+      "total_points": 1108.0,
+      "total_points_dynamic": 1108.0,
       "total_points_legacy": 2550.0
     }
   ],
@@ -2077,12 +2186,13 @@
       "datetime_display": "Sep 09, 2026 08:26 PM",
       "distance_km": 0.0,
       "duration_minutes": 80.13,
-      "points": 320.52,
-      "points_dynamic": 320.52,
+      "points": 400.65,
+      "points_dynamic": 400.65,
       "points_legacy": 801.3,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20104845001"
+      "activity_url": "https://www.strava.com/activities/20104845001",
+      "slow_met_multiplier": 1.25
     },
     {
       "activity_id": "20089775001",
@@ -2116,7 +2226,8 @@
       "points_legacy": 618.3,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20075160304"
+      "activity_url": "https://www.strava.com/activities/20075160304",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20063446016",
@@ -2252,7 +2363,8 @@
       "points_legacy": 552.8,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20007260008"
+      "activity_url": "https://www.strava.com/activities/20007260008",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "19992533672",
@@ -2291,7 +2403,7 @@
     {
       "activity_id": "20103416049",
       "athlete_id": "178453532",
-      "athlete_name": "Divyansh",
+      "athlete_name": "Divyansh Singh",
       "activity_type": "Workout",
       "datetime_utc": "7:05 PM on Wednesday, September 9, 2026",
       "datetime_iso": "2026-09-09T19:05:00",
@@ -2303,12 +2415,13 @@
       "points_legacy": 470.0,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20103416049"
+      "activity_url": "https://www.strava.com/activities/20103416049",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20103404501",
       "athlete_id": "178453532",
-      "athlete_name": "Divyansh",
+      "athlete_name": "Divyansh Singh",
       "activity_type": "Weight Training",
       "datetime_utc": "6:41 PM on Wednesday, September 9, 2026",
       "datetime_iso": "2026-09-09T18:41:00",
@@ -2320,12 +2433,13 @@
       "points_legacy": 700.0,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20103404501"
+      "activity_url": "https://www.strava.com/activities/20103404501",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20103393824",
       "athlete_id": "178453532",
-      "athlete_name": "Divyansh",
+      "athlete_name": "Divyansh Singh",
       "activity_type": "Walk",
       "datetime_utc": "6:30 PM on Wednesday, September 9, 2026",
       "datetime_iso": "2026-09-09T18:30:00",
@@ -2371,7 +2485,8 @@
       "points_legacy": 375.5,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/19984248109"
+      "activity_url": "https://www.strava.com/activities/19984248109",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20082611772",
@@ -2553,12 +2668,13 @@
       "datetime_display": "Sep 10, 2026 06:00 PM",
       "distance_km": 0.0,
       "duration_minutes": 88.0,
-      "points": 352.0,
-      "points_dynamic": 352.0,
+      "points": 440.0,
+      "points_dynamic": 440.0,
       "points_legacy": 880.0,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20120497973"
+      "activity_url": "https://www.strava.com/activities/20120497973",
+      "slow_met_multiplier": 1.25
     },
     {
       "activity_id": "20120485588",
@@ -2638,12 +2754,13 @@
       "datetime_display": "Sep 11, 2026 07:35 PM",
       "distance_km": 0.0,
       "duration_minutes": 34.95,
-      "points": 139.8,
-      "points_dynamic": 139.8,
+      "points": 209.7,
+      "points_dynamic": 209.7,
       "points_legacy": 349.5,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20131028788"
+      "activity_url": "https://www.strava.com/activities/20131028788",
+      "slow_met_multiplier": 1.5
     },
     {
       "activity_id": "20130930805",
@@ -2689,12 +2806,14 @@
       "datetime_display": "Sep 12, 2026 06:01 AM",
       "distance_km": 71.82,
       "duration_minutes": 190.67,
-      "points": 1795.5,
-      "points_dynamic": 1795.5,
+      "points": 691.35,
+      "points_dynamic": 691.35,
       "points_legacy": 2872.8,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20138339705"
+      "activity_url": "https://www.strava.com/activities/20138339705",
+      "cycling_percentile": 82.4,
+      "cycling_effective_rate": 9.6261
     },
     {
       "activity_id": "20146336416",
@@ -3216,12 +3335,14 @@
       "datetime_display": "Sep 05, 2026",
       "distance_km": 5.14,
       "duration_minutes": 21.0,
-      "points": 128.5,
-      "points_dynamic": 128.5,
+      "points": 80.29,
+      "points_dynamic": 80.29,
       "points_legacy": 205.6,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041175499"
+      "activity_url": "https://www.strava.com/activities/20041175499",
+      "cycling_percentile": 41.2,
+      "cycling_effective_rate": 15.6204
     },
     {
       "activity_id": "20041076722",
@@ -3233,12 +3354,14 @@
       "datetime_display": "Sep 05, 2026",
       "distance_km": 5.06,
       "duration_minutes": 20.08,
-      "points": 126.5,
-      "points_dynamic": 126.5,
+      "points": 79.04,
+      "points_dynamic": 79.04,
       "points_legacy": 202.4,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041076722"
+      "activity_url": "https://www.strava.com/activities/20041076722",
+      "cycling_percentile": 41.2,
+      "cycling_effective_rate": 15.6204
     },
     {
       "activity_id": "20165741571",
@@ -3306,12 +3429,13 @@
       "points_legacy": 380.0,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20180093723"
+      "activity_url": "https://www.strava.com/activities/20180093723",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20193831931",
-      "athlete_id": "180573762",
-      "athlete_name": "Abhidi Gupta",
+      "athlete_id": "178453532",
+      "athlete_name": "Divyansh Singh",
       "activity_type": "Weight Training",
       "datetime_utc": "7:30 PM on Tuesday, September 15, 2026",
       "datetime_iso": "2026-09-15T19:30:00",
@@ -3323,7 +3447,8 @@
       "points_legacy": 370.0,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20193831931"
+      "activity_url": "https://www.strava.com/activities/20193831931",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20188308205",
@@ -3357,7 +3482,8 @@
       "points_legacy": 182.3,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20180182656"
+      "activity_url": "https://www.strava.com/activities/20180182656",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20180182654",
@@ -3374,7 +3500,8 @@
       "points_legacy": 456.7,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20180182654"
+      "activity_url": "https://www.strava.com/activities/20180182654",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20180182620",
@@ -3391,7 +3518,8 @@
       "points_legacy": 181.0,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20180182620"
+      "activity_url": "https://www.strava.com/activities/20180182620",
+      "slow_met_multiplier": 1.0
     },
     {
       "activity_id": "20184869136",
@@ -3403,12 +3531,14 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 4.39,
       "duration_minutes": 16.25,
-      "points": 109.75,
-      "points_dynamic": 109.75,
+      "points": 98.76,
+      "points_dynamic": 98.76,
       "points_legacy": 175.6,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20184869136"
+      "activity_url": "https://www.strava.com/activities/20184869136",
+      "cycling_percentile": 23.5,
+      "cycling_effective_rate": 22.4977
     },
     {
       "activity_id": "20183441925",
@@ -3522,12 +3652,14 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 5.97,
       "duration_minutes": 22.07,
-      "points": 149.25,
-      "points_dynamic": 149.25,
+      "points": 93.25,
+      "points_dynamic": 93.25,
       "points_legacy": 238.8,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20184924038"
+      "activity_url": "https://www.strava.com/activities/20184924038",
+      "cycling_percentile": 41.2,
+      "cycling_effective_rate": 15.6204
     },
     {
       "activity_id": "20179711836",
@@ -3539,12 +3671,14 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 5.96,
       "duration_minutes": 20.82,
-      "points": 149.0,
-      "points_dynamic": 149.0,
+      "points": 93.1,
+      "points_dynamic": 93.1,
       "points_legacy": 238.4,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20179711836"
+      "activity_url": "https://www.strava.com/activities/20179711836",
+      "cycling_percentile": 41.2,
+      "cycling_effective_rate": 15.6204
     },
     {
       "activity_id": "20193936385",
@@ -3596,6 +3730,42 @@
       "pace": "8:36 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20137875605"
+    },
+    {
+      "activity_id": "20195084866",
+      "athlete_id": "127833753",
+      "athlete_name": "krishna A",
+      "activity_type": "Ride",
+      "datetime_utc": "Wednesday, September 16, 2026",
+      "datetime_iso": "2026-09-16T00:00:00",
+      "datetime_display": "Sep 16, 2026",
+      "distance_km": 4.39,
+      "duration_minutes": 19.32,
+      "points": 98.76,
+      "points_dynamic": 98.76,
+      "points_legacy": 175.6,
+      "pace": "",
+      "is_indoor": false,
+      "activity_url": "",
+      "cycling_percentile": 23.5,
+      "cycling_effective_rate": 22.4977
+    },
+    {
+      "activity_id": "20195869125",
+      "athlete_id": "177796904",
+      "athlete_name": "Pradyumna Pandey",
+      "activity_type": "Walk",
+      "datetime_utc": "Wednesday, September 16, 2026",
+      "datetime_iso": "2026-09-16T00:00:00",
+      "datetime_display": "Sep 16, 2026",
+      "distance_km": 4.75,
+      "duration_minutes": 58.0,
+      "points": 333.58,
+      "points_dynamic": 333.58,
+      "points_legacy": 475.0,
+      "pace": "12:13 /km",
+      "is_indoor": false,
+      "activity_url": ""
     }
   ]
 }
@@ -3665,6 +3835,9 @@
       } else if (tabId === 'tabSafeguards') {
         document.getElementById('tabBtnSafeguards').classList.add('active');
         document.getElementById('tabSafeguards').classList.add('active');
+      } else if (tabId === 'tabJustifications') {
+        document.getElementById('tabBtnJustifications').classList.add('active');
+        document.getElementById('tabJustifications').classList.add('active');
       }
     }
 

@@ -1157,6 +1157,7 @@ html_template = '''<!DOCTYPE html>
         <button id="tabBtnDynamic" class="schema-tab-btn active" onclick="switchSchemaTab('tabDynamic')">⚡ Dynamic MET Schema (Active)</button>
         <button id="tabBtnLegacy" class="schema-tab-btn" onclick="switchSchemaTab('tabLegacy')">🏛️ Legacy 2025 Schema</button>
         <button id="tabBtnSafeguards" class="schema-tab-btn" onclick="switchSchemaTab('tabSafeguards')">🛡️ Anti-Cheat & Safeguards</button>
+        <button id="tabBtnJustifications" class="schema-tab-btn" onclick="switchSchemaTab('tabJustifications')">⚖️ System Rationale & Justifications</button>
       </div>
 
       <!-- TAB 1: DYNAMIC MET SCHEMA -->
@@ -1227,8 +1228,87 @@ html_template = '''<!DOCTYPE html>
           </table>
         </div>
 
+        <!-- Slow-MET Weekly Frequency Escalator Card -->
+        <div class="formula-card" style="border-color: rgba(168, 85, 247, 0.35); background: rgba(168, 85, 247, 0.05); margin-top: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--accent-purple); text-transform:uppercase; letter-spacing:0.5px;">
+              🏋️ Slow-MET Consistency Escalator (Gym, Weights, Yoga, Workout)
+            </h3>
+            <span style="font-size:11px; background:rgba(168, 85, 247, 0.2); color:var(--accent-purple); padding:2px 8px; border-radius:10px; font-weight:700;">Habit & Dedication Multiplier</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
+            To welcome new participants and reward dedicated gym regulars, non-distance resistance and studio workouts receive an <strong>escalating weekly consistency multiplier</strong>. Running, swimming, cycling, and walking are strictly outside this system.
+          </p>
+
+          <table class="data-table" style="font-size:12px; margin-top:8px; margin-bottom:10px;">
+            <thead>
+              <tr>
+                <th>Active Gym Days in Week</th>
+                <th>Multiplier Tier</th>
+                <th>Effective Rate</th>
+                <th>60-Min Session</th>
+                <th>Weekly Cumulative (4x 60m)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Day 1</strong> (Introductory)</td>
+                <td><span style="font-weight:700; color:var(--text-muted);">1.00× (Base)</span></td>
+                <td>4.0 pts / min (240 /hr)</td>
+                <td>240 pts</td>
+                <td>240 pts</td>
+              </tr>
+              <tr>
+                <td><strong>Day 2</strong> (Committed)</td>
+                <td><span style="font-weight:700; color:var(--accent-blue);">1.25× (+25%)</span></td>
+                <td>5.0 pts / min (300 /hr)</td>
+                <td>300 pts</td>
+                <td>540 pts</td>
+              </tr>
+              <tr>
+                <td><strong>Day 3</strong> (Consistent Regular)</td>
+                <td><span style="font-weight:700; color:var(--accent-green);">1.50× (+50%)</span></td>
+                <td>6.0 pts / min (360 /hr)</td>
+                <td>360 pts</td>
+                <td>900 pts</td>
+              </tr>
+              <tr>
+                <td><strong>Day 4+</strong> (Iron Discipline)</td>
+                <td><span style="font-weight:700; color:var(--gold);">1.75× (+75%)</span></td>
+                <td>7.0 pts / min (420 /hr)</td>
+                <td>420 pts</td>
+                <td><strong>1,320 pts</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="font-size:11.5px; color:var(--text-dim); line-height:1.4;">
+            🛡️ <em>Integrity Controls:</em> Qualifying session threshold is &ge; 25 minutes moving time. At most <strong>1 credit per calendar day</strong> increments the weekly tier (multiple sessions on the same day receive points at that day's tier but do not double-advance the streak).
+          </div>
+        </div>
+
+        <!-- Cyclist Cohort Percentile Card -->
+        <div class="formula-card" style="border-color: rgba(56, 189, 248, 0.35); background: rgba(56, 189, 248, 0.05); margin-top: 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--accent-blue); text-transform:uppercase; letter-spacing:0.5px;">
+              🚴 Outdoor Cycling Percentile Engine (Commute Normalization)
+            </h3>
+            <span style="font-size:11px; background:rgba(56, 189, 248, 0.2); color:var(--accent-blue); padding:2px 8px; border-radius:10px; font-weight:700;">Cohort Empirical CDF</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
+            Because mechanical gear ratios allow casual 5 km bike commutes to effortlessly rack up points, total cycling score is normalized by placing cumulative distance on the <strong>empirical percentile rank (P) of all club cyclists</strong> (derived from 213+ historical and current rides).
+          </p>
+
+          <div class="formula-box">
+            <div><strong>1. 100th Percentile Ceiling:</strong> <code>Ceiling = 25.0 pts/km × Max All-Time Cyclist km (335.80) × Factor (0.10) = 839.5 pts</code></div>
+            <div><strong>2. Empirical Percentile:</strong> <code>P = (Rank in All-Time Cyclist Cohort / N) × 100%</code></div>
+            <div><strong>3. Cycling Score:</strong> <code>Total Cycling Pts = min(Distance × 25.0, Ceiling × P)</code></div>
+            <div><strong>4. Per-Ride Allocation:</strong> Apportioned proportionally by distance: <code>Ride Pts = Ride Distance × (Total Cycling Pts / Total Distance)</code></div>
+          </div>
+        </div>
+
         <!-- All Sports Table -->
-        <div style="margin-bottom:20px;">
+        <div style="margin-bottom:20px; margin-top: 14px;">
           <h3 style="font-family:'Outfit', sans-serif; font-size:14px; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">
             Cross-Sport Caloric Effort Ratios
           </h3>
@@ -1237,7 +1317,7 @@ html_template = '''<!DOCTYPE html>
               <tr>
                 <th>Sport</th>
                 <th>Unit / Basis</th>
-                <th>Multiplier</th>
+                <th>Multiplier / Scoring</th>
                 <th>Equivalence / Rationale</th>
               </tr>
             </thead>
@@ -1251,8 +1331,8 @@ html_template = '''<!DOCTYPE html>
               <tr>
                 <td><span style="font-weight:600;">🚴 Outdoor Cycling</span></td>
                 <td>Distance (GPS)</td>
-                <td style="color:var(--accent-blue); font-weight:700;">25 pts / km</td>
-                <td>20 km cycling = 500 pts (~equivalent caloric burn to 5 km run)</td>
+                <td style="color:var(--accent-blue); font-weight:700;">Cohort Percentile (P)</td>
+                <td>Ceiling = 839.5 pts. Commute rides normalized; long endurance rides honored.</td>
               </tr>
               <tr>
                 <td>
@@ -1264,15 +1344,15 @@ html_template = '''<!DOCTYPE html>
                 <td>Stationary cardio effort without GPS distance</td>
               </tr>
               <tr>
-                <td><span style="font-weight:600;">🏋️ Weight Training / Gym / Workout</span></td>
+                <td><span style="font-weight:600;">🏋️ Weight Training / Gym / Workout / Yoga</span></td>
                 <td>Duration (Time)</td>
-                <td style="color:var(--accent-purple); font-weight:700;">4 pts / min (240 /hr)</td>
-                <td>Cardio & resistance session calibrated to active MET burn</td>
+                <td style="color:var(--accent-purple); font-weight:700;">4 – 7 pts / min (240 – 420 /hr)</td>
+                <td>Cardio & resistance session with escalating weekly consistency multiplier (1.0x &rarr; 1.75x)</td>
               </tr>
               <tr>
                 <td><span style="font-weight:600;">🏊 Swimming</span></td>
-                <td>Duration (Time)</td>
-                <td style="color:var(--accent-blue); font-weight:700;">5 pts / min (300 /hr)</td>
+                <td>Duration or Pace (100m)</td>
+                <td style="color:var(--accent-blue); font-weight:700;">5 pts / min or 250 – 450 pts / km</td>
                 <td>High-MET dense full-body cardiovascular workout</td>
               </tr>
             </tbody>
@@ -1378,6 +1458,70 @@ html_template = '''<!DOCTYPE html>
         </div>
       </div>
 
+      <!-- TAB 4: JUSTIFICATIONS & RATIONALE -->
+      <div id="tabJustifications" class="schema-tab-pane">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          
+          <!-- Justification 1: Slow-MET Consistency -->
+          <div class="formula-card" style="border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🏋️</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--accent-purple); margin:0;">
+                  Why Gym & Slow-MET Activities Receive a Weekly Consistency Escalator
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Addressing the Resistance Training Dilemma & Onboarding Fairness</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <strong style="color:#fff;">1. The Problem with Raw Duration in Strength Training:</strong><br>
+                Resistance training, HIIT, and gym workouts impose intense physiological and muscular strain, but yield zero GPS distance. Under a flat duration rate of 240 pts/hr, an intense 60-minute weight session yielded only 240 points—barely more than a quick 20-minute casual bike ride or a short jog. This created a severe onboarding barrier for non-runners and penalized athletes whose primary fitness journey is strength-focused.
+              </div>
+              <div>
+                <strong style="color:#fff;">2. Physiological Adaptation through Habitual Regularity:</strong><br>
+                Unlike running where score grows with distance, resistance training adaptations (muscle hypertrophy, neuromuscular recruitment, metabolic conditioning) depend critically on <em>weekly regularity</em> (3 to 5 sessions per week). By introducing an escalating weekly frequency multiplier (1.00&times; &rarr; 1.25&times; &rarr; 1.50&times; &rarr; 1.75&times;), the system directly rewards dedication, discipline, and habit formation, allowing a committed 4-day-per-week gym athlete to earn 1,320 points and remain competitive with 5K/10K base runners.
+              </div>
+              <div>
+                <strong style="color:#fff;">3. Why Running, Swimming, and Cycling are Excluded:</strong><br>
+                Running, swimming, and cycling already possess continuous physical speed and distance equations where effort is organically captured per kilometer. Layering consistency bonuses on top of high-MET cardio would lead to exponential score runaway, destroying cross-sport parity.
+              </div>
+            </div>
+          </div>
+
+          <!-- Justification 2: Cycling Percentile -->
+          <div class="formula-card" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🚴</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--accent-blue); margin:0;">
+                  Why Cycling Uses an All-Time Cohort Percentile Ceiling
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Eliminating Commute Distortions While Honoring True Endurance Distance</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <strong style="color:#fff;">1. The Commute Inflation Distortion:</strong><br>
+                Bicycles are mechanically geared vehicles with rolling friction coefficients under 0.005. A relaxed 5 km commute requires negligible metabolic exertion (~20 minutes of leisurely spinning), yet at a flat 25 pts/km, it yielded 125&ndash;150 points. A few daily errands effortlessly outscored grueling 60-minute workouts or 5 km runs. Conversely, massive 70&ndash;100 km weekend rides generated 1,700&ndash;2,500+ points in a single morning, overpowering the entire multi-sport leaderboard.
+              </div>
+              <div>
+                <strong style="color:#fff;">2. Real Community Empirical Benchmark:</strong><br>
+                Rather than inventing an arbitrary flat distance cap, our pipeline analyzed the club's all-time historical archive of <strong>213 rides and 15+ cyclists</strong>. In this community, the median ride is 3.1 km, and the 75th percentile is 5.1 km. By grounding the percentile rank in this empirical cohort, the system accurately distinguishes between everyday utility commutes and exceptional endurance cycling.
+              </div>
+              <div>
+                <strong style="color:#fff;">3. The 100th Percentile Ceiling Formula:</strong><br>
+                <code>Ceiling = 25.0 pts/km &times; Max All-Time Cyclist km (335.80) &times; Factor (0.10) = 839.5 pts</code><br>
+                An athlete's total cycling volume is scaled by their percentile position P, ensuring that routine 5 km commute rides stay in a balanced range (~80&ndash;95 pts) while an epic 70+ km ride is rewarded with a substantial score (~690 pts) without breaking the multi-sport competition.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <div style="text-align:right; border-top:1px solid var(--card-border); padding-top:14px;">
         <button class="btn btn-orange" onclick="closeSchemaModal()" style="padding:7px 20px; font-size:12px;">Close</button>
       </div>
@@ -1453,6 +1597,9 @@ html_template = '''<!DOCTYPE html>
       } else if (tabId === 'tabSafeguards') {
         document.getElementById('tabBtnSafeguards').classList.add('active');
         document.getElementById('tabSafeguards').classList.add('active');
+      } else if (tabId === 'tabJustifications') {
+        document.getElementById('tabBtnJustifications').classList.add('active');
+        document.getElementById('tabJustifications').classList.add('active');
       }
     }
 

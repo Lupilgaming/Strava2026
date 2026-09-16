@@ -1,5 +1,6 @@
+import os
 import re
-from typing import Any
+from typing import Any, Tuple, List, Dict, Optional
 
 def convert_distance_to_km(distance_str: Any) -> float:
     if not distance_str:
@@ -142,9 +143,11 @@ def calculate_dynamic_points(
     duration_minutes: float,
     pace_str: str = "",
     is_indoor: bool = False,
-    scale: str = "100_base"
+    scale: str = "100_base",
+    slow_met_multiplier: float = 1.0,
+    cycling_rate: Optional[float] = None
 ) -> float:
-    """Sports-science Dynamic MET Points with unified foot sports, swimming distance/pace dynamics, and support for racquet/team sports."""
+    """Sports-science Dynamic MET Points with unified foot sports, swimming distance/pace dynamics, cycling percentile scaling, and slow-MET weekly consistency."""
     t = str(activity_type).strip().lower()
     dist = float(distance_km or 0.0)
     dur = float(duration_minutes or 0.0)
@@ -157,7 +160,7 @@ def calculate_dynamic_points(
     # 2. Cycling (outdoor distance vs indoor duration)
     elif "ride" in t or "cycle" in t:
         if dist > 0.0 and not is_indoor:
-            rate = 25.0 if scale == "100_base" else 4.0
+            rate = cycling_rate if cycling_rate is not None else (25.0 if scale == "100_base" else 4.0)
             return round(dist * rate, 2)
         else:
             # Indoor / Stationary Ride: 4 pts/min (240 pts/hr) in 100-base, 1.5 in MET
@@ -215,13 +218,18 @@ def calculate_dynamic_points(
             return round(max(dur_pts, dist_pts), 2)
         return round(dur_pts, 2)
 
-    # 6. Weight Training / Gym / Workout / Strength
+    # 6. Weight Training / Gym / Workout / Strength (Slow-MET with Consistency Multiplier)
     elif any(k in t for k in ["weight", "gym", "workout", "crossfit", "strength"]):
         rate = 4.0 if scale == "100_base" else 1.5
-        return round(dur * rate, 2)
+        mult = slow_met_multiplier if slow_met_multiplier is not None else 1.0
+        return round(dur * rate * mult, 2)
 
     # 7. Default clause: Robust fallback for all other unseen sports (Tennis, Table Tennis, Squash, Soccer, Rowing, Yoga, etc.)
     else:
+        if "yoga" in t or "pilates" in t:
+            rate = 4.0 if scale == "100_base" else 1.5
+            mult = slow_met_multiplier if slow_met_multiplier is not None else 1.0
+            return round(dur * rate * mult, 2)
         if dist > 0.0 and not is_indoor:
             dist_rate = 35.0 if scale == "100_base" else 5.0
             dist_pts = dist * dist_rate
@@ -270,13 +278,20 @@ def calculate_activity_points(
     duration_minutes: float,
     is_indoor: bool = False,
     pace_str: str = "",
-    schema: str = "dynamic"
+    schema: str = "dynamic",
+    slow_met_multiplier: float = 1.0,
+    cycling_rate: Optional[float] = None
 ) -> float:
     """Primary points router supporting both Dynamic MET and Legacy schemas."""
     if schema == "legacy":
         return calculate_legacy_points(activity_type, distance_km, duration_minutes, is_indoor=is_indoor)
     else:
-        return calculate_dynamic_points(activity_type, distance_km, duration_minutes, pace_str=pace_str, is_indoor=is_indoor)
+        return calculate_dynamic_points(
+            activity_type, distance_km, duration_minutes,
+            pace_str=pace_str, is_indoor=is_indoor,
+            slow_met_multiplier=slow_met_multiplier,
+            cycling_rate=cycling_rate
+        )
 
 def recover_missing_activity_data(activity_type: str, distance_km: Any, duration_minutes: Any) -> tuple:
     """Automated recovery action: recovers duration from distance + benchmark pace when time is missing."""
@@ -301,5 +316,226 @@ def recover_missing_activity_data(activity_type: str, distance_km: Any, duration
 
     pace_str = format_pace(dist, dur, sport=t) if any(k in t for k in ["run", "walk", "hike", "trail", "swim"]) else ""
     return dist, dur, pace_str
+
+CYCLING_BASE_RATE = 25.0
+CYCLING_CEILING_FACTOR = 0.10
+
+def is_slow_met_activity(activity_type: str) -> bool:
+    """Identifies slow-MET resistance, gym, and studio activities that qualify for consistency bonuses."""
+    t = str(activity_type).strip().lower()
+    if any(k in t for k in ["run", "walk", "trail", "hike", "swim", "ride", "cycle"]):
+        return False
+    return any(k in t for k in ["weight", "gym", "workout", "yoga", "pilates", "crossfit", "strength"])
+
+def get_slow_met_multiplier(day_count_in_week: int) -> float:
+    """Escalating weekly frequency multiplier for slow-MET activities."""
+    if day_count_in_week <= 1:
+        return 1.00
+    elif day_count_in_week == 2:
+        return 1.25
+    elif day_count_in_week == 3:
+        return 1.50
+    else:
+        return 1.75
+
+def get_historical_cycling_cohort() -> List[float]:
+    """Loads historical total distance per cyclist from archive if available, with robust calibrated fallback."""
+    cohort = []
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    potential_paths = [
+        os.path.join(base_dir, "archive", "activities_OLD.csv"),
+        os.path.join(base_dir, "..", "archive", "activities_OLD.csv"),
+        "archive/activities_OLD.csv",
+        "../archive/activities_OLD.csv"
+    ]
+    for p in potential_paths:
+        if os.path.exists(p):
+            try:
+                cyclists = {}
+                with open(p, "r", encoding="utf-8") as f:
+                    import csv
+                    for r in csv.DictReader(f):
+                        if "ride" in str(r.get("activity_type", "")).lower():
+                            d = float(r.get("distance_km") or 0.0)
+                            if d > 0:
+                                aid = r.get("athlete_name") or r.get("athlete_id")
+                                cyclists[aid] = cyclists.get(aid, 0.0) + d
+                if cyclists:
+                    cohort = list(cyclists.values())
+                    break
+            except Exception:
+                pass
+    if not cohort:
+        cohort = [1.0, 1.2, 2.5, 3.8, 5.0, 14.5, 19.7, 25.0, 28.2, 38.5, 43.5, 49.2, 61.9, 89.1, 188.8, 335.8]
+    return cohort
+
+def calculate_cyclist_percentile_scoring(
+    athlete_total_km: float,
+    all_cohort_distances: List[float] = None,
+    factor: float = CYCLING_CEILING_FACTOR,
+    current_pts_per_km: float = CYCLING_BASE_RATE
+) -> Tuple[float, float, float, float]:
+    """
+    Percentile-based cycling score calculation.
+    Ceiling = current_pts_per_km * max_km * factor (as 100th percentile).
+    Returns (percentile_pct, total_score, ceiling, effective_rate_per_km).
+    """
+    if athlete_total_km <= 0.0:
+        return 0.0, 0.0, 0.0, current_pts_per_km
+
+    if all_cohort_distances is None or len(all_cohort_distances) == 0:
+        all_cohort_distances = get_historical_cycling_cohort() + [athlete_total_km]
+
+    cohort = sorted(all_cohort_distances)
+    max_km = max(cohort) if cohort else athlete_total_km
+    ceiling = round(current_pts_per_km * max_km * factor, 2)
+
+    rank = sum(1 for x in cohort if x <= athlete_total_km)
+    pct = rank / len(cohort)
+    pct_points = round(ceiling * pct, 2)
+    unadjusted = round(athlete_total_km * current_pts_per_km, 2)
+
+    # Cap total points to min(unadjusted, pct_points) so short rides are not inflated
+    total_score = min(unadjusted, pct_points)
+    effective_rate = round(total_score / athlete_total_km, 4) if athlete_total_km > 0 else current_pts_per_km
+
+    return round(pct * 100.0, 1), total_score, ceiling, effective_rate
+
+def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "100_base") -> List[Dict[str, Any]]:
+    """
+    Applies cohort-wide scoring rules across a full activity list:
+    1. Slow-MET weekly frequency multiplier (1.0x -> 1.25x -> 1.5x -> 1.75x) for Gym, Weights, Workout, Yoga.
+       - Qualifying duration: >= 25.0 minutes moving time.
+       - Max 1 credit per calendar day per athlete.
+       - Tiers applied within each Monday-Sunday ISO week.
+    2. Cycling Percentile Scoring:
+       - Benchmarked against all-time cohort (historical archive + current contest).
+       - Ceiling = current_pts_per_km * max_km * factor (as 100th percentile).
+       - Total points capped at min(unadjusted, percentile_points).
+       - Effective rate per km allocated proportionally across rides.
+    3. Runs, Walks, Swims, and other sports retain full Dynamic MET models.
+    4. Computes both dynamic points and legacy points.
+    """
+    from dateutil import parser as dt_parser
+    from datetime import datetime
+    import collections
+
+    # 1. Parse dates and sort chronologically
+    indexed = []
+    for idx, act in enumerate(activities):
+        raw_dt = str(act.get("datetime_utc", "") or act.get("datetime_iso", "")).strip().replace(" on ", " ")
+        try:
+            dt = dt_parser.parse(raw_dt)
+        except Exception:
+            dt = datetime(2026, 9, 1)
+        indexed.append((dt, idx, act))
+    indexed.sort(key=lambda x: x[0])
+
+    # 2. Gather cyclist contest totals and slow-MET weekly active days
+    cyclist_totals = collections.defaultdict(float)
+    athlete_week_days = collections.defaultdict(lambda: collections.defaultdict(dict))
+
+    for dt, idx, act in indexed:
+        stype = str(act.get("activity_type", "")).strip()
+        try:
+            dist = float(act.get("distance_km", 0.0) or 0.0)
+            dur = float(act.get("duration_minutes", 0.0) or 0.0)
+        except (ValueError, TypeError):
+            dist, dur = 0.0, 0.0
+
+        aid = str(act.get("athlete_id") or act.get("athlete_name", "unknown")).strip()
+        is_ind = str(act.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"] or is_indoor_ride(stype, dist)
+
+        if ("ride" in stype.lower() or "cycle" in stype.lower()) and dist > 0.0 and not is_ind:
+            cyclist_totals[aid] += dist
+
+        if is_slow_met_activity(stype) and dur >= 25.0:
+            wk = f"{dt.year}-W{dt.isocalendar()[1]}"
+            day_str = dt.strftime("%Y-%m-%d")
+            week_dict = athlete_week_days[aid][wk]
+            if day_str not in week_dict:
+                day_num = len(week_dict) + 1
+                week_dict[day_str] = day_num
+
+    # 3. Compute cycling percentile metrics across combined cohort
+    hist_cohort = get_historical_cycling_cohort()
+    all_cyclist_cohort = list(hist_cohort) + list(cyclist_totals.values())
+    all_cyclist_cohort.sort()
+
+    cyclist_metrics = {}
+    for aid, total_d in cyclist_totals.items():
+        pct, total_score, ceiling, eff_rate = calculate_cyclist_percentile_scoring(
+            total_d,
+            all_cohort_distances=all_cyclist_cohort,
+            factor=CYCLING_CEILING_FACTOR,
+            current_pts_per_km=CYCLING_BASE_RATE
+        )
+        cyclist_metrics[aid] = {
+            "percentile": pct,
+            "total_score": total_score,
+            "ceiling": ceiling,
+            "effective_rate": eff_rate
+        }
+
+    # 4. Assign enriched points to each activity
+    scored_activities = [None] * len(activities)
+
+    for dt, orig_idx, act in indexed:
+        row = dict(act)
+        stype = str(row.get("activity_type", "Workout")).strip()
+        try:
+            dist = float(row.get("distance_km", 0.0) or 0.0)
+            dur = float(row.get("duration_minutes", 0.0) or 0.0)
+        except (ValueError, TypeError):
+            dist, dur = 0.0, 0.0
+
+        aid = str(row.get("athlete_id") or row.get("athlete_name", "unknown")).strip()
+        is_ind = str(row.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"] or is_indoor_ride(stype, dist)
+        pace_val = str(row.get("pace", "")).strip()
+        if not pace_val and any(k in stype.lower() for k in ["run", "walk", "hike", "trail", "swim"]):
+            pace_val = format_pace(dist, dur, sport=stype)
+
+        # Slow-MET multiplier
+        mult = 1.00
+        if is_slow_met_activity(stype):
+            wk = f"{dt.year}-W{dt.isocalendar()[1]}"
+            day_str = dt.strftime("%Y-%m-%d")
+            day_num = athlete_week_days[aid][wk].get(day_str, 1)
+            mult = get_slow_met_multiplier(day_num)
+
+        # Cycling rate override
+        cyc_rate = None
+        if ("ride" in stype.lower() or "cycle" in stype.lower()) and dist > 0.0 and not is_ind:
+            if aid in cyclist_metrics:
+                cyc_rate = cyclist_metrics[aid]["effective_rate"]
+
+        pts_dyn = calculate_dynamic_points(
+            stype, dist, dur,
+            pace_str=pace_val,
+            is_indoor=is_ind,
+            scale=scale,
+            slow_met_multiplier=mult,
+            cycling_rate=cyc_rate
+        )
+        pts_leg = calculate_legacy_points(stype, dist, dur, is_indoor=is_ind)
+
+        row["points"] = round(pts_dyn, 2)
+        row["points_dynamic"] = round(pts_dyn, 2)
+        row["points_legacy"] = round(pts_leg, 2)
+        row["distance_km"] = round(dist, 2)
+        row["duration_minutes"] = round(dur, 2)
+        row["pace"] = pace_val
+        row["is_indoor"] = is_ind
+
+        if is_slow_met_activity(stype):
+            row["slow_met_multiplier"] = mult
+
+        if cyc_rate is not None and aid in cyclist_metrics:
+            row["cycling_percentile"] = cyclist_metrics[aid]["percentile"]
+            row["cycling_effective_rate"] = cyc_rate
+
+        scored_activities[orig_idx] = row
+
+    return scored_activities
 
 

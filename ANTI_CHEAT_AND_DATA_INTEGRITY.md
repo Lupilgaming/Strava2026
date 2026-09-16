@@ -148,3 +148,68 @@ When an activity has missing fields due to device dropout or scraper limits, our
 1. **Mental Math is Instant**: Running $1\text{ km} = 100\text{ pts}$. A $5\text{K} = 500\text{ pts}$. A $10\text{K} = 1,000\text{ pts}$.
 2. **Equitable Ratios**: Walking $5\text{ km}$ ($250\text{ pts}$) vs Running $5\text{ km}$ ($500\text{ pts}$) accurately mirrors metabolic exertion.
 3. **Balanced Gym/Indoor Cardio**: A 1-hour gym or indoor spinning workout ($240\text{ pts}$) equals a brisk $5\text{ km}$ walk or a moderate $2.4\text{ km}$ run, preventing non-GPS logs from dominating endurance runners.
+
+---
+
+## 6. Slow-MET Consistency Multiplier Engine
+
+### The Resistance Training Dilemma & Solution:
+Strength training, weightlifting, HIIT, and studio workouts impose high muscular tension and cardiovascular strain, but yield zero GPS mileage. Under raw time scoring ($4\text{ pts/min} = 240\text{ pts/hr}$), an intense 60-minute weight workout earned fewer points than a 20-minute casual bike ride.
+
+To lower the barrier for newcomers and reward dedicated gym regulars without causing score runaway, the system incorporates an **Escalating Weekly Consistency Multiplier**:
+
+| Active Gym Days in Week | Multiplier Tier | Effective Rate | 60-Min Workout Score |
+| :---: | :---: | :---: | :---: |
+| **Day 1** (Introductory) | **1.00×** (Base) | $4.0\text{ pts/min}$ | **240 pts** |
+| **Day 2** (Committed) | **1.25×** (+25%) | $5.0\text{ pts/min}$ | **300 pts** |
+| **Day 3** (Consistent) | **1.50×** (+50%) | $6.0\text{ pts/min}$ | **360 pts** |
+| **Day 4+** (Iron Discipline) | **1.75×** (+75%) | $7.0\text{ pts/min}$ | **420 pts** |
+
+### Anti-Gaming & Scope Rules:
+1. **Eligible Sports**: Weight Training, Gym, Workout, Yoga, Pilates, CrossFit, Strength Training.
+2. **Excluded Sports**: Running, Swimming, Cycling, and Walking are strictly outside this system (they already accumulate distance and speed continuously).
+3. **Minimum Moving Time Floor**: $\ge 25\text{ minutes}$ of active moving time to qualify.
+4. **Calendar Day Cap**: At most 1 qualifying credit per calendar day advances the weekly tier.
+
+---
+
+## 7. Cycling Percentile Scoring Engine (Commute Normalization)
+
+### The Commute Inflation Problem:
+Because bicycles are mechanically geared vehicles with rolling friction $< 0.005$, a casual $5\text{ km}$ commute takes minimal cardiovascular effort ($\approx 20\text{ min}$ of relaxed pedaling). At a flat $25\text{ pts/km}$, short utility rides accumulated points too easily, beating intense hour-long workouts. Furthermore, $70 - 100\text{ km}$ weekend rides generated thousands of points in one morning, distorting the multi-sport leaderboard.
+
+### Empirical Cohort Percentile Solution:
+Rather than choosing an arbitrary distance cap, our pipeline benchmarks an athlete's total competition cycling distance against the **all-time club cyclist cohort** ($N = 17$ cyclers across $213+$ historical and current rides):
+
+1. **100th Percentile Ceiling Formula**:
+   $$\text{Ceiling} = \text{Current pts/km } (25.0) \times \text{Max All-Time Cyclist km } (335.80\text{ km}) \times \text{Factor } (0.10) = 839.5\text{ pts}$$
+
+2. **Empirical Percentile Calculation**:
+   $$P = \frac{\sum_{i=1}^{N} \mathbb{I}(D_i \le D_{\text{athlete}})}{N} \times 100\%$$
+
+3. **Total Points Formulation**:
+   $$\mathbf{\text{Cycling Score} = \min(D_{\text{athlete}} \times 25.0, \text{Ceiling} \times P)}$$
+
+4. **Proportional Per-Ride Distribution**:
+   Each individual outdoor ride receives points proportional to its distance:
+   $$\text{Ride Points} = d_i \times \left(\frac{\text{Cycling Score}}{D_{\text{athlete}}}\right)$$
+
+This ensures that routine $5\text{ km}$ commutes are reined into a balanced range ($\approx 80 - 95\text{ pts}$), while true endurance feats ($70+\text{ km}$) are rewarded with substantial recognition without eclipsing the rest of the multi-sport club.
+
+---
+
+## 8. Session Isolation & Viewer Feed Decoupling
+
+### The Logged-in Viewer Footer Vulnerability:
+When scraping athlete profiles on Strava while authenticated using a session cookie (e.g. `_strava4_session`), Strava's global template injects a bottom promo module (`.footer-promos .recent-activities`). This module renders recent activity links belonging to the **authenticated session holder**, regardless of whose profile page is currently being viewed.
+
+If an athlete's profile DOM is scanned indiscriminately for `/activities/\d+` links, the session owner's newest activities can be picked up during another member's crawl, leading to misattribution (e.g., activity `20193831931` belonging to Divyansh Singh being indexed under Abhidi Gupta).
+
+### Architectural Prevention & Remediation:
+1. **DOM Scoping & Promo Decomposition**:
+   During discovery in `discover_activity_ids()`, all `footer, .footer, .footer-promos, #global-footer, .athlete-widget, .recent-activities` elements are explicitly decomposed from the DOM before any link extraction occurs.
+2. **Deterministic Author Extraction**:
+   In `parse_activity_page()`, athlete identity is never inherited from the discovery caller. Instead, the author ID is extracted directly from the parsed page's `__NEXT_DATA__` state object and verified against the DOM `.activity-summary` author profile link.
+3. **Canonical Memberlist Normalization**:
+   In `filter_and_clean_data.py`, all athlete names are standardized against the authoritative `memberlist.csv` registry, preventing split identities across spelling variations (e.g. unifying "Divyansh" and "Divyansh Singh").
+

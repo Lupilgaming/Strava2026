@@ -12,7 +12,8 @@ from points import (
     calculate_dynamic_points,
     calculate_legacy_points,
     format_pace,
-    is_indoor_ride
+    is_indoor_ride,
+    apply_dataset_scoring_rules
 )
 
 def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List[str] = None):
@@ -87,6 +88,9 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
                 "is_indoor": is_ind,
                 "activity_url": str(r.get("activity_url", ""))
             })
+
+    # Apply cohort-wide dynamic scoring rules (cycling percentile + slow-MET weekly multiplier)
+    activities = apply_dataset_scoring_rules(activities)
 
     # Group by athlete
     athletes_map: Dict[str, Dict[str, Any]] = {}
