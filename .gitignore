@@ -26,6 +26,8 @@ l3
 archive/
 test_brave_dump.html
 YEAR2026/test_brave_dump.html
+clay_index.html
+generate_clay_html.py
 *.log
 downloaderros.log
 error.log
