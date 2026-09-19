@@ -254,4 +254,27 @@ To protect leaderboard fairness from sports mislabeling and GPS sensor glitches,
    - **Trigger**: Any foot activity with sustained speed $> 18.0\text{ km/h}$ ($< 3:20\text{ min/km}$).
    - **Adjustment**: Flagged for motorized transit; distance normalized to duration-based median walking pace.
 
+4. **Suspect Long-Distance Endurance Pace Flagger (`SUSPECT_ENDURANCE_PACE`)**:
+   - **Trigger**: Any run or trail run spanning $\ge 10.0\text{ km}$ with pace $< 5:00\text{ min/km}$ ($> 12.0\text{ km/h}$).
+   - **Rationale**: In corporate recreational contexts, sustaining sub-5:00 /km over 10+ kilometers is an elite threshold ($\le 50\text{ min 10K}$). Improbable entries typically result from cycling misclassifications or sensor drift.
+   - **Adjustment**: Effective pace is normalized to a realistic endurance tempo benchmark ($\ge 5:20\text{ min/km}$ / $\max(5.33, \text{athlete median run pace})$), and credited distance is adjusted proportionally.
+
+---
+
+## 11. Calibrated Running Rates & Slow-MET Multiplier Rebalance
+
+To ensure optimal physiological fairness across all fitness disciplines:
+- **Running Pace Calibration**:
+  - **Recovery Jog (~8:00 /km)**: Calibrated to **$\approx 70\text{ pts/km}$** ($18.0 + 7.2 \times 7.5 = 69.0$).
+  - **Aerobic Base Run (~6:00 /km)**: Calibrated to **$\approx 86\text{ pts/km}$** (within the 80–90 target window).
+  - **Fast Tempo Run (~4:25 /km)**: Calibrated to **$\approx 113\text{ pts/km}$**.
+  - **Distance Dampening**: Smoothly anchors longer runs ($\ge 10\text{ km}, 21\text{ km}$) toward $80.0\text{ pts/km}$ to protect marathoners and half-marathoners.
+- **Gym / Slow-MET Consistency Multiplier Nerf**:
+  - Weekly frequency multiplier tiers adjusted from `[1.00x, 1.25x, 1.50x, 1.75x]` down to **`[1.00x, 1.10x, 1.20x, 1.30x]`** ($+10\%$ on Day 2, $+20\%$ on Day 3, $+30\%$ on Day 4+).
+  - Keeps 1 hour of gym ($240 - 312\text{ pts}$) balanced properly above walking ($175\text{ pts}$) and below aerobic running ($520 - 860\text{ pts}$).
+- **UI Date Selection Synchronization**:
+  - Athlete detail modals now strictly display activities matching the active date/sport filter, ensuring activity counts, total distance, duration, and points sum identically between summary cards and the activity log.
+  - A toggle allows viewing all-time/pre-contest activities when needed.
+
+
 
