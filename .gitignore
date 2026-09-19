@@ -14,6 +14,7 @@ config.json
 YEAR2026/config.json
 .env
 *.env
+GITHUB_AUTH.md
 
 # Dumps, logs & scratch
 *.dmp
