@@ -119,17 +119,15 @@ def calculate_unified_foot_points(distance_km: float, pace_min: float, scale: st
     v = 60.0 / p
 
     # Continuous base rate based on speed:
-    # 12 km/h (5:00/km) -> 114 pts/km
-    # 10 km/h (6:00/km) -> 100 pts/km (standard run baseline)
-    # 7.5 km/h (8:00/km) -> 82.5 pts/km (easy jog / power walk)
-    # 6.0 km/h (10:00/km) -> 72.0 pts/km (brisk walk)
-    # 4.5 km/h (13:20/km) -> 61.5 pts/km (casual walk)
-    raw_rate = 30.0 + 7.0 * v
-    neutral_rate = 85.0
+    # 7.5 km/h (8:00/km recovery jog) -> 69.0 pts/km (~70 pts/km)
+    # 10.0 km/h (6:00/km aerobic base) -> 87.0 pts/km (80-90 pts/km)
+    # 13.6 km/h (4:25/km fast tempo)  -> 112.9 pts/km (~113 pts/km)
+    raw_rate = 15.0 + 7.2 * v
+    neutral_rate = 80.0
 
     # Distance dampening: higher pace rewarded on short/mid runs,
-    # but multiplier smoothly stabilizes near 1.0 as distance increases (> 10 km, 21 km, 30 km)
-    w = 1.0 / (1.0 + (dist / 12.0))
+    # but multiplier smoothly stabilizes near 80 pts/km as distance increases (> 10 km, 21 km, 30 km)
+    w = 1.0 / (1.0 + (dist / 16.0))
     rate = neutral_rate + w * (raw_rate - neutral_rate)
 
     if scale == "met":
@@ -337,15 +335,15 @@ def is_slow_met_activity(activity_type: str) -> bool:
     return any(k in t for k in ["weight", "gym", "workout", "yoga", "pilates", "crossfit", "strength"])
 
 def get_slow_met_multiplier(day_count_in_week: int) -> float:
-    """Escalating weekly frequency multiplier for slow-MET activities."""
+    """Escalating weekly frequency multiplier for slow-MET activities (calibrated consistency bonus)."""
     if day_count_in_week <= 1:
         return 1.00
     elif day_count_in_week == 2:
-        return 1.25
+        return 1.10
     elif day_count_in_week == 3:
-        return 1.50
+        return 1.20
     else:
-        return 1.75
+        return 1.30
 
 def get_historical_cycling_cohort() -> List[float]:
     """Loads historical total distance per cyclist from archive if available, with robust calibrated fallback."""
@@ -574,6 +572,14 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
                 integrity_badge = "⚠️ Sensor Pace Spike (< 4:15/km)"
                 ath_med_run = statistics.median(ath_run_paces[aid]) if ath_run_paces[aid] else club_median_run_pace
                 adj_pace = max(4.60, ath_med_run)
+                adj_dist = round(dur / adj_pace, 2)
+
+            # Check 4: Suspect Long Endurance Run (10+ km with pace < 5:00 min/km / speed > 12.0 km/h)
+            elif any(k in stype.lower() for k in ["run", "trail"]) and dist >= 9.8 and adj_pace < 5.00:
+                integrity_flag = "SUSPECT_ENDURANCE_PACE"
+                integrity_badge = "⚠️ Suspect Long Run Pace (< 5:00/km on 10k+)"
+                ath_med_run = statistics.median(ath_run_paces[aid]) if ath_run_paces[aid] else club_median_run_pace
+                adj_pace = max(5.33, ath_med_run)
                 adj_dist = round(dur / adj_pace, 2)
 
         adj_pace_str = format_pace(adj_dist, dur, sport=stype) if adj_dist > 0.0 else pace_val

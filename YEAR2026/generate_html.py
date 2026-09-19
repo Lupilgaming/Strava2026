@@ -1256,24 +1256,24 @@ html_template = '''<!DOCTYPE html>
               </tr>
               <tr>
                 <td><strong>Day 2</strong> (Committed)</td>
-                <td><span style="font-weight:700; color:var(--accent-blue);">1.25× (+25%)</span></td>
-                <td>5.0 pts / min (300 /hr)</td>
-                <td>300 pts</td>
-                <td>540 pts</td>
+                <td><span style="font-weight:700; color:var(--accent-blue);">1.10× (+10%)</span></td>
+                <td>4.4 pts / min (264 /hr)</td>
+                <td>264 pts</td>
+                <td>504 pts</td>
               </tr>
               <tr>
                 <td><strong>Day 3</strong> (Consistent Regular)</td>
-                <td><span style="font-weight:700; color:var(--accent-green);">1.50× (+50%)</span></td>
-                <td>6.0 pts / min (360 /hr)</td>
-                <td>360 pts</td>
-                <td>900 pts</td>
+                <td><span style="font-weight:700; color:var(--accent-green);">1.20× (+20%)</span></td>
+                <td>4.8 pts / min (288 /hr)</td>
+                <td>288 pts</td>
+                <td>792 pts</td>
               </tr>
               <tr>
                 <td><strong>Day 4+</strong> (Iron Discipline)</td>
-                <td><span style="font-weight:700; color:var(--gold);">1.75× (+75%)</span></td>
-                <td>7.0 pts / min (420 /hr)</td>
-                <td>420 pts</td>
-                <td><strong>1,320 pts</strong></td>
+                <td><span style="font-weight:700; color:var(--gold);">1.30× (+30%)</span></td>
+                <td>5.2 pts / min (312 /hr)</td>
+                <td>312 pts</td>
+                <td><strong>1,104 pts</strong></td>
               </tr>
             </tbody>
           </table>
@@ -1321,8 +1321,8 @@ html_template = '''<!DOCTYPE html>
               <tr>
                 <td><span style="font-weight:600;">🏃 Running / Trail Run</span></td>
                 <td>Distance (GPS)</td>
-                <td style="color:var(--accent-green); font-weight:700;">85 – 115 pts / km</td>
-                <td>Continuous speed function (high-MET cardiovascular endurance)</td>
+                <td style="color:var(--accent-green); font-weight:700;">69 – 113 pts / km</td>
+                <td>Continuous pace function: Recovery (~8:00/km) ~70 pts/km; Aerobic base (~6:00/km) ~86 pts/km; Fast tempo (~4:25/km) ~113 pts/km</td>
               </tr>
               <tr>
                 <td><span style="font-weight:600;">🚶 Walking / Hike</span></td>
@@ -1639,7 +1639,7 @@ html_template = '''<!DOCTYPE html>
               </div>
               <div>
                 <strong style="color:#fff;">2. Sensor Spike & Elite Pace Auto-Nerf:</strong><br>
-                GPS multipath drift, indoor signal jumps, or bicycle rides miscategorized as runs can generate physically improbable paces (&lt; 4:15 /km). Rather than awarding skewed points, the engine auto-nerfs the pace to a realistic sustainable tempo benchmark (&ge; 4:39 /km), ensuring points reflect authentic physical exertion.
+                GPS multipath drift, indoor signal jumps, or bicycle rides miscategorized as runs can generate improbable speeds. Any run at &lt; 4:15 /km (or long runs &ge; 10 km at &lt; 5:00 /km) is flagged as an anomaly or potential bike ride and auto-normalized to realistic tempo baselines (&ge; 4:39 /km for short, &ge; 5:20 /km for 10k+), ensuring points reflect authentic physical exertion.
               </div>
               <div>
                 <strong style="color:#fff;">3. Motorized Velocity Suppression:</strong><br>
@@ -1665,6 +1665,7 @@ html_template = '''<!DOCTYPE html>
   <script>
     let globalData = null;
     let filteredAthletes = [];
+    let currentFilteredActivities = [];
     let radarChartInstance = null;
     let donutChartInstance = null;
     let selectedRadarAthleteIds = new Set();
@@ -1964,6 +1965,8 @@ html_template = '''<!DOCTYPE html>
 
         return true;
       });
+
+      currentFilteredActivities = filteredActivities;
 
       const athleteMap = {};
       const sportMap = {};
@@ -2361,13 +2364,21 @@ html_template = '''<!DOCTYPE html>
       });
     }
 
-    function openAthleteModal(athleteId) {
+    function openAthleteModal(athleteId, showAll = false) {
       if (!globalData) return;
       const athlete = (filteredAthletes || []).find(a => a.athlete_id === String(athleteId)) || 
                       (globalData.athletes || []).find(a => a.athlete_id === String(athleteId));
       if (!athlete) return;
 
-      const activities = (globalData.activities || []).filter(act => act.athlete_id === String(athleteId));
+      const allAthleteActs = (globalData.activities || []).filter(act => act.athlete_id === String(athleteId));
+      let activities = (currentFilteredActivities && currentFilteredActivities.length > 0)
+        ? currentFilteredActivities.filter(act => act.athlete_id === String(athleteId))
+        : allAthleteActs;
+
+      const excludedCount = allAthleteActs.length - activities.length;
+      if (showAll) {
+        activities = allAthleteActs;
+      }
 
       const initials = athlete.athlete_name.split(' ').map(n => n[0]).join('').slice(0, 2);
       const avatarBg = getAvatarColor(athlete.athlete_name);
@@ -2391,20 +2402,26 @@ html_template = '''<!DOCTYPE html>
         } else if (act.integrity_flag === 'SENSOR_PACE_ANOMALY') {
           integrityBadge = `<span title="Sub-4:15 pace flagged as sensor anomaly or potential cycle. Auto-nerfed to tempo baseline." style="background:rgba(245,158,11,0.18); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">⚠️ Sensor Anomaly Nerfed</span>`;
           distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Auto-nerfed to tempo baseline."`;
+        } else if (act.integrity_flag === 'SUSPECT_ENDURANCE_PACE') {
+          integrityBadge = `<span title="10+ km run logged at < 5:00/km pace flagged as suspect endurance pace / sensor spike. Auto-normalized to tempo baseline." style="background:rgba(245,158,11,0.18); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">⚠️ Suspect 10k+ Pace</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). 10+ km sub-5:00 pace normalized to tempo baseline."`;
         } else if (act.integrity_flag === 'VEHICLE_SPEED') {
           integrityBadge = `<span title="Speed exceeded 18 km/h on foot sport. Normalized to median pace." style="background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">🚗 Vehicle Velocity Adjusted</span>`;
           distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Speed exceeded 18 km/h, normalized."`;
         }
+
+        const isOutsideFilter = showAll && currentFilteredActivities && !currentFilteredActivities.some(a => a.activity_id === act.activity_id);
+        const filterTag = isOutsideFilter ? '<span style="background:rgba(100,116,139,0.25); color:#94a3b8; border:1px solid rgba(148,163,184,0.3); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;" title="Activity falls outside active contest date filter">Pre-Contest</span>' : '';
 
         const actPts = currentSchema === 'legacy'
           ? (act.points_legacy !== undefined ? act.points_legacy : act.points)
           : (act.points_dynamic !== undefined ? act.points_dynamic : act.points);
 
         return `
-          <tr>
+          <tr style="${isOutsideFilter ? 'opacity: 0.65;' : ''}">
             <td>
               <span style="display:inline-flex; align-items:center; gap:4px; font-weight:600; flex-wrap:wrap;">
-                <span>${icon}</span> ${act.activity_type} ${typeBadge} ${integrityBadge}
+                <span>${icon}</span> ${act.activity_type} ${typeBadge} ${integrityBadge} ${filterTag}
               </span>
             </td>
             <td style="color: var(--text-muted); font-size: 13px;">${dateDisplay}</td>
@@ -2421,6 +2438,23 @@ html_template = '''<!DOCTYPE html>
           </tr>
         `;
       }).join('');
+
+      let filterNotice = '';
+      if (excludedCount > 0 && !showAll) {
+        filterNotice = `
+          <div style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:12px; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center;">
+            <span>Showing <strong>${activities.length}</strong> activities within active time filter (${excludedCount} prior activities hidden).</span>
+            <button class="btn btn-outline" style="padding:3px 10px; font-size:11px;" onclick="openAthleteModal('${athleteId}', true)">Show All (${allAthleteActs.length})</button>
+          </div>
+        `;
+      } else if (showAll && excludedCount > 0) {
+        filterNotice = `
+          <div style="background:rgba(234,179,8,0.08); border:1px solid rgba(234,179,8,0.25); border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:12px; color:#fbbf24; display:flex; justify-content:space-between; align-items:center;">
+            <span>Showing all <strong>${allAthleteActs.length}</strong> activities (including pre-contest uploads).</span>
+            <button class="btn btn-outline" style="padding:3px 10px; font-size:11px;" onclick="openAthleteModal('${athleteId}', false)">Show Filtered (${allAthleteActs.length - excludedCount})</button>
+          </div>
+        `;
+      }
 
       const modalBody = document.getElementById('modalBody');
       const schemaTag = currentSchema === 'legacy' ? '🏛️ Legacy Points' : '⚡ Dynamic Points';
@@ -2479,6 +2513,8 @@ html_template = '''<!DOCTYPE html>
           <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:700;">Activity History (${activities.length})</h3>
         </div>
 
+        ${filterNotice}
+
         <div style="max-height: 380px; overflow: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--card-border); border-radius: 14px;">
           <table class="data-table" style="min-width: 580px;">
             <thead>
@@ -2519,7 +2555,7 @@ html_template = '''<!DOCTYPE html>
     }
 
     function exportActivitiesCSV() {
-      const acts = (globalData && globalData.activities) ? globalData.activities : [];
+      const acts = (currentFilteredActivities && currentFilteredActivities.length > 0) ? currentFilteredActivities : ((globalData && globalData.activities) ? globalData.activities : []);
       if (acts.length === 0) return;
 
       const headers = ['activity_id', 'athlete_id', 'athlete_name', 'activity_type', 'datetime_utc', 'distance_km', 'duration_minutes', 'points_dynamic', 'points_legacy', 'pace', 'is_indoor', 'activity_url'];
