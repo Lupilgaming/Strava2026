@@ -314,6 +314,7 @@ def run_pipeline(
                     "status.html",
                     "activity_log.csv",
                     "memberlist.csv",
+                    "filter_and_clean_data.py",
                     "generate_html.py",
                     "generate_arena.py",
                     "export_dashboard.py",
