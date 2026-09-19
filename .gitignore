@@ -32,6 +32,12 @@ cyber_index.html
 generate_cyber_html.py
 glass_index.html
 generate_glass_html.py
+synth_index.html
+generate_synth_html.py
+obsidian_index.html
+generate_obsidian_html.py
+emerald_index.html
+generate_emerald_html.py
 *.log
 downloaderros.log
 error.log
