@@ -30,6 +30,19 @@ html_template = '''<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function() {
+      try {
+        let t = sessionStorage.getItem('strava_theme_manual');
+        if (!t) {
+          t = Math.random() < 0.5 ? 'obsidian' : 'default';
+        }
+        if (t === 'obsidian') {
+          document.documentElement.classList.add('theme-obsidian');
+        }
+      } catch(e) {}
+    })();
+  </script>
   <style>
     :root {
       --bg-dark: #090d16;
@@ -461,6 +474,7 @@ html_template = '''<!DOCTYPE html>
       grid-template-columns: 3fr 2fr;
       gap: 20px;
       margin-bottom: 40px;
+      align-items: stretch;
     }
 
     .viz-card {
@@ -472,6 +486,8 @@ html_template = '''<!DOCTYPE html>
       padding: 22px;
       display: flex;
       flex-direction: column;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .viz-header {
@@ -479,6 +495,7 @@ html_template = '''<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       margin-bottom: 16px;
+      width: 100%;
     }
 
     .viz-title {
@@ -502,8 +519,16 @@ html_template = '''<!DOCTYPE html>
     .chart-box {
       position: relative;
       flex-grow: 1;
-      min-height: 280px;
-      max-height: 320px;
+      width: 100%;
+      min-height: 290px;
+      max-height: 330px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .chart-box canvas {
+      max-width: 100% !important;
+      margin: 0 auto !important;
     }
 
     .radar-pills {
@@ -511,6 +536,7 @@ html_template = '''<!DOCTYPE html>
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 14px;
+      justify-content: center;
     }
 
     .radar-pill {
@@ -908,11 +934,280 @@ html_template = '''<!DOCTYPE html>
       border-left: 3px solid var(--strava-orange);
     }
 
+    /* ========================================================
+       OBSIDIAN STEALTH THEME & THEME SWITCHER
+       ======================================================== */
+    .theme-toggle-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .theme-toggle-btn:hover {
+      background: rgba(30, 41, 59, 0.9);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    html.theme-obsidian,
+    body.theme-obsidian {
+      --bg-dark: #09090b;
+      --card-bg: rgba(22, 22, 26, 0.88);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(245, 158, 11, 0.45);
+      --strava-orange: #f59e0b;
+      --strava-orange-light: #fbbf24;
+      --orange-glow: rgba(245, 158, 11, 0.35);
+      --text-primary: #f4f4f6;
+      --text-muted: #8b8b98;
+      --text-dim: #52525c;
+      --gold: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.35);
+      --silver: #94a3b8;
+      --silver-glow: rgba(148, 163, 184, 0.25);
+      --bronze: #b45309;
+      --bronze-glow: rgba(180, 83, 9, 0.3);
+      --accent-blue: #38bdf8;
+      --accent-green: #10b981;
+      --accent-purple: #a855f7;
+
+      background-color: #09090b !important;
+      background-image: 
+        radial-gradient(circle at 50% 0%, #17171e 0%, #09090b 60%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px) !important;
+      background-size: 100% 100%, 40px 40px, 40px 40px !important;
+    }
+
+    body.theme-obsidian .navbar {
+      background: rgba(14, 14, 18, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    body.theme-obsidian .brand-logo {
+      background: #18181c;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    body.theme-obsidian .brand-title {
+      background: linear-gradient(90deg, #ffffff, #e4e4e7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    body.theme-obsidian .brand-subtitle {
+      color: #8b8b98;
+    }
+
+    body.theme-obsidian .theme-toggle-btn {
+      background: #181820;
+      border-color: rgba(245, 158, 11, 0.35);
+      color: #f59e0b;
+    }
+    body.theme-obsidian .theme-toggle-btn:hover {
+      background: #242430;
+      border-color: #f59e0b;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+    }
+
+    body.theme-obsidian .schema-toggle-group {
+      background: #141418;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    body.theme-obsidian .schema-pill.active-dynamic {
+      background: #24242e;
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+    }
+
+    body.theme-obsidian .schema-pill.active-legacy {
+      background: #24242e;
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+
+    body.theme-obsidian .sync-badge {
+      background: #141418;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #a1a1aa;
+    }
+
+    body.theme-obsidian .btn-orange {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+      color: #09090b;
+      font-weight: 700;
+    }
+    body.theme-obsidian .btn-orange:hover {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    }
+
+    body.theme-obsidian .btn-outline {
+      background: #16161b;
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #d4d4d8;
+    }
+    body.theme-obsidian .btn-outline:hover {
+      border-color: #f59e0b;
+      color: #f59e0b;
+    }
+
+    body.theme-obsidian .schema-banner {
+      background: #141418;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    body.theme-obsidian .summary-card {
+      background: #16161a;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    body.theme-obsidian .summary-card:hover {
+      background: #1c1c22;
+      border-color: rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+
+    body.theme-obsidian .podium-card {
+      background: #16161a;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    body.theme-obsidian .podium-card:hover {
+      background: #1c1c22;
+      transform: translateY(-4px);
+    }
+    body.theme-obsidian .podium-card.rank-1 {
+      border-color: rgba(245, 158, 11, 0.35);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, #16161a 100%);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.12);
+    }
+
+    body.theme-obsidian .viz-card {
+      background: #16161a;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    body.theme-obsidian .viz-badge {
+      background: #202028;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #a1a1aa;
+    }
+
+    body.theme-obsidian .radar-pill {
+      background: #181820;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #a1a1aa;
+    }
+    body.theme-obsidian .radar-pill:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    body.theme-obsidian .radar-pill.active {
+      background: #272734;
+      border-color: #f59e0b;
+      color: #f59e0b;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+    }
+
+    body.theme-obsidian .filter-bar {
+      background: #16161a;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    body.theme-obsidian .filter-input,
+    body.theme-obsidian .filter-select {
+      background: #111114;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #f4f4f6;
+    }
+    body.theme-obsidian .filter-input:focus,
+    body.theme-obsidian .filter-select:focus {
+      border-color: #f59e0b;
+    }
+
+    body.theme-obsidian .table-container {
+      background: #16161a;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    body.theme-obsidian .data-table th {
+      background: #121216;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      color: #8b8b98;
+    }
+
+    body.theme-obsidian .data-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    body.theme-obsidian .data-table tbody tr:hover {
+      background: #1c1c22;
+    }
+
+    body.theme-obsidian .modal-box {
+      background: #131317;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+    }
+
+    body.theme-obsidian .stat-box {
+      background: #18181f;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    body.theme-obsidian .formula-card {
+      background: #18181f;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    body.theme-obsidian .formula-code {
+      background: #0f0f13;
+      border-left: 3px solid #f59e0b;
+      color: #f59e0b;
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .hero-summary { grid-template-columns: repeat(3, 1fr); }
-      .viz-grid { grid-template-columns: 1fr; }
+      .viz-grid { grid-template-columns: 1fr; justify-items: center; }
+      .viz-card { width: 100%; max-width: 600px; margin: 0 auto; }
       .podium-container { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .viz-grid { grid-template-columns: 1fr; justify-items: center; }
+      .viz-card { width: 100%; max-width: 520px; margin: 0 auto; align-items: center; }
+      .viz-header { flex-direction: column; text-align: center; gap: 8px; justify-content: center; }
+      .chart-box { min-height: 300px; max-height: 350px; width: 100%; justify-content: center; }
+      .radar-pills { justify-content: center; width: 100%; }
     }
     @media (max-width: 640px) {
       .container { padding: 18px 12px; }
@@ -926,6 +1221,7 @@ html_template = '''<!DOCTYPE html>
       .data-table th, .data-table td { padding: 12px 14px; font-size: 12px; }
       .rank-cell { font-size: 14px; width: 50px; min-width: 50px; }
       .athlete-badge { width: 32px; height: 32px; font-size: 12px; }
+      .viz-card { max-width: 100%; }
     }
   </style>
 </head>
@@ -944,6 +1240,12 @@ html_template = '''<!DOCTYPE html>
     </a>
 
     <div class="nav-actions">
+      <!-- Theme Switcher (Default / Obsidian) -->
+      <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Switch Theme (Default / Obsidian)">
+        <span id="themeToggleIcon">🌙</span>
+        <span id="themeToggleText">Obsidian</span>
+      </button>
+
       <!-- Interactive Schema Toggle -->
       <div class="schema-toggle-group" title="Switch between Dynamic MET and Legacy 2025 Scoring Systems">
         <button id="schemaBtnDynamic" class="schema-pill active-dynamic" onclick="setScoringSchema('dynamic')">
@@ -1058,9 +1360,9 @@ html_template = '''<!DOCTYPE html>
         <div class="viz-header">
           <div class="viz-title">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10h-10z"></path></svg>
-            Activity Type Breakdown
+            Points Volume Distribution
           </div>
-          <span class="viz-badge">Sport Distribution</span>
+          <span class="viz-badge" id="donutBadge">Points Breakdown</span>
         </div>
         <div class="chart-box">
           <canvas id="donutChart"></canvas>
@@ -1609,16 +1911,94 @@ html_template = '''<!DOCTYPE html>
               </div>
 
               <div>
-                <strong style="color:#fff;">3. The Calibrated Solution (Option 1):</strong><br>
-                Walking is decoupled from running and calibrated to a steady rate of <strong>35.0 pts / km</strong> (~175 pts for an hour-long 5 km walk). This ensures:
-                <ul style="padding-left:18px; margin-top:4px;">
-                  <li>1 hour of walking (~175 pts) properly sits below 1 hour of gym training (240&ndash;360 pts).</li>
-                  <li>1 hour of hard running (750+ pts) remains the premier high-MET cardiovascular activity.</li>
-                  <li>Daily walking is still recognized and encouraged, but cannot overshadow intense multi-sport disciplines.</li>
-                </ul>
+                <div>
+                  <strong style="color:#fff;">3. The Calibrated Solution (Option 1):</strong><br>
+                  Walking is decoupled from running and calibrated to a steady rate of <strong>35.0 pts / km</strong> (~175 pts for an hour-long 5 km walk). This ensures:
+                  <ul style="padding-left:18px; margin-top:4px;">
+                    <li>1 hour of walking (~175 pts) properly sits below 1 hour of gym training (240&ndash;360 pts).</li>
+                    <li>1 hour of hard running (750+ pts) remains the premier high-MET cardiovascular activity.</li>
+                    <li>Daily walking is still recognized and encouraged, but cannot overshadow intense multi-sport disciplines.</li>
+                  </ul>
+                </div>
+
+                <!-- Post-Calibration New Points Table -->
+                <div style="margin-top:10px;">
+                  <strong style="color:#fff;">4. Post-Calibration Live Audit: New Points & Balance per Activity:</strong><br>
+                  <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px; margin-top:2px;">
+                    Empirical results measured across all club activities under the active calibrated Dynamic MET scoring engine:
+                  </div>
+                  <table class="data-table" style="font-size:12px; margin-top:4px; margin-bottom:6px;">
+                    <thead>
+                      <tr>
+                        <th>Sport Type</th>
+                        <th>Activities</th>
+                        <th>Total Club Hours</th>
+                        <th>Total Dynamic Points</th>
+                        <th>Effective Pts / Hour</th>
+                        <th>Benchmark Unit Rate</th>
+                        <th>Equilibrium & Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>🏊 Swim</strong></td>
+                        <td>7 acts</td>
+                        <td>3.9 hrs</td>
+                        <td>3,199 pts</td>
+                        <td style="color:var(--accent-blue); font-weight:700;">827.3 pts/hr</td>
+                        <td>~13.8 pts/min (or pace/100m)</td>
+                        <td><span style="color:var(--accent-blue); font-weight:600;">Premier full-body aerobic MET</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🏃 Run</strong></td>
+                        <td>55 acts</td>
+                        <td>47.9 hrs</td>
+                        <td>33,105 pts</td>
+                        <td style="color:var(--accent-green); font-weight:700;">691.5 pts/hr</td>
+                        <td>~86 pts/km base (69–113 pts/km)</td>
+                        <td><span style="color:var(--accent-green); font-weight:600;">Premier cardio endurance</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🤸 Studio / Workout (HIIT)</strong></td>
+                        <td>13 acts</td>
+                        <td>16.3 hrs</td>
+                        <td>4,410 pts</td>
+                        <td style="color:var(--accent-purple); font-weight:700;">270.0 pts/hr</td>
+                        <td>4.5 pts/min</td>
+                        <td><span style="color:var(--accent-purple); font-weight:600;">High anaerobic density</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🏋️ Weight Training (Gym)</strong></td>
+                        <td>14 acts</td>
+                        <td>13.5 hrs</td>
+                        <td>3,411 pts</td>
+                        <td style="color:var(--accent-purple); font-weight:700;">252.2 pts/hr</td>
+                        <td>4.0–5.2 pts/min (with weekly escalator)</td>
+                        <td><span style="color:var(--accent-purple); font-weight:600;">Rewards habitual consistency</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🚴 Ride (Cycling)</strong></td>
+                        <td>15 acts</td>
+                        <td>8.9 hrs</td>
+                        <td>1,973 pts</td>
+                        <td style="color:var(--accent-blue); font-weight:700;">221.9 pts/hr</td>
+                        <td>Cohort Percentile Engine (Ceiling 839.5)</td>
+                        <td><span style="color:var(--accent-blue); font-weight:600;">Commute inflation eliminated</span></td>
+                      </tr>
+                      <tr style="background:rgba(34,197,94,0.08); border-left:3px solid var(--accent-green);">
+                        <td><strong>🚶 Walk (Calibrated Baseline)</strong></td>
+                        <td>70 acts</td>
+                        <td>34.3 hrs</td>
+                        <td>6,341 pts</td>
+                        <td style="color:var(--accent-green); font-weight:700;">184.9 pts/hr</td>
+                        <td>35.0 pts/km (duration fallback 3.0/m)</td>
+                        <td><span style="color:var(--accent-green); font-weight:700;">Balanced below Gym (185 &lt; 252 pts/hr)</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
 
           <!-- Justification 4: Automated Integrity & Anomaly Filtering Engine -->
           <div class="formula-card" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.06); padding: 18px 20px;">
@@ -1670,6 +2050,10 @@ html_template = '''<!DOCTYPE html>
     let donutChartInstance = null;
     let selectedRadarAthleteIds = new Set();
     let currentSchema = localStorage.getItem('strava_scoring_schema') || 'dynamic';
+    let currentTheme = 'default';
+    let lastSportBreakdown = null;
+    let lastTotalSportPoints = 0;
+    let lastFilteredAthletes = null;
 
     const SPORT_ICONS = {
       'Run': '🏃',
@@ -1730,6 +2114,61 @@ html_template = '''<!DOCTYPE html>
       } else if (tabId === 'tabJustifications') {
         document.getElementById('tabBtnJustifications').classList.add('active');
         document.getElementById('tabJustifications').classList.add('active');
+      }
+    }
+
+    function initTheme() {
+      let manual = null;
+      try {
+        manual = sessionStorage.getItem('strava_theme_manual');
+      } catch (e) {}
+
+      if (manual === 'default' || manual === 'obsidian') {
+        currentTheme = manual;
+      } else {
+        // Randomly load either Obsidian or Current Default with 50/50 probability
+        currentTheme = Math.random() < 0.5 ? 'obsidian' : 'default';
+      }
+      applyTheme(currentTheme, false);
+    }
+
+    function toggleTheme() {
+      const next = currentTheme === 'obsidian' ? 'default' : 'obsidian';
+      try {
+        sessionStorage.setItem('strava_theme_manual', next);
+      } catch (e) {}
+      applyTheme(next, true);
+    }
+
+    function applyTheme(theme, reRenderCharts = false) {
+      currentTheme = theme;
+      const isObs = theme === 'obsidian';
+      document.documentElement.classList.toggle('theme-obsidian', isObs);
+      document.body.classList.toggle('theme-obsidian', isObs);
+
+      const icon = document.getElementById('themeToggleIcon');
+      const text = document.getElementById('themeToggleText');
+      const btn = document.getElementById('themeToggleBtn');
+
+      if (btn && icon && text) {
+        if (isObs) {
+          icon.innerText = '⚡';
+          text.innerText = 'Default';
+          btn.title = 'Theme: Obsidian Stealth (Click to switch to Default)';
+        } else {
+          icon.innerText = '🌙';
+          text.innerText = 'Obsidian';
+          btn.title = 'Theme: Classic Default (Click to switch to Obsidian)';
+        }
+      }
+
+      if (reRenderCharts) {
+        if (donutChartInstance && lastSportBreakdown) {
+          renderDonutChart(lastSportBreakdown, lastTotalSportPoints);
+        }
+        if (radarChartInstance && lastFilteredAthletes) {
+          renderRadarSection(lastFilteredAthletes);
+        }
       }
     }
 
@@ -1818,6 +2257,7 @@ html_template = '''<!DOCTYPE html>
     function initDashboard() {
       if (!globalData) return;
 
+      initTheme();
       updateSchemaButtons();
 
       if (globalData.summary && globalData.summary.last_updated) {
@@ -1868,6 +2308,16 @@ html_template = '''<!DOCTYPE html>
 
       checkHash();
       window.addEventListener('hashchange', checkHash);
+      window.addEventListener('resize', () => {
+        if (donutChartInstance) {
+          const isMobile = window.innerWidth < 768;
+          const targetPos = isMobile ? 'bottom' : 'right';
+          if (donutChartInstance.options.plugins.legend.position !== targetPos) {
+            donutChartInstance.options.plugins.legend.position = targetPos;
+            donutChartInstance.update();
+          }
+        }
+      });
     }
 
     function checkHash() {
@@ -2054,7 +2504,8 @@ html_template = '''<!DOCTYPE html>
         };
       });
 
-      const sportBreakdown = Object.values(sportMap).sort((a, b) => b.count - a.count);
+      const sportBreakdown = Object.values(sportMap).sort((a, b) => b.total_points - a.total_points);
+      const totalSportPoints = Math.round(sportBreakdown.reduce((acc, s) => acc + s.total_points, 0) * 10) / 10;
 
       const summaryPayload = {
         total_athletes: filteredAthletes.length,
@@ -2064,10 +2515,14 @@ html_template = '''<!DOCTYPE html>
         total_points: Math.round(filteredAthletes.reduce((acc, a) => acc + a.total_points, 0) * 100) / 100
       };
 
+      lastSportBreakdown = sportBreakdown;
+      lastTotalSportPoints = totalSportPoints;
+      lastFilteredAthletes = filteredAthletes;
+
       renderSummary(summaryPayload);
       renderPodium(filteredAthletes);
       renderRadarSection(filteredAthletes);
-      renderDonutChart(sportBreakdown, summaryPayload.total_activities);
+      renderDonutChart(sportBreakdown, totalSportPoints);
       renderLeaderboardTable(filteredAthletes);
 
       document.getElementById('resultsCounter').innerText = `Showing ${filteredAthletes.length} of ${globalData.athletes.length} athletes (${filteredActivities.length} activities)`;
@@ -2135,7 +2590,10 @@ html_template = '''<!DOCTYPE html>
       const pillsContainer = document.getElementById('radarPills');
       pillsContainer.innerHTML = '';
       const displayAthletes = athletes.slice(0, 10);
-      const colors = ['#fc4c02', '#38bdf8', '#22c55e', '#a855f7', '#fbbf24', '#f43f5e', '#06b6d4', '#eab308'];
+      const isObs = currentTheme === 'obsidian';
+      const colors = isObs
+        ? ['#f59e0b', '#38bdf8', '#f43f5e', '#10b981', '#a855f7', '#e2e8f0', '#0ea5e9', '#ec4899']
+        : ['#fc4c02', '#38bdf8', '#22c55e', '#a855f7', '#fbbf24', '#f43f5e', '#06b6d4', '#eab308'];
 
       displayAthletes.forEach((ath, idx) => {
         const isSel = selectedRadarAthleteIds.has(ath.athlete_id);
@@ -2208,7 +2666,7 @@ html_template = '''<!DOCTYPE html>
               grid: { color: 'rgba(255, 255, 255, 0.08)' },
               pointLabels: {
                 color: '#cbd5e1',
-                font: { family: 'Inter', size: 12, weight: '600' }
+                font: { family: 'Inter', size: window.innerWidth < 768 ? 10 : 12, weight: '600' }
               },
               ticks: { display: false, max: 100, min: 0 }
             }
@@ -2216,10 +2674,12 @@ html_template = '''<!DOCTYPE html>
           plugins: {
             legend: {
               position: 'top',
+              align: 'center',
               labels: {
                 color: '#f8fafc',
-                font: { family: 'Inter', size: 12, weight: '500' },
-                boxWidth: 12
+                font: { family: 'Inter', size: window.innerWidth < 768 ? 11 : 12, weight: '500' },
+                boxWidth: 10,
+                padding: 10
               }
             },
             tooltip: {
@@ -2248,13 +2708,19 @@ html_template = '''<!DOCTYPE html>
       });
     }
 
-    function renderDonutChart(sportBreakdown, totalCount) {
+    function renderDonutChart(sportBreakdown, totalPoints) {
       const ctx = document.getElementById('donutChart').getContext('2d');
       if (donutChartInstance) donutChartInstance.destroy();
 
       const labels = sportBreakdown.map(s => `${getSportIcon(s.activity_type)} ${s.activity_type}`);
-      const data = sportBreakdown.map(s => s.count);
-      const points = sportBreakdown.map(s => s.total_points);
+      const data = sportBreakdown.map(s => Math.round(s.total_points * 10) / 10);
+      const counts = sportBreakdown.map(s => s.count);
+      const isMobile = window.innerWidth < 768;
+
+      const isObs = currentTheme === 'obsidian';
+      const donutColors = isObs
+        ? ['#f59e0b', '#38bdf8', '#10b981', '#a855f7', '#f43f5e', '#64748b', '#e2e8f0', '#0ea5e9']
+        : ['#fc4c02', '#38bdf8', '#22c55e', '#a855f7', '#fbbf24', '#f43f5e', '#06b6d4', '#eab308'];
 
       donutChartInstance = new Chart(ctx, {
         type: 'doughnut',
@@ -2262,18 +2728,9 @@ html_template = '''<!DOCTYPE html>
           labels: labels,
           datasets: [{
             data: data,
-            backgroundColor: [
-              '#fc4c02',
-              '#38bdf8',
-              '#22c55e',
-              '#a855f7',
-              '#fbbf24',
-              '#f43f5e',
-              '#06b6d4',
-              '#eab308'
-            ],
+            backgroundColor: donutColors,
             borderWidth: 2,
-            borderColor: '#1e293b'
+            borderColor: isObs ? '#16161a' : '#1e293b'
           }]
         },
         options: {
@@ -2282,12 +2739,13 @@ html_template = '''<!DOCTYPE html>
           cutout: '70%',
           plugins: {
             legend: {
-              position: 'right',
+              position: isMobile ? 'bottom' : 'right',
+              align: 'center',
               labels: {
                 color: '#f8fafc',
-                font: { family: 'Inter', size: 12, weight: '500' },
-                boxWidth: 14,
-                padding: 12
+                font: { family: 'Inter', size: isMobile ? 11 : 12, weight: '500' },
+                boxWidth: 12,
+                padding: isMobile ? 8 : 12
               }
             },
             tooltip: {
@@ -2299,10 +2757,10 @@ html_template = '''<!DOCTYPE html>
               padding: 10,
               callbacks: {
                 label: function(context) {
-                  const count = context.parsed;
-                  const pct = totalCount > 0 ? Math.round((count / totalCount) * 100) : 0;
-                  const pts = points[context.dataIndex] || 0;
-                  return ` ${count} activities (${pct}%) • ${pts.toLocaleString()} pts`;
+                  const pts = context.parsed;
+                  const pct = totalPoints > 0 ? ((pts / totalPoints) * 100).toFixed(1) : 0;
+                  const count = counts[context.dataIndex] || 0;
+                  return ` ${Math.round(pts).toLocaleString()} pts (${pct}%) • ${count} activities`;
                 }
               }
             }
