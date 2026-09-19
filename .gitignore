@@ -30,6 +30,8 @@ clay_index.html
 generate_clay_html.py
 cyber_index.html
 generate_cyber_html.py
+glass_index.html
+generate_glass_html.py
 *.log
 downloaderros.log
 error.log
