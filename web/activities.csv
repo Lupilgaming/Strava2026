@@ -171,3 +171,5 @@ activity_id,athlete_id,athlete_name,activity_type,datetime_utc,distance_km,durat
 20221633760,178278060,Sumantha Madhyastha,Walk,"Friday, September 18, 2026",2.95,26.2,103.25,103.25,295.0,8:53 /km,False,https://www.strava.com/activities/20221633760,
 20221969288,115335798,Viraj Ghatge,Walk,"Friday, September 18, 2026",3.9,41.78,136.5,136.5,390.0,10:43 /km,False,https://www.strava.com/activities/20221969288,
 20226698911,1127892,Yashwanth Nagaraja,Walk,"Friday, September 18, 2026",2.66,30.27,93.1,93.1,266.0,11:23 /km,False,https://www.strava.com/activities/20226698911,
+20214866287,181332418,Pritam Panigrahy,Run,"Thursday, September 17, 2026",10.12,71.57,785.62,785.62,1214.4,7:04 /km,False,,
+20054673483,181332418,Pritam Panigrahy,Run,"Sunday, September 6, 2026",10.09,72.03,779.73,779.73,1210.8,7:08 /km,False,,

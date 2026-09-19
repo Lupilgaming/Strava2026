@@ -50,7 +50,7 @@ def clean_and_filter_activities(
         "20041069989": ("178279476", "Muni Asheesh Potta"),
         "19957207427": ("178279476", "Muni Asheesh Potta"),
         "19662532293": ("123461241", "Srinivas K R"),
-        "19628232467": ("181332418", "pritam Panigrahy"), # external non-club
+        "19628232467": ("181332418", "Pritam Panigrahy"), # exception
         "19628253900": ("180079292", "aadhar sharma"),
         "17057440050": ("178453532", "Divyansh Singh"),
         "18845057178": ("178453532", "Divyansh Singh"),
@@ -63,7 +63,8 @@ def clean_and_filter_activities(
         "19720008251": ("178453532", "Divyansh Singh"),
         "19923785855": ("178279476", "Muni Asheesh Potta"),
         "20041095636": ("50127060", "Prateek Giri"),
-        "19923787876": ("181332418", "pritam Panigrahy"), # external non-club
+        "19923787876": ("181332418", "Pritam Panigrahy"), # exception
+        "20214866287": ("181332418", "Pritam Panigrahy"), # exception
         "19184023245": ("158271875", "Atul Soni"),        # external non-club
         "20193831931": ("178453532", "Divyansh Singh")
     }
