@@ -200,7 +200,8 @@ def clean_and_filter_activities(
     headers = [
         "activity_id", "athlete_id", "athlete_name", "activity_type",
         "datetime_utc", "distance_km", "duration_minutes", "points",
-        "points_dynamic", "points_legacy", "pace", "is_indoor", "activity_url"
+        "points_dynamic", "points_legacy", "pace", "is_indoor", "activity_url",
+        "integrity_flag"
     ]
 
 

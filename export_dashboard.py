@@ -228,12 +228,12 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
         except Exception as e:
             print(f"[-] Warning: Failed to write {p}: {e}")
 
-    # Write enriched CSV with dual schemas
+    # Write enriched CSV with dual schemas and integrity flag
     csv_headers = [
         "activity_id", "athlete_id", "athlete_name", "activity_type",
         "datetime_utc", "distance_km", "duration_minutes",
         "points", "points_dynamic", "points_legacy",
-        "pace", "is_indoor", "activity_url"
+        "pace", "is_indoor", "activity_url", "integrity_flag"
     ]
 
     csv_destinations = [
@@ -270,7 +270,8 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
                         "points_legacy": act["points_legacy"],
                         "pace": act["pace"],
                         "is_indoor": act["is_indoor"],
-                        "activity_url": act["activity_url"]
+                        "activity_url": act["activity_url"],
+                        "integrity_flag": act.get("integrity_flag", "")
                     })
             print(f"[+] Exported synced CSV -> {dest_abs}")
         except Exception as e:

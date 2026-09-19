@@ -1144,34 +1144,32 @@
       <!-- TAB 1: DYNAMIC MET SCHEMA -->
       <div id="tabDynamic" class="schema-tab-pane active">
         
-        <!-- Unified Foot Formula Card -->
+        <!-- Foot Sports Formula Card -->
         <div class="formula-card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--strava-orange); text-transform:uppercase; letter-spacing:0.5px;">
-              🏃 Unified Foot-Sports Formula (Runs & Walks)
+              🏃 Running vs 🚶 Walking: Calibrated Sports-Science Dual Engine
             </h3>
-            <span style="font-size:11px; background:rgba(34, 197, 94, 0.15); color:var(--accent-green); padding:2px 8px; border-radius:10px; font-weight:700;">Zero Categorization Bias</span>
+            <span style="font-size:11px; background:rgba(252, 76, 2, 0.15); color:var(--strava-orange); padding:2px 8px; border-radius:10px; font-weight:700;">Option 1: Decoupled</span>
           </div>
-          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
-            Runs, walks, and hikes are automatically scored on actual physiological intensity (speed V in km/h) without arbitrary self-labeling. Higher pace is rewarded, while a <strong>Distance Dampener</strong> ensures endurance athletes (10K, 21K, 30K) are never penalized as fatigue sets in.
+          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:10px;">
+            To maintain sporting parity between outdoor cardio and resistance workouts, <strong>Running</strong> scales with continuous physical velocity ($85 - 115	ext{ pts/km}$), while <strong>Walking</strong> is calibrated to a steady baseline of <strong>$35.0	ext{ pts/km}$</strong> ($175	ext{ pts}$ per $5	ext{ km}$ hour). This prevents casual walking commutes from eclipsing dedicated 1-hour gym and strength sessions ($240 - 360	ext{ pts}$).
           </p>
 
-          <div class="formula-box">
-            <div><strong>1. Physical Speed:</strong> <code>Speed V = 60 / Pace(min/km)</code> (clamped 3.0 to 20.0 km/h)</div>
-            <div><strong>2. Speed Base Rate:</strong> <code>BaseRate = 30.0 + (7.0 × V)</code> pts/km</div>
-            <div><strong>3. Distance Dampener:</strong> <code>w(D) = 1.0 / (1.0 + (Distance / 12.0))</code></div>
-            <div><strong>4. Effective Rate:</strong> <code>EffectiveRate = 85.0 + w(D) × (BaseRate - 85.0)</code> pts/km</div>
-            <div><strong>5. Final Score:</strong> <strong style="color:var(--gold);">Points = Distance × EffectiveRate</strong></div>
+          <div style="background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:10px 12px; font-size:12px; font-family:monospace; line-height:1.7; color:var(--text-primary); margin-bottom:10px;">
+            <div><strong>🏃 Running Rate:</strong> <code>BaseRate = 30.0 + (7.0 × V)</code> pts/km &nbsp;|&nbsp; <code>w(D) = 1.0 / (1.0 + (D / 12.0))</code></div>
+            <div><strong>🚶 Walking Rate:</strong> <strong style="color:var(--accent-blue);">35.0 pts / km</strong> (proportional to 3.3–3.8 METs; duration fallback = 3.0 pts/min)</div>
           </div>
 
           <!-- Speed Reference Table -->
           <table class="data-table" style="font-size:12px; margin-top:10px;">
             <thead>
               <tr>
-                <th>Effort / Pace</th>
-                <th>Speed</th>
+                <th>Sport & Effort / Pace</th>
+                <th>Velocity</th>
                 <th>Effective Rate</th>
                 <th>5 km Workout</th>
+                <th>Equivalence / Comparison</th>
               </tr>
             </thead>
             <tbody>
@@ -1180,30 +1178,28 @@
                 <td>13.3 km/h</td>
                 <td style="color:var(--accent-green); font-weight:700;">112.1 pts/km</td>
                 <td><strong>560 pts</strong></td>
+                <td>Top-tier cardiovascular endurance</td>
               </tr>
               <tr>
-                <td>🏃 Standard Aerobic Run (6:00 /km)</td>
+                <td>🏃 Aerobic Base Run (6:00 /km)</td>
                 <td>10.0 km/h</td>
                 <td style="color:var(--accent-green); font-weight:700;">95.6 pts/km</td>
                 <td><strong>478 pts</strong></td>
+                <td>Standard high-MET running baseline</td>
               </tr>
               <tr>
-                <td>🏃‍♂️ Easy Jog / Power Walk (8:00 /km)</td>
+                <td>🏃‍♂️ Easy Recovery Jog (8:00 /km)</td>
                 <td>7.5 km/h</td>
                 <td style="color:var(--accent-blue); font-weight:700;">83.2 pts/km</td>
                 <td><strong>416 pts</strong></td>
+                <td>Light aerobic jogging</td>
               </tr>
-              <tr>
-                <td>🚶 Brisk Walk / Hike (9:30 /km)</td>
-                <td>6.3 km/h</td>
-                <td style="color:var(--accent-blue); font-weight:700;">77.4 pts/km</td>
-                <td><strong>387 pts</strong></td>
-              </tr>
-              <tr>
-                <td>🚶‍♂️ Casual Recovery Walk (13:00 /km)</td>
-                <td>4.6 km/h</td>
-                <td style="color:var(--text-muted); font-weight:700;">69.0 pts/km</td>
-                <td><strong>345 pts</strong></td>
+              <tr style="background:rgba(56,189,248,0.06);">
+                <td>🚶 Brisk Walk / Hike (10:00 – 13:00 /km)</td>
+                <td>4.6 – 6.0 km/h</td>
+                <td style="color:var(--accent-blue); font-weight:700;">35.0 pts/km</td>
+                <td><strong>175 pts</strong></td>
+                <td>Calibrated below 1-hr Gym (240–360 pts)</td>
               </tr>
             </tbody>
           </table>
@@ -1304,10 +1300,16 @@
             </thead>
             <tbody>
               <tr>
-                <td><span style="font-weight:600;">🏃 Foot Sports (Run / Walk / Hike)</span></td>
+                <td><span style="font-weight:600;">🏃 Running / Trail Run</span></td>
                 <td>Distance (GPS)</td>
-                <td style="color:var(--accent-green); font-weight:700;">65 – 120 pts / km</td>
-                <td>Continuous speed function with endurance dampening</td>
+                <td style="color:var(--accent-green); font-weight:700;">85 – 115 pts / km</td>
+                <td>Continuous speed function (high-MET cardiovascular endurance)</td>
+              </tr>
+              <tr>
+                <td><span style="font-weight:600;">🚶 Walking / Hike</span></td>
+                <td>Distance (GPS)</td>
+                <td style="color:var(--accent-blue); font-weight:700;">35 pts / km</td>
+                <td>Calibrated Option 1 baseline (3.3–3.8 METs; 1-hr walk ~175 pts &lt; 1-hr gym = 240 pts)</td>
               </tr>
               <tr>
                 <td><span style="font-weight:600;">🚴 Outdoor Cycling</span></td>
@@ -1500,6 +1502,133 @@
             </div>
           </div>
 
+          <!-- Justification 3: Walking Calibration & Activity Share Audit -->
+          <div class="formula-card" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🚶</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--gold); margin:0;">
+                  Why Walking Rates Are Calibrated (35 pts/km) & Activity Share Audit
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Aligning Caloric Expenditure, True METs, & Cross-Sport Fairness</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:12px;">
+              <div>
+                <strong style="color:#fff;">1. Empirical Competition-Wide Audit:</strong><br>
+                A forensic analysis of all club activities across the competition window revealed an acute mathematical imbalance between low-intensity walking and high-strain resistance training:
+              </div>
+
+              <!-- Required Audit Table -->
+              <table class="data-table" style="font-size:12px; margin-top:4px; margin-bottom:6px;">
+                <thead>
+                  <tr>
+                    <th>Sport Type</th>
+                    <th>Total Club Hours</th>
+                    <th>Total Points</th>
+                    <th>Effective Pts / Hour</th>
+                    <th>True Physiological METs</th>
+                    <th>Balance Assessment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>🏊 Swim</strong></td>
+                    <td>3.9 hrs</td>
+                    <td>3,199 pts</td>
+                    <td><strong>827.3 pts/hr</strong></td>
+                    <td>8.0 &ndash; 10.0</td>
+                    <td><span style="color:var(--accent-blue); font-weight:600;">High aerobic exertion</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏃 Run</strong></td>
+                    <td>41.9 hrs</td>
+                    <td>32,438 pts</td>
+                    <td><strong>774.4 pts/hr</strong></td>
+                    <td>9.8 &ndash; 11.5</td>
+                    <td><span style="color:var(--accent-green); font-weight:600;">High aerobic exertion</span></td>
+                  </tr>
+                  <tr style="background:rgba(239,68,68,0.08);">
+                    <td><strong>🚶 Walk (Uncalibrated Baseline)</strong></td>
+                    <td>27.7 hrs</td>
+                    <td>11,681 pts</td>
+                    <td><strong>421.3 pts/hr</strong></td>
+                    <td>3.3 &ndash; 3.8</td>
+                    <td><span style="color:#f87171; font-weight:700;">Severe Over-rewarding (+55% vs Gym)</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🤸 Studio / HIIT</strong></td>
+                    <td>11.3 hrs</td>
+                    <td>3,216 pts</td>
+                    <td><strong>285.2 pts/hr</strong></td>
+                    <td>6.0 &ndash; 8.0</td>
+                    <td><span style="color:var(--accent-purple); font-weight:600;">Moderate / High anaerobic</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏋️ Weight Training (Gym)</strong></td>
+                    <td>11.7 hrs</td>
+                    <td>3,158 pts</td>
+                    <td><strong>270.9 pts/hr</strong></td>
+                    <td>4.5 &ndash; 6.0</td>
+                    <td><span style="color:var(--accent-purple); font-weight:600;">Resistance & muscular strain</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🚴 Ride (Cycling)</strong></td>
+                    <td>8.3 hrs</td>
+                    <td>1,874 pts</td>
+                    <td><strong>224.5 pts/hr</strong></td>
+                    <td>4.0 &ndash; 6.5</td>
+                    <td><span style="color:var(--accent-blue); font-weight:600;">Reined in by Percentile Ceiling</span></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div>
+                <strong style="color:#fff;">2. The Physiological Reality:</strong><br>
+                Under the uncalibrated unified foot-sports equation, a casual 1-hour walk (covering ~5.5 km) generated <strong>421.3 points</strong>, easily eclipsing an intense 1-hour heavy weight training session (240&ndash;300 pts) despite walking having a substantially lower metabolic demand (3.3&ndash;3.8 METs vs 4.5&ndash;6.0 METs). This discouraged gym participants and created a distortion where non-running, non-gym members climbed into top leaderboard spots purely through routine walking.
+              </div>
+
+              <div>
+                <strong style="color:#fff;">3. The Calibrated Solution (Option 1):</strong><br>
+                Walking is decoupled from running and calibrated to a steady rate of <strong>35.0 pts / km</strong> (~175 pts for an hour-long 5 km walk). This ensures:
+                <ul style="padding-left:18px; margin-top:4px;">
+                  <li>1 hour of walking (~175 pts) properly sits below 1 hour of gym training (240&ndash;360 pts).</li>
+                  <li>1 hour of hard running (750+ pts) remains the premier high-MET cardiovascular activity.</li>
+                  <li>Daily walking is still recognized and encouraged, but cannot overshadow intense multi-sport disciplines.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Justification 4: Automated Integrity & Anomaly Filtering Engine -->
+          <div class="formula-card" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🛡️</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:#f87171; margin:0;">
+                  Automated Activity Integrity & Anomaly Filtering Engine
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Protecting Competition Fairness from GPS Multipath Glitches & Sport Mislabeling</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <strong style="color:#fff;">1. Mislabeled Walk Pace Normalization:</strong><br>
+                When a workout is recorded as a "Walk" but exhibits physical velocities &gt; 8.6 km/h (&lt; 7:00 /km pace, indicative of running or cycling), the pipeline automatically ignores the inflated distance and re-estimates the true distance based on the athlete's validated median walking pace multiplied by moving time.
+              </div>
+              <div>
+                <strong style="color:#fff;">2. Sensor Spike & Elite Pace Auto-Nerf:</strong><br>
+                GPS multipath drift, indoor signal jumps, or bicycle rides miscategorized as runs can generate physically improbable paces (&lt; 4:15 /km). Rather than awarding skewed points, the engine auto-nerfs the pace to a realistic sustainable tempo benchmark (&ge; 4:39 /km), ensuring points reflect authentic physical exertion.
+              </div>
+              <div>
+                <strong style="color:#fff;">3. Motorized Velocity Suppression:</strong><br>
+                Any foot activity logged with sustained velocity &gt; 18 km/h (&lt; 3:20 /km pace, exceeding human aerobic thresholds) is automatically flagged for vehicle transit and normalized to duration-based median walking pace.
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1513,26 +1642,26 @@
   <script id="fallback-data" type="application/json">
 {
   "summary": {
-    "total_athletes": 23,
-    "total_activities": 145,
-    "total_distance_km": 643.17,
-    "total_duration_hours": 104.8,
-    "total_points": 55566.54,
-    "total_points_dynamic": 55566.54,
-    "total_points_legacy": 81904.4,
-    "last_updated": "2026-09-17T18:43:44.560055+00:00"
+    "total_athletes": 24,
+    "total_activities": 151,
+    "total_distance_km": 664.09,
+    "total_duration_hours": 109.7,
+    "total_points": 51412.17,
+    "total_points_dynamic": 51412.17,
+    "total_points_legacy": 84988.0,
+    "last_updated": "2026-09-19T03:34:23.670413+00:00"
   },
   "athletes": [
     {
       "athlete_id": "156538003",
       "athlete_name": "Satyaprakash Karsharma",
-      "total_activities": 23,
+      "total_activities": 24,
       "unique_types": 4,
       "total_distance_km": 164.34,
-      "total_duration_minutes": 1414.95,
-      "total_points": 13179.07,
-      "total_points_dynamic": 13179.07,
-      "total_points_legacy": 20355.7,
+      "total_duration_minutes": 1467.13,
+      "total_points": 13439.97,
+      "total_points_dynamic": 13439.97,
+      "total_points_legacy": 20877.5,
       "rank_legacy": 1,
       "rank": 1,
       "rank_dynamic": 1,
@@ -1573,23 +1702,23 @@
       "rank_dynamic": 2,
       "radar_metrics": {
         "distance": 34.9,
-        "duration": 25.6,
-        "points": 39.7,
-        "frequency": 26.1,
+        "duration": 24.7,
+        "points": 38.9,
+        "frequency": 25.0,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 34.9,
-        "duration": 25.6,
-        "points": 39.7,
-        "frequency": 26.1,
+        "duration": 24.7,
+        "points": 38.9,
+        "frequency": 25.0,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 34.9,
-        "duration": 25.6,
-        "points": 33.8,
-        "frequency": 26.1,
+        "duration": 24.7,
+        "points": 33.0,
+        "frequency": 25.0,
         "diversity": 25.0
       }
     },
@@ -1598,33 +1727,33 @@
       "athlete_name": "krishna A",
       "total_activities": 13,
       "unique_types": 3,
-      "total_distance_km": 68.27,
+      "total_distance_km": 64.14,
       "total_duration_minutes": 336.79,
-      "total_points": 5039.03,
-      "total_points_dynamic": 5039.03,
-      "total_points_legacy": 6309.6,
-      "rank_legacy": 3,
+      "total_points": 4284.65,
+      "total_points_dynamic": 4284.65,
+      "total_points_legacy": 5879.6,
+      "rank_legacy": 5,
       "rank": 3,
       "rank_dynamic": 3,
       "radar_metrics": {
-        "distance": 41.5,
-        "duration": 23.8,
-        "points": 38.2,
-        "frequency": 56.5,
+        "distance": 39.0,
+        "duration": 23.0,
+        "points": 31.9,
+        "frequency": 54.2,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
-        "distance": 41.5,
-        "duration": 23.8,
-        "points": 38.2,
-        "frequency": 56.5,
+        "distance": 39.0,
+        "duration": 23.0,
+        "points": 31.9,
+        "frequency": 54.2,
         "diversity": 75.0
       },
       "radar_metrics_legacy": {
-        "distance": 41.5,
-        "duration": 23.8,
-        "points": 31.0,
-        "frequency": 56.5,
+        "distance": 39.0,
+        "duration": 23.0,
+        "points": 28.2,
+        "frequency": 54.2,
         "diversity": 75.0
       }
     },
@@ -1638,169 +1767,64 @@
       "total_points": 4282.94,
       "total_points_dynamic": 4282.94,
       "total_points_legacy": 5980.8,
-      "rank_legacy": 4,
+      "rank_legacy": 3,
       "rank": 4,
       "rank_dynamic": 4,
       "radar_metrics": {
         "distance": 30.3,
-        "duration": 27.9,
-        "points": 32.5,
-        "frequency": 34.8,
+        "duration": 26.9,
+        "points": 31.9,
+        "frequency": 33.3,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 30.3,
-        "duration": 27.9,
-        "points": 32.5,
-        "frequency": 34.8,
+        "duration": 26.9,
+        "points": 31.9,
+        "frequency": 33.3,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 30.3,
-        "duration": 27.9,
-        "points": 29.4,
-        "frequency": 34.8,
-        "diversity": 25.0
-      }
-    },
-    {
-      "athlete_id": "177796904",
-      "athlete_name": "Pradyumna Pandey",
-      "total_activities": 13,
-      "unique_types": 4,
-      "total_distance_km": 32.43,
-      "total_duration_minutes": 443.83,
-      "total_points": 3249.88,
-      "total_points_dynamic": 3249.88,
-      "total_points_legacy": 4743.9,
-      "rank_legacy": 6,
-      "rank": 5,
-      "rank_dynamic": 5,
-      "radar_metrics": {
-        "distance": 19.7,
-        "duration": 31.4,
-        "points": 24.7,
-        "frequency": 56.5,
-        "diversity": 100.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 19.7,
-        "duration": 31.4,
-        "points": 24.7,
-        "frequency": 56.5,
-        "diversity": 100.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 19.7,
-        "duration": 31.4,
-        "points": 23.3,
-        "frequency": 56.5,
-        "diversity": 100.0
-      }
-    },
-    {
-      "athlete_id": "178278060",
-      "athlete_name": "Sumantha Madhyastha",
-      "total_activities": 19,
-      "unique_types": 1,
-      "total_distance_km": 42.22,
-      "total_duration_minutes": 431.28,
-      "total_points": 3176.42,
-      "total_points_dynamic": 3176.42,
-      "total_points_legacy": 4222.0,
-      "rank_legacy": 7,
-      "rank": 6,
-      "rank_dynamic": 6,
-      "radar_metrics": {
-        "distance": 25.7,
-        "duration": 30.5,
-        "points": 24.1,
-        "frequency": 82.6,
-        "diversity": 25.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 25.7,
-        "duration": 30.5,
-        "points": 24.1,
-        "frequency": 82.6,
-        "diversity": 25.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 25.7,
-        "duration": 30.5,
-        "points": 20.7,
-        "frequency": 82.6,
+        "duration": 26.9,
+        "points": 28.6,
+        "frequency": 33.3,
         "diversity": 25.0
       }
     },
     {
       "athlete_id": "178453532",
       "athlete_name": "Divyansh Singh",
-      "total_activities": 14,
+      "total_activities": 15,
       "unique_types": 3,
-      "total_distance_km": 16.75,
-      "total_duration_minutes": 605.95,
-      "total_points": 3164.86,
-      "total_points_dynamic": 3164.86,
-      "total_points_legacy": 5851.2,
-      "rank_legacy": 5,
-      "rank": 7,
-      "rank_dynamic": 7,
+      "total_distance_km": 17.28,
+      "total_duration_minutes": 615.13,
+      "total_points": 2573.35,
+      "total_points_dynamic": 2573.35,
+      "total_points_legacy": 5904.2,
+      "rank_legacy": 4,
+      "rank": 5,
+      "rank_dynamic": 5,
       "radar_metrics": {
-        "distance": 10.2,
-        "duration": 42.8,
-        "points": 24.0,
-        "frequency": 60.9,
+        "distance": 10.5,
+        "duration": 41.9,
+        "points": 19.1,
+        "frequency": 62.5,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
-        "distance": 10.2,
-        "duration": 42.8,
-        "points": 24.0,
-        "frequency": 60.9,
+        "distance": 10.5,
+        "duration": 41.9,
+        "points": 19.1,
+        "frequency": 62.5,
         "diversity": 75.0
       },
       "radar_metrics_legacy": {
-        "distance": 10.2,
-        "duration": 42.8,
-        "points": 28.7,
-        "frequency": 60.9,
+        "distance": 10.5,
+        "duration": 41.9,
+        "points": 28.3,
+        "frequency": 62.5,
         "diversity": 75.0
-      }
-    },
-    {
-      "athlete_id": "174727555",
-      "athlete_name": "giftbabu yeluri",
-      "total_activities": 4,
-      "unique_types": 1,
-      "total_distance_km": 38.7,
-      "total_duration_minutes": 420.0,
-      "total_points": 2943.57,
-      "total_points_dynamic": 2943.57,
-      "total_points_legacy": 3870.0,
-      "rank_legacy": 9,
-      "rank": 8,
-      "rank_dynamic": 8,
-      "radar_metrics": {
-        "distance": 23.5,
-        "duration": 29.7,
-        "points": 22.3,
-        "frequency": 17.4,
-        "diversity": 25.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 23.5,
-        "duration": 29.7,
-        "points": 22.3,
-        "frequency": 17.4,
-        "diversity": 25.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 23.5,
-        "duration": 29.7,
-        "points": 19.0,
-        "frequency": 17.4,
-        "diversity": 25.0
       }
     },
     {
@@ -1810,31 +1834,31 @@
       "unique_types": 3,
       "total_distance_km": 31.62,
       "total_duration_minutes": 402.35,
-      "total_points": 2556.81,
-      "total_points_dynamic": 2556.81,
+      "total_points": 2318.25,
+      "total_points_dynamic": 2318.25,
       "total_points_legacy": 4190.4,
-      "rank_legacy": 8,
-      "rank": 9,
-      "rank_dynamic": 9,
+      "rank_legacy": 9,
+      "rank": 6,
+      "rank_dynamic": 6,
       "radar_metrics": {
         "distance": 19.2,
-        "duration": 28.4,
-        "points": 19.4,
-        "frequency": 52.2,
+        "duration": 27.4,
+        "points": 17.2,
+        "frequency": 50.0,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
         "distance": 19.2,
-        "duration": 28.4,
-        "points": 19.4,
-        "frequency": 52.2,
+        "duration": 27.4,
+        "points": 17.2,
+        "frequency": 50.0,
         "diversity": 75.0
       },
       "radar_metrics_legacy": {
         "distance": 19.2,
-        "duration": 28.4,
-        "points": 20.6,
-        "frequency": 52.2,
+        "duration": 27.4,
+        "points": 20.1,
+        "frequency": 50.0,
         "diversity": 75.0
       }
     },
@@ -1849,28 +1873,63 @@
       "total_points_dynamic": 2257.87,
       "total_points_legacy": 3333.6,
       "rank_legacy": 11,
-      "rank": 10,
-      "rank_dynamic": 10,
+      "rank": 7,
+      "rank_dynamic": 7,
       "radar_metrics": {
         "distance": 16.9,
-        "duration": 17.1,
-        "points": 17.1,
-        "frequency": 13.0,
+        "duration": 16.5,
+        "points": 16.8,
+        "frequency": 12.5,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 16.9,
-        "duration": 17.1,
-        "points": 17.1,
-        "frequency": 13.0,
+        "duration": 16.5,
+        "points": 16.8,
+        "frequency": 12.5,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 16.9,
-        "duration": 17.1,
-        "points": 16.4,
-        "frequency": 13.0,
+        "duration": 16.5,
+        "points": 16.0,
+        "frequency": 12.5,
         "diversity": 25.0
+      }
+    },
+    {
+      "athlete_id": "177796904",
+      "athlete_name": "Pradyumna Pandey",
+      "total_activities": 13,
+      "unique_types": 4,
+      "total_distance_km": 27.95,
+      "total_duration_minutes": 443.83,
+      "total_points": 1913.49,
+      "total_points_dynamic": 1913.49,
+      "total_points_legacy": 4295.9,
+      "rank_legacy": 7,
+      "rank": 8,
+      "rank_dynamic": 8,
+      "radar_metrics": {
+        "distance": 17.0,
+        "duration": 30.3,
+        "points": 14.2,
+        "frequency": 54.2,
+        "diversity": 100.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 17.0,
+        "duration": 30.3,
+        "points": 14.2,
+        "frequency": 54.2,
+        "diversity": 100.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 17.0,
+        "duration": 30.3,
+        "points": 20.6,
+        "frequency": 54.2,
+        "diversity": 100.0
       }
     },
     {
@@ -1880,31 +1939,31 @@
       "unique_types": 2,
       "total_distance_km": 1.63,
       "total_duration_minutes": 385.27,
-      "total_points": 1898.51,
-      "total_points_dynamic": 1898.51,
+      "total_points": 1857.05,
+      "total_points_dynamic": 1857.05,
       "total_points_legacy": 3763.0,
       "rank_legacy": 10,
-      "rank": 11,
-      "rank_dynamic": 11,
+      "rank": 9,
+      "rank_dynamic": 9,
       "radar_metrics": {
         "distance": 1.0,
-        "duration": 27.2,
-        "points": 14.4,
-        "frequency": 17.4,
+        "duration": 26.3,
+        "points": 13.8,
+        "frequency": 16.7,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.0,
-        "duration": 27.2,
-        "points": 14.4,
-        "frequency": 17.4,
+        "duration": 26.3,
+        "points": 13.8,
+        "frequency": 16.7,
         "diversity": 50.0
       },
       "radar_metrics_legacy": {
         "distance": 1.0,
-        "duration": 27.2,
-        "points": 18.5,
-        "frequency": 17.4,
+        "duration": 26.3,
+        "points": 18.0,
+        "frequency": 16.7,
         "diversity": 50.0
       }
     },
@@ -1919,27 +1978,27 @@
       "total_points_dynamic": 1817.47,
       "total_points_legacy": 2430.0,
       "rank_legacy": 12,
-      "rank": 12,
-      "rank_dynamic": 12,
+      "rank": 10,
+      "rank_dynamic": 10,
       "radar_metrics": {
         "distance": 12.3,
-        "duration": 9.5,
-        "points": 13.8,
-        "frequency": 13.0,
+        "duration": 9.2,
+        "points": 13.5,
+        "frequency": 12.5,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 12.3,
-        "duration": 9.5,
-        "points": 13.8,
-        "frequency": 13.0,
+        "duration": 9.2,
+        "points": 13.5,
+        "frequency": 12.5,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 12.3,
-        "duration": 9.5,
-        "points": 11.9,
-        "frequency": 13.0,
+        "duration": 9.2,
+        "points": 11.6,
+        "frequency": 12.5,
         "diversity": 25.0
       }
     },
@@ -1954,27 +2013,132 @@
       "total_points_dynamic": 1575.11,
       "total_points_legacy": 2083.2,
       "rank_legacy": 13,
-      "rank": 13,
-      "rank_dynamic": 13,
+      "rank": 11,
+      "rank_dynamic": 11,
       "radar_metrics": {
         "distance": 10.6,
-        "duration": 8.0,
-        "points": 12.0,
-        "frequency": 8.7,
+        "duration": 7.7,
+        "points": 11.7,
+        "frequency": 8.3,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 10.6,
-        "duration": 8.0,
-        "points": 12.0,
-        "frequency": 8.7,
+        "duration": 7.7,
+        "points": 11.7,
+        "frequency": 8.3,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 10.6,
-        "duration": 8.0,
-        "points": 10.2,
-        "frequency": 8.7,
+        "duration": 7.7,
+        "points": 10.0,
+        "frequency": 8.3,
+        "diversity": 25.0
+      }
+    },
+    {
+      "athlete_id": "174727555",
+      "athlete_name": "giftbabu yeluri",
+      "total_activities": 5,
+      "unique_types": 1,
+      "total_distance_km": 44.5,
+      "total_duration_minutes": 480.0,
+      "total_points": 1557.5,
+      "total_points_dynamic": 1557.5,
+      "total_points_legacy": 4450.0,
+      "rank_legacy": 6,
+      "rank": 12,
+      "rank_dynamic": 12,
+      "radar_metrics": {
+        "distance": 27.1,
+        "duration": 32.7,
+        "points": 11.6,
+        "frequency": 20.8,
+        "diversity": 25.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 27.1,
+        "duration": 32.7,
+        "points": 11.6,
+        "frequency": 20.8,
+        "diversity": 25.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 27.1,
+        "duration": 32.7,
+        "points": 21.3,
+        "frequency": 20.8,
+        "diversity": 25.0
+      }
+    },
+    {
+      "athlete_id": "199260633",
+      "athlete_name": "Aadithyaa M",
+      "total_activities": 5,
+      "unique_types": 1,
+      "total_distance_km": 16.57,
+      "total_duration_minutes": 114.62,
+      "total_points": 1478.86,
+      "total_points_dynamic": 1478.86,
+      "total_points_legacy": 1988.4,
+      "rank_legacy": 14,
+      "rank": 13,
+      "rank_dynamic": 13,
+      "radar_metrics": {
+        "distance": 10.1,
+        "duration": 7.8,
+        "points": 11.0,
+        "frequency": 20.8,
+        "diversity": 25.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 10.1,
+        "duration": 7.8,
+        "points": 11.0,
+        "frequency": 20.8,
+        "diversity": 25.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 10.1,
+        "duration": 7.8,
+        "points": 9.5,
+        "frequency": 20.8,
+        "diversity": 25.0
+      }
+    },
+    {
+      "athlete_id": "178278060",
+      "athlete_name": "Sumantha Madhyastha",
+      "total_activities": 19,
+      "unique_types": 1,
+      "total_distance_km": 42.01,
+      "total_duration_minutes": 431.28,
+      "total_points": 1470.35,
+      "total_points_dynamic": 1470.35,
+      "total_points_legacy": 4201.0,
+      "rank_legacy": 8,
+      "rank": 14,
+      "rank_dynamic": 14,
+      "radar_metrics": {
+        "distance": 25.6,
+        "duration": 29.4,
+        "points": 10.9,
+        "frequency": 79.2,
+        "diversity": 25.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 25.6,
+        "duration": 29.4,
+        "points": 10.9,
+        "frequency": 79.2,
+        "diversity": 25.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 25.6,
+        "duration": 29.4,
+        "points": 20.1,
+        "frequency": 79.2,
         "diversity": 25.0
       }
     },
@@ -1988,63 +2152,63 @@
       "total_points": 1290.99,
       "total_points_dynamic": 1290.99,
       "total_points_legacy": 1803.6,
-      "rank_legacy": 14,
-      "rank": 14,
-      "rank_dynamic": 14,
+      "rank_legacy": 15,
+      "rank": 15,
+      "rank_dynamic": 15,
       "radar_metrics": {
         "distance": 9.1,
-        "duration": 7.8,
-        "points": 9.8,
-        "frequency": 4.3,
+        "duration": 7.5,
+        "points": 9.6,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 9.1,
-        "duration": 7.8,
-        "points": 9.8,
-        "frequency": 4.3,
+        "duration": 7.5,
+        "points": 9.6,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 9.1,
-        "duration": 7.8,
-        "points": 8.9,
-        "frequency": 4.3,
+        "duration": 7.5,
+        "points": 8.6,
+        "frequency": 4.2,
         "diversity": 25.0
       }
     },
     {
-      "athlete_id": "199260633",
-      "athlete_name": "Aadithyaa M",
-      "total_activities": 4,
+      "athlete_id": "181332418",
+      "athlete_name": "Athlete 181332418",
+      "total_activities": 1,
       "unique_types": 1,
-      "total_distance_km": 9.85,
-      "total_duration_minutes": 67.17,
-      "total_points": 888.56,
-      "total_points_dynamic": 888.56,
-      "total_points_legacy": 1182.0,
-      "rank_legacy": 16,
-      "rank": 15,
-      "rank_dynamic": 15,
+      "total_distance_km": 10.12,
+      "total_duration_minutes": 71.57,
+      "total_points": 884.54,
+      "total_points_dynamic": 884.54,
+      "total_points_legacy": 1214.4,
+      "rank_legacy": 18,
+      "rank": 16,
+      "rank_dynamic": 16,
       "radar_metrics": {
-        "distance": 6.0,
-        "duration": 4.7,
-        "points": 6.7,
-        "frequency": 17.4,
+        "distance": 6.2,
+        "duration": 4.9,
+        "points": 6.6,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
-        "distance": 6.0,
-        "duration": 4.7,
-        "points": 6.7,
-        "frequency": 17.4,
+        "distance": 6.2,
+        "duration": 4.9,
+        "points": 6.6,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
-        "distance": 6.0,
-        "duration": 4.7,
+        "distance": 6.2,
+        "duration": 4.9,
         "points": 5.8,
-        "frequency": 17.4,
+        "frequency": 4.2,
         "diversity": 25.0
       }
     },
@@ -2058,98 +2222,63 @@
       "total_points": 814.37,
       "total_points_dynamic": 814.37,
       "total_points_legacy": 1372.3,
-      "rank_legacy": 15,
-      "rank": 16,
-      "rank_dynamic": 16,
-      "radar_metrics": {
-        "distance": 4.2,
-        "duration": 7.4,
-        "points": 6.2,
-        "frequency": 8.7,
-        "diversity": 50.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 4.2,
-        "duration": 7.4,
-        "points": 6.2,
-        "frequency": 8.7,
-        "diversity": 50.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 4.2,
-        "duration": 7.4,
-        "points": 6.7,
-        "frequency": 8.7,
-        "diversity": 50.0
-      }
-    },
-    {
-      "athlete_id": "178305380",
-      "athlete_name": "Luffy Stark",
-      "total_activities": 3,
-      "unique_types": 1,
-      "total_distance_km": 4.59,
-      "total_duration_minutes": 41.83,
-      "total_points": 424.46,
-      "total_points_dynamic": 424.46,
-      "total_points_legacy": 459.0,
-      "rank_legacy": 20,
+      "rank_legacy": 16,
       "rank": 17,
       "rank_dynamic": 17,
       "radar_metrics": {
-        "distance": 2.8,
-        "duration": 3.0,
-        "points": 3.2,
-        "frequency": 13.0,
-        "diversity": 25.0
+        "distance": 4.2,
+        "duration": 7.2,
+        "points": 6.1,
+        "frequency": 8.3,
+        "diversity": 50.0
       },
       "radar_metrics_dynamic": {
-        "distance": 2.8,
-        "duration": 3.0,
-        "points": 3.2,
-        "frequency": 13.0,
-        "diversity": 25.0
+        "distance": 4.2,
+        "duration": 7.2,
+        "points": 6.1,
+        "frequency": 8.3,
+        "diversity": 50.0
       },
       "radar_metrics_legacy": {
-        "distance": 2.8,
-        "duration": 3.0,
-        "points": 2.3,
-        "frequency": 13.0,
-        "diversity": 25.0
+        "distance": 4.2,
+        "duration": 7.2,
+        "points": 6.6,
+        "frequency": 8.3,
+        "diversity": 50.0
       }
     },
     {
-      "athlete_id": "1127892",
-      "athlete_name": "Yashwanth Nagaraja",
+      "athlete_id": "175936330",
+      "athlete_name": "kumar sudhanshu singh",
       "total_activities": 2,
       "unique_types": 2,
-      "total_distance_km": 4.78,
-      "total_duration_minutes": 42.98,
-      "total_points": 374.74,
-      "total_points_dynamic": 374.74,
-      "total_points_legacy": 552.2,
-      "rank_legacy": 18,
+      "total_distance_km": 7.5,
+      "total_duration_minutes": 94.47,
+      "total_points": 789.48,
+      "total_points_dynamic": 789.48,
+      "total_points_legacy": 1275.5,
+      "rank_legacy": 17,
       "rank": 18,
       "rank_dynamic": 18,
       "radar_metrics": {
-        "distance": 2.9,
-        "duration": 3.0,
-        "points": 2.8,
-        "frequency": 8.7,
+        "distance": 4.6,
+        "duration": 6.4,
+        "points": 5.9,
+        "frequency": 8.3,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
-        "distance": 2.9,
-        "duration": 3.0,
-        "points": 2.8,
-        "frequency": 8.7,
+        "distance": 4.6,
+        "duration": 6.4,
+        "points": 5.9,
+        "frequency": 8.3,
         "diversity": 50.0
       },
       "radar_metrics_legacy": {
-        "distance": 2.9,
-        "duration": 3.0,
-        "points": 2.7,
-        "frequency": 8.7,
+        "distance": 4.6,
+        "duration": 6.4,
+        "points": 6.1,
+        "frequency": 8.3,
         "diversity": 50.0
       }
     },
@@ -2163,28 +2292,28 @@
       "total_points": 345.68,
       "total_points_dynamic": 345.68,
       "total_points_legacy": 885.2,
-      "rank_legacy": 17,
+      "rank_legacy": 19,
       "rank": 19,
       "rank_dynamic": 19,
       "radar_metrics": {
         "distance": 13.5,
-        "duration": 5.9,
+        "duration": 5.7,
         "points": 2.6,
-        "frequency": 17.4,
+        "frequency": 16.7,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 13.5,
-        "duration": 5.9,
+        "duration": 5.7,
         "points": 2.6,
-        "frequency": 17.4,
+        "frequency": 16.7,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 13.5,
-        "duration": 5.9,
-        "points": 4.3,
-        "frequency": 17.4,
+        "duration": 5.7,
+        "points": 4.2,
+        "frequency": 16.7,
         "diversity": 25.0
       }
     },
@@ -2198,64 +2327,64 @@
       "total_points": 341.61,
       "total_points_dynamic": 341.61,
       "total_points_legacy": 452.4,
-      "rank_legacy": 21,
+      "rank_legacy": 22,
       "rank": 20,
       "rank_dynamic": 20,
       "radar_metrics": {
         "distance": 2.3,
-        "duration": 1.8,
-        "points": 2.6,
-        "frequency": 4.3,
+        "duration": 1.7,
+        "points": 2.5,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 2.3,
-        "duration": 1.8,
-        "points": 2.6,
-        "frequency": 4.3,
+        "duration": 1.7,
+        "points": 2.5,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 2.3,
-        "duration": 1.8,
+        "duration": 1.7,
         "points": 2.2,
-        "frequency": 4.3,
+        "frequency": 4.2,
         "diversity": 25.0
       }
     },
     {
-      "athlete_id": "70287435",
-      "athlete_name": "Parthasarathy Ramesh",
+      "athlete_id": "1127892",
+      "athlete_name": "Yashwanth Nagaraja",
       "total_activities": 2,
-      "unique_types": 1,
-      "total_distance_km": 4.66,
-      "total_duration_minutes": 65.19,
-      "total_points": 302.29,
-      "total_points_dynamic": 302.29,
-      "total_points_legacy": 466.0,
-      "rank_legacy": 19,
+      "unique_types": 2,
+      "total_distance_km": 4.78,
+      "total_duration_minutes": 42.98,
+      "total_points": 335.34,
+      "total_points_dynamic": 335.34,
+      "total_points_legacy": 552.2,
+      "rank_legacy": 20,
       "rank": 21,
       "rank_dynamic": 21,
       "radar_metrics": {
-        "distance": 2.8,
-        "duration": 4.6,
-        "points": 2.3,
-        "frequency": 8.7,
-        "diversity": 25.0
+        "distance": 2.9,
+        "duration": 2.9,
+        "points": 2.5,
+        "frequency": 8.3,
+        "diversity": 50.0
       },
       "radar_metrics_dynamic": {
-        "distance": 2.8,
-        "duration": 4.6,
-        "points": 2.3,
-        "frequency": 8.7,
-        "diversity": 25.0
+        "distance": 2.9,
+        "duration": 2.9,
+        "points": 2.5,
+        "frequency": 8.3,
+        "diversity": 50.0
       },
       "radar_metrics_legacy": {
-        "distance": 2.8,
-        "duration": 4.6,
-        "points": 2.3,
-        "frequency": 8.7,
-        "diversity": 25.0
+        "distance": 2.9,
+        "duration": 2.9,
+        "points": 2.6,
+        "frequency": 8.3,
+        "diversity": 50.0
       }
     },
     {
@@ -2268,63 +2397,98 @@
       "total_points": 259.45,
       "total_points_dynamic": 259.45,
       "total_points_legacy": 336.0,
-      "rank_legacy": 23,
+      "rank_legacy": 24,
       "rank": 22,
       "rank_dynamic": 22,
       "radar_metrics": {
         "distance": 1.7,
-        "duration": 1.3,
-        "points": 2.0,
-        "frequency": 4.3,
+        "duration": 1.2,
+        "points": 1.9,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.7,
-        "duration": 1.3,
-        "points": 2.0,
-        "frequency": 4.3,
+        "duration": 1.2,
+        "points": 1.9,
+        "frequency": 4.2,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
         "distance": 1.7,
-        "duration": 1.3,
-        "points": 1.7,
-        "frequency": 4.3,
+        "duration": 1.2,
+        "points": 1.6,
+        "frequency": 4.2,
         "diversity": 25.0
       }
     },
     {
-      "athlete_id": "175936330",
-      "athlete_name": "kumar sudhanshu singh",
-      "total_activities": 1,
+      "athlete_id": "70287435",
+      "athlete_name": "Parthasarathy Ramesh",
+      "total_activities": 2,
       "unique_types": 1,
-      "total_distance_km": 0.0,
-      "total_duration_minutes": 37.55,
-      "total_points": 150.2,
-      "total_points_dynamic": 150.2,
-      "total_points_legacy": 375.5,
-      "rank_legacy": 22,
+      "total_distance_km": 4.66,
+      "total_duration_minutes": 65.19,
+      "total_points": 163.1,
+      "total_points_dynamic": 163.1,
+      "total_points_legacy": 466.0,
+      "rank_legacy": 21,
       "rank": 23,
       "rank_dynamic": 23,
       "radar_metrics": {
-        "distance": 0.0,
-        "duration": 2.7,
-        "points": 1.1,
-        "frequency": 4.3,
+        "distance": 2.8,
+        "duration": 4.4,
+        "points": 1.2,
+        "frequency": 8.3,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
-        "distance": 0.0,
-        "duration": 2.7,
-        "points": 1.1,
-        "frequency": 4.3,
+        "distance": 2.8,
+        "duration": 4.4,
+        "points": 1.2,
+        "frequency": 8.3,
         "diversity": 25.0
       },
       "radar_metrics_legacy": {
-        "distance": 0.0,
-        "duration": 2.7,
+        "distance": 2.8,
+        "duration": 4.4,
+        "points": 2.2,
+        "frequency": 8.3,
+        "diversity": 25.0
+      }
+    },
+    {
+      "athlete_id": "178305380",
+      "athlete_name": "Luffy Stark",
+      "total_activities": 3,
+      "unique_types": 1,
+      "total_distance_km": 3.66,
+      "total_duration_minutes": 41.83,
+      "total_points": 128.1,
+      "total_points_dynamic": 128.1,
+      "total_points_legacy": 366.0,
+      "rank_legacy": 23,
+      "rank": 24,
+      "rank_dynamic": 24,
+      "radar_metrics": {
+        "distance": 2.2,
+        "duration": 2.9,
+        "points": 1.0,
+        "frequency": 12.5,
+        "diversity": 25.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 2.2,
+        "duration": 2.9,
+        "points": 1.0,
+        "frequency": 12.5,
+        "diversity": 25.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 2.2,
+        "duration": 2.9,
         "points": 1.8,
-        "frequency": 4.3,
+        "frequency": 12.5,
         "diversity": 25.0
       }
     }
@@ -2332,21 +2496,30 @@
   "sport_breakdown": [
     {
       "activity_type": "Walk",
-      "count": 56,
-      "total_distance_km": 154.12,
-      "total_duration_minutes": 1663.52,
-      "total_points": 11680.92,
-      "total_points_dynamic": 11680.92,
-      "total_points_legacy": 15412.0
+      "count": 58,
+      "total_distance_km": 151.55,
+      "total_duration_minutes": 1732.7,
+      "total_points": 5304.25,
+      "total_points_dynamic": 5304.25,
+      "total_points_legacy": 15155.0
     },
     {
       "activity_type": "Run",
-      "count": 47,
-      "total_distance_km": 363.32,
-      "total_duration_minutes": 2513.16,
-      "total_points": 32438.4,
-      "total_points_dynamic": 32438.4,
-      "total_points_legacy": 43598.4
+      "count": 50,
+      "total_distance_km": 386.81,
+      "total_duration_minutes": 2689.1,
+      "total_points": 34399.8,
+      "total_points_dynamic": 34399.8,
+      "total_points_legacy": 46417.2
+    },
+    {
+      "activity_type": "Weight Training",
+      "count": 13,
+      "total_distance_km": 0.0,
+      "total_duration_minutes": 751.6,
+      "total_points": 3418.68,
+      "total_points_dynamic": 3418.68,
+      "total_points_legacy": 7516.0
     },
     {
       "activity_type": "Ride",
@@ -2356,15 +2529,6 @@
       "total_points": 1874.01,
       "total_points_dynamic": 1874.01,
       "total_points_legacy": 5971.3
-    },
-    {
-      "activity_type": "Weight Training",
-      "count": 12,
-      "total_distance_km": 0.0,
-      "total_duration_minutes": 699.42,
-      "total_points": 3157.78,
-      "total_points_dynamic": 3157.78,
-      "total_points_legacy": 6994.2
     },
     {
       "activity_type": "Workout",
@@ -2402,6 +2566,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20104845001",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.25
     },
     {
@@ -2419,7 +2587,11 @@
       "points_legacy": 400.5,
       "pace": "",
       "is_indoor": true,
-      "activity_url": "https://www.strava.com/activities/20089775001"
+      "activity_url": "https://www.strava.com/activities/20089775001",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": ""
     },
     {
       "activity_id": "20075160304",
@@ -2437,6 +2609,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20075160304",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -2454,7 +2630,11 @@
       "points_legacy": 308.0,
       "pace": "2:47 /100m",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20063446016"
+      "activity_url": "https://www.strava.com/activities/20063446016",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.88,
+      "original_pace": "2:47 /100m"
     },
     {
       "activity_id": "20062048095",
@@ -2471,7 +2651,11 @@
       "points_legacy": 1202.4,
       "pace": "7:00 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20062048095"
+      "activity_url": "https://www.strava.com/activities/20062048095",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.02,
+      "original_pace": "7:00 /km"
     },
     {
       "activity_id": "20055328522",
@@ -2488,7 +2672,11 @@
       "points_legacy": 350.5,
       "pace": "",
       "is_indoor": true,
-      "activity_url": "https://www.strava.com/activities/20055328522"
+      "activity_url": "https://www.strava.com/activities/20055328522",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": ""
     },
     {
       "activity_id": "20041216085",
@@ -2505,7 +2693,11 @@
       "points_legacy": 2534.4,
       "pace": "6:47 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041216085"
+      "activity_url": "https://www.strava.com/activities/20041216085",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 21.12,
+      "original_pace": "6:47 /km"
     },
     {
       "activity_id": "20041069989",
@@ -2522,7 +2714,11 @@
       "points_legacy": 1801.2,
       "pace": "6:39 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041069989"
+      "activity_url": "https://www.strava.com/activities/20041069989",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 15.01,
+      "original_pace": "6:39 /km"
     },
     {
       "activity_id": "20035504028",
@@ -2539,7 +2735,11 @@
       "points_legacy": 710.5,
       "pace": "2:30 /100m",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20035504028"
+      "activity_url": "https://www.strava.com/activities/20035504028",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.03,
+      "original_pace": "2:30 /100m"
     },
     {
       "activity_id": "20029104824",
@@ -2556,7 +2756,11 @@
       "points_legacy": 600.7,
       "pace": "",
       "is_indoor": true,
-      "activity_url": "https://www.strava.com/activities/20029104824"
+      "activity_url": "https://www.strava.com/activities/20029104824",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": ""
     },
     {
       "activity_id": "20007260008",
@@ -2574,6 +2778,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20007260008",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -2591,7 +2799,11 @@
       "points_legacy": 281.8,
       "pace": "",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/19992533672"
+      "activity_url": "https://www.strava.com/activities/19992533672",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": ""
     },
     {
       "activity_id": "19991545081",
@@ -2608,7 +2820,11 @@
       "points_legacy": 728.4,
       "pace": "7:02 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/19991545081"
+      "activity_url": "https://www.strava.com/activities/19991545081",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 6.07,
+      "original_pace": "7:02 /km"
     },
     {
       "activity_id": "20103416049",
@@ -2626,6 +2842,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20103416049",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -2644,6 +2864,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20103404501",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -2656,12 +2880,16 @@
       "datetime_display": "Sep 09, 2026 06:30 PM",
       "distance_km": 7.0,
       "duration_minutes": 66.0,
-      "points": 548.68,
-      "points_dynamic": 548.68,
+      "points": 245.0,
+      "points_dynamic": 245.0,
       "points_legacy": 700.0,
       "pace": "9:26 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20103393824"
+      "activity_url": "https://www.strava.com/activities/20103393824",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 7.0,
+      "original_pace": "9:26 /km"
     },
     {
       "activity_id": "20054568647",
@@ -2678,7 +2906,11 @@
       "points_legacy": 1222.8,
       "pace": "6:43 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20054568647"
+      "activity_url": "https://www.strava.com/activities/20054568647",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.19,
+      "original_pace": "6:43 /km"
     },
     {
       "activity_id": "19984248109",
@@ -2696,6 +2928,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/19984248109",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -2713,7 +2949,11 @@
       "points_legacy": 523.2,
       "pace": "6:43 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20082611772"
+      "activity_url": "https://www.strava.com/activities/20082611772",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.36,
+      "original_pace": "6:43 /km"
     },
     {
       "activity_id": "20060849475",
@@ -2730,7 +2970,11 @@
       "points_legacy": 703.2,
       "pace": "7:06 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20060849475"
+      "activity_url": "https://www.strava.com/activities/20060849475",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.86,
+      "original_pace": "7:06 /km"
     },
     {
       "activity_id": "20041095636",
@@ -2747,7 +2991,11 @@
       "points_legacy": 1803.6,
       "pace": "7:22 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041095636"
+      "activity_url": "https://www.strava.com/activities/20041095636",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 15.03,
+      "original_pace": "7:22 /km"
     },
     {
       "activity_id": "20103317398",
@@ -2764,7 +3012,11 @@
       "points_legacy": 361.2,
       "pace": "5:59 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20103317398"
+      "activity_url": "https://www.strava.com/activities/20103317398",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.01,
+      "original_pace": "5:59 /km"
     },
     {
       "activity_id": "20088869641",
@@ -2781,7 +3033,11 @@
       "points_legacy": 360.0,
       "pace": "8:00 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20088869641"
+      "activity_url": "https://www.strava.com/activities/20088869641",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.0,
+      "original_pace": "8:00 /km"
     },
     {
       "activity_id": "20062637776",
@@ -2798,7 +3054,11 @@
       "points_legacy": 1801.2,
       "pace": "8:40 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20062637776"
+      "activity_url": "https://www.strava.com/activities/20062637776",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 15.01,
+      "original_pace": "8:40 /km"
     },
     {
       "activity_id": "20005908524",
@@ -2815,7 +3075,11 @@
       "points_legacy": 228.0,
       "pace": "5:28 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20005908524"
+      "activity_url": "https://www.strava.com/activities/20005908524",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.9,
+      "original_pace": "5:28 /km"
     },
     {
       "activity_id": "19990972436",
@@ -2832,7 +3096,11 @@
       "points_legacy": 300.0,
       "pace": "7:37 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/19990972436"
+      "activity_url": "https://www.strava.com/activities/19990972436",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.5,
+      "original_pace": "7:37 /km"
     },
     {
       "activity_id": "20041105756",
@@ -2849,7 +3117,11 @@
       "points_legacy": 190.8,
       "pace": "7:07 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041105756"
+      "activity_url": "https://www.strava.com/activities/20041105756",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.59,
+      "original_pace": "7:07 /km"
     },
     {
       "activity_id": "20041058625",
@@ -2866,7 +3138,11 @@
       "points_legacy": 1638.0,
       "pace": "6:43 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041058625"
+      "activity_url": "https://www.strava.com/activities/20041058625",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 13.65,
+      "original_pace": "6:43 /km"
     },
     {
       "activity_id": "20120497973",
@@ -2884,6 +3160,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20120497973",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.25
     },
     {
@@ -2896,12 +3176,16 @@
       "datetime_display": "Sep 10, 2026 05:42 PM",
       "distance_km": 3.0,
       "duration_minutes": 34.0,
-      "points": 211.94,
-      "points_dynamic": 211.94,
+      "points": 105.0,
+      "points_dynamic": 105.0,
       "points_legacy": 300.0,
       "pace": "11:20 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20120485588"
+      "activity_url": "https://www.strava.com/activities/20120485588",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.0,
+      "original_pace": "11:20 /km"
     },
     {
       "activity_id": "20118000717",
@@ -2918,7 +3202,11 @@
       "points_legacy": 1202.4,
       "pace": "6:11 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20118000717"
+      "activity_url": "https://www.strava.com/activities/20118000717",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.02,
+      "original_pace": "6:11 /km"
     },
     {
       "activity_id": "20118067180",
@@ -2935,7 +3223,11 @@
       "points_legacy": 1213.2,
       "pace": "6:10 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20118067180"
+      "activity_url": "https://www.strava.com/activities/20118067180",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.11,
+      "original_pace": "6:10 /km"
     },
     {
       "activity_id": "20132274737",
@@ -2952,7 +3244,11 @@
       "points_legacy": 287.0,
       "pace": "2:45 /100m",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20132274737"
+      "activity_url": "https://www.strava.com/activities/20132274737",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.82,
+      "original_pace": "2:45 /100m"
     },
     {
       "activity_id": "20131028788",
@@ -2970,6 +3266,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20131028788",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.5
     },
     {
@@ -2987,7 +3287,11 @@
       "points_legacy": 288.0,
       "pace": "5:01 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20130930805"
+      "activity_url": "https://www.strava.com/activities/20130930805",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.4,
+      "original_pace": "5:01 /km"
     },
     {
       "activity_id": "20143540107",
@@ -3004,7 +3308,11 @@
       "points_legacy": 735.0,
       "pace": "2:15 /100m",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20143540107"
+      "activity_url": "https://www.strava.com/activities/20143540107",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.1,
+      "original_pace": "2:15 /100m"
     },
     {
       "activity_id": "20138339705",
@@ -3019,9 +3327,13 @@
       "points": 691.35,
       "points_dynamic": 691.35,
       "points_legacy": 2872.8,
-      "pace": "",
+      "pace": "2:39 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20138339705",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 71.82,
+      "original_pace": "2:39 /km",
       "cycling_percentile": 82.4,
       "cycling_effective_rate": 9.6261
     },
@@ -3040,7 +3352,11 @@
       "points_legacy": 2041.2,
       "pace": "8:28 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20146336416"
+      "activity_url": "https://www.strava.com/activities/20146336416",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 17.01,
+      "original_pace": "8:28 /km"
     },
     {
       "activity_id": "20137964277",
@@ -3052,12 +3368,16 @@
       "datetime_display": "Sep 12, 2026",
       "distance_km": 4.19,
       "duration_minutes": 46.23,
-      "points": 303.56,
-      "points_dynamic": 303.56,
+      "points": 146.65,
+      "points_dynamic": 146.65,
       "points_legacy": 419.0,
       "pace": "11:02 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20137964277"
+      "activity_url": "https://www.strava.com/activities/20137964277",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.19,
+      "original_pace": "11:02 /km"
     },
     {
       "activity_id": "20129852996",
@@ -3069,12 +3389,16 @@
       "datetime_display": "Sep 11, 2026",
       "distance_km": 1.64,
       "duration_minutes": 13.42,
-      "points": 134.1,
-      "points_dynamic": 134.1,
+      "points": 57.4,
+      "points_dynamic": 57.4,
       "points_legacy": 164.0,
       "pace": "8:11 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129852996"
+      "activity_url": "https://www.strava.com/activities/20129852996",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.64,
+      "original_pace": "8:11 /km"
     },
     {
       "activity_id": "20129853025",
@@ -3086,12 +3410,16 @@
       "datetime_display": "Sep 10, 2026",
       "distance_km": 1.76,
       "duration_minutes": 15.75,
-      "points": 137.21,
-      "points_dynamic": 137.21,
+      "points": 61.6,
+      "points_dynamic": 61.6,
       "points_legacy": 176.0,
       "pace": "8:57 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853025"
+      "activity_url": "https://www.strava.com/activities/20129853025",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.76,
+      "original_pace": "8:57 /km"
     },
     {
       "activity_id": "20129853289",
@@ -3103,12 +3431,16 @@
       "datetime_display": "Sep 09, 2026",
       "distance_km": 1.85,
       "duration_minutes": 15.18,
-      "points": 151.19,
-      "points_dynamic": 151.19,
+      "points": 64.75,
+      "points_dynamic": 64.75,
       "points_legacy": 185.0,
       "pace": "8:12 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853289"
+      "activity_url": "https://www.strava.com/activities/20129853289",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.85,
+      "original_pace": "8:12 /km"
     },
     {
       "activity_id": "20129853359",
@@ -3120,12 +3452,16 @@
       "datetime_display": "Sep 08, 2026",
       "distance_km": 0.43,
       "duration_minutes": 4.35,
-      "points": 30.95,
-      "points_dynamic": 30.95,
+      "points": 15.05,
+      "points_dynamic": 15.05,
       "points_legacy": 43.0,
       "pace": "10:07 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853359"
+      "activity_url": "https://www.strava.com/activities/20129853359",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.43,
+      "original_pace": "10:07 /km"
     },
     {
       "activity_id": "20129853275",
@@ -3137,12 +3473,16 @@
       "datetime_display": "Sep 07, 2026",
       "distance_km": 1.61,
       "duration_minutes": 13.47,
-      "points": 130.04,
-      "points_dynamic": 130.04,
+      "points": 56.35,
+      "points_dynamic": 56.35,
       "points_legacy": 161.0,
       "pace": "8:22 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853275"
+      "activity_url": "https://www.strava.com/activities/20129853275",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.61,
+      "original_pace": "8:22 /km"
     },
     {
       "activity_id": "20129853623",
@@ -3154,12 +3494,16 @@
       "datetime_display": "Sep 06, 2026",
       "distance_km": 4.7,
       "duration_minutes": 54.45,
-      "points": 336.21,
-      "points_dynamic": 336.21,
+      "points": 164.5,
+      "points_dynamic": 164.5,
       "points_legacy": 470.0,
       "pace": "11:35 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853623"
+      "activity_url": "https://www.strava.com/activities/20129853623",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.7,
+      "original_pace": "11:35 /km"
     },
     {
       "activity_id": "20129853860",
@@ -3171,12 +3515,16 @@
       "datetime_display": "Sep 05, 2026",
       "distance_km": 3.63,
       "duration_minutes": 44.08,
-      "points": 251.61,
-      "points_dynamic": 251.61,
+      "points": 127.05,
+      "points_dynamic": 127.05,
       "points_legacy": 363.0,
       "pace": "12:09 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853860"
+      "activity_url": "https://www.strava.com/activities/20129853860",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.63,
+      "original_pace": "12:09 /km"
     },
     {
       "activity_id": "20129854033",
@@ -3188,12 +3536,16 @@
       "datetime_display": "Sep 04, 2026",
       "distance_km": 2.79,
       "duration_minutes": 31.37,
-      "points": 197.16,
-      "points_dynamic": 197.16,
+      "points": 97.65,
+      "points_dynamic": 97.65,
       "points_legacy": 279.0,
       "pace": "11:15 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129854033"
+      "activity_url": "https://www.strava.com/activities/20129854033",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.79,
+      "original_pace": "11:15 /km"
     },
     {
       "activity_id": "20129853960",
@@ -3205,12 +3557,16 @@
       "datetime_display": "Sep 03, 2026",
       "distance_km": 1.6,
       "duration_minutes": 14.42,
-      "points": 124.11,
-      "points_dynamic": 124.11,
+      "points": 56.0,
+      "points_dynamic": 56.0,
       "points_legacy": 160.0,
       "pace": "9:01 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129853960"
+      "activity_url": "https://www.strava.com/activities/20129853960",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.6,
+      "original_pace": "9:01 /km"
     },
     {
       "activity_id": "20129854205",
@@ -3222,12 +3578,16 @@
       "datetime_display": "Sep 02, 2026",
       "distance_km": 0.91,
       "duration_minutes": 9.58,
-      "points": 64.56,
-      "points_dynamic": 64.56,
+      "points": 31.85,
+      "points_dynamic": 31.85,
       "points_legacy": 91.0,
       "pace": "10:32 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129854205"
+      "activity_url": "https://www.strava.com/activities/20129854205",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.91,
+      "original_pace": "10:32 /km"
     },
     {
       "activity_id": "20129854183",
@@ -3239,12 +3599,16 @@
       "datetime_display": "Sep 01, 2026",
       "distance_km": 0.67,
       "duration_minutes": 5.88,
-      "points": 52.39,
-      "points_dynamic": 52.39,
+      "points": 23.45,
+      "points_dynamic": 23.45,
       "points_legacy": 67.0,
       "pace": "8:47 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20129854183"
+      "activity_url": "https://www.strava.com/activities/20129854183",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.67,
+      "original_pace": "8:47 /km"
     },
     {
       "activity_id": "20152222384",
@@ -3261,7 +3625,11 @@
       "points_legacy": 2402.4,
       "pace": "7:05 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20152222384"
+      "activity_url": "https://www.strava.com/activities/20152222384",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 20.02,
+      "original_pace": "7:05 /km"
     },
     {
       "activity_id": "20124985042",
@@ -3278,7 +3646,11 @@
       "points_legacy": 25.2,
       "pace": "7:37 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20124985042"
+      "activity_url": "https://www.strava.com/activities/20124985042",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.21,
+      "original_pace": "7:37 /km"
     },
     {
       "activity_id": "20041270804",
@@ -3295,7 +3667,11 @@
       "points_legacy": 74.4,
       "pace": "6:45 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041270804"
+      "activity_url": "https://www.strava.com/activities/20041270804",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.62,
+      "original_pace": "6:45 /km"
     },
     {
       "activity_id": "19984550562",
@@ -3312,7 +3688,11 @@
       "points_legacy": 550.8,
       "pace": "6:15 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/19984550562"
+      "activity_url": "https://www.strava.com/activities/19984550562",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.59,
+      "original_pace": "6:15 /km"
     },
     {
       "activity_id": "20162265952",
@@ -3329,7 +3709,11 @@
       "points_legacy": 1226.4,
       "pace": "8:02 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20162265952"
+      "activity_url": "https://www.strava.com/activities/20162265952",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.22,
+      "original_pace": "8:02 /km"
     },
     {
       "activity_id": "20162265542",
@@ -3341,12 +3725,16 @@
       "datetime_display": "Sep 12, 2026",
       "distance_km": 4.5,
       "duration_minutes": 73.73,
-      "points": 286.4,
-      "points_dynamic": 286.4,
+      "points": 157.5,
+      "points_dynamic": 157.5,
       "points_legacy": 450.0,
       "pace": "16:23 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20162265542"
+      "activity_url": "https://www.strava.com/activities/20162265542",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.5,
+      "original_pace": "16:23 /km"
     },
     {
       "activity_id": "20162265363",
@@ -3358,12 +3746,16 @@
       "datetime_display": "Sep 12, 2026",
       "distance_km": 1.29,
       "duration_minutes": 21.67,
-      "points": 74.71,
-      "points_dynamic": 74.71,
+      "points": 45.15,
+      "points_dynamic": 45.15,
       "points_legacy": 129.0,
       "pace": "16:48 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20162265363"
+      "activity_url": "https://www.strava.com/activities/20162265363",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.29,
+      "original_pace": "16:48 /km"
     },
     {
       "activity_id": "20162265324",
@@ -3375,12 +3767,16 @@
       "datetime_display": "Sep 12, 2026",
       "distance_km": 0.93,
       "duration_minutes": 15.7,
-      "points": 53.05,
-      "points_dynamic": 53.05,
+      "points": 32.55,
+      "points_dynamic": 32.55,
       "points_legacy": 93.0,
       "pace": "16:53 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20162265324"
+      "activity_url": "https://www.strava.com/activities/20162265324",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.93,
+      "original_pace": "16:53 /km"
     },
     {
       "activity_id": "20162265149",
@@ -3392,12 +3788,16 @@
       "datetime_display": "Sep 11, 2026",
       "distance_km": 1.45,
       "duration_minutes": 22.83,
-      "points": 86.6,
-      "points_dynamic": 86.6,
+      "points": 50.75,
+      "points_dynamic": 50.75,
       "points_legacy": 145.0,
       "pace": "15:45 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20162265149"
+      "activity_url": "https://www.strava.com/activities/20162265149",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.45,
+      "original_pace": "15:45 /km"
     },
     {
       "activity_id": "20162265037",
@@ -3414,7 +3814,11 @@
       "points_legacy": 577.2,
       "pace": "8:32 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20162265037"
+      "activity_url": "https://www.strava.com/activities/20162265037",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.81,
+      "original_pace": "8:32 /km"
     },
     {
       "activity_id": "20160789678",
@@ -3426,12 +3830,16 @@
       "datetime_display": "Sep 13, 2026",
       "distance_km": 1.63,
       "duration_minutes": 25.27,
-      "points": 98.51,
-      "points_dynamic": 98.51,
+      "points": 57.05,
+      "points_dynamic": 57.05,
       "points_legacy": 163.0,
       "pace": "15:30 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20160789678"
+      "activity_url": "https://www.strava.com/activities/20160789678",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.63,
+      "original_pace": "15:30 /km"
     },
     {
       "activity_id": "20151622731",
@@ -3448,7 +3856,11 @@
       "points_legacy": 1442.4,
       "pace": "5:39 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20151622731"
+      "activity_url": "https://www.strava.com/activities/20151622731",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 12.02,
+      "original_pace": "5:39 /km"
     },
     {
       "activity_id": "20152209803",
@@ -3460,12 +3872,16 @@
       "datetime_display": "Sep 13, 2026",
       "distance_km": 4.96,
       "duration_minutes": 56.25,
-      "points": 358.64,
-      "points_dynamic": 358.64,
+      "points": 173.6,
+      "points_dynamic": 173.6,
       "points_legacy": 496.0,
       "pace": "11:20 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20152209803"
+      "activity_url": "https://www.strava.com/activities/20152209803",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.96,
+      "original_pace": "11:20 /km"
     },
     {
       "activity_id": "20172370069",
@@ -3482,7 +3898,11 @@
       "points_legacy": 245.0,
       "pace": "2:31 /100m",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20172370069"
+      "activity_url": "https://www.strava.com/activities/20172370069",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.7,
+      "original_pace": "2:31 /100m"
     },
     {
       "activity_id": "20170798946",
@@ -3499,7 +3919,11 @@
       "points_legacy": 843.6,
       "pace": "7:12 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20170798946"
+      "activity_url": "https://www.strava.com/activities/20170798946",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 7.03,
+      "original_pace": "7:12 /km"
     },
     {
       "activity_id": "20165679538",
@@ -3516,7 +3940,11 @@
       "points_legacy": 324.0,
       "pace": "8:43 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20165679538"
+      "activity_url": "https://www.strava.com/activities/20165679538",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.7,
+      "original_pace": "8:43 /km"
     },
     {
       "activity_id": "20165657130",
@@ -3533,7 +3961,11 @@
       "points_legacy": 328.8,
       "pace": "9:06 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20165657130"
+      "activity_url": "https://www.strava.com/activities/20165657130",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.74,
+      "original_pace": "9:06 /km"
     },
     {
       "activity_id": "20041175499",
@@ -3548,9 +3980,13 @@
       "points": 80.29,
       "points_dynamic": 80.29,
       "points_legacy": 205.6,
-      "pace": "",
+      "pace": "4:05 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20041175499",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.14,
+      "original_pace": "4:05 /km",
       "cycling_percentile": 41.2,
       "cycling_effective_rate": 15.6204
     },
@@ -3567,9 +4003,13 @@
       "points": 79.04,
       "points_dynamic": 79.04,
       "points_legacy": 202.4,
-      "pace": "",
+      "pace": "3:58 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20041076722",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.06,
+      "original_pace": "3:58 /km",
       "cycling_percentile": 41.2,
       "cycling_effective_rate": 15.6204
     },
@@ -3583,12 +4023,16 @@
       "datetime_display": "Sep 14, 2026",
       "distance_km": 4.57,
       "duration_minutes": 45.02,
-      "points": 347.54,
-      "points_dynamic": 347.54,
+      "points": 159.95,
+      "points_dynamic": 159.95,
       "points_legacy": 457.0,
       "pace": "9:51 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20165741571"
+      "activity_url": "https://www.strava.com/activities/20165741571",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.57,
+      "original_pace": "9:51 /km"
     },
     {
       "activity_id": "20181021854",
@@ -3600,12 +4044,16 @@
       "datetime_display": "Sep 15, 2026 12:45 PM",
       "distance_km": 1.08,
       "duration_minutes": 15.72,
-      "points": 65.91,
-      "points_dynamic": 65.91,
+      "points": 37.8,
+      "points_dynamic": 37.8,
       "points_legacy": 108.0,
       "pace": "14:33 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20181021854"
+      "activity_url": "https://www.strava.com/activities/20181021854",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.08,
+      "original_pace": "14:33 /km"
     },
     {
       "activity_id": "20180078048",
@@ -3617,12 +4065,16 @@
       "datetime_display": "Sep 15, 2026 10:43 AM",
       "distance_km": 1.05,
       "duration_minutes": 13.62,
-      "points": 67.42,
-      "points_dynamic": 67.42,
+      "points": 36.75,
+      "points_dynamic": 36.75,
       "points_legacy": 105.0,
       "pace": "12:58 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20180078048"
+      "activity_url": "https://www.strava.com/activities/20180078048",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.05,
+      "original_pace": "12:58 /km"
     },
     {
       "activity_id": "20180093723",
@@ -3640,6 +4092,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20180093723",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -3658,6 +4114,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20193831931",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -3670,12 +4130,16 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 0.97,
       "duration_minutes": 14.85,
-      "points": 57.7,
-      "points_dynamic": 57.7,
+      "points": 33.95,
+      "points_dynamic": 33.95,
       "points_legacy": 97.0,
       "pace": "15:19 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20188308205"
+      "activity_url": "https://www.strava.com/activities/20188308205",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.97,
+      "original_pace": "15:19 /km"
     },
     {
       "activity_id": "20180182656",
@@ -3693,6 +4157,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20180182656",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -3708,9 +4176,13 @@
       "points": 182.68,
       "points_dynamic": 182.68,
       "points_legacy": 456.7,
-      "pace": "",
+      "pace": "22:43 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20180182654",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.01,
+      "original_pace": "22:43 /km",
       "slow_met_multiplier": 1.0
     },
     {
@@ -3729,6 +4201,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20180182620",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -3744,9 +4220,13 @@
       "points": 60.39,
       "points_dynamic": 60.39,
       "points_legacy": 175.6,
-      "pace": "",
+      "pace": "3:42 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20184869136",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.39,
+      "original_pace": "3:42 /km",
       "cycling_percentile": 35.3,
       "cycling_effective_rate": 13.7553
     },
@@ -3758,14 +4238,18 @@
       "datetime_utc": "Tuesday, September 15, 2026",
       "datetime_iso": "2026-09-15T00:00:00",
       "datetime_display": "Sep 15, 2026",
-      "distance_km": 2.65,
+      "distance_km": 1.2,
       "duration_minutes": 14.43,
-      "points": 273.14,
-      "points_dynamic": 273.14,
-      "points_legacy": 265.0,
-      "pace": "5:27 /km",
+      "points": 42.0,
+      "points_dynamic": 42.0,
+      "points_legacy": 120.0,
+      "pace": "12:02 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20183441925"
+      "activity_url": "https://www.strava.com/activities/20183441925",
+      "integrity_flag": "MISLABELED_WALK",
+      "integrity_badge": "\ud83d\udea8 Mislabeled Walk (Run/Cycle Speed)",
+      "original_distance_km": 2.65,
+      "original_pace": "5:27 /km"
     },
     {
       "activity_id": "20111603107",
@@ -3782,7 +4266,11 @@
       "points_legacy": 730.8,
       "pace": "4:27 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20111603107"
+      "activity_url": "https://www.strava.com/activities/20111603107",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 6.09,
+      "original_pace": "4:27 /km"
     },
     {
       "activity_id": "20041099299",
@@ -3799,7 +4287,11 @@
       "points_legacy": 2581.2,
       "pace": "5:16 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20041099299"
+      "activity_url": "https://www.strava.com/activities/20041099299",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 21.51,
+      "original_pace": "5:16 /km"
     },
     {
       "activity_id": "20184187182",
@@ -3811,12 +4303,16 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 2.15,
       "duration_minutes": 24.77,
-      "points": 148.96,
-      "points_dynamic": 148.96,
+      "points": 75.25,
+      "points_dynamic": 75.25,
       "points_legacy": 215.0,
       "pace": "11:31 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20184187182"
+      "activity_url": "https://www.strava.com/activities/20184187182",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.15,
+      "original_pace": "11:31 /km"
     },
     {
       "activity_id": "20193966273",
@@ -3828,12 +4324,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 0.78,
       "duration_minutes": 7.37,
-      "points": 58.57,
-      "points_dynamic": 58.57,
+      "points": 27.3,
+      "points_dynamic": 27.3,
       "points_legacy": 78.0,
       "pace": "9:27 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20193966273"
+      "activity_url": "https://www.strava.com/activities/20193966273",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.78,
+      "original_pace": "9:27 /km"
     },
     {
       "activity_id": "20185696519",
@@ -3845,12 +4345,16 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 2.01,
       "duration_minutes": 19.28,
-      "points": 151.48,
-      "points_dynamic": 151.48,
+      "points": 70.35,
+      "points_dynamic": 70.35,
       "points_legacy": 201.0,
       "pace": "9:36 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20185696519"
+      "activity_url": "https://www.strava.com/activities/20185696519",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.01,
+      "original_pace": "9:36 /km"
     },
     {
       "activity_id": "20184924038",
@@ -3865,9 +4369,13 @@
       "points": 93.25,
       "points_dynamic": 93.25,
       "points_legacy": 238.8,
-      "pace": "",
+      "pace": "3:42 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20184924038",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.97,
+      "original_pace": "3:42 /km",
       "cycling_percentile": 41.2,
       "cycling_effective_rate": 15.6204
     },
@@ -3884,9 +4392,13 @@
       "points": 93.1,
       "points_dynamic": 93.1,
       "points_legacy": 238.4,
-      "pace": "",
+      "pace": "3:30 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20179711836",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.96,
+      "original_pace": "3:30 /km",
       "cycling_percentile": 41.2,
       "cycling_effective_rate": 15.6204
     },
@@ -3900,12 +4412,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 3.07,
       "duration_minutes": 28.43,
-      "points": 237.3,
-      "points_dynamic": 237.3,
+      "points": 107.45,
+      "points_dynamic": 107.45,
       "points_legacy": 307.0,
       "pace": "9:16 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20193936385"
+      "activity_url": "https://www.strava.com/activities/20193936385",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.07,
+      "original_pace": "9:16 /km"
     },
     {
       "activity_id": "20179102235",
@@ -3915,14 +4431,18 @@
       "datetime_utc": "Tuesday, September 15, 2026",
       "datetime_iso": "2026-09-15T00:00:00",
       "datetime_display": "Sep 15, 2026",
-      "distance_km": 0.34,
+      "distance_km": 0.13,
       "duration_minutes": 1.22,
-      "points": 49.47,
-      "points_dynamic": 49.47,
-      "points_legacy": 34.0,
-      "pace": "3:35 /km",
+      "points": 4.55,
+      "points_dynamic": 4.55,
+      "points_legacy": 13.0,
+      "pace": "9:23 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20179102235"
+      "activity_url": "https://www.strava.com/activities/20179102235",
+      "integrity_flag": "MISLABELED_WALK",
+      "integrity_badge": "\ud83d\udea8 Mislabeled Walk (Run/Cycle Speed)",
+      "original_distance_km": 0.34,
+      "original_pace": "3:35 /km"
     },
     {
       "activity_id": "20137875605",
@@ -3939,7 +4459,11 @@
       "points_legacy": 445.2,
       "pace": "8:36 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20137875605"
+      "activity_url": "https://www.strava.com/activities/20137875605",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.71,
+      "original_pace": "8:36 /km"
     },
     {
       "activity_id": "20195084866",
@@ -3954,9 +4478,13 @@
       "points": 60.39,
       "points_dynamic": 60.39,
       "points_legacy": 175.6,
-      "pace": "",
+      "pace": "4:24 /km",
       "is_indoor": false,
       "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.39,
+      "original_pace": "4:24 /km",
       "cycling_percentile": 35.3,
       "cycling_effective_rate": 13.7553
     },
@@ -3970,12 +4498,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 4.75,
       "duration_minutes": 58.0,
-      "points": 333.58,
-      "points_dynamic": 333.58,
+      "points": 166.25,
+      "points_dynamic": 166.25,
       "points_legacy": 475.0,
       "pace": "12:13 /km",
       "is_indoor": false,
-      "activity_url": ""
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.75,
+      "original_pace": "12:13 /km"
     },
     {
       "activity_id": "20200691210",
@@ -3993,6 +4525,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20200691210",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.25
     },
     {
@@ -4005,12 +4541,16 @@
       "datetime_display": "Sep 16, 2026 06:39 PM",
       "distance_km": 1.49,
       "duration_minutes": 18.83,
-      "points": 97.82,
-      "points_dynamic": 97.82,
+      "points": 52.15,
+      "points_dynamic": 52.15,
       "points_legacy": 149.0,
       "pace": "12:38 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20199896990"
+      "activity_url": "https://www.strava.com/activities/20199896990",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.49,
+      "original_pace": "12:38 /km"
     },
     {
       "activity_id": "20202102674",
@@ -4027,7 +4567,11 @@
       "points_legacy": 595.0,
       "pace": "2:26 /100m",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20202102674"
+      "activity_url": "https://www.strava.com/activities/20202102674",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.7,
+      "original_pace": "2:26 /100m"
     },
     {
       "activity_id": "20200890318",
@@ -4045,6 +4589,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20200890318",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -4062,7 +4610,11 @@
       "points_legacy": 531.6,
       "pace": "7:22 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20200226733"
+      "activity_url": "https://www.strava.com/activities/20200226733",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.43,
+      "original_pace": "7:22 /km"
     },
     {
       "activity_id": "20200002111",
@@ -4077,9 +4629,13 @@
       "points": 54.06,
       "points_dynamic": 54.06,
       "points_legacy": 157.2,
-      "pace": "",
+      "pace": "4:09 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20200002111",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.93,
+      "original_pace": "4:09 /km",
       "cycling_percentile": 35.3,
       "cycling_effective_rate": 13.7553
     },
@@ -4098,7 +4654,11 @@
       "points_legacy": 735.6,
       "pace": "4:39 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20194225703"
+      "activity_url": "https://www.strava.com/activities/20194225703",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 6.13,
+      "original_pace": "4:39 /km"
     },
     {
       "activity_id": "20199262701",
@@ -4108,14 +4668,18 @@
       "datetime_utc": "Wednesday, September 16, 2026",
       "datetime_iso": "2026-09-16T00:00:00",
       "datetime_display": "Sep 16, 2026",
-      "distance_km": 1.32,
+      "distance_km": 0.39,
       "duration_minutes": 4.35,
-      "points": 198.15,
-      "points_dynamic": 198.15,
-      "points_legacy": 132.0,
-      "pace": "3:18 /km",
+      "points": 13.65,
+      "points_dynamic": 13.65,
+      "points_legacy": 39.0,
+      "pace": "11:09 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20199262701"
+      "activity_url": "https://www.strava.com/activities/20199262701",
+      "integrity_flag": "VEHICLE_SPEED",
+      "integrity_badge": "\ud83d\ude97 Vehicle Speed Review",
+      "original_distance_km": 1.32,
+      "original_pace": "3:18 /km"
     },
     {
       "activity_id": "20198565704",
@@ -4127,12 +4691,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 0.99,
       "duration_minutes": 10.73,
-      "points": 69.31,
-      "points_dynamic": 69.31,
+      "points": 34.65,
+      "points_dynamic": 34.65,
       "points_legacy": 99.0,
       "pace": "10:50 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20198565704"
+      "activity_url": "https://www.strava.com/activities/20198565704",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.99,
+      "original_pace": "10:50 /km"
     },
     {
       "activity_id": "20201021139",
@@ -4144,12 +4712,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 2.51,
       "duration_minutes": 40.42,
-      "points": 153.33,
-      "points_dynamic": 153.33,
+      "points": 87.85,
+      "points_dynamic": 87.85,
       "points_legacy": 251.0,
       "pace": "16:06 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20201021139"
+      "activity_url": "https://www.strava.com/activities/20201021139",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.51,
+      "original_pace": "16:06 /km"
     },
     {
       "activity_id": "20201064041",
@@ -4161,12 +4733,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 3.39,
       "duration_minutes": 54.7,
-      "points": 211.58,
-      "points_dynamic": 211.58,
+      "points": 118.65,
+      "points_dynamic": 118.65,
       "points_legacy": 339.0,
       "pace": "16:08 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20201064041"
+      "activity_url": "https://www.strava.com/activities/20201064041",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.39,
+      "original_pace": "16:08 /km"
     },
     {
       "activity_id": "20198572115",
@@ -4178,12 +4754,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 1.57,
       "duration_minutes": 14.53,
-      "points": 120.13,
-      "points_dynamic": 120.13,
+      "points": 54.95,
+      "points_dynamic": 54.95,
       "points_legacy": 157.0,
       "pace": "9:15 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20198572115"
+      "activity_url": "https://www.strava.com/activities/20198572115",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.57,
+      "original_pace": "9:15 /km"
     },
     {
       "activity_id": "20194665447",
@@ -4195,12 +4775,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 1.54,
       "duration_minutes": 18.27,
-      "points": 104.14,
-      "points_dynamic": 104.14,
+      "points": 53.9,
+      "points_dynamic": 53.9,
       "points_legacy": 154.0,
       "pace": "11:52 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20194665447"
+      "activity_url": "https://www.strava.com/activities/20194665447",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.54,
+      "original_pace": "11:52 /km"
     },
     {
       "activity_id": "20194454767",
@@ -4218,6 +4802,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20194454767",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -4235,7 +4823,11 @@
       "points_legacy": 601.2,
       "pace": "7:29 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20200663677"
+      "activity_url": "https://www.strava.com/activities/20200663677",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.01,
+      "original_pace": "7:29 /km"
     },
     {
       "activity_id": "20200902379",
@@ -4253,6 +4845,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20200902379",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -4265,12 +4861,16 @@
       "datetime_display": "Sep 17, 2026 08:00 PM",
       "distance_km": 1.8,
       "duration_minutes": 22.58,
-      "points": 119.29,
-      "points_dynamic": 119.29,
+      "points": 63.0,
+      "points_dynamic": 63.0,
       "points_legacy": 180.0,
       "pace": "12:33 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20215752355"
+      "activity_url": "https://www.strava.com/activities/20215752355",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.8,
+      "original_pace": "12:33 /km"
     },
     {
       "activity_id": "20214499291",
@@ -4288,6 +4888,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20214499291",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.5
     },
     {
@@ -4300,12 +4904,16 @@
       "datetime_display": "Sep 17, 2026 06:27 PM",
       "distance_km": 1.33,
       "duration_minutes": 17.58,
-      "points": 85.25,
-      "points_dynamic": 85.25,
+      "points": 46.55,
+      "points_dynamic": 46.55,
       "points_legacy": 133.0,
       "pace": "13:13 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20213692033"
+      "activity_url": "https://www.strava.com/activities/20213692033",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.33,
+      "original_pace": "13:13 /km"
     },
     {
       "activity_id": "20216494501",
@@ -4317,12 +4925,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 10.1,
       "duration_minutes": 105.0,
-      "points": 778.35,
-      "points_dynamic": 778.35,
+      "points": 353.5,
+      "points_dynamic": 353.5,
       "points_legacy": 1010.0,
       "pace": "10:24 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20216494501"
+      "activity_url": "https://www.strava.com/activities/20216494501",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.1,
+      "original_pace": "10:24 /km"
     },
     {
       "activity_id": "20212391392",
@@ -4334,12 +4946,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 10.7,
       "duration_minutes": 105.0,
-      "points": 840.4,
-      "points_dynamic": 840.4,
+      "points": 374.5,
+      "points_dynamic": 374.5,
       "points_legacy": 1070.0,
       "pace": "9:49 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20212391392"
+      "activity_url": "https://www.strava.com/activities/20212391392",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.7,
+      "original_pace": "9:49 /km"
     },
     {
       "activity_id": "20212382903",
@@ -4351,12 +4967,16 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 9.2,
       "duration_minutes": 105.0,
-      "points": 687.16,
-      "points_dynamic": 687.16,
+      "points": 322.0,
+      "points_dynamic": 322.0,
       "points_legacy": 920.0,
       "pace": "11:25 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20212382903"
+      "activity_url": "https://www.strava.com/activities/20212382903",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 9.2,
+      "original_pace": "11:25 /km"
     },
     {
       "activity_id": "20212369013",
@@ -4368,12 +4988,16 @@
       "datetime_display": "Sep 14, 2026",
       "distance_km": 8.7,
       "duration_minutes": 105.0,
-      "points": 637.66,
-      "points_dynamic": 637.66,
+      "points": 304.5,
+      "points_dynamic": 304.5,
       "points_legacy": 870.0,
       "pace": "12:04 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20212369013"
+      "activity_url": "https://www.strava.com/activities/20212369013",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 8.7,
+      "original_pace": "12:04 /km"
     },
     {
       "activity_id": "20214752004",
@@ -4390,7 +5014,11 @@
       "points_legacy": 1201.2,
       "pace": "6:07 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20214752004"
+      "activity_url": "https://www.strava.com/activities/20214752004",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.01,
+      "original_pace": "6:07 /km"
     },
     {
       "activity_id": "20214788428",
@@ -4407,7 +5035,11 @@
       "points_legacy": 1203.6,
       "pace": "6:10 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20214788428"
+      "activity_url": "https://www.strava.com/activities/20214788428",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.03,
+      "original_pace": "6:10 /km"
     },
     {
       "activity_id": "20214568034",
@@ -4424,7 +5056,11 @@
       "points_legacy": 860.4,
       "pace": "6:11 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20214568034"
+      "activity_url": "https://www.strava.com/activities/20214568034",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 7.17,
+      "original_pace": "6:11 /km"
     },
     {
       "activity_id": "20214750131",
@@ -4441,7 +5077,11 @@
       "points_legacy": 841.2,
       "pace": "8:44 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20214750131"
+      "activity_url": "https://www.strava.com/activities/20214750131",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 7.01,
+      "original_pace": "8:44 /km"
     },
     {
       "activity_id": "20211646538",
@@ -4458,7 +5098,11 @@
       "points_legacy": 721.2,
       "pace": "8:51 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20211646538"
+      "activity_url": "https://www.strava.com/activities/20211646538",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 6.01,
+      "original_pace": "8:51 /km"
     },
     {
       "activity_id": "20211515981",
@@ -4475,7 +5119,11 @@
       "points_legacy": 1771.2,
       "pace": "8:39 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20211515981"
+      "activity_url": "https://www.strava.com/activities/20211515981",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 14.76,
+      "original_pace": "8:39 /km"
     },
     {
       "activity_id": "20212411084",
@@ -4493,6 +5141,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20212411084",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.5
     },
     {
@@ -4511,6 +5163,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20212399709",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.25
     },
     {
@@ -4529,6 +5185,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20212391611",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.0
     },
     {
@@ -4544,9 +5204,13 @@
       "points": 60.39,
       "points_dynamic": 60.39,
       "points_legacy": 175.6,
-      "pace": "",
+      "pace": "4:09 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20213214776",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.39,
+      "original_pace": "4:09 /km",
       "cycling_percentile": 35.3,
       "cycling_effective_rate": 13.7553
     },
@@ -4558,14 +5222,18 @@
       "datetime_utc": "Thursday, September 17, 2026",
       "datetime_iso": "2026-09-17T00:00:00",
       "datetime_display": "Sep 17, 2026",
-      "distance_km": 2.99,
+      "distance_km": 1.16,
       "duration_minutes": 13.95,
-      "points": 337.93,
-      "points_dynamic": 337.93,
-      "points_legacy": 299.0,
-      "pace": "4:40 /km",
+      "points": 40.6,
+      "points_dynamic": 40.6,
+      "points_legacy": 116.0,
+      "pace": "12:02 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20210427180"
+      "activity_url": "https://www.strava.com/activities/20210427180",
+      "integrity_flag": "MISLABELED_WALK",
+      "integrity_badge": "\ud83d\udea8 Mislabeled Walk (Run/Cycle Speed)",
+      "original_distance_km": 2.99,
+      "original_pace": "4:40 /km"
     },
     {
       "activity_id": "20209167352",
@@ -4580,9 +5248,13 @@
       "points": 61.07,
       "points_dynamic": 61.07,
       "points_legacy": 177.6,
-      "pace": "",
+      "pace": "4:43 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20209167352",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 4.44,
+      "original_pace": "4:43 /km",
       "cycling_percentile": 35.3,
       "cycling_effective_rate": 13.7553
     },
@@ -4596,12 +5268,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 1.51,
       "duration_minutes": 19.85,
-      "points": 97.42,
-      "points_dynamic": 97.42,
+      "points": 52.85,
+      "points_dynamic": 52.85,
       "points_legacy": 151.0,
       "pace": "13:09 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208728887"
+      "activity_url": "https://www.strava.com/activities/20208728887",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.51,
+      "original_pace": "13:09 /km"
     },
     {
       "activity_id": "20208633094",
@@ -4611,14 +5287,18 @@
       "datetime_utc": "Thursday, September 17, 2026",
       "datetime_iso": "2026-09-17T00:00:00",
       "datetime_display": "Sep 17, 2026",
-      "distance_km": 5.02,
+      "distance_km": 4.17,
       "duration_minutes": 19.38,
-      "points": 616.48,
-      "points_dynamic": 616.48,
-      "points_legacy": 602.4,
-      "pace": "3:52 /km",
+      "points": 463.76,
+      "points_dynamic": 463.76,
+      "points_legacy": 500.4,
+      "pace": "4:39 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208633094"
+      "activity_url": "https://www.strava.com/activities/20208633094",
+      "integrity_flag": "SENSOR_PACE_ANOMALY",
+      "integrity_badge": "\u26a0\ufe0f Sensor Pace Spike (< 4:15/km)",
+      "original_distance_km": 5.02,
+      "original_pace": "3:52 /km"
     },
     {
       "activity_id": "20208518114",
@@ -4630,12 +5310,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 0.83,
       "duration_minutes": 9.07,
-      "points": 57.67,
-      "points_dynamic": 57.67,
+      "points": 29.05,
+      "points_dynamic": 29.05,
       "points_legacy": 83.0,
       "pace": "10:56 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208518114"
+      "activity_url": "https://www.strava.com/activities/20208518114",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.83,
+      "original_pace": "10:56 /km"
     },
     {
       "activity_id": "20210518316",
@@ -4647,12 +5331,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 2.28,
       "duration_minutes": 26.75,
-      "points": 157.0,
-      "points_dynamic": 157.0,
+      "points": 79.8,
+      "points_dynamic": 79.8,
       "points_legacy": 228.0,
       "pace": "11:44 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20210518316"
+      "activity_url": "https://www.strava.com/activities/20210518316",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.28,
+      "original_pace": "11:44 /km"
     },
     {
       "activity_id": "20215946659",
@@ -4662,14 +5350,18 @@
       "datetime_utc": "Thursday, September 17, 2026",
       "datetime_iso": "2026-09-17T00:00:00",
       "datetime_display": "Sep 17, 2026",
-      "distance_km": 8.61,
+      "distance_km": 4.13,
       "duration_minutes": 48.4,
-      "points": 831.0,
-      "points_dynamic": 831.0,
-      "points_legacy": 861.0,
-      "pace": "5:37 /km",
+      "points": 144.55,
+      "points_dynamic": 144.55,
+      "points_legacy": 413.0,
+      "pace": "11:43 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20215946659"
+      "activity_url": "https://www.strava.com/activities/20215946659",
+      "integrity_flag": "MISLABELED_WALK",
+      "integrity_badge": "\ud83d\udea8 Mislabeled Walk (Run/Cycle Speed)",
+      "original_distance_km": 8.61,
+      "original_pace": "5:37 /km"
     },
     {
       "activity_id": "20214992912",
@@ -4686,7 +5378,11 @@
       "points_legacy": 606.0,
       "pace": "5:49 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20214992912"
+      "activity_url": "https://www.strava.com/activities/20214992912",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.05,
+      "original_pace": "5:49 /km"
     },
     {
       "activity_id": "20214662547",
@@ -4704,6 +5400,10 @@
       "pace": "",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20214662547",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
       "slow_met_multiplier": 1.25
     },
     {
@@ -4716,12 +5416,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 1.75,
       "duration_minutes": 18.12,
-      "points": 126.73,
-      "points_dynamic": 126.73,
+      "points": 61.25,
+      "points_dynamic": 61.25,
       "points_legacy": 175.0,
       "pace": "10:21 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20213982535"
+      "activity_url": "https://www.strava.com/activities/20213982535",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.75,
+      "original_pace": "10:21 /km"
     },
     {
       "activity_id": "20209486145",
@@ -4733,12 +5437,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 1.05,
       "duration_minutes": 12.3,
-      "points": 70.76,
-      "points_dynamic": 70.76,
+      "points": 36.75,
+      "points_dynamic": 36.75,
       "points_legacy": 105.0,
       "pace": "11:43 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20209486145"
+      "activity_url": "https://www.strava.com/activities/20209486145",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.05,
+      "original_pace": "11:43 /km"
     },
     {
       "activity_id": "20208919479",
@@ -4750,12 +5458,16 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 1.93,
       "duration_minutes": 23.52,
-      "points": 129.92,
-      "points_dynamic": 129.92,
+      "points": 67.55,
+      "points_dynamic": 67.55,
       "points_legacy": 193.0,
       "pace": "12:11 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208919479"
+      "activity_url": "https://www.strava.com/activities/20208919479",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.93,
+      "original_pace": "12:11 /km"
     },
     {
       "activity_id": "20208056069",
@@ -4772,7 +5484,11 @@
       "points_legacy": 452.4,
       "pace": "6:44 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208056069"
+      "activity_url": "https://www.strava.com/activities/20208056069",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 3.77,
+      "original_pace": "6:44 /km"
     },
     {
       "activity_id": "20214433884",
@@ -4789,7 +5505,11 @@
       "points_legacy": 601.2,
       "pace": "6:16 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20214433884"
+      "activity_url": "https://www.strava.com/activities/20214433884",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.01,
+      "original_pace": "6:16 /km"
     },
     {
       "activity_id": "20208999861",
@@ -4801,12 +5521,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 0.28,
       "duration_minutes": 2.95,
-      "points": 19.66,
-      "points_dynamic": 19.66,
+      "points": 9.8,
+      "points_dynamic": 9.8,
       "points_legacy": 28.0,
       "pace": "10:32 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208999861"
+      "activity_url": "https://www.strava.com/activities/20208999861",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.28,
+      "original_pace": "10:32 /km"
     },
     {
       "activity_id": "20208745828",
@@ -4818,12 +5542,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 0.53,
       "duration_minutes": 4.28,
-      "points": 43.51,
-      "points_dynamic": 43.51,
+      "points": 18.55,
+      "points_dynamic": 18.55,
       "points_legacy": 53.0,
       "pace": "8:05 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208745828"
+      "activity_url": "https://www.strava.com/activities/20208745828",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.53,
+      "original_pace": "8:05 /km"
     },
     {
       "activity_id": "20208154211",
@@ -4835,12 +5563,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 2.69,
       "duration_minutes": 24.95,
-      "points": 207.21,
-      "points_dynamic": 207.21,
+      "points": 94.15,
+      "points_dynamic": 94.15,
       "points_legacy": 269.0,
       "pace": "9:17 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208154211"
+      "activity_url": "https://www.strava.com/activities/20208154211",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.69,
+      "original_pace": "9:17 /km"
     },
     {
       "activity_id": "20208469213",
@@ -4857,7 +5589,11 @@
       "points_legacy": 336.0,
       "pace": "6:31 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20208469213"
+      "activity_url": "https://www.strava.com/activities/20208469213",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 2.8,
+      "original_pace": "6:31 /km"
     },
     {
       "activity_id": "20213661514",
@@ -4869,12 +5605,16 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 1.07,
       "duration_minutes": 11.05,
-      "points": 76.85,
-      "points_dynamic": 76.85,
+      "points": 37.45,
+      "points_dynamic": 37.45,
       "points_legacy": 107.0,
       "pace": "10:20 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20213661514"
+      "activity_url": "https://www.strava.com/activities/20213661514",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 1.07,
+      "original_pace": "10:20 /km"
     },
     {
       "activity_id": "20215123134",
@@ -4891,7 +5631,138 @@
       "points_legacy": 837.6,
       "pace": "7:25 /km",
       "is_indoor": false,
-      "activity_url": "https://www.strava.com/activities/20215123134"
+      "activity_url": "https://www.strava.com/activities/20215123134",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 6.98,
+      "original_pace": "7:25 /km"
+    },
+    {
+      "activity_id": "20225429976",
+      "athlete_id": "178453532",
+      "athlete_name": "Divyansh Singh",
+      "activity_type": "Walk",
+      "datetime_utc": "3:50 PM on Friday, September 18, 2026",
+      "datetime_iso": "2026-09-18T15:50:00",
+      "datetime_display": "Sep 18, 2026 03:50 PM",
+      "distance_km": 0.53,
+      "duration_minutes": 9.18,
+      "points": 18.55,
+      "points_dynamic": 18.55,
+      "points_legacy": 53.0,
+      "pace": "17:19 /km",
+      "is_indoor": false,
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.53,
+      "original_pace": "17:19 /km"
+    },
+    {
+      "activity_id": "20231061148",
+      "athlete_id": "174727555",
+      "athlete_name": "giftbabu yeluri",
+      "activity_type": "Walk",
+      "datetime_utc": "Thursday, September 17, 2026",
+      "datetime_iso": "2026-09-17T00:00:00",
+      "datetime_display": "Sep 17, 2026",
+      "distance_km": 5.8,
+      "duration_minutes": 60.0,
+      "points": 203.0,
+      "points_dynamic": 203.0,
+      "points_legacy": 580.0,
+      "pace": "10:21 /km",
+      "is_indoor": false,
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 5.8,
+      "original_pace": "10:21 /km"
+    },
+    {
+      "activity_id": "20228140673",
+      "athlete_id": "156538003",
+      "athlete_name": "Satyaprakash Karsharma",
+      "activity_type": "Weight Training",
+      "datetime_utc": "7:30 PM on Friday, September 18, 2026",
+      "datetime_iso": "2026-09-18T19:30:00",
+      "datetime_display": "Sep 18, 2026 07:30 PM",
+      "distance_km": 0.0,
+      "duration_minutes": 52.18,
+      "points": 260.9,
+      "points_dynamic": 260.9,
+      "points_legacy": 521.8,
+      "pace": "",
+      "is_indoor": false,
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 0.0,
+      "original_pace": "",
+      "slow_met_multiplier": 1.25
+    },
+    {
+      "activity_id": "20214866287",
+      "athlete_id": "181332418",
+      "athlete_name": "Athlete 181332418",
+      "activity_type": "Run",
+      "datetime_utc": "Thursday, September 17, 2026",
+      "datetime_iso": "2026-09-17T00:00:00",
+      "datetime_display": "Sep 17, 2026",
+      "distance_km": 10.12,
+      "duration_minutes": 71.57,
+      "points": 884.54,
+      "points_dynamic": 884.54,
+      "points_legacy": 1214.4,
+      "pace": "7:04 /km",
+      "is_indoor": false,
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 10.12,
+      "original_pace": "7:04 /km"
+    },
+    {
+      "activity_id": "20222768799",
+      "athlete_id": "175936330",
+      "athlete_name": "kumar sudhanshu singh",
+      "activity_type": "Run",
+      "datetime_utc": "Thursday, September 17, 2026",
+      "datetime_iso": "2026-09-17T00:00:00",
+      "datetime_display": "Sep 17, 2026",
+      "distance_km": 7.5,
+      "duration_minutes": 56.92,
+      "points": 639.28,
+      "points_dynamic": 639.28,
+      "points_legacy": 900.0,
+      "pace": "7:35 /km",
+      "is_indoor": false,
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 7.5,
+      "original_pace": "7:35 /km"
+    },
+    {
+      "activity_id": "20227465090",
+      "athlete_id": "199260633",
+      "athlete_name": "Aadithyaa M",
+      "activity_type": "Run",
+      "datetime_utc": "Friday, September 18, 2026",
+      "datetime_iso": "2026-09-18T00:00:00",
+      "datetime_display": "Sep 18, 2026",
+      "distance_km": 6.72,
+      "duration_minutes": 47.45,
+      "points": 590.3,
+      "points_dynamic": 590.3,
+      "points_legacy": 806.4,
+      "pace": "7:04 /km",
+      "is_indoor": false,
+      "activity_url": "",
+      "integrity_flag": "",
+      "integrity_badge": "",
+      "original_distance_km": 6.72,
+      "original_pace": "7:04 /km"
     }
   ]
 }
@@ -5618,6 +6489,19 @@
         const typeBadge = isIndoor ? '<span style="background:rgba(56,189,248,0.15); color:var(--accent-blue); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">Indoor</span>' : '';
         const paceDisplay = act.pace ? `<span style="font-family:monospace; color:var(--accent-green); font-size:12px;">${act.pace}</span>` : '<span style="color:var(--text-dim);">—</span>';
         
+        let integrityBadge = '';
+        let distTitle = '';
+        if (act.integrity_flag === 'MISLABELED_WALK') {
+          integrityBadge = `<span title="Speed exceeded 8.6 km/h. Distance & points estimated from median walking pace." style="background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">🚨 Adjusted Walk</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Distance normalized via median walking pace."`;
+        } else if (act.integrity_flag === 'SENSOR_PACE_ANOMALY') {
+          integrityBadge = `<span title="Sub-4:15 pace flagged as sensor anomaly or potential cycle. Auto-nerfed to tempo baseline." style="background:rgba(245,158,11,0.18); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">⚠️ Sensor Anomaly Nerfed</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Auto-nerfed to tempo baseline."`;
+        } else if (act.integrity_flag === 'VEHICLE_SPEED') {
+          integrityBadge = `<span title="Speed exceeded 18 km/h on foot sport. Normalized to median pace." style="background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">🚗 Vehicle Velocity Adjusted</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Speed exceeded 18 km/h, normalized."`;
+        }
+
         const actPts = currentSchema === 'legacy'
           ? (act.points_legacy !== undefined ? act.points_legacy : act.points)
           : (act.points_dynamic !== undefined ? act.points_dynamic : act.points);
@@ -5625,12 +6509,12 @@
         return `
           <tr>
             <td>
-              <span style="display:inline-flex; align-items:center; gap:6px; font-weight:600;">
-                <span>${icon}</span> ${act.activity_type} ${typeBadge}
+              <span style="display:inline-flex; align-items:center; gap:4px; font-weight:600; flex-wrap:wrap;">
+                <span>${icon}</span> ${act.activity_type} ${typeBadge} ${integrityBadge}
               </span>
             </td>
             <td style="color: var(--text-muted); font-size: 13px;">${dateDisplay}</td>
-            <td style="font-weight:600;">${act.distance_km} km</td>
+            <td style="font-weight:600;" ${distTitle}>${act.distance_km} km ${act.integrity_flag ? '<span style="color:#f87171; font-size:11px;" title="Adjusted by integrity filter">*</span>' : ''}</td>
             <td>${Math.round(act.duration_minutes)} mins</td>
             <td>${paceDisplay}</td>
             <td style="font-weight:700; color:var(--strava-orange);">${actPts} pts</td>

@@ -213,3 +213,45 @@ If an athlete's profile DOM is scanned indiscriminately for `/activities/\d+` li
 3. **Canonical Memberlist Normalization**:
    In `filter_and_clean_data.py`, all athlete names are standardized against the authoritative `memberlist.csv` registry, preventing split identities across spelling variations (e.g. unifying "Divyansh" and "Divyansh Singh").
 
+---
+
+## 9. Walking Rate Decoupling (Option 1 Calibrated Baseline) & Activity Share Audit
+
+### The Activity Share Imbalance:
+An empirical club audit revealed that walking was generating points at a disproportionate rate compared to higher-strain sports:
+
+| Sport Type | Total Club Hours | Total Points | Effective Pts / Hour | True Physiological METs | Balance Assessment |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Swim** | 3.9 hrs | 3,199 pts | **827.3 pts/hr** | 8.0 – 10.0 | High aerobic exertion |
+| **Run** | 41.9 hrs | 32,438 pts | **774.4 pts/hr** | 9.8 – 11.5 | High aerobic exertion |
+| **Walk** | **27.7 hrs** | **11,681 pts** | **421.3 pts/hr** | **3.3 – 3.8** | **Severe Over-rewarding (+55% vs Gym)** |
+| **Studio / HIIT** | 11.3 hrs | 3,216 pts | **285.2 pts/hr** | 6.0 – 8.0 | Moderate / High anaerobic |
+| **Weight Training (Gym)** | 11.7 hrs | 3,158 pts | **270.9 pts/hr** | 4.5 – 6.0 | Resistance & muscular strain |
+| **Ride (Cycling)** | 8.3 hrs | 1,874 pts | **224.5 pts/hr** | 4.0 – 6.5 | Reined in by Percentile Ceiling |
+
+### The Calibrated Solution (Option 1):
+To properly align points with metabolic effort ($3.3 - 3.8\text{ METs}$):
+- **Walking & Hiking Rate**: Decoupled from running and set to a steady **$35.0\text{ pts/km}$** (duration fallback: $3.0\text{ pts/min}$).
+- **Physiological Balance**: A 1-hour 5 km walk yields $\approx 175\text{ pts}$, properly situated below a 1-hour gym session ($240 - 360\text{ pts}$ with consistency) and well below a 1-hour run ($750+\text{ pts}$).
+
+---
+
+## 10. Automated Activity Integrity & Anomaly Filtering Engine
+
+To protect leaderboard fairness from sports mislabeling and GPS sensor glitches, our pipeline incorporates automated heuristic filters:
+
+1. **Mislabeled Walk Detection (`MISLABELED_WALK`)**:
+   - **Trigger**: Workouts logged as "Walk" or "Hike" with pace $< 7:00\text{ min/km}$ ($> 8.57\text{ km/h}$), indicative of running or cycling.
+   - **Adjustment**: The logged distance is ignored. True walking distance is estimated using the athlete's median walking pace from valid normal walks ($\approx 11.3\text{ min/km}$) multiplied by moving time:
+     $$\text{Adjusted Distance} = \frac{\text{Duration}}{\text{Median Walk Pace}}$$
+   - **Points**: Recalculated on adjusted distance at $35.0\text{ pts/km}$.
+
+2. **Sensor Pace Spike / Elite Check Auto-Nerf (`SENSOR_PACE_ANOMALY`)**:
+   - **Trigger**: Runs logged with pace $< 4:15\text{ min/km}$ ($> 14.1\text{ km/h}$) on amateur profiles (frequently caused by bicycle rides mislabeled as runs or GPS multipath drift).
+   - **Adjustment**: Pace is auto-nerfed to a sustainable tempo benchmark ($\ge 4:39\text{ min/km}$) and distance adjusted to reflect moving time at that pace, preventing skewed sprint-pace multipliers.
+
+3. **Motorized Velocity Suppression (`VEHICLE_SPEED`)**:
+   - **Trigger**: Any foot activity with sustained speed $> 18.0\text{ km/h}$ ($< 3:20\text{ min/km}$).
+   - **Adjustment**: Flagged for motorized transit; distance normalized to duration-based median walking pace.
+
+

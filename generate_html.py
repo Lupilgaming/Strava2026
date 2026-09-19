@@ -1163,34 +1163,32 @@ html_template = '''<!DOCTYPE html>
       <!-- TAB 1: DYNAMIC MET SCHEMA -->
       <div id="tabDynamic" class="schema-tab-pane active">
         
-        <!-- Unified Foot Formula Card -->
+        <!-- Foot Sports Formula Card -->
         <div class="formula-card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--strava-orange); text-transform:uppercase; letter-spacing:0.5px;">
-              🏃 Unified Foot-Sports Formula (Runs & Walks)
+              🏃 Running vs 🚶 Walking: Calibrated Sports-Science Dual Engine
             </h3>
-            <span style="font-size:11px; background:rgba(34, 197, 94, 0.15); color:var(--accent-green); padding:2px 8px; border-radius:10px; font-weight:700;">Zero Categorization Bias</span>
+            <span style="font-size:11px; background:rgba(252, 76, 2, 0.15); color:var(--strava-orange); padding:2px 8px; border-radius:10px; font-weight:700;">Option 1: Decoupled</span>
           </div>
-          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
-            Runs, walks, and hikes are automatically scored on actual physiological intensity (speed V in km/h) without arbitrary self-labeling. Higher pace is rewarded, while a <strong>Distance Dampener</strong> ensures endurance athletes (10K, 21K, 30K) are never penalized as fatigue sets in.
+          <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:10px;">
+            To maintain sporting parity between outdoor cardio and resistance workouts, <strong>Running</strong> scales with continuous physical velocity ($85 - 115\text{ pts/km}$), while <strong>Walking</strong> is calibrated to a steady baseline of <strong>$35.0\text{ pts/km}$</strong> ($175\text{ pts}$ per $5\text{ km}$ hour). This prevents casual walking commutes from eclipsing dedicated 1-hour gym and strength sessions ($240 - 360\text{ pts}$).
           </p>
 
-          <div class="formula-box">
-            <div><strong>1. Physical Speed:</strong> <code>Speed V = 60 / Pace(min/km)</code> (clamped 3.0 to 20.0 km/h)</div>
-            <div><strong>2. Speed Base Rate:</strong> <code>BaseRate = 30.0 + (7.0 × V)</code> pts/km</div>
-            <div><strong>3. Distance Dampener:</strong> <code>w(D) = 1.0 / (1.0 + (Distance / 12.0))</code></div>
-            <div><strong>4. Effective Rate:</strong> <code>EffectiveRate = 85.0 + w(D) × (BaseRate - 85.0)</code> pts/km</div>
-            <div><strong>5. Final Score:</strong> <strong style="color:var(--gold);">Points = Distance × EffectiveRate</strong></div>
+          <div style="background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:10px 12px; font-size:12px; font-family:monospace; line-height:1.7; color:var(--text-primary); margin-bottom:10px;">
+            <div><strong>🏃 Running Rate:</strong> <code>BaseRate = 30.0 + (7.0 × V)</code> pts/km &nbsp;|&nbsp; <code>w(D) = 1.0 / (1.0 + (D / 12.0))</code></div>
+            <div><strong>🚶 Walking Rate:</strong> <strong style="color:var(--accent-blue);">35.0 pts / km</strong> (proportional to 3.3–3.8 METs; duration fallback = 3.0 pts/min)</div>
           </div>
 
           <!-- Speed Reference Table -->
           <table class="data-table" style="font-size:12px; margin-top:10px;">
             <thead>
               <tr>
-                <th>Effort / Pace</th>
-                <th>Speed</th>
+                <th>Sport & Effort / Pace</th>
+                <th>Velocity</th>
                 <th>Effective Rate</th>
                 <th>5 km Workout</th>
+                <th>Equivalence / Comparison</th>
               </tr>
             </thead>
             <tbody>
@@ -1199,30 +1197,28 @@ html_template = '''<!DOCTYPE html>
                 <td>13.3 km/h</td>
                 <td style="color:var(--accent-green); font-weight:700;">112.1 pts/km</td>
                 <td><strong>560 pts</strong></td>
+                <td>Top-tier cardiovascular endurance</td>
               </tr>
               <tr>
-                <td>🏃 Standard Aerobic Run (6:00 /km)</td>
+                <td>🏃 Aerobic Base Run (6:00 /km)</td>
                 <td>10.0 km/h</td>
                 <td style="color:var(--accent-green); font-weight:700;">95.6 pts/km</td>
                 <td><strong>478 pts</strong></td>
+                <td>Standard high-MET running baseline</td>
               </tr>
               <tr>
-                <td>🏃‍♂️ Easy Jog / Power Walk (8:00 /km)</td>
+                <td>🏃‍♂️ Easy Recovery Jog (8:00 /km)</td>
                 <td>7.5 km/h</td>
                 <td style="color:var(--accent-blue); font-weight:700;">83.2 pts/km</td>
                 <td><strong>416 pts</strong></td>
+                <td>Light aerobic jogging</td>
               </tr>
-              <tr>
-                <td>🚶 Brisk Walk / Hike (9:30 /km)</td>
-                <td>6.3 km/h</td>
-                <td style="color:var(--accent-blue); font-weight:700;">77.4 pts/km</td>
-                <td><strong>387 pts</strong></td>
-              </tr>
-              <tr>
-                <td>🚶‍♂️ Casual Recovery Walk (13:00 /km)</td>
-                <td>4.6 km/h</td>
-                <td style="color:var(--text-muted); font-weight:700;">69.0 pts/km</td>
-                <td><strong>345 pts</strong></td>
+              <tr style="background:rgba(56,189,248,0.06);">
+                <td>🚶 Brisk Walk / Hike (10:00 – 13:00 /km)</td>
+                <td>4.6 – 6.0 km/h</td>
+                <td style="color:var(--accent-blue); font-weight:700;">35.0 pts/km</td>
+                <td><strong>175 pts</strong></td>
+                <td>Calibrated below 1-hr Gym (240–360 pts)</td>
               </tr>
             </tbody>
           </table>
@@ -1323,10 +1319,16 @@ html_template = '''<!DOCTYPE html>
             </thead>
             <tbody>
               <tr>
-                <td><span style="font-weight:600;">🏃 Foot Sports (Run / Walk / Hike)</span></td>
+                <td><span style="font-weight:600;">🏃 Running / Trail Run</span></td>
                 <td>Distance (GPS)</td>
-                <td style="color:var(--accent-green); font-weight:700;">65 – 120 pts / km</td>
-                <td>Continuous speed function with endurance dampening</td>
+                <td style="color:var(--accent-green); font-weight:700;">85 – 115 pts / km</td>
+                <td>Continuous speed function (high-MET cardiovascular endurance)</td>
+              </tr>
+              <tr>
+                <td><span style="font-weight:600;">🚶 Walking / Hike</span></td>
+                <td>Distance (GPS)</td>
+                <td style="color:var(--accent-blue); font-weight:700;">35 pts / km</td>
+                <td>Calibrated Option 1 baseline (3.3–3.8 METs; 1-hr walk ~175 pts &lt; 1-hr gym = 240 pts)</td>
               </tr>
               <tr>
                 <td><span style="font-weight:600;">🚴 Outdoor Cycling</span></td>
@@ -1515,6 +1517,133 @@ html_template = '''<!DOCTYPE html>
                 <strong style="color:#fff;">3. The 100th Percentile Ceiling Formula:</strong><br>
                 <code>Ceiling = 25.0 pts/km &times; Max All-Time Cyclist km (335.80) &times; Factor (0.10) = 839.5 pts</code><br>
                 An athlete's total cycling volume is scaled by their percentile position P, ensuring that routine 5 km commute rides stay in a balanced range (~80&ndash;95 pts) while an epic 70+ km ride is rewarded with a substantial score (~690 pts) without breaking the multi-sport competition.
+              </div>
+            </div>
+          </div>
+
+          <!-- Justification 3: Walking Calibration & Activity Share Audit -->
+          <div class="formula-card" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🚶</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--gold); margin:0;">
+                  Why Walking Rates Are Calibrated (35 pts/km) & Activity Share Audit
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Aligning Caloric Expenditure, True METs, & Cross-Sport Fairness</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:12px;">
+              <div>
+                <strong style="color:#fff;">1. Empirical Competition-Wide Audit:</strong><br>
+                A forensic analysis of all club activities across the competition window revealed an acute mathematical imbalance between low-intensity walking and high-strain resistance training:
+              </div>
+
+              <!-- Required Audit Table -->
+              <table class="data-table" style="font-size:12px; margin-top:4px; margin-bottom:6px;">
+                <thead>
+                  <tr>
+                    <th>Sport Type</th>
+                    <th>Total Club Hours</th>
+                    <th>Total Points</th>
+                    <th>Effective Pts / Hour</th>
+                    <th>True Physiological METs</th>
+                    <th>Balance Assessment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>🏊 Swim</strong></td>
+                    <td>3.9 hrs</td>
+                    <td>3,199 pts</td>
+                    <td><strong>827.3 pts/hr</strong></td>
+                    <td>8.0 &ndash; 10.0</td>
+                    <td><span style="color:var(--accent-blue); font-weight:600;">High aerobic exertion</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏃 Run</strong></td>
+                    <td>41.9 hrs</td>
+                    <td>32,438 pts</td>
+                    <td><strong>774.4 pts/hr</strong></td>
+                    <td>9.8 &ndash; 11.5</td>
+                    <td><span style="color:var(--accent-green); font-weight:600;">High aerobic exertion</span></td>
+                  </tr>
+                  <tr style="background:rgba(239,68,68,0.08);">
+                    <td><strong>🚶 Walk (Uncalibrated Baseline)</strong></td>
+                    <td>27.7 hrs</td>
+                    <td>11,681 pts</td>
+                    <td><strong>421.3 pts/hr</strong></td>
+                    <td>3.3 &ndash; 3.8</td>
+                    <td><span style="color:#f87171; font-weight:700;">Severe Over-rewarding (+55% vs Gym)</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🤸 Studio / HIIT</strong></td>
+                    <td>11.3 hrs</td>
+                    <td>3,216 pts</td>
+                    <td><strong>285.2 pts/hr</strong></td>
+                    <td>6.0 &ndash; 8.0</td>
+                    <td><span style="color:var(--accent-purple); font-weight:600;">Moderate / High anaerobic</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏋️ Weight Training (Gym)</strong></td>
+                    <td>11.7 hrs</td>
+                    <td>3,158 pts</td>
+                    <td><strong>270.9 pts/hr</strong></td>
+                    <td>4.5 &ndash; 6.0</td>
+                    <td><span style="color:var(--accent-purple); font-weight:600;">Resistance & muscular strain</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🚴 Ride (Cycling)</strong></td>
+                    <td>8.3 hrs</td>
+                    <td>1,874 pts</td>
+                    <td><strong>224.5 pts/hr</strong></td>
+                    <td>4.0 &ndash; 6.5</td>
+                    <td><span style="color:var(--accent-blue); font-weight:600;">Reined in by Percentile Ceiling</span></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div>
+                <strong style="color:#fff;">2. The Physiological Reality:</strong><br>
+                Under the uncalibrated unified foot-sports equation, a casual 1-hour walk (covering ~5.5 km) generated <strong>421.3 points</strong>, easily eclipsing an intense 1-hour heavy weight training session (240&ndash;300 pts) despite walking having a substantially lower metabolic demand (3.3&ndash;3.8 METs vs 4.5&ndash;6.0 METs). This discouraged gym participants and created a distortion where non-running, non-gym members climbed into top leaderboard spots purely through routine walking.
+              </div>
+
+              <div>
+                <strong style="color:#fff;">3. The Calibrated Solution (Option 1):</strong><br>
+                Walking is decoupled from running and calibrated to a steady rate of <strong>35.0 pts / km</strong> (~175 pts for an hour-long 5 km walk). This ensures:
+                <ul style="padding-left:18px; margin-top:4px;">
+                  <li>1 hour of walking (~175 pts) properly sits below 1 hour of gym training (240&ndash;360 pts).</li>
+                  <li>1 hour of hard running (750+ pts) remains the premier high-MET cardiovascular activity.</li>
+                  <li>Daily walking is still recognized and encouraged, but cannot overshadow intense multi-sport disciplines.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Justification 4: Automated Integrity & Anomaly Filtering Engine -->
+          <div class="formula-card" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.06); padding: 18px 20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-size:22px;">🛡️</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:#f87171; margin:0;">
+                  Automated Activity Integrity & Anomaly Filtering Engine
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Protecting Competition Fairness from GPS Multipath Glitches & Sport Mislabeling</div>
+              </div>
+            </div>
+
+            <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <strong style="color:#fff;">1. Mislabeled Walk Pace Normalization:</strong><br>
+                When a workout is recorded as a "Walk" but exhibits physical velocities &gt; 8.6 km/h (&lt; 7:00 /km pace, indicative of running or cycling), the pipeline automatically ignores the inflated distance and re-estimates the true distance based on the athlete's validated median walking pace multiplied by moving time.
+              </div>
+              <div>
+                <strong style="color:#fff;">2. Sensor Spike & Elite Pace Auto-Nerf:</strong><br>
+                GPS multipath drift, indoor signal jumps, or bicycle rides miscategorized as runs can generate physically improbable paces (&lt; 4:15 /km). Rather than awarding skewed points, the engine auto-nerfs the pace to a realistic sustainable tempo benchmark (&ge; 4:39 /km), ensuring points reflect authentic physical exertion.
+              </div>
+              <div>
+                <strong style="color:#fff;">3. Motorized Velocity Suppression:</strong><br>
+                Any foot activity logged with sustained velocity &gt; 18 km/h (&lt; 3:20 /km pace, exceeding human aerobic thresholds) is automatically flagged for vehicle transit and normalized to duration-based median walking pace.
               </div>
             </div>
           </div>
@@ -2254,6 +2383,19 @@ html_template = '''<!DOCTYPE html>
         const typeBadge = isIndoor ? '<span style="background:rgba(56,189,248,0.15); color:var(--accent-blue); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">Indoor</span>' : '';
         const paceDisplay = act.pace ? `<span style="font-family:monospace; color:var(--accent-green); font-size:12px;">${act.pace}</span>` : '<span style="color:var(--text-dim);">—</span>';
         
+        let integrityBadge = '';
+        let distTitle = '';
+        if (act.integrity_flag === 'MISLABELED_WALK') {
+          integrityBadge = `<span title="Speed exceeded 8.6 km/h. Distance & points estimated from median walking pace." style="background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">🚨 Adjusted Walk</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Distance normalized via median walking pace."`;
+        } else if (act.integrity_flag === 'SENSOR_PACE_ANOMALY') {
+          integrityBadge = `<span title="Sub-4:15 pace flagged as sensor anomaly or potential cycle. Auto-nerfed to tempo baseline." style="background:rgba(245,158,11,0.18); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">⚠️ Sensor Anomaly Nerfed</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Auto-nerfed to tempo baseline."`;
+        } else if (act.integrity_flag === 'VEHICLE_SPEED') {
+          integrityBadge = `<span title="Speed exceeded 18 km/h on foot sport. Normalized to median pace." style="background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">🚗 Vehicle Velocity Adjusted</span>`;
+          distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Speed exceeded 18 km/h, normalized."`;
+        }
+
         const actPts = currentSchema === 'legacy'
           ? (act.points_legacy !== undefined ? act.points_legacy : act.points)
           : (act.points_dynamic !== undefined ? act.points_dynamic : act.points);
@@ -2261,12 +2403,12 @@ html_template = '''<!DOCTYPE html>
         return `
           <tr>
             <td>
-              <span style="display:inline-flex; align-items:center; gap:6px; font-weight:600;">
-                <span>${icon}</span> ${act.activity_type} ${typeBadge}
+              <span style="display:inline-flex; align-items:center; gap:4px; font-weight:600; flex-wrap:wrap;">
+                <span>${icon}</span> ${act.activity_type} ${typeBadge} ${integrityBadge}
               </span>
             </td>
             <td style="color: var(--text-muted); font-size: 13px;">${dateDisplay}</td>
-            <td style="font-weight:600;">${act.distance_km} km</td>
+            <td style="font-weight:600;" ${distTitle}>${act.distance_km} km ${act.integrity_flag ? '<span style="color:#f87171; font-size:11px;" title="Adjusted by integrity filter">*</span>' : ''}</td>
             <td>${Math.round(act.duration_minutes)} mins</td>
             <td>${paceDisplay}</td>
             <td style="font-weight:700; color:var(--strava-orange);">${actPts} pts</td>

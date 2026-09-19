@@ -152,10 +152,19 @@ def calculate_dynamic_points(
     dist = float(distance_km or 0.0)
     dur = float(duration_minutes or 0.0)
 
-    # 1. Foot activities: Runs, Walks, Hikes seamlessly unified by pace & distance
-    if any(k in t for k in ["run", "walk", "hike", "trail"]):
+    # 1. Foot activities: Separate Running from Walking (Option 1: Calibrated Walking Rate at 35 pts/km)
+    if any(k in t for k in ["run", "trail"]):
         p_min = parse_pace_to_min(pace_str, dist, dur)
         return calculate_unified_foot_points(dist, p_min, scale=scale)
+    elif any(k in t for k in ["walk", "hike"]):
+        # Option 1: Calibrated Walking Rate (35.0 pts/km in 100_base, 5.25 in MET scale)
+        rate = 35.0 if scale == "100_base" else 5.25
+        if dist > 0.0:
+            return round(dist * rate, 2)
+        else:
+            # Fallback duration rate (~3.0 pts/min)
+            dur_rate = 3.0 if scale == "100_base" else 1.0
+            return round(dur * dur_rate, 2)
 
     # 2. Cycling (outdoor distance vs indoor duration)
     elif "ride" in t or "cycle" in t:
@@ -477,23 +486,97 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
             "effective_rate": eff_rate
         }
 
-    # 4. Assign enriched points to each activity
+    # 3b. Gather athlete and club median paces for normal walks and runs (Integrity Baseline)
+    import statistics
+    ath_walk_paces = collections.defaultdict(list)
+    ath_run_paces = collections.defaultdict(list)
+    club_walk_paces = []
+    club_run_paces = []
+
+    for dt, idx, act in indexed:
+        st = str(act.get("activity_type", "")).strip().lower()
+        try:
+            d = float(act.get("distance_km", 0.0) or 0.0)
+            tm = float(act.get("duration_minutes", 0.0) or 0.0)
+        except (ValueError, TypeError):
+            d, tm = 0.0, 0.0
+        aid = str(act.get("athlete_id") or act.get("athlete_name", "unknown")).strip()
+        if d > 0.0 and tm > 0.0:
+            p = tm / d
+            if any(k in st for k in ["walk", "hike"]) and 7.0 <= p <= 20.0:
+                ath_walk_paces[aid].append(p)
+                club_walk_paces.append(p)
+            elif any(k in st for k in ["run", "trail"]) and 4.25 <= p <= 12.0:
+                ath_run_paces[aid].append(p)
+                club_run_paces.append(p)
+
+    club_median_walk_pace = statistics.median(club_walk_paces) if club_walk_paces else 11.33
+    club_median_run_pace = statistics.median(club_run_paces) if club_run_paces else 7.03
+
+    # 4. Assign enriched points to each activity with Integrity Filtering
     scored_activities = [None] * len(activities)
 
     for dt, orig_idx, act in indexed:
         row = dict(act)
         stype = str(row.get("activity_type", "Workout")).strip()
+        act_id = str(row.get("activity_id", "")).strip()
+        KNOWN_RAW_DISTANCES = {
+            "20215946659": 8.61,  # Pradyumna Pandey Walk (logged 8.61 km in 48.4m at 5:37/km)
+            "20208633094": 5.02,  # Krishna A Run (logged 5.02 km in 19.38m at 3:51/km)
+            "20210427180": 2.99,  # Krishna A Walk (logged 2.99 km in 13.95m at 4:40/km)
+            "20183441925": 2.65,  # Krishna A Walk (logged 2.65 km in 14.43m at 5:26/km)
+            "20199262701": 1.32,  # Luffy Stark Walk (logged 1.32 km in 4.3m at 3:17/km)
+            "20179102235": 0.34,  # Sumantha Madhyastha Walk (logged 0.34 km in 1.2m at 3:35/km)
+        }
+
         try:
-            dist = float(row.get("distance_km", 0.0) or 0.0)
+            if act_id in KNOWN_RAW_DISTANCES:
+                dist = KNOWN_RAW_DISTANCES[act_id]
+            elif row.get("original_distance_km") and str(row.get("original_distance_km")).strip() != "":
+                dist = float(row.get("original_distance_km"))
+            else:
+                dist = float(row.get("distance_km", 0.0) or 0.0)
             dur = float(row.get("duration_minutes", 0.0) or 0.0)
         except (ValueError, TypeError):
             dist, dur = 0.0, 0.0
 
         aid = str(row.get("athlete_id") or row.get("athlete_name", "unknown")).strip()
         is_ind = str(row.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"] or is_indoor_ride(stype, dist)
-        pace_val = str(row.get("pace", "")).strip()
-        if not pace_val and any(k in stype.lower() for k in ["run", "walk", "hike", "trail", "swim"]):
-            pace_val = format_pace(dist, dur, sport=stype)
+        pace_val = format_pace(dist, dur, sport=stype) if dist > 0.0 else str(row.get("pace", "")).strip()
+
+        # Integrity Layer & Anomaly Auto-Adjustment
+        integrity_flag = ""
+        integrity_badge = ""
+        adj_dist = dist
+        adj_pace = dur / dist if dist > 0.0 else 0.0
+        speed_kmh = (dist / dur) * 60.0 if dur > 0.0 else 0.0
+
+        if dist > 0.0 and dur > 0.0:
+            # Check 1: Motor / Vehicle velocity on foot sports (> 18 km/h or < 3:20 min/km)
+            if any(k in stype.lower() for k in ["walk", "hike", "run", "trail"]) and (adj_pace < 3.33 or speed_kmh > 18.0):
+                integrity_flag = "VEHICLE_SPEED"
+                integrity_badge = "🚗 Vehicle Speed Review"
+                ath_med_walk = statistics.median(ath_walk_paces[aid]) if ath_walk_paces[aid] else club_median_walk_pace
+                adj_pace = ath_med_walk
+                adj_dist = round(dur / adj_pace, 2)
+
+            # Check 2: Mislabeled Walk (Walk with pace < 7:00 min/km / speed > 8.57 km/h)
+            elif any(k in stype.lower() for k in ["walk", "hike"]) and adj_pace < 7.0:
+                integrity_flag = "MISLABELED_WALK"
+                integrity_badge = "🚨 Mislabeled Walk (Run/Cycle Speed)"
+                ath_med_walk = statistics.median(ath_walk_paces[aid]) if ath_walk_paces[aid] else club_median_walk_pace
+                adj_pace = ath_med_walk
+                adj_dist = round(dur / adj_pace, 2)
+
+            # Check 3: Sensor Pace Anomaly on Run (Pace < 4:15 min/km / speed > 14.1 km/h)
+            elif any(k in stype.lower() for k in ["run", "trail"]) and adj_pace < 4.25:
+                integrity_flag = "SENSOR_PACE_ANOMALY"
+                integrity_badge = "⚠️ Sensor Pace Spike (< 4:15/km)"
+                ath_med_run = statistics.median(ath_run_paces[aid]) if ath_run_paces[aid] else club_median_run_pace
+                adj_pace = max(4.60, ath_med_run)
+                adj_dist = round(dur / adj_pace, 2)
+
+        adj_pace_str = format_pace(adj_dist, dur, sport=stype) if adj_dist > 0.0 else pace_val
 
         # Slow-MET multiplier
         mult = 1.00
@@ -510,22 +593,26 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
                 cyc_rate = cyclist_metrics[aid]["effective_rate"]
 
         pts_dyn = calculate_dynamic_points(
-            stype, dist, dur,
-            pace_str=pace_val,
+            stype, adj_dist, dur,
+            pace_str=adj_pace_str,
             is_indoor=is_ind,
             scale=scale,
             slow_met_multiplier=mult,
             cycling_rate=cyc_rate
         )
-        pts_leg = calculate_legacy_points(stype, dist, dur, is_indoor=is_ind)
+        pts_leg = calculate_legacy_points(stype, adj_dist, dur, is_indoor=is_ind)
 
         row["points"] = round(pts_dyn, 2)
         row["points_dynamic"] = round(pts_dyn, 2)
         row["points_legacy"] = round(pts_leg, 2)
-        row["distance_km"] = round(dist, 2)
+        row["distance_km"] = round(adj_dist, 2)
         row["duration_minutes"] = round(dur, 2)
-        row["pace"] = pace_val
+        row["pace"] = adj_pace_str
         row["is_indoor"] = is_ind
+        row["integrity_flag"] = integrity_flag
+        row["integrity_badge"] = integrity_badge
+        row["original_distance_km"] = round(dist, 2)
+        row["original_pace"] = pace_val
 
         if is_slow_met_activity(stype):
             row["slow_met_multiplier"] = mult
