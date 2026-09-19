@@ -1609,16 +1609,94 @@ html_template = '''<!DOCTYPE html>
               </div>
 
               <div>
-                <strong style="color:#fff;">3. The Calibrated Solution (Option 1):</strong><br>
-                Walking is decoupled from running and calibrated to a steady rate of <strong>35.0 pts / km</strong> (~175 pts for an hour-long 5 km walk). This ensures:
-                <ul style="padding-left:18px; margin-top:4px;">
-                  <li>1 hour of walking (~175 pts) properly sits below 1 hour of gym training (240&ndash;360 pts).</li>
-                  <li>1 hour of hard running (750+ pts) remains the premier high-MET cardiovascular activity.</li>
-                  <li>Daily walking is still recognized and encouraged, but cannot overshadow intense multi-sport disciplines.</li>
-                </ul>
+                <div>
+                  <strong style="color:#fff;">3. The Calibrated Solution (Option 1):</strong><br>
+                  Walking is decoupled from running and calibrated to a steady rate of <strong>35.0 pts / km</strong> (~175 pts for an hour-long 5 km walk). This ensures:
+                  <ul style="padding-left:18px; margin-top:4px;">
+                    <li>1 hour of walking (~175 pts) properly sits below 1 hour of gym training (240&ndash;360 pts).</li>
+                    <li>1 hour of hard running (750+ pts) remains the premier high-MET cardiovascular activity.</li>
+                    <li>Daily walking is still recognized and encouraged, but cannot overshadow intense multi-sport disciplines.</li>
+                  </ul>
+                </div>
+
+                <!-- Post-Calibration New Points Table -->
+                <div style="margin-top:10px;">
+                  <strong style="color:#fff;">4. Post-Calibration Live Audit: New Points & Balance per Activity:</strong><br>
+                  <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px; margin-top:2px;">
+                    Empirical results measured across all club activities under the active calibrated Dynamic MET scoring engine:
+                  </div>
+                  <table class="data-table" style="font-size:12px; margin-top:4px; margin-bottom:6px;">
+                    <thead>
+                      <tr>
+                        <th>Sport Type</th>
+                        <th>Activities</th>
+                        <th>Total Club Hours</th>
+                        <th>Total Dynamic Points</th>
+                        <th>Effective Pts / Hour</th>
+                        <th>Benchmark Unit Rate</th>
+                        <th>Equilibrium & Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>🏊 Swim</strong></td>
+                        <td>7 acts</td>
+                        <td>3.9 hrs</td>
+                        <td>3,199 pts</td>
+                        <td style="color:var(--accent-blue); font-weight:700;">827.3 pts/hr</td>
+                        <td>~13.8 pts/min (or pace/100m)</td>
+                        <td><span style="color:var(--accent-blue); font-weight:600;">Premier full-body aerobic MET</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🏃 Run</strong></td>
+                        <td>55 acts</td>
+                        <td>47.9 hrs</td>
+                        <td>33,105 pts</td>
+                        <td style="color:var(--accent-green); font-weight:700;">691.5 pts/hr</td>
+                        <td>~86 pts/km base (69–113 pts/km)</td>
+                        <td><span style="color:var(--accent-green); font-weight:600;">Premier cardio endurance</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🤸 Studio / Workout (HIIT)</strong></td>
+                        <td>13 acts</td>
+                        <td>16.3 hrs</td>
+                        <td>4,410 pts</td>
+                        <td style="color:var(--accent-purple); font-weight:700;">270.0 pts/hr</td>
+                        <td>4.5 pts/min</td>
+                        <td><span style="color:var(--accent-purple); font-weight:600;">High anaerobic density</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🏋️ Weight Training (Gym)</strong></td>
+                        <td>14 acts</td>
+                        <td>13.5 hrs</td>
+                        <td>3,411 pts</td>
+                        <td style="color:var(--accent-purple); font-weight:700;">252.2 pts/hr</td>
+                        <td>4.0–5.2 pts/min (with weekly escalator)</td>
+                        <td><span style="color:var(--accent-purple); font-weight:600;">Rewards habitual consistency</span></td>
+                      </tr>
+                      <tr>
+                        <td><strong>🚴 Ride (Cycling)</strong></td>
+                        <td>15 acts</td>
+                        <td>8.9 hrs</td>
+                        <td>1,973 pts</td>
+                        <td style="color:var(--accent-blue); font-weight:700;">221.9 pts/hr</td>
+                        <td>Cohort Percentile Engine (Ceiling 839.5)</td>
+                        <td><span style="color:var(--accent-blue); font-weight:600;">Commute inflation eliminated</span></td>
+                      </tr>
+                      <tr style="background:rgba(34,197,94,0.08); border-left:3px solid var(--accent-green);">
+                        <td><strong>🚶 Walk (Calibrated Baseline)</strong></td>
+                        <td>70 acts</td>
+                        <td>34.3 hrs</td>
+                        <td>6,341 pts</td>
+                        <td style="color:var(--accent-green); font-weight:700;">184.9 pts/hr</td>
+                        <td>35.0 pts/km (duration fallback 3.0/m)</td>
+                        <td><span style="color:var(--accent-green); font-weight:700;">Balanced below Gym (185 &lt; 252 pts/hr)</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
 
           <!-- Justification 4: Automated Integrity & Anomaly Filtering Engine -->
           <div class="formula-card" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.06); padding: 18px 20px;">
