@@ -2,12 +2,12 @@
   "summary": {
     "total_athletes": 27,
     "total_activities": 193,
-    "total_distance_km": 880.59,
+    "total_distance_km": 880.53,
     "total_duration_hours": 141.6,
-    "total_points": 56671.53,
-    "total_points_dynamic": 56671.53,
-    "total_points_legacy": 107111.6,
-    "last_updated": "2026-09-19T18:41:37.483583+00:00"
+    "total_points": 58908.21,
+    "total_points_dynamic": 58908.21,
+    "total_points_legacy": 107104.4,
+    "last_updated": "2026-09-20T07:51:25.940974+00:00"
   },
   "athletes": [
     {
@@ -17,8 +17,8 @@
       "unique_types": 4,
       "total_distance_km": 246.36,
       "total_duration_minutes": 1686.5,
-      "total_points": 13043.01,
-      "total_points_dynamic": 13043.01,
+      "total_points": 15310.63,
+      "total_points_dynamic": 15310.63,
       "total_points_legacy": 24483.8,
       "rank_legacy": 1,
       "rank": 1,
@@ -50,25 +50,25 @@
       "athlete_name": "krishna A",
       "total_activities": 19,
       "unique_types": 3,
-      "total_distance_km": 88.88,
+      "total_distance_km": 88.82,
       "total_duration_minutes": 471.27,
-      "total_points": 5597.39,
-      "total_points_dynamic": 5597.39,
-      "total_points_legacy": 8185.0,
+      "total_points": 5547.58,
+      "total_points_dynamic": 5547.58,
+      "total_points_legacy": 8177.8,
       "rank_legacy": 2,
       "rank": 2,
       "rank_dynamic": 2,
       "radar_metrics": {
         "distance": 36.1,
         "duration": 27.9,
-        "points": 42.9,
+        "points": 36.2,
         "frequency": 73.1,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
         "distance": 36.1,
         "duration": 27.9,
-        "points": 42.9,
+        "points": 36.2,
         "frequency": 73.1,
         "diversity": 75.0
       },
@@ -96,14 +96,14 @@
       "radar_metrics": {
         "distance": 23.3,
         "duration": 25.1,
-        "points": 38.0,
+        "points": 32.3,
         "frequency": 26.9,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 23.3,
         "duration": 25.1,
-        "points": 38.0,
+        "points": 32.3,
         "frequency": 26.9,
         "diversity": 50.0
       },
@@ -131,14 +131,14 @@
       "radar_metrics": {
         "distance": 20.9,
         "duration": 23.9,
-        "points": 30.1,
+        "points": 25.6,
         "frequency": 34.6,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 20.9,
         "duration": 23.9,
-        "points": 30.1,
+        "points": 25.6,
         "frequency": 34.6,
         "diversity": 25.0
       },
@@ -166,14 +166,14 @@
       "radar_metrics": {
         "distance": 15.6,
         "duration": 43.1,
-        "points": 24.1,
+        "points": 20.5,
         "frequency": 80.8,
         "diversity": 100.0
       },
       "radar_metrics_dynamic": {
         "distance": 15.6,
         "duration": 43.1,
-        "points": 24.1,
+        "points": 20.5,
         "frequency": 80.8,
         "diversity": 100.0
       },
@@ -201,14 +201,14 @@
       "radar_metrics": {
         "distance": 1.1,
         "duration": 37.7,
-        "points": 22.4,
+        "points": 19.1,
         "frequency": 26.9,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.1,
         "duration": 37.7,
-        "points": 22.4,
+        "points": 19.1,
         "frequency": 26.9,
         "diversity": 50.0
       },
@@ -236,14 +236,14 @@
       "radar_metrics": {
         "distance": 7.0,
         "duration": 40.0,
-        "points": 20.8,
+        "points": 17.7,
         "frequency": 61.5,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
         "distance": 7.0,
         "duration": 40.0,
-        "points": 20.8,
+        "points": 17.7,
         "frequency": 61.5,
         "diversity": 75.0
       },
@@ -271,14 +271,14 @@
       "radar_metrics": {
         "distance": 12.8,
         "duration": 23.9,
-        "points": 16.0,
+        "points": 13.6,
         "frequency": 46.2,
         "diversity": 75.0
       },
       "radar_metrics_dynamic": {
         "distance": 12.8,
         "duration": 23.9,
-        "points": 16.0,
+        "points": 13.6,
         "frequency": 46.2,
         "diversity": 75.0
       },
@@ -306,14 +306,14 @@
       "radar_metrics": {
         "distance": 11.3,
         "duration": 14.3,
-        "points": 15.0,
+        "points": 12.8,
         "frequency": 11.5,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 11.3,
         "duration": 14.3,
-        "points": 15.0,
+        "points": 12.8,
         "frequency": 11.5,
         "diversity": 25.0
       },
@@ -341,14 +341,14 @@
       "radar_metrics": {
         "distance": 22.5,
         "duration": 33.3,
-        "points": 14.9,
+        "points": 12.7,
         "frequency": 96.2,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 22.5,
         "duration": 33.3,
-        "points": 14.9,
+        "points": 12.7,
         "frequency": 96.2,
         "diversity": 25.0
       },
@@ -376,14 +376,14 @@
       "radar_metrics": {
         "distance": 22.0,
         "duration": 34.4,
-        "points": 14.6,
+        "points": 12.4,
         "frequency": 23.1,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 22.0,
         "duration": 34.4,
-        "points": 14.6,
+        "points": 12.4,
         "frequency": 23.1,
         "diversity": 25.0
       },
@@ -411,14 +411,14 @@
       "radar_metrics": {
         "distance": 8.2,
         "duration": 8.0,
-        "points": 12.4,
+        "points": 10.6,
         "frequency": 11.5,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 8.2,
         "duration": 8.0,
-        "points": 12.4,
+        "points": 10.6,
         "frequency": 11.5,
         "diversity": 25.0
       },
@@ -446,14 +446,14 @@
       "radar_metrics": {
         "distance": 8.2,
         "duration": 8.5,
-        "points": 12.0,
+        "points": 10.2,
         "frequency": 7.7,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 8.2,
         "duration": 8.5,
-        "points": 12.0,
+        "points": 10.2,
         "frequency": 7.7,
         "diversity": 25.0
       },
@@ -481,14 +481,14 @@
       "radar_metrics": {
         "distance": 7.0,
         "duration": 6.7,
-        "points": 10.8,
+        "points": 9.2,
         "frequency": 7.7,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 7.0,
         "duration": 6.7,
-        "points": 10.8,
+        "points": 9.2,
         "frequency": 7.7,
         "diversity": 25.0
       },
@@ -516,14 +516,14 @@
       "radar_metrics": {
         "distance": 6.7,
         "duration": 6.8,
-        "points": 9.9,
+        "points": 8.5,
         "frequency": 19.2,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 6.7,
         "duration": 6.8,
-        "points": 9.9,
+        "points": 8.5,
         "frequency": 19.2,
         "diversity": 25.0
       },
@@ -551,14 +551,14 @@
       "radar_metrics": {
         "distance": 6.1,
         "duration": 6.6,
-        "points": 8.8,
+        "points": 7.5,
         "frequency": 3.8,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 6.1,
         "duration": 6.6,
-        "points": 8.8,
+        "points": 7.5,
         "frequency": 3.8,
         "diversity": 25.0
       },
@@ -586,14 +586,14 @@
       "radar_metrics": {
         "distance": 4.5,
         "duration": 4.4,
-        "points": 6.9,
+        "points": 5.8,
         "frequency": 7.7,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 4.5,
         "duration": 4.4,
-        "points": 6.9,
+        "points": 5.8,
         "frequency": 7.7,
         "diversity": 25.0
       },
@@ -621,14 +621,14 @@
       "radar_metrics": {
         "distance": 11.0,
         "duration": 13.8,
-        "points": 6.4,
+        "points": 5.4,
         "frequency": 15.4,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 11.0,
         "duration": 13.8,
-        "points": 6.4,
+        "points": 5.4,
         "frequency": 15.4,
         "diversity": 50.0
       },
@@ -656,14 +656,14 @@
       "radar_metrics": {
         "distance": 2.8,
         "duration": 6.2,
-        "points": 5.7,
+        "points": 4.8,
         "frequency": 7.7,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 2.8,
         "duration": 6.2,
-        "points": 5.7,
+        "points": 4.8,
         "frequency": 7.7,
         "diversity": 50.0
       },
@@ -691,14 +691,14 @@
       "radar_metrics": {
         "distance": 3.0,
         "duration": 5.6,
-        "points": 5.4,
+        "points": 4.6,
         "frequency": 7.7,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 3.0,
         "duration": 5.6,
-        "points": 5.4,
+        "points": 4.6,
         "frequency": 7.7,
         "diversity": 50.0
       },
@@ -726,14 +726,14 @@
       "radar_metrics": {
         "distance": 5.4,
         "duration": 9.6,
-        "points": 3.6,
+        "points": 3.1,
         "frequency": 23.1,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 5.4,
         "duration": 9.6,
-        "points": 3.6,
+        "points": 3.1,
         "frequency": 23.1,
         "diversity": 25.0
       },
@@ -761,14 +761,14 @@
       "radar_metrics": {
         "distance": 3.0,
         "duration": 4.3,
-        "points": 2.9,
+        "points": 2.5,
         "frequency": 11.5,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 3.0,
         "duration": 4.3,
-        "points": 2.9,
+        "points": 2.5,
         "frequency": 11.5,
         "diversity": 50.0
       },
@@ -796,14 +796,14 @@
       "radar_metrics": {
         "distance": 2.7,
         "duration": 3.6,
-        "points": 2.8,
+        "points": 2.4,
         "frequency": 7.7,
         "diversity": 50.0
       },
       "radar_metrics_dynamic": {
         "distance": 2.7,
         "duration": 3.6,
-        "points": 2.8,
+        "points": 2.4,
         "frequency": 7.7,
         "diversity": 50.0
       },
@@ -813,6 +813,41 @@
         "points": 3.0,
         "frequency": 7.7,
         "diversity": 50.0
+      }
+    },
+    {
+      "athlete_id": "195109124",
+      "athlete_name": "Raghav N",
+      "total_activities": 4,
+      "unique_types": 1,
+      "total_distance_km": 22.13,
+      "total_duration_minutes": 83.97,
+      "total_points": 315.17,
+      "total_points_dynamic": 315.17,
+      "total_points_legacy": 885.2,
+      "rank_legacy": 22,
+      "rank": 24,
+      "rank_dynamic": 24,
+      "radar_metrics": {
+        "distance": 9.0,
+        "duration": 5.0,
+        "points": 2.1,
+        "frequency": 15.4,
+        "diversity": 25.0
+      },
+      "radar_metrics_dynamic": {
+        "distance": 9.0,
+        "duration": 5.0,
+        "points": 2.1,
+        "frequency": 15.4,
+        "diversity": 25.0
+      },
+      "radar_metrics_legacy": {
+        "distance": 9.0,
+        "duration": 5.0,
+        "points": 3.6,
+        "frequency": 15.4,
+        "diversity": 25.0
       }
     },
     {
@@ -826,19 +861,19 @@
       "total_points_dynamic": 302.75,
       "total_points_legacy": 865.0,
       "rank_legacy": 23,
-      "rank": 24,
-      "rank_dynamic": 24,
+      "rank": 25,
+      "rank_dynamic": 25,
       "radar_metrics": {
         "distance": 3.5,
         "duration": 5.7,
-        "points": 2.3,
+        "points": 2.0,
         "frequency": 3.8,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 3.5,
         "duration": 5.7,
-        "points": 2.3,
+        "points": 2.0,
         "frequency": 3.8,
         "diversity": 25.0
       },
@@ -861,19 +896,19 @@
       "total_points_dynamic": 299.03,
       "total_points_legacy": 452.4,
       "rank_legacy": 27,
-      "rank": 25,
-      "rank_dynamic": 25,
+      "rank": 26,
+      "rank_dynamic": 26,
       "radar_metrics": {
         "distance": 1.5,
         "duration": 1.5,
-        "points": 2.3,
+        "points": 2.0,
         "frequency": 3.8,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.5,
         "duration": 1.5,
-        "points": 2.3,
+        "points": 2.0,
         "frequency": 3.8,
         "diversity": 25.0
       },
@@ -882,41 +917,6 @@
         "duration": 1.5,
         "points": 1.8,
         "frequency": 3.8,
-        "diversity": 25.0
-      }
-    },
-    {
-      "athlete_id": "195109124",
-      "athlete_name": "Raghav N",
-      "total_activities": 4,
-      "unique_types": 1,
-      "total_distance_km": 22.13,
-      "total_duration_minutes": 83.97,
-      "total_points": 296.3,
-      "total_points_dynamic": 296.3,
-      "total_points_legacy": 885.2,
-      "rank_legacy": 22,
-      "rank": 26,
-      "rank_dynamic": 26,
-      "radar_metrics": {
-        "distance": 9.0,
-        "duration": 5.0,
-        "points": 2.3,
-        "frequency": 15.4,
-        "diversity": 25.0
-      },
-      "radar_metrics_dynamic": {
-        "distance": 9.0,
-        "duration": 5.0,
-        "points": 2.3,
-        "frequency": 15.4,
-        "diversity": 25.0
-      },
-      "radar_metrics_legacy": {
-        "distance": 9.0,
-        "duration": 5.0,
-        "points": 3.6,
-        "frequency": 15.4,
         "diversity": 25.0
       }
     },
@@ -936,14 +936,14 @@
       "radar_metrics": {
         "distance": 1.9,
         "duration": 3.9,
-        "points": 1.3,
+        "points": 1.1,
         "frequency": 7.7,
         "diversity": 25.0
       },
       "radar_metrics_dynamic": {
         "distance": 1.9,
         "duration": 3.9,
-        "points": 1.3,
+        "points": 1.1,
         "frequency": 7.7,
         "diversity": 25.0
       },
@@ -969,19 +969,19 @@
     {
       "activity_type": "Run",
       "count": 57,
-      "total_distance_km": 426.71,
+      "total_distance_km": 426.65,
       "total_duration_minutes": 2934.04,
-      "total_points": 34078.06,
-      "total_points_dynamic": 34078.06,
-      "total_points_legacy": 51205.2
+      "total_points": 34067.58,
+      "total_points_dynamic": 34067.58,
+      "total_points_legacy": 51198.0
     },
     {
       "activity_type": "Ride",
       "count": 16,
       "total_distance_km": 204.27,
       "total_duration_minutes": 733.16,
-      "total_points": 2022.17,
-      "total_points_dynamic": 2022.17,
+      "total_points": 4269.33,
+      "total_points_dynamic": 4269.33,
       "total_points_legacy": 9522.5
     },
     {
@@ -1787,8 +1787,8 @@
       "datetime_display": "Sep 12, 2026 06:01 AM",
       "distance_km": 71.82,
       "duration_minutes": 190.67,
-      "points": 348.19,
-      "points_dynamic": 348.19,
+      "points": 1407.4,
+      "points_dynamic": 1407.4,
       "points_legacy": 2872.8,
       "pace": "2:39 /km",
       "is_indoor": false,
@@ -1798,7 +1798,7 @@
       "original_distance_km": 71.82,
       "original_pace": "2:39 /km",
       "cycling_percentile": 88.2,
-      "cycling_effective_rate": 4.8481
+      "cycling_effective_rate": 19.5962
     },
     {
       "activity_id": "20146336416",
@@ -2440,8 +2440,8 @@
       "datetime_display": "Sep 05, 2026",
       "distance_km": 5.14,
       "duration_minutes": 21.0,
-      "points": 68.82,
-      "points_dynamic": 68.82,
+      "points": 72.53,
+      "points_dynamic": 72.53,
       "points_legacy": 205.6,
       "pace": "4:05 /km",
       "is_indoor": false,
@@ -2451,7 +2451,7 @@
       "original_distance_km": 5.14,
       "original_pace": "4:05 /km",
       "cycling_percentile": 35.3,
-      "cycling_effective_rate": 13.3886
+      "cycling_effective_rate": 14.1109
     },
     {
       "activity_id": "20041076722",
@@ -2463,8 +2463,8 @@
       "datetime_display": "Sep 05, 2026",
       "distance_km": 5.06,
       "duration_minutes": 20.08,
-      "points": 67.75,
-      "points_dynamic": 67.75,
+      "points": 71.27,
+      "points_dynamic": 71.27,
       "points_legacy": 202.4,
       "pace": "3:58 /km",
       "is_indoor": false,
@@ -2474,7 +2474,7 @@
       "original_distance_km": 5.06,
       "original_pace": "3:58 /km",
       "cycling_percentile": 35.3,
-      "cycling_effective_rate": 13.3886
+      "cycling_effective_rate": 14.085
     },
     {
       "activity_id": "20165741571",
@@ -2680,8 +2680,8 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 4.39,
       "duration_minutes": 16.25,
-      "points": 66.48,
-      "points_dynamic": 66.48,
+      "points": 60.86,
+      "points_dynamic": 60.86,
       "points_legacy": 175.6,
       "pace": "3:42 /km",
       "is_indoor": false,
@@ -2691,7 +2691,7 @@
       "original_distance_km": 4.39,
       "original_pace": "3:42 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.8633
     },
     {
       "activity_id": "20183441925",
@@ -2829,8 +2829,8 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 5.97,
       "duration_minutes": 22.07,
-      "points": 79.93,
-      "points_dynamic": 79.93,
+      "points": 85.77,
+      "points_dynamic": 85.77,
       "points_legacy": 238.8,
       "pace": "3:42 /km",
       "is_indoor": false,
@@ -2840,7 +2840,7 @@
       "original_distance_km": 5.97,
       "original_pace": "3:42 /km",
       "cycling_percentile": 35.3,
-      "cycling_effective_rate": 13.3886
+      "cycling_effective_rate": 14.3668
     },
     {
       "activity_id": "20179711836",
@@ -2852,8 +2852,8 @@
       "datetime_display": "Sep 15, 2026",
       "distance_km": 5.96,
       "duration_minutes": 20.82,
-      "points": 79.8,
-      "points_dynamic": 79.8,
+      "points": 85.6,
+      "points_dynamic": 85.6,
       "points_legacy": 238.4,
       "pace": "3:30 /km",
       "is_indoor": false,
@@ -2863,7 +2863,7 @@
       "original_distance_km": 5.96,
       "original_pace": "3:30 /km",
       "cycling_percentile": 35.3,
-      "cycling_effective_rate": 13.3886
+      "cycling_effective_rate": 14.3624
     },
     {
       "activity_id": "20193936385",
@@ -2938,8 +2938,8 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 4.39,
       "duration_minutes": 19.32,
-      "points": 66.48,
-      "points_dynamic": 66.48,
+      "points": 60.86,
+      "points_dynamic": 60.86,
       "points_legacy": 175.6,
       "pace": "4:24 /km",
       "is_indoor": false,
@@ -2949,7 +2949,7 @@
       "original_distance_km": 4.39,
       "original_pace": "4:24 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.8633
     },
     {
       "activity_id": "20195869125",
@@ -3089,8 +3089,8 @@
       "datetime_display": "Sep 16, 2026",
       "distance_km": 3.93,
       "duration_minutes": 16.32,
-      "points": 59.51,
-      "points_dynamic": 59.51,
+      "points": 53.85,
+      "points_dynamic": 53.85,
       "points_legacy": 157.2,
       "pace": "4:09 /km",
       "is_indoor": false,
@@ -3100,7 +3100,7 @@
       "original_distance_km": 3.93,
       "original_pace": "4:09 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.7023
     },
     {
       "activity_id": "20194225703",
@@ -3664,8 +3664,8 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 4.39,
       "duration_minutes": 18.22,
-      "points": 66.48,
-      "points_dynamic": 66.48,
+      "points": 60.86,
+      "points_dynamic": 60.86,
       "points_legacy": 175.6,
       "pace": "4:09 /km",
       "is_indoor": false,
@@ -3675,7 +3675,7 @@
       "original_distance_km": 4.39,
       "original_pace": "4:09 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.8633
     },
     {
       "activity_id": "20210427180",
@@ -3708,8 +3708,8 @@
       "datetime_display": "Sep 17, 2026",
       "distance_km": 4.44,
       "duration_minutes": 20.95,
-      "points": 67.23,
-      "points_dynamic": 67.23,
+      "points": 61.63,
+      "points_dynamic": 61.63,
       "points_legacy": 177.6,
       "pace": "4:43 /km",
       "is_indoor": false,
@@ -3719,7 +3719,7 @@
       "original_distance_km": 4.44,
       "original_pace": "4:43 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.8806
     },
     {
       "activity_id": "20208728887",
@@ -3750,12 +3750,12 @@
       "datetime_utc": "Thursday, September 17, 2026",
       "datetime_iso": "2026-09-17T00:00:00",
       "datetime_display": "Sep 17, 2026",
-      "distance_km": 3.99,
+      "distance_km": 3.93,
       "duration_minutes": 19.38,
-      "points": 396.08,
-      "points_dynamic": 396.08,
-      "points_legacy": 478.8,
-      "pace": "4:51 /km",
+      "points": 385.6,
+      "points_dynamic": 385.6,
+      "points_legacy": 471.6,
+      "pace": "4:56 /km",
       "is_indoor": false,
       "activity_url": "https://www.strava.com/activities/20208633094",
       "integrity_flag": "SENSOR_PACE_ANOMALY",
@@ -4260,8 +4260,8 @@
       "datetime_display": "Sep 18, 2026",
       "distance_km": 3.48,
       "duration_minutes": 15.32,
-      "points": 52.7,
-      "points_dynamic": 52.7,
+      "points": 47.12,
+      "points_dynamic": 47.12,
       "points_legacy": 139.2,
       "pace": "4:24 /km",
       "is_indoor": false,
@@ -4271,7 +4271,7 @@
       "original_distance_km": 3.48,
       "original_pace": "4:24 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.5402
     },
     {
       "activity_id": "20223987108",
@@ -4304,8 +4304,8 @@
       "datetime_display": "Sep 18, 2026",
       "distance_km": 4.33,
       "duration_minutes": 17.17,
-      "points": 65.57,
-      "points_dynamic": 65.57,
+      "points": 59.94,
+      "points_dynamic": 59.94,
       "points_legacy": 173.2,
       "pace": "3:58 /km",
       "is_indoor": false,
@@ -4315,7 +4315,7 @@
       "original_distance_km": 4.33,
       "original_pace": "3:58 /km",
       "cycling_percentile": 52.9,
-      "cycling_effective_rate": 15.1428
+      "cycling_effective_rate": 13.843
     },
     {
       "activity_id": "20222248955",
@@ -4792,8 +4792,8 @@
       "datetime_display": "Sep 19, 2026 05:55 AM",
       "distance_km": 80.97,
       "duration_minutes": 199.8,
-      "points": 392.55,
-      "points_dynamic": 392.55,
+      "points": 1600.96,
+      "points_dynamic": 1600.96,
       "points_legacy": 3238.8,
       "pace": "2:28 /km",
       "is_indoor": false,
@@ -4803,7 +4803,7 @@
       "original_distance_km": 80.97,
       "original_pace": "2:28 /km",
       "cycling_percentile": 88.2,
-      "cycling_effective_rate": 4.8481
+      "cycling_effective_rate": 19.7723
     },
     {
       "activity_id": "20234960144",

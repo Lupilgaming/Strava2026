@@ -173,28 +173,30 @@ To lower the barrier for newcomers and reward dedicated gym regulars without cau
 
 ---
 
-## 7. Cycling Percentile Scoring Engine (Commute Normalization)
+## 7. Cycling Continuous Distance Curve (Commute Normalization & Endurance Parity - Option B)
 
-### The Commute Inflation Problem:
-Because bicycles are mechanically geared vehicles with rolling friction $< 0.005$, a casual $5\text{ km}$ commute takes minimal cardiovascular effort ($\approx 20\text{ min}$ of relaxed pedaling). At a flat $25\text{ pts/km}$, short utility rides accumulated points too easily, beating intense hour-long workouts. Furthermore, $70 - 100\text{ km}$ weekend rides generated thousands of points in one morning, distorting the multi-sport leaderboard.
+### The Commute Inflation vs. Endurance Dilemma:
+Because bicycles are mechanically geared vehicles with rolling friction $< 0.005$, a casual $5\text{ km}$ commute takes minimal cardiovascular effort ($\approx 15 - 20\text{ min}$ of relaxed pedaling). At a flat $25\text{ pts/km}$, short utility rides accumulated points too easily, beating intense hour-long gym workouts. Conversely, applying an aggressive cumulative cap penalized athletes who rode multiple long-distance rides ($70 - 80+\text{ km}$), diluting their hard-earned multi-hour aerobic achievements.
 
-### Empirical Cohort Percentile Solution:
-Rather than choosing an arbitrary distance cap, our pipeline benchmarks an athlete's total competition cycling distance against the **all-time club cyclist cohort** ($N = 17$ cyclers across $213+$ historical and current rides):
+### Continuous Distance Curve Solution (Option B):
+Rather than applying an arbitrary flat rate or a cumulative monthly ceiling that penalizes repeat rides, each outdoor ride is evaluated using a continuous asymptotic rate curve:
 
-1. **100th Percentile Ceiling Formula**:
-   $$\text{Ceiling} = \text{Current pts/km } (25.0) \times \text{Max All-Time Cyclist km } (335.80\text{ km}) \times \text{Factor } (0.10) = 839.5\text{ pts}$$
+$$\text{Rate}(d) = 12.0 + 9.5 \times \left(\frac{d}{18.0 + d}\right)\text{ pts/km}$$
 
-2. **Empirical Percentile Calculation**:
-   $$P = \frac{\sum_{i=1}^{N} \mathbb{I}(D_i \le D_{\text{athlete}})}{N} \times 100\%$$
+$$\mathbf{\text{Ride Points} = \text{round}(d \times \text{Rate}(d), 2)}$$
 
-3. **Total Points Formulation**:
-   $$\mathbf{\text{Cycling Score} = \min(D_{\text{athlete}} \times 25.0, \text{Ceiling} \times P)}$$
-
-4. **Proportional Per-Ride Distribution**:
-   Each individual outdoor ride receives points proportional to its distance:
-   $$\text{Ride Points} = d_i \times \left(\frac{\text{Cycling Score}}{D_{\text{athlete}}}\right)$$
-
-This ensures that routine $5\text{ km}$ commutes are reined into a balanced range ($\approx 80 - 95\text{ pts}$), while true endurance feats ($70+\text{ km}$) are rewarded with substantial recognition without eclipsing the rest of the multi-sport club.
+### Cross-Spectrum Parity:
+1. **Short Utility Commutes ($3 - 5\text{ km}$)**:
+   - Rate: $13.5 - 14.1\text{ pts/km}$
+   - Points: $\mathbf{45 - 75\text{ pts}}$ (matches a light $15 - 20\text{ min}$ cardio session, preventing commute inflation).
+2. **Fitness & Mid-Distance ($15 - 30\text{ km}$)**:
+   - Rate: $16.4 - 18.0\text{ pts/km}$
+   - Points: $\mathbf{245 - 540\text{ pts}}$ (matches sustained aerobic conditioning).
+3. **Endurance Milestones ($70 - 80+\text{ km}$)**:
+   - Rate: $19.6 - 19.8\text{ pts/km}$
+   - Points: $\mathbf{1,400 - 1,600\text{ pts}}$ (honors grueling $3+\text{ hr}$ road feats with substantial recognition while maintaining cross-sport balance).
+4. **Per-Ride Independence**:
+   - Each ride is evaluated on its own merits, eliminating retroactive score reductions when an athlete logs subsequent rides.
 
 ---
 

@@ -1585,23 +1585,23 @@ html_template = '''<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- Cyclist Cohort Percentile Card -->
+        <!-- Cyclist Continuous Distance Curve Card -->
         <div class="formula-card" style="border-color: rgba(56, 189, 248, 0.35); background: rgba(56, 189, 248, 0.05); margin-top: 14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h3 style="font-family:'Outfit', sans-serif; font-size:15px; font-weight:800; color:var(--accent-blue); text-transform:uppercase; letter-spacing:0.5px;">
-              🚴 Outdoor Cycling Percentile Engine (Commute Normalization)
+              🚴 Outdoor Cycling Continuous Distance Curve (Option B)
             </h3>
-            <span style="font-size:11px; background:rgba(56, 189, 248, 0.2); color:var(--accent-blue); padding:2px 8px; border-radius:10px; font-weight:700;">Cohort Empirical CDF</span>
+            <span style="font-size:11px; background:rgba(56, 189, 248, 0.2); color:var(--accent-blue); padding:2px 8px; border-radius:10px; font-weight:700;">Continuous Curve</span>
           </div>
           <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;">
-            Because mechanical gear ratios allow casual 5 km bike commutes to effortlessly rack up points, total cycling score is normalized by placing cumulative distance on the <strong>empirical percentile rank (P) of all club cyclists</strong> (derived from 213+ historical and current rides).
+            Because mechanical gearing makes short 3&ndash;5 km bike commutes effortless, points scale continuously per ride with physical distance: utility commutes stay calibrated (~13.5&ndash;14.2 pts/km / ~45&ndash;75 pts), while true endurance rides (70&ndash;80+ km) unlock full metabolic recognition (~19.6&ndash;19.8 pts/km / ~1,400&ndash;1,600 pts).
           </p>
 
           <div class="formula-box">
-            <div><strong>1. 100th Percentile Ceiling:</strong> <code>Ceiling = 25.0 pts/km × Max All-Time Cyclist km (335.80) × Factor (0.10) = 839.5 pts</code></div>
-            <div><strong>2. Empirical Percentile:</strong> <code>P = (Rank in All-Time Cyclist Cohort / N) × 100%</code></div>
-            <div><strong>3. Cycling Score:</strong> <code>Total Cycling Pts = min(Distance × 25.0, Ceiling × P)</code></div>
-            <div><strong>4. Per-Ride Allocation:</strong> Apportioned proportionally by distance: <code>Ride Pts = Ride Distance × (Total Cycling Pts / Total Distance)</code></div>
+            <div><strong>1. Continuous Rate Curve:</strong> <code>Rate(d) = 12.0 + 9.5 &times; (d / (18.0 + d)) pts/km</code></div>
+            <div><strong>2. Short Commutes (3&ndash;5 km):</strong> <code>~13.5 &ndash; 14.1 pts/km &rarr; 45 &ndash; 75 pts (prevents commute distortion)</code></div>
+            <div><strong>3. Mid-Distance (15&ndash;30 km):</strong> <code>~16.4 &ndash; 18.0 pts/km &rarr; 245 &ndash; 540 pts</code></div>
+            <div><strong>4. Century / Endurance (70&ndash;80+ km):</strong> <code>~19.6 &ndash; 19.8 pts/km &rarr; 1,400 &ndash; 1,600 pts</code></div>
           </div>
         </div>
 
@@ -1794,31 +1794,33 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
 
-          <!-- Justification 2: Cycling Percentile -->
+          <!-- Justification 2: Cycling Continuous Distance Curve -->
           <div class="formula-card" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.06); padding: 18px 20px;">
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
               <span style="font-size:22px;">🚴</span>
               <div>
                 <h3 style="font-family:'Outfit', sans-serif; font-size:16px; font-weight:800; color:var(--accent-blue); margin:0;">
-                  Why Cycling Uses an All-Time Cohort Percentile Ceiling
+                  Why Cycling Uses a Continuous Distance-Rate Curve (Option B)
                 </h3>
-                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Eliminating Commute Distortions While Honoring True Endurance Distance</div>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Eliminating Commute Distortions While Fairly Rewarding True Endurance Distance</div>
               </div>
             </div>
 
             <div style="font-size:12.8px; color:var(--text-muted); line-height:1.6; display:flex; flex-direction:column; gap:10px;">
               <div>
                 <strong style="color:#fff;">1. The Commute Inflation Distortion:</strong><br>
-                Bicycles are mechanically geared vehicles with rolling friction coefficients under 0.005. A relaxed 5 km commute requires negligible metabolic exertion (~20 minutes of leisurely spinning), yet at a flat 25 pts/km, it yielded 125&ndash;150 points. A few daily errands effortlessly outscored grueling 60-minute workouts or 5 km runs. Conversely, massive 70&ndash;100 km weekend rides generated 1,700&ndash;2,500+ points in a single morning, overpowering the entire multi-sport leaderboard.
+                Bicycles are mechanically geared vehicles with rolling friction coefficients under 0.005. A relaxed 5 km commute requires negligible metabolic exertion (~20 minutes of leisurely spinning), yet at a flat 25 pts/km, it yielded 125&ndash;150 points, effortlessly outscoring grueling 60-minute gym workouts. Conversely, a fixed cap or low flat multiplier severely under-rewards grueling 70&ndash;80+ km road rides requiring 3+ hours of continuous aerobic power.
               </div>
               <div>
-                <strong style="color:#fff;">2. Real Community Empirical Benchmark:</strong><br>
-                Rather than inventing an arbitrary flat distance cap, our pipeline analyzed the club's all-time historical archive of <strong>213 rides and 15+ cyclists</strong>. In this community, the median ride is 3.1 km, and the 75th percentile is 5.1 km. By grounding the percentile rank in this empirical cohort, the system accurately distinguishes between everyday utility commutes and exceptional endurance cycling.
+                <strong style="color:#fff;">2. Continuous Per-Ride Distance Curve:</strong><br>
+                Instead of a monthly cumulative cap that unfairly penalizes high-mileage riders on subsequent rides, Option B evaluates each ride with a continuous asymptotic rate curve:
+                <br><code>Rate(d) = 12.0 + 9.5 &times; (d / (18.0 + d)) pts/km</code>
               </div>
               <div>
-                <strong style="color:#fff;">3. The 100th Percentile Ceiling Formula:</strong><br>
-                <code>Ceiling = 25.0 pts/km &times; Max All-Time Cyclist km (335.80) &times; Factor (0.10) = 839.5 pts</code><br>
-                An athlete's total cycling volume is scaled by their percentile position P, ensuring that routine 5 km commute rides stay in a balanced range (~80&ndash;95 pts) while an epic 70+ km ride is rewarded with a substantial score (~690 pts) without breaking the multi-sport competition.
+                <strong style="color:#fff;">3. Parity Across the Spectrum:</strong><br>
+                &bull; <strong>Short Commutes (3&ndash;5 km):</strong> Earn ~13.5&ndash;14.1 pts/km (~45&ndash;75 pts), keeping utility rides aligned with a light 15&ndash;20 min workout.<br>
+                &bull; <strong>Mid-Distance Fitness (15&ndash;30 km):</strong> Scales smoothly to ~16.4&ndash;18.0 pts/km (~245&ndash;540 pts).<br>
+                &bull; <strong>Endurance Milestones (70&ndash;80+ km):</strong> Unlocks ~19.6&ndash;19.8 pts/km, awarding ~1,400&ndash;1,600 pts for multi-hour efforts without breaking multi-sport parity.
               </div>
             </div>
           </div>

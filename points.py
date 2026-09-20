@@ -135,6 +135,26 @@ def calculate_unified_foot_points(distance_km: float, pace_min: float, scale: st
 
     return round(dist * rate, 2)
 
+def calculate_unified_cycling_points(distance_km: float, scale: str = "100_base") -> float:
+    """
+    Continuous Distance Curve for Outdoor Cycling (Option B):
+    Eliminates commute inflation while rewarding true endurance rides.
+    - Short utility commutes (3-5 km) earn ~13.5-14.2 pts/km (~45-75 pts).
+    - Fitness rides (15-30 km) scale to ~16.4-18.0 pts/km (~245-540 pts).
+    - Long endurance rides (70-80+ km) scale to ~19.6-19.8 pts/km (~1,400-1,600 pts).
+    Evaluated per-ride to prevent retroactive monthly score dilution.
+    """
+    dist = float(distance_km or 0.0)
+    if dist <= 0.0:
+        return 0.0
+
+    rate = 12.0 + 9.5 * (dist / (18.0 + dist))
+
+    if scale == "met":
+        rate = rate * (15.0 / 100.0)
+
+    return round(dist * rate, 2)
+
 def calculate_dynamic_points(
     activity_type: str,
     distance_km: float,
@@ -167,8 +187,9 @@ def calculate_dynamic_points(
     # 2. Cycling (outdoor distance vs indoor duration)
     elif "ride" in t or "cycle" in t:
         if dist > 0.0 and not is_indoor:
-            rate = cycling_rate if cycling_rate is not None else (25.0 if scale == "100_base" else 4.0)
-            return round(dist * rate, 2)
+            if cycling_rate is not None:
+                return round(dist * cycling_rate, 2)
+            return calculate_unified_cycling_points(dist, scale=scale)
         else:
             # Indoor / Stationary Ride: 4 pts/min (240 pts/hr) in 100-base, 1.5 in MET
             rate = 4.0 if scale == "100_base" else 1.5
@@ -325,7 +346,7 @@ def recover_missing_activity_data(activity_type: str, distance_km: Any, duration
     return dist, dur, pace_str
 
 CYCLING_BASE_RATE = 25.0
-CYCLING_CEILING_FACTOR = 0.10
+CYCLING_CEILING_FACTOR = 0.4076
 
 def is_slow_met_activity(activity_type: str) -> bool:
     """Identifies slow-MET resistance, gym, and studio activities that qualify for consistency bonuses."""
@@ -592,11 +613,11 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
             day_num = athlete_week_days[aid][wk].get(day_str, 1)
             mult = get_slow_met_multiplier(day_num)
 
-        # Cycling rate override
+        # Cycling rate calculation (Option B: Continuous Distance Curve)
         cyc_rate = None
         if ("ride" in stype.lower() or "cycle" in stype.lower()) and dist > 0.0 and not is_ind:
-            if aid in cyclist_metrics:
-                cyc_rate = cyclist_metrics[aid]["effective_rate"]
+            pts_unified = calculate_unified_cycling_points(adj_dist, scale=scale)
+            cyc_rate = round(pts_unified / adj_dist, 4) if adj_dist > 0 else 12.0
 
         pts_dyn = calculate_dynamic_points(
             stype, adj_dist, dur,
@@ -623,8 +644,9 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
         if is_slow_met_activity(stype):
             row["slow_met_multiplier"] = mult
 
-        if cyc_rate is not None and aid in cyclist_metrics:
-            row["cycling_percentile"] = cyclist_metrics[aid]["percentile"]
+        if cyc_rate is not None:
+            if aid in cyclist_metrics:
+                row["cycling_percentile"] = cyclist_metrics[aid]["percentile"]
             row["cycling_effective_rate"] = cyc_rate
 
         scored_activities[orig_idx] = row
