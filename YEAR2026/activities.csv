@@ -221,3 +221,54 @@ activity_id,athlete_id,athlete_name,activity_type,datetime_utc,distance_km,durat
 20248815149,2010990379,Sreekrishn Prabakaran,Walk,"8:53 AM on Sunday, September 20, 2026",2.27,27.48,79.45,79.45,227.0,12:06 /km,False,https://www.strava.com/activities/20248815149,
 20248697286,2010990379,Sreekrishn Prabakaran,Weight Training,"8:52 AM on Sunday, September 20, 2026",0.0,0.22,0.88,0.88,2.2,,False,https://www.strava.com/activities/20248697286,
 20248457871,181332418,Pritam Panigrahy,Run,"Sunday, September 20, 2026",5.1,31.6,426.09,426.09,612.0,6:12 /km,False,https://www.strava.com/activities/20248457871,
+20262743864,178453532,Divyansh Singh,Weight Training,"7:00 PM on Sunday, September 20, 2026",0.0,60.0,240.0,,false,https://www.strava.com/activities/20262743864
+17057440050,178453532,Divyansh Singh,Run,"5:13 PM on Thursday, January 15, 2026",3.0,14.95,294.79,4:59 /km,false,https://www.strava.com/activities/17057440050
+18845057178,178453532,Divyansh Singh,Run,"7:37 AM on Tuesday, June 9, 2026",5.1,28.1,459.47,5:31 /km,false,https://www.strava.com/activities/18845057178
+17030281673,178453532,Divyansh Singh,Run,"8:45 AM on Tuesday, January 13, 2026",5.0,25.65,472.97,5:08 /km,false,https://www.strava.com/activities/17030281673
+16930171186,178453532,Divyansh Singh,Run,"6:10 AM on Sunday, January 4, 2026",21.0,142.75,1666.65,6:48 /km,false,https://www.strava.com/activities/16930171186
+20269758520,174727555,giftbabu yeluri,Walk,"Monday, September 21, 2026",10.6,110.0,371.0,10:23 /km,false,https://www.strava.com/activities/20269758520
+20268284282,156538003,Satyaprakash Karsharma,Weight Training,"7:21 PM on Monday, September 21, 2026",0.0,57.18,228.72,,false,https://www.strava.com/activities/20268284282
+17882901610,156538003,Satyaprakash Karsharma,Run,"6:22 AM on Saturday, March 28, 2026",5.03,24.27,495.7,4:50 /km,false,https://www.strava.com/activities/17882901610
+19276843165,156538003,Satyaprakash Karsharma,Run,"8:12 AM on Sunday, July 12, 2026",20.02,129.5,1617.64,6:28 /km,false,https://www.strava.com/activities/19276843165
+19858278242,156538003,Satyaprakash Karsharma,Run,"6:35 AM on Sunday, August 23, 2026",10.02,49.58,938.83,4:57 /km,false,https://www.strava.com/activities/19858278242
+18629243190,156538003,Satyaprakash Karsharma,Run,"5:45 AM on Sunday, May 24, 2026",21.15,117.67,1806.82,5:34 /km,false,https://www.strava.com/activities/18629243190
+18712229852,156538003,Satyaprakash Karsharma,Ride,"4:23 AM on Saturday, May 30, 2026",139.09,468.73,2839.03,,false,https://www.strava.com/activities/18712229852
+17313681626,156538003,Satyaprakash Karsharma,Ride,"4:46 AM on Saturday, February 7, 2026",132.07,456.73,2689.02,,false,https://www.strava.com/activities/17313681626
+19080962061,156538003,Satyaprakash Karsharma,Ride,"5:29 AM on Saturday, June 27, 2026",90.58,246.63,1804.82,,false,https://www.strava.com/activities/19080962061
+17896158214,156538003,Satyaprakash Karsharma,Ride,"5:11 AM on Sunday, March 29, 2026",102.17,275.0,2051.27,,false,https://www.strava.com/activities/17896158214
+20210871424,178451353,Srijan Sameer,Run,"7:29 AM on Saturday, August 15, 2026",11.1,96.87,786.2,8:44 /km,false,https://www.strava.com/activities/20210871424
+20211059718,178451353,Srijan Sameer,Run,"7:30 AM on Sunday, August 30, 2026",15.02,126.83,1094.1,8:27 /km,false,https://www.strava.com/activities/20211059718
+17527020809,178451353,Srijan Sameer,Ride,"10:26 PM on Friday, February 20, 2026",4.81,7.78,67.36,,false,https://www.strava.com/activities/17527020809
+17774914122,132282073,Vishal Rohilla,Run,"9:12 AM on Thursday, March 19, 2026",10.02,70.17,781.36,7:00 /km,false,https://www.strava.com/activities/17774914122
+18729243274,180079292,aadhar sharma,Run,"Sunday, May 31, 2026",8.49,60.1,656.95,7:05 /km,false,https://www.strava.com/activities/18729243274
+19761581124,199260633,Aadithyaa M,Run,"Sunday, August 16, 2026",1.02,5.18,100.76,5:05 /km,false,https://www.strava.com/activities/19761581124
+19648419762,199260633,Aadithyaa M,Run,"Saturday, August 8, 2026",2.22,12.95,195.26,5:50 /km,false,https://www.strava.com/activities/19648419762
+19879648497,199260633,Aadithyaa M,Run,"Monday, August 24, 2026",5.18,34.98,410.49,6:45 /km,false,https://www.strava.com/activities/19879648497
+19768056148,199260633,Aadithyaa M,Run,"Sunday, August 16, 2026",10.1,73.28,774.48,7:15 /km,false,https://www.strava.com/activities/19768056148
+17879310513,199260633,Aadithyaa M,Ride,"Friday, March 27, 2026",17.59,50.42,293.67,,false,https://www.strava.com/activities/17879310513
+17769073049,199260633,Aadithyaa M,Ride,"Saturday, February 28, 2026",1.33,14.02,16.83,,false,https://www.strava.com/activities/17769073049
+16925538084,199260633,Aadithyaa M,Ride,"Saturday, January 3, 2026",14.23,31.38,230.45,,false,https://www.strava.com/activities/16925538084
+17815959257,110412408,Adithya Jayan,Ride,"Sunday, March 22, 2026",6.94,37.88,101.63,,false,https://www.strava.com/activities/17815959257
+20269080074,125109915,Harsh Anand,Workout,"Monday, September 21, 2026",0.0,113.05,452.2,,false,https://www.strava.com/activities/20269080074
+19932795755,125109915,Harsh Anand,Run,"Tuesday, August 25, 2026",4.38,13.97,593.54,3:11 /km,false,https://www.strava.com/activities/19932795755
+19183713187,180239706,Kamalapuram Madhu Sudana Rao,Run,"Sunday, July 5, 2026",6.2,45.3,469.98,7:18 /km,false,https://www.strava.com/activities/19183713187
+19092864293,180239706,Kamalapuram Madhu Sudana Rao,Run,"Sunday, June 28, 2026",5.88,44.6,435.86,7:35 /km,false,https://www.strava.com/activities/19092864293
+19004721910,180239706,Kamalapuram Madhu Sudana Rao,Run,"Sunday, June 21, 2026",5.15,36.77,394.7,7:08 /km,false,https://www.strava.com/activities/19004721910
+20267116848,127833753,krishna A,Ride,"Monday, September 21, 2026",4.49,20.85,62.4,,false,https://www.strava.com/activities/20267116848
+20264063696,127833753,krishna A,Walk,"Monday, September 21, 2026",2.37,27.48,82.95,11:36 /km,false,https://www.strava.com/activities/20264063696
+20262975881,127833753,krishna A,Ride,"Monday, September 21, 2026",4.22,20.23,58.25,,false,https://www.strava.com/activities/20262975881
+19760499133,127833753,krishna A,Run,"Sunday, August 16, 2026",10.04,47.02,971.26,4:41 /km,false,https://www.strava.com/activities/19760499133
+19432963912,175936330,kumar sudhanshu singh,Run,"Thursday, July 23, 2026",6.0,35.97,510.55,6:00 /km,false,https://www.strava.com/activities/19432963912
+19357217640,175936330,kumar sudhanshu singh,Run,"Saturday, July 18, 2026",21.11,116.55,1809.93,5:31 /km,false,https://www.strava.com/activities/19357217640
+17913370732,70004704,Lakshmanan Balasubramanian,Run,"Monday, March 30, 2026",2.02,16.83,138.0,8:20 /km,false,https://www.strava.com/activities/17913370732
+20270042044,178305380,Luffy Stark,Walk,"Monday, September 21, 2026",3.04,96.82,106.4,31:51 /km,false,https://www.strava.com/activities/20270042044
+20268170804,178279476,Muni Asheesh Potta,Weight Training,"Monday, September 21, 2026",0.0,44.07,176.28,,false,https://www.strava.com/activities/20268170804
+19894340259,178279476,Muni Asheesh Potta,Run,"Tuesday, August 25, 2026",8.19,49.62,688.83,6:04 /km,false,https://www.strava.com/activities/19894340259
+19957207427,178279476,Muni Asheesh Potta,Run,"Sunday, August 30, 2026",16.02,89.37,1380.65,5:35 /km,false,https://www.strava.com/activities/19957207427
+19092975599,178279476,Muni Asheesh Potta,Run,"Sunday, June 28, 2026",10.04,57.08,871.13,5:41 /km,false,https://www.strava.com/activities/19092975599
+19746394160,178279476,Muni Asheesh Potta,Run,"Saturday, August 15, 2026",20.0,122.58,1648.31,6:08 /km,false,https://www.strava.com/activities/19746394160
+19923645786,90052118,Narendra Babu,Run,"Thursday, August 27, 2026",8.01,54.82,630.48,6:51 /km,false,https://www.strava.com/activities/19923645786
+19923785855,178279476,Muni Asheesh Potta,Run,"Thursday, August 27, 2026",10.01,66.13,803.6,6:36 /km,false,https://www.strava.com/activities/19923785855
+19923787876,181332418,pritam Panigrahy,Run,"Thursday, August 27, 2026",10.0,68.43,788.1,6:51 /km,false,https://www.strava.com/activities/19923787876
+19923789150,175936330,kumar sudhanshu singh,Run,"Thursday, August 27, 2026",10.0,66.08,802.8,6:36 /km,false,https://www.strava.com/activities/19923789150
+19183907484,90052118,Narendra Babu,Run,"Sunday, July 5, 2026",12.43,75.2,1039.21,6:03 /km,false,https://www.strava.com/activities/19183907484

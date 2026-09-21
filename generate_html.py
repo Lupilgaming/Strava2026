@@ -1223,6 +1223,549 @@ html_template = '''<!DOCTYPE html>
       .athlete-badge { width: 32px; height: 32px; font-size: 12px; }
       .viz-card { max-width: 100%; }
     }
+
+    /* =========================================================================
+       CLUB FUN ZONE: Road Trip, Daily Bounty Roulette & Workout Simulator
+       ========================================================================= */
+    .fun-zone-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px 24px;
+      margin: 22px 0 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    .fun-zone-container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--strava-orange), var(--gold), var(--accent-blue));
+    }
+    .fun-zone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .fun-zone-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .fun-zone-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .fun-zone-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .fun-zone-pills {
+      display: flex;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .fun-zone-pills::-webkit-scrollbar {
+      display: none;
+    }
+    .fun-zone-pill {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .fun-zone-pill:hover {
+      color: #fff;
+    }
+    .fun-zone-pill.active {
+      background: rgba(252, 76, 2, 0.22);
+      color: #fff;
+      border: 1px solid rgba(252, 76, 2, 0.45);
+      box-shadow: 0 0 10px var(--orange-glow);
+    }
+    .fun-panel {
+      display: none;
+      animation: funFade 0.3s ease forwards;
+    }
+    .fun-panel.active {
+      display: block;
+    }
+    @keyframes funFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    body.theme-obsidian .fun-zone-container {
+      background: rgba(16, 20, 30, 0.85);
+      border-color: rgba(255, 255, 255, 0.07);
+    }
+    body.theme-obsidian .fun-zone-pills {
+      background: rgba(8, 12, 19, 0.9);
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Road Trip Progress */
+    .progress-track {
+      width: 100%;
+      height: 14px;
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #fc4c02, #ff6a2b, #fbbf24);
+      border-radius: 8px;
+      transition: width 1s ease-in-out;
+      box-shadow: 0 0 16px rgba(252, 76, 2, 0.6);
+    }
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+      gap: 10px;
+    }
+    .milestone-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      position: relative;
+    }
+    .milestone-card.unlocked {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.08);
+    }
+    .milestone-card.active-target {
+      border-color: rgba(252, 76, 2, 0.45);
+      background: rgba(252, 76, 2, 0.09);
+      box-shadow: 0 0 16px var(--orange-glow);
+    }
+    .milestone-badge {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .unlocked .milestone-badge { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+    .active-target .milestone-badge { background: rgba(252, 76, 2, 0.25); color: var(--strava-orange); }
+    .locked .milestone-badge { background: rgba(255, 255, 255, 0.08); color: var(--text-dim); }
+
+    /* Bounty & Dare Grid (Fully Responsive) */
+    .bounty-dare-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      align-items: stretch;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .bounty-quest-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      border-left: 4px solid var(--gold);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .bounty-quest-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .bounty-quest-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 180px;
+      min-width: 0;
+    }
+    .bounty-badge-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--gold);
+      font-weight: 800;
+    }
+    .bounty-quest-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .bounty-multiplier-tag {
+      background: rgba(251, 191, 36, 0.18);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+    .bounty-claimers-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .bounty-claimers-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11.5px;
+      min-width: 0;
+    }
+    .bounty-claimer-chip {
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      padding: 4px 8px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 100%;
+      box-sizing: border-box;
+      flex-wrap: wrap;
+      font-size: 11px;
+    }
+
+    .dare-card {
+      margin: 0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      text-align: left;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .dare-card-badge {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--strava-orange);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .dare-display-box {
+      margin: 0 0 10px 0;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      text-align: left;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .dare-title {
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      word-break: break-word;
+    }
+    .dare-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+    .dare-pts-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      display: inline-block;
+      background: rgba(252, 76, 2, 0.15);
+      color: var(--strava-orange);
+      border-radius: 6px;
+      font-weight: 700;
+      border: 1px solid rgba(252, 76, 2, 0.3);
+    }
+    .dare-spin-btn {
+      font-size: 12px;
+      padding: 8px 16px;
+      align-self: flex-start;
+      margin-top: 6px;
+    }
+
+    /* Routine Simulator Grid */
+    .routine-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .routine-presets-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+    .routine-preset-pill {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .routine-preset-pill:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .routine-preset-pill.active {
+      background: rgba(252, 76, 2, 0.2);
+      border-color: var(--strava-orange);
+      color: #fff;
+      box-shadow: 0 0 10px var(--orange-glow);
+    }
+    .routine-sliders-box {
+      display: flex;
+      flex-direction: column;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px;
+      gap: 10px;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .routine-slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .routine-slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .meta-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #1e293b;
+      outline: none;
+    }
+    .meta-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--strava-orange);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--orange-glow);
+    }
+    .routine-gauge-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .routine-meter-bar {
+      background: #1e293b;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 4px;
+      display: flex;
+      height: 6px;
+    }
+    .routine-meter-fill {
+      height: 100%;
+      transition: width 0.4s ease, background 0.4s ease;
+    }
+
+    /* Mobile & Narrow Window Responsive Breakpoints for Fun Zone */
+    @media (max-width: 820px) {
+      .bounty-dare-grid {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 14px;
+        padding-bottom: 8px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--strava-orange) rgba(255, 255, 255, 0.08);
+      }
+      .bounty-dare-grid::-webkit-scrollbar {
+        height: 6px;
+      }
+      .bounty-dare-grid::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+      }
+      .bounty-dare-grid::-webkit-scrollbar-thumb {
+        background: var(--strava-orange);
+        border-radius: 4px;
+      }
+      .bounty-quest-card,
+      .dare-card {
+        flex: 0 0 86%;
+        min-width: 270px;
+        max-width: 440px;
+        scroll-snap-align: start;
+        box-sizing: border-box;
+      }
+      .routine-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+    @media (max-width: 640px) {
+      .fun-zone-container {
+        padding: 14px 12px;
+        border-radius: 14px;
+        margin: 16px 0 22px;
+      }
+      .fun-zone-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .fun-zone-title {
+        font-size: 15.5px;
+      }
+      .fun-zone-subtitle {
+        font-size: 11px;
+      }
+      .fun-zone-pills {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: flex-start;
+      }
+      .fun-zone-pill {
+        padding: 6px 10px;
+        font-size: 11.5px;
+      }
+      .bounty-quest-card {
+        padding: 12px 10px;
+      }
+      .dare-card {
+        padding: 12px 10px;
+      }
+      .dare-spin-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      .routine-presets-bar {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .routine-presets-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .routine-preset-pill {
+        flex-shrink: 0;
+      }
+      .milestone-grid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 6px;
+      }
+      .milestone-card {
+        padding: 8px 4px;
+      }
+    }
+
+    #toastNotification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--accent-green);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #toastNotification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .fun-zone-header { flex-direction: column; align-items: flex-start; }
+      .fun-zone-pills { width: 100%; overflow-x: auto; justify-content: space-between; }
+      #funPanelRoulette > div { grid-template-columns: 1fr !important; }
+      #funPanelSimulator > div:last-child { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 <body>
@@ -1331,6 +1874,276 @@ html_template = '''<!DOCTYPE html>
       </div>
     </div>
 
+    <!-- =================================================================== -->
+    <!-- CLUB FUN ZONE & DAILY QUESTS (Compact Interactive Widget) -->
+    <!-- =================================================================== -->
+    <div class="fun-zone-container">
+      <div class="fun-zone-header">
+        <div class="fun-zone-title-group">
+          <div class="fun-zone-title">
+            <span style="color: var(--strava-orange);">⚡</span> Club Fun Zone &amp; Daily Quests
+          </div>
+          <div class="fun-zone-subtitle">
+            Interactive club adventures, daily bounty boosts &amp; workout routine simulator
+          </div>
+        </div>
+        <div class="fun-zone-pills">
+          <button id="pillRoadTrip" class="fun-zone-pill active" onclick="switchFunPill('roadtrip')">
+            <span>🗺️</span> Virtual Road Trip
+          </button>
+          <button id="pillRoulette" class="fun-zone-pill" onclick="switchFunPill('roulette')">
+            <span>🎲</span> Daily Bounty &amp; Dare
+          </button>
+          <button id="pillSimulator" class="fun-zone-pill" onclick="switchFunPill('simulator')">
+            <span>🎛️</span> Routine Simulator
+          </button>
+        </div>
+      </div>
+
+      <!-- PANEL 1: VIRTUAL ROAD TRIP -->
+      <div id="funPanelJourney" class="fun-panel active">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-blue); font-weight: 800;">
+              Collective Club Progress • Bangalore to New Delhi
+            </div>
+            <div class="journey-km-display" id="journeyKmDisplay" style="font-size: 26px; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif;">0.0 km</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; color: var(--text-muted);">Current Checkpoint Target:</div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--gold);" id="nextCityTarget">Loading...</div>
+          </div>
+        </div>
+
+        <div class="progress-track" style="margin-bottom: 14px;">
+          <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+        </div>
+
+        <div id="milestonesContainer" class="milestone-grid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- PANEL 2: DAILY BOUNTY & DARE ROULETTE -->
+      <div id="funPanelRoulette" class="fun-panel">
+        <div class="bounty-dare-grid">
+          
+          <!-- Today's Quest Card -->
+          <div class="bounty-quest-card">
+            <div>
+              <div class="bounty-quest-header">
+                <div class="bounty-quest-title-wrap">
+                  <span style="font-size: 24px; flex-shrink: 0;" id="bountyIcon">🏃‍♂️</span>
+                  <div style="min-width: 0;">
+                    <div class="bounty-badge-label">
+                      Today's Bounty • <span id="bountyDateDisplay">Today</span>
+                    </div>
+                    <div class="bounty-quest-title" id="bountyTitle">
+                      Speedway Monday Tempo Run
+                    </div>
+                  </div>
+                </div>
+                <div class="bounty-multiplier-tag" id="bountyMultiplierTag">
+                  ⚡ +15% Bonus
+                </div>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-top: 8px; margin-bottom: 12px;" id="bountyDesc">
+                Log today's featured workout to unlock a points multiplier boost.
+              </div>
+            </div>
+
+            <!-- Claimers bar -->
+            <div class="bounty-claimers-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
+                <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">🎯 Completed Today:</span>
+                <span id="bountyClaimCount" style="font-size: 10px; font-weight: 800; color: var(--accent-green); background: rgba(34, 197, 94, 0.15); padding: 2px 6px; border-radius: 6px;">0 Claimed</span>
+              </div>
+              <div id="bountyClaimersList" class="bounty-claimers-list">
+                <span style="color: var(--text-dim);">Scanning activities...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spontaneous Dare Card -->
+          <div class="dare-card">
+            <div>
+              <div class="dare-card-badge">
+                Spontaneous Fitness Dare
+              </div>
+              <div class="dare-display-box" id="rouletteDisplay">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; min-width: 0;">
+                  <span style="font-size: 20px; flex-shrink: 0;" id="dareIcon">🌅</span>
+                  <div class="dare-title" id="dareTitle">The Sunrise 5k Cruise</div>
+                </div>
+                <div class="dare-desc" id="dareDesc">
+                  Log a brisk 5.0 km run or walk before 7:30 AM.
+                </div>
+                <div class="dare-pts-tag" id="darePts">Est. Reward: ~120 - 150 pts</div>
+              </div>
+            </div>
+            <button class="btn btn-orange dare-spin-btn" onclick="spinRoulette()">
+              🎲 Spin Another Dare
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PANEL 3: WORKOUT SIMULATOR -->
+      <div id="funPanelSimulator" class="fun-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+          <!-- Presets Bar -->
+          <div class="routine-presets-bar" style="margin-bottom: 0;">
+            <button class="routine-preset-pill active" id="presetBtnIron" onclick="applyRoutinePreset('iron')">🏋️ 3 Run + 3 Gym</button>
+            <button class="routine-preset-pill" id="presetBtnSplit" onclick="applyRoutinePreset('split')">⚖️ 2 Run + 2 Gym + 2 Walk</button>
+            <button class="routine-preset-pill" id="presetBtnDaily" onclick="applyRoutinePreset('daily')">🏃‍♂️ 7-Day Runner</button>
+            <button class="routine-preset-pill" id="presetBtnApex" onclick="applyRoutinePreset('apex')">⚡ Tri-Apex</button>
+            <button class="routine-preset-pill" id="presetBtnWalker" onclick="applyRoutinePreset('walker')">🚶‍♂️ 7 Daily Walks</button>
+          </div>
+
+          <!-- Mode Switcher -->
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <button class="routine-preset-pill active" id="modeBtnFreq" onclick="switchRoutineMode('freq')">📅 Days/Wk</button>
+            <button class="routine-preset-pill" id="modeBtnVolume" onclick="switchRoutineMode('volume')">⏱️ Hours &amp; KM</button>
+          </div>
+        </div>
+
+        <div class="routine-grid" style="gap: 16px;">
+          <!-- Left: Sliders -->
+          <div class="routine-sliders-box" id="routineBoxFreq" style="padding: 14px; gap: 10px;">
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#ef4444;">🏃‍♂️ Running Days (5 km avg @ 5:30/km)</span>
+                <span id="sliderValRuns" style="color:#fff;">3 days</span>
+              </div>
+              <input type="range" min="0" max="7" step="1" value="3" class="meta-slider" id="sliderRuns" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#a855f7;">🏋️ Gym / Weights Days (45 min avg)</span>
+                <span id="sliderValGym" style="color:#fff;">3 days (1.20x Mult)</span>
+              </div>
+              <input type="range" min="0" max="7" step="1" value="3" class="meta-slider" id="sliderGym" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#10b981;">🚶‍♂️ Walking / Restorative Days (5 km avg)</span>
+                <span id="sliderValWalks" style="color:#fff;">0 days</span>
+              </div>
+              <input type="range" min="0" max="7" step="1" value="0" class="meta-slider" id="sliderWalks" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#f59e0b;">🚴‍♂️ Cycling Days (20 km avg)</span>
+                <span id="sliderValRides" style="color:#fff;">0 days</span>
+              </div>
+              <input type="range" min="0" max="7" step="1" value="0" class="meta-slider" id="sliderRides" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#38bdf8;">🏊‍♂️ Swimming Days (1.2 km avg)</span>
+                <span id="sliderValSwims" style="color:#fff;">0 days</span>
+              </div>
+              <input type="range" min="0" max="7" step="1" value="0" class="meta-slider" id="sliderSwims" oninput="updateRoutineArchitect()">
+            </div>
+          </div>
+
+          <!-- Volume Mode Sliders -->
+          <div class="routine-sliders-box" id="routineBoxVolume" style="padding: 14px; gap: 10px; display: none;">
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:var(--gold);">⏱️ Target Weekly Time Budget</span>
+                <span id="sliderValVolBudget" style="color:#fff;">6.0 hours / week</span>
+              </div>
+              <input type="range" min="1" max="25" step="0.5" value="6" class="meta-slider" id="sliderVolBudget" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#ef4444;">🏃‍♂️ Running KM Volume</span>
+                <span id="sliderValVolRun" style="color:#fff;">15.0 km (~1.4 hrs)</span>
+              </div>
+              <input type="range" min="0" max="80" step="1" value="15" class="meta-slider" id="sliderVolRun" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#a855f7;">🏋️ Gym / Weights Duration</span>
+                <span id="sliderValVolGym" style="color:#fff;">2.5 hours</span>
+              </div>
+              <input type="range" min="0" max="15" step="0.5" value="2.5" class="meta-slider" id="sliderVolGym" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#10b981;">🚶‍♂️ Walking KM Volume</span>
+                <span id="sliderValVolWalk" style="color:#fff;">10.0 km (~1.8 hrs)</span>
+              </div>
+              <input type="range" min="0" max="60" step="1" value="10" class="meta-slider" id="sliderVolWalk" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#f59e0b;">🚴‍♂️ Cycling KM Volume</span>
+                <span id="sliderValVolRide" style="color:#fff;">20.0 km (~0.8 hrs)</span>
+              </div>
+              <input type="range" min="0" max="150" step="5" value="20" class="meta-slider" id="sliderVolRide" oninput="updateRoutineArchitect()">
+            </div>
+            <div class="routine-slider-item">
+              <div class="routine-slider-header">
+                <span style="color:#38bdf8;">🏊‍♂️ Swimming KM Volume</span>
+                <span id="sliderValVolSwim" style="color:#fff;">1.0 km (~0.4 hrs)</span>
+              </div>
+              <input type="range" min="0" max="8" step="0.2" value="1.0" class="meta-slider" id="sliderVolSwim" oninput="updateRoutineArchitect()">
+            </div>
+          </div>
+
+          <!-- Right: Diagnostic Output Gauge -->
+          <div class="routine-gauge-card" style="padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 800;">
+                Weekly Schedule Projection
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;">
+                <div style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 900; color: #fff;" id="routineTotalPts">
+                  1,869 <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">pts / wk</span>
+                </div>
+                <div style="font-size: 12px; font-weight: 700; color: var(--strava-orange);" id="routineTotalHours">
+                  ~3.6 hrs / wk
+                </div>
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-dim);" id="routineVelocityDisplay">
+                Points Velocity: 519 pts/hr
+              </div>
+            </div>
+
+            <!-- Health & Stress Meters -->
+            <div style="margin: 10px 0;">
+              <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700;">
+                <span>Orthopedic Load:</span>
+                <span id="routineImpactLabel" style="color: #f59e0b;">Moderate</span>
+              </div>
+              <div class="routine-meter-bar" style="margin-top: 3px; height: 6px;">
+                <div class="routine-meter-fill" id="routineImpactFill" style="width: 45%; background: #f59e0b;"></div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-top: 8px;">
+                <span>Longevity Score:</span>
+                <span id="routineLongevityLabel" style="color: #22c55e;">88 / 100</span>
+              </div>
+              <div class="routine-meter-bar" style="margin-top: 3px; height: 6px;">
+                <div class="routine-meter-fill" id="routineLongevityFill" style="width: 88%; background: #22c55e;"></div>
+              </div>
+            </div>
+
+            <!-- Coach Advice -->
+            <div id="routineCoachAdvice" style="font-size: 11.5px; line-height: 1.4; color: #cbd5e1; background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 10px 12px;">
+              Diagnostic evaluating...
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- END OF CLUB FUN ZONE -->
+
     <!-- Podium Section -->
     <div class="section-title">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -1429,6 +2242,11 @@ html_template = '''<!DOCTYPE html>
       </table>
     </div>
 
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification">
+    <span id="toastMsg">✅ Roster copied!</span>
   </div>
 
   <!-- Athlete Detail Modal -->
@@ -2056,6 +2874,803 @@ html_template = '''<!DOCTYPE html>
     let lastSportBreakdown = null;
     let lastTotalSportPoints = 0;
     let lastFilteredAthletes = null;
+    window.routineMode = 'freq';
+
+    /* =========================================================================
+       CONSTANTS: ROAD TRIP, DARES & DAILY ROULETTE QUESTS
+       ========================================================================= */
+    const MILESTONES = [
+      { city: "Bangalore", km: 0, icon: "🚩" },
+      { city: "Mysore", km: 140, icon: "🏰" },
+      { city: "Chennai", km: 350, icon: "🌊" },
+      { city: "Goa", km: 560, icon: "🏖️" },
+      { city: "Hyderabad", km: 880, icon: "💎" },
+      { city: "Mumbai", km: 1400, icon: "🌆" },
+      { city: "Jaipur", km: 1950, icon: "👑" },
+      { city: "New Delhi", km: 2220, icon: "🏛️" }
+    ];
+
+    const DARES = [
+      { icon: "🌅", title: "The Sunrise 5k Cruise", desc: "Log a continuous 5.0 km run or walk before 7:30 AM. Earn dynamic pace points and lead the Dawn Patrol trophy.", pts: "~110 - 145 pts" },
+      { icon: "⚡", title: "Negative Split 4k", desc: "Run 4 km outdoor where your second 2 km is at least 15 sec/km faster than your first 2 km.", pts: "~120 - 160 pts" },
+      { icon: "🚴", title: "Virtual Century Sprint", desc: "Complete 15.0+ km on an indoor smart trainer or outdoor cycling route maintaining steady cadence.", pts: "~95 - 130 pts" },
+      { icon: "🔥", title: "Midday 30m Tabata Burn", desc: "Log 30 minutes of high-intensity functional workout or weight training during lunch hour.", pts: "~90 - 120 pts" },
+      { icon: "🏊", title: "Aqua Sprint 800m", desc: "Log a continuous 800m freestyle or medley swim session at aerobic effort.", pts: "~140 - 180 pts" },
+      { icon: "🌙", title: "Midnight Stride 4k", desc: "Log a 4.0 km walk or run after 8:30 PM to claim the Night Owl trophy points.", pts: "~90 - 125 pts" },
+      { icon: "🏔️", title: "Elevation Ladder 200m", desc: "Log an outdoor activity gaining at least 200m vertical elevation to boost King of the Hill standing.", pts: "~130 - 170 pts" }
+    ];
+
+    const DAILY_ROULETTE_QUESTS = [
+      {
+        dayIdx: 0, dayName: "Sunday", sport: "Workout", icon: "🧘",
+        title: "Active Recovery & Mobility Sunday",
+        desc: "Log at least 30 minutes of functional workout, yoga, or mobility training.",
+        criteria: "Workout >= 30 min", bonusPct: 15,
+        matchFn: (act) => /workout|yoga|pilates/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0
+      },
+      {
+        dayIdx: 1, dayName: "Monday", sport: "Run", icon: "🏃‍♂️",
+        title: "Speedway Monday Tempo Run",
+        desc: "Log a continuous outdoor or treadmill run of at least 4.0 km.",
+        criteria: "Run >= 4.0 km", bonusPct: 15,
+        matchFn: (act) => /run|trail/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 4.0
+      },
+      {
+        dayIdx: 2, dayName: "Tuesday", sport: "Weight Training", icon: "🏋️",
+        title: "Iron Forge Tuesday Strength",
+        desc: "Log at least 35 minutes of gym weight training or resistance work.",
+        criteria: "Gym / Weights >= 35 min", bonusPct: 15,
+        matchFn: (act) => /weight|gym|strength|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 35.0
+      },
+      {
+        dayIdx: 3, dayName: "Wednesday", sport: "Ride", icon: "🚴‍♂️",
+        title: "Midweek Velocity Cruise",
+        desc: "Log an outdoor road or virtual cycle ride of at least 15.0 km.",
+        criteria: "Cycling >= 15.0 km", bonusPct: 15,
+        matchFn: (act) => /ride|cycle/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 15.0
+      },
+      {
+        dayIdx: 4, dayName: "Thursday", sport: "Walk", icon: "🚶‍♂️",
+        title: "Restorative Stride Thursday",
+        desc: "Log a brisk walking session of at least 4.0 km to lower cortisol and flush lactate.",
+        criteria: "Walk >= 4.0 km", bonusPct: 20,
+        matchFn: (act) => /walk|hike/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 4.0
+      },
+      {
+        dayIdx: 5, dayName: "Friday", sport: "Swim / Workout", icon: "🏊‍♂️",
+        title: "Aqua Flow & Calisthenics Friday",
+        desc: "Log a swim of at least 800m or a 30+ min calisthenics/HIIT session.",
+        criteria: "Swim >= 800m or Workout >= 30 min", bonusPct: 15,
+        matchFn: (act) => (/swim/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 0.8) || (/workout|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0)
+      },
+      {
+        dayIdx: 6, dayName: "Saturday", sport: "Endurance", icon: "⛰️",
+        title: "Endurance Odyssey Saturday",
+        desc: "Log a weekend endurance effort: either a Run >= 8.0 km or a Ride >= 25.0 km.",
+        criteria: "Run >= 8.0 km OR Ride >= 25.0 km", bonusPct: 20,
+        matchFn: (act) => (/run/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 8.0) || (/ride|cycle/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 25.0)
+      }
+    ];
+
+    function showToast(msg) {
+      const t = document.getElementById('toastNotification');
+      if (!t) return;
+      document.getElementById('toastMsg').innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    function switchFunPill(panelName) {
+      document.querySelectorAll('.fun-zone-pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.fun-panel').forEach(p => p.classList.remove('active'));
+
+      const pillMap = {
+        'roadtrip': { pill: 'pillRoadTrip', panel: 'funPanelJourney' },
+        'roulette': { pill: 'pillRoulette', panel: 'funPanelRoulette' },
+        'simulator': { pill: 'pillSimulator', panel: 'funPanelSimulator' }
+      };
+
+      const target = pillMap[panelName] || pillMap['roadtrip'];
+      const pillEl = document.getElementById(target.pill);
+      const panelEl = document.getElementById(target.panel);
+      if (pillEl) pillEl.classList.add('active');
+      if (panelEl) panelEl.classList.add('active');
+
+      const hashMap = {
+        'roadtrip': '#roadtrip',
+        'roulette': '#roulette',
+        'simulator': '#simulator'
+      };
+      if (hashMap[panelName] && window.location.hash !== hashMap[panelName]) {
+        history.replaceState(null, null, hashMap[panelName]);
+      }
+
+      if (panelName === 'roadtrip') {
+        setTimeout(() => renderMainRoadTrip(currentFilteredActivities), 20);
+      } else if (panelName === 'roulette') {
+        setTimeout(() => renderMainRoulette(currentFilteredActivities), 20);
+      } else if (panelName === 'simulator') {
+        setTimeout(() => updateRoutineArchitect(), 20);
+      }
+    }
+
+    function switchMainTab(tabId) {
+      if (tabId === 'tabMainJourney' || tabId === 'roadtrip') switchFunPill('roadtrip');
+      else if (tabId === 'tabMainRoulette' || tabId === 'roulette') switchFunPill('roulette');
+      else if (tabId === 'tabMainMeta' || tabId === 'simulator') switchFunPill('simulator');
+    }
+
+    function calcFootPoints(dist, paceMin) {
+      const d = Math.max(0, parseFloat(dist || 0));
+      if (d <= 0) return 0;
+      const p = Math.max(3.0, Math.min(20.0, parseFloat(paceMin || 6.5)));
+      const v = 60.0 / p;
+      const rawRate = 15.0 + 7.2 * v;
+      const neutralRate = 80.0;
+      const w = 1.0 / (1.0 + (d / 16.0));
+      const rate = neutralRate + w * (rawRate - neutralRate);
+      return Math.round(d * rate * 100) / 100;
+    }
+
+    function calcCyclingPoints(dist) {
+      const d = Math.max(0, parseFloat(dist || 0));
+      if (d <= 0) return 0;
+      const rate = 12.0 + 9.5 * (d / (18.0 + d));
+      return Math.round(d * rate * 100) / 100;
+    }
+
+    function getSlowMetMult(dayCount) {
+      const c = parseInt(dayCount || 1, 10);
+      if (c <= 1) return 1.00;
+      if (c === 2) return 1.10;
+      if (c === 3) return 1.20;
+      return 1.30;
+    }
+
+    function renderMainRoadTrip(activities) {
+      const acts = (activities && activities.length > 0)
+        ? activities
+        : (globalData && globalData.activities ? globalData.activities : []);
+      const totalKm = acts.reduce((sum, a) => sum + parseFloat(a.distance_km || 0), 0);
+
+      const kmEl = document.getElementById('journeyKmDisplay');
+      if (kmEl) kmEl.innerText = `${totalKm.toFixed(1)} km`;
+
+      const maxKm = MILESTONES[MILESTONES.length - 1].km;
+      const progressPct = Math.min(100, Math.max(0, (totalKm / maxKm) * 100));
+      const fillEl = document.getElementById('progressFill');
+      if (fillEl) fillEl.style.width = `${progressPct.toFixed(1)}%`;
+
+      let nextMilestone = MILESTONES.find(m => m.km > totalKm);
+      if (!nextMilestone) nextMilestone = MILESTONES[MILESTONES.length - 1];
+
+      const kmLeft = Math.max(0, nextMilestone.km - totalKm);
+      const targetEl = document.getElementById('nextCityTarget');
+      if (targetEl) targetEl.innerText = `${nextMilestone.city} (${kmLeft.toFixed(1)} km to go)`;
+
+      const container = document.getElementById('milestonesContainer');
+      if (container) {
+        container.innerHTML = MILESTONES.map(m => {
+          const isUnlocked = totalKm >= m.km;
+          const isTarget = m === nextMilestone && !isUnlocked;
+          let statusClass = isUnlocked ? 'unlocked' : (isTarget ? 'active-target' : 'locked');
+          let badgeText = isUnlocked ? 'Conquered' : (isTarget ? 'Current Goal' : 'Locked');
+
+          return `
+            <div class="milestone-card ${statusClass}">
+              <div class="milestone-badge">${badgeText}</div>
+              <div style="font-size:24px; margin-bottom:4px;">${m.icon}</div>
+              <div style="font-weight:800; font-size:13px; color:#fff;">${m.city}</div>
+              <div style="font-size:11px; color:var(--text-muted);">${m.km} km</div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function renderMainRoulette(activities) {
+      const today = new Date();
+      const dayOfWeek = today.getDay();
+      const quest = DAILY_ROULETTE_QUESTS[dayOfWeek];
+
+      const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+      const dateEl = document.getElementById('bountyDateDisplay');
+      if (dateEl) dateEl.innerText = dateStr;
+
+      const titleEl = document.getElementById('bountyTitle');
+      if (titleEl) titleEl.innerText = quest.title;
+
+      const iconEl = document.getElementById('bountyIcon');
+      if (iconEl) iconEl.innerText = quest.icon;
+
+      const tagEl = document.getElementById('bountyMultiplierTag');
+      if (tagEl) tagEl.innerText = `⚡ +${quest.bonusPct}% Bonus Multiplier Active`;
+
+      const descEl = document.getElementById('bountyDesc');
+      if (descEl) descEl.innerText = `${quest.desc} Earns a special +${quest.bonusPct}% multiplier boost on your points!`;
+
+      const allActs = (globalData && globalData.activities ? globalData.activities : []);
+      const todayIsoStr = today.toISOString().slice(0, 10);
+      let dayActs = allActs.filter(a => (a.datetime_iso || a.datetime_utc || '').slice(0, 10) === todayIsoStr);
+
+      if (dayActs.length === 0 && allActs.length > 0) {
+        const sortedDates = Array.from(new Set(allActs.map(a => (a.datetime_iso || a.datetime_utc || '').slice(0, 10)))).sort();
+        const latestDate = sortedDates[sortedDates.length - 1];
+        if (latestDate) {
+          const lDateObj = new Date(latestDate);
+          const lQuest = DAILY_ROULETTE_QUESTS[lDateObj.getDay()];
+          dayActs = allActs.filter(a => (a.datetime_iso || a.datetime_utc || '').slice(0, 10) === latestDate);
+          if (dateEl) dateEl.innerText = `${lDateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })} (Latest Contest Day)`;
+          if (titleEl) titleEl.innerText = lQuest.title;
+          if (iconEl) iconEl.innerText = lQuest.icon;
+          if (descEl) descEl.innerText = `${lQuest.desc} Earns a special +${lQuest.bonusPct}% multiplier boost!`;
+          if (tagEl) tagEl.innerText = `⚡ +${lQuest.bonusPct}% Bonus Multiplier Active`;
+        }
+      }
+
+      const claimersListEl = document.getElementById('bountyClaimersList');
+      const claimCountEl = document.getElementById('bountyClaimCount');
+      if (!claimersListEl) return;
+
+      const claimers = [];
+      dayActs.forEach(act => {
+        if (quest.matchFn(act)) {
+          const pts = parseFloat(act.points_dynamic || act.points || 0);
+          const bonusPts = Math.round(pts * (quest.bonusPct / 100.0) * 10) / 10;
+          claimers.push({
+            name: act.athlete_name,
+            sport: act.activity_type,
+            pts: pts,
+            bonusPts: bonusPts,
+            dist: act.distance_km,
+            dur: act.duration_minutes
+          });
+        }
+      });
+
+      if (claimCountEl) claimCountEl.innerText = `${claimers.length} Claimed`;
+
+      if (claimers.length > 0) {
+        claimersListEl.innerHTML = claimers.map(c => `
+          <div class="bounty-claimer-chip">
+            <span>🏅</span>
+            <strong style="color:#fff;">${c.name}</strong>
+            <span style="color:var(--text-muted); font-size:10.5px;">(${c.sport})</span>
+            <span style="background:rgba(251,191,36,0.2); color:var(--gold); font-weight:800; padding:1px 5px; border-radius:5px; font-size:10px; white-space:nowrap;">+${c.bonusPts} Bonus pts</span>
+          </div>
+        `).join('');
+      } else {
+        claimersListEl.innerHTML = `
+          <div style="color:var(--text-dim); font-size:12px; padding:4px 0;">
+            No athletes have logged this quest yet for this day. Be the first to claim today's +${quest.bonusPct}% bonus!
+          </div>
+        `;
+      }
+    }
+
+    function spinRoulette() {
+      const idx = Math.floor(Math.random() * DARES.length);
+      const dare = DARES[idx];
+
+      const display = document.getElementById('rouletteDisplay');
+      if (!display) return;
+      display.style.opacity = '0.3';
+      display.style.transform = 'scale(0.96)';
+
+      setTimeout(() => {
+        document.getElementById('dareIcon').innerText = dare.icon;
+        document.getElementById('dareTitle').innerText = dare.title;
+        document.getElementById('dareDesc').innerText = dare.desc;
+        document.getElementById('darePts').innerText = `Est. Reward: ${dare.pts}`;
+
+        display.style.opacity = '1';
+        display.style.transform = 'scale(1)';
+      }, 200);
+    }
+
+    function update10kVs5kSimulator() {
+      const slider = document.getElementById('metaPaceSlider');
+      if (!slider) return;
+      const paceVal = parseFloat(slider.value);
+      const paceMins = Math.floor(paceVal);
+      const paceSecs = Math.round((paceVal - paceMins) * 60);
+      const paceStr = `${paceMins}:${paceSecs < 10 ? '0' : ''}${paceSecs} /km`;
+      const speedKmh = (60.0 / paceVal).toFixed(1);
+
+      const totalDist = parseFloat(document.getElementById('metaDistSlider')?.value || 10.0);
+      const distSingle = totalDist;
+      const distSplit = totalDist / 2.0;
+
+      const distDisp = document.getElementById('distSliderDisplay');
+      if (distDisp) distDisp.innerText = `${totalDist.toFixed(1)} km (1x ${distSingle.toFixed(1)}k vs 2x ${distSplit.toFixed(1)}k)`;
+
+      const paceDisp = document.getElementById('paceSliderDisplay');
+      if (paceDisp) paceDisp.innerText = `${paceStr} (${speedKmh} km/h)`;
+
+      const hasAdvantage = document.getElementById('splitAdvantageToggle')?.checked ?? true;
+      const paceSplitVal = hasAdvantage ? Math.max(3.5, paceVal - 0.333) : paceVal;
+      const pSplitMins = Math.floor(paceSplitVal);
+      const pSplitSecs = Math.round((paceSplitVal - pSplitMins) * 60);
+      const paceSplitStr = `${pSplitMins}:${pSplitSecs < 10 ? '0' : ''}${pSplitSecs} /km`;
+
+      const ptsSingle = calcFootPoints(distSingle, paceVal);
+      const ptsSplitSingle = calcFootPoints(distSplit, paceSplitVal);
+      const ptsDouble = Math.round((2 * ptsSplitSingle) * 100) / 100;
+      const diff = Math.round((ptsDouble - ptsSingle) * 10) / 10;
+      const ratio = (ptsDouble / (ptsSingle || 1)).toFixed(3);
+
+      const durSingle = (distSingle * paceVal).toFixed(1);
+      const durSplitSingle = (distSplit * paceSplitVal).toFixed(1);
+      const durSplitTotal = (2 * durSplitSingle).toFixed(1);
+
+      const p10kEl = document.getElementById('ptsDisplay10k');
+      if (p10kEl) p10kEl.innerHTML = `${ptsSingle.toFixed(1)} <span style="font-size:16px; font-weight:600; color:var(--text-muted);">pts</span>`;
+
+      const p2x5kEl = document.getElementById('ptsDisplay2x5k');
+      if (p2x5kEl) p2x5kEl.innerHTML = `${ptsDouble.toFixed(1)} <span style="font-size:16px; font-weight:600; color:var(--text-muted);">pts</span>`;
+
+      const card10kTitle = document.querySelector('#card10k span[style*="font-weight:800"]');
+      if (card10kTitle) card10kTitle.innerText = `🏃‍♂️ Singular ${distSingle.toFixed(1)}K Run`;
+
+      const card2x5kTitle = document.querySelector('#card2x5k span[style*="font-weight:800"]');
+      if (card2x5kTitle) card2x5kTitle.innerText = `🏃‍♂️🏃‍♂️ Two ${distSplit.toFixed(1)}K Runs (Split "Doubles")`;
+
+      const detail10k = document.getElementById('paceDetail10k');
+      if (detail10k) detail10k.innerText = `Pace: ${paceStr} • Duration: ${durSingle} min`;
+
+      const detail2x5k = document.getElementById('paceDetail2x5k');
+      if (detail2x5k) detail2x5k.innerText = `Each ${distSplit.toFixed(1)}K: ${paceSplitStr} (${durSplitSingle} min) • Total: ${durSplitTotal} min`;
+
+      const deltaBadge = document.getElementById('deltaBadge2x5k');
+      if (deltaBadge) {
+        if (diff > 0) {
+          deltaBadge.style.background = 'rgba(34,197,94,0.18)';
+          deltaBadge.style.color = '#22c55e';
+          deltaBadge.style.borderColor = 'rgba(34,197,94,0.35)';
+          deltaBadge.innerText = `+${diff.toFixed(1)} pts advantage (${ratio}x)`;
+        } else if (diff < 0) {
+          deltaBadge.style.background = 'rgba(239,68,68,0.18)';
+          deltaBadge.style.color = '#ef4444';
+          deltaBadge.style.borderColor = 'rgba(239,68,68,0.35)';
+          deltaBadge.innerText = `${diff.toFixed(1)} pts deficit (${ratio}x)`;
+        } else {
+          deltaBadge.style.background = 'rgba(255,255,255,0.1)';
+          deltaBadge.style.color = '#fff';
+          deltaBadge.innerText = `Equal points (1.000x)`;
+        }
+      }
+
+      const card10k = document.getElementById('card10k');
+      const card2x5k = document.getElementById('card2x5k');
+      if (card10k && card2x5k) {
+        if (diff > 0) {
+          card2x5k.classList.add('winner');
+          card10k.classList.remove('winner');
+        } else {
+          card10k.classList.add('winner');
+          card2x5k.classList.remove('winner');
+        }
+      }
+
+      const verdictBox = document.getElementById('duelVerdictBox');
+      if (verdictBox) {
+        if (diff >= 30) {
+          verdictBox.innerHTML = `
+            <strong>Coach's Tactical Verdict:</strong> 🏃‍♂️🏃‍♂️ <strong>Split Doubles Dominate on Points (+${diff.toFixed(1)} pts)</strong>.<br>
+            At ${totalDist.toFixed(1)} km, splitting into two ${distSplit.toFixed(1)} km bouts preserves high-speed rewards under the distance dampening formula and allows a faster split pace. 
+            However, doing two runs requires <strong>+40 min in operational prep &amp; shower overhead</strong>. Choose the singular run when time is tight; choose split runs when maximizing points and biomechanical freshness.
+          `;
+        } else if (diff > 0) {
+          verdictBox.innerHTML = `
+            <strong>Coach's Tactical Verdict:</strong> ⚖️ <strong>Slight Mathematical Edge to Split Doubles (+${diff.toFixed(1)} pts)</strong>.<br>
+            At this pace and distance, distance dampening yields nearly equivalent base points. The singular ${distSingle.toFixed(1)}K is practically superior due to saving 40+ minutes in gear changes, warmups, and showers.
+          `;
+        } else {
+          verdictBox.innerHTML = `
+            <strong>Coach's Tactical Verdict:</strong> 🏃‍♂️ <strong>Singular Push Wins for Slower/Recovery Paces</strong>.<br>
+            At paces slower than 6:45/km, the distance dampening curve pulls the per-km rate UP towards the 80 pts/km neutral threshold on longer distances. Here, the singular ${distSingle.toFixed(1)}K awards equal or higher points with half the logistical friction!
+          `;
+        }
+      }
+    }
+
+    function applyRoutinePreset(type) {
+      document.querySelectorAll('.routine-preset-pill').forEach(b => b.classList.remove('active'));
+      switchRoutineMode('freq');
+      const runs = document.getElementById('sliderRuns');
+      const gym = document.getElementById('sliderGym');
+      const walks = document.getElementById('sliderWalks');
+      const rides = document.getElementById('sliderRides');
+      const swims = document.getElementById('sliderSwims');
+
+      if (!runs || !gym || !walks || !rides || !swims) return;
+
+      if (type === 'iron') {
+        document.getElementById('presetBtnIron')?.classList.add('active');
+        runs.value = 3; gym.value = 3; walks.value = 0; rides.value = 0; swims.value = 0;
+      } else if (type === 'split') {
+        document.getElementById('presetBtnSplit')?.classList.add('active');
+        runs.value = 2; gym.value = 2; walks.value = 2; rides.value = 0; swims.value = 0;
+      } else if (type === 'daily') {
+        document.getElementById('presetBtnDaily')?.classList.add('active');
+        runs.value = 7; gym.value = 0; walks.value = 0; rides.value = 0; swims.value = 0;
+      } else if (type === 'apex') {
+        document.getElementById('presetBtnApex')?.classList.add('active');
+        runs.value = 1; gym.value = 1; walks.value = 1; rides.value = 1; swims.value = 0;
+      } else if (type === 'walker') {
+        document.getElementById('presetBtnWalker')?.classList.add('active');
+        runs.value = 0; gym.value = 0; walks.value = 7; rides.value = 0; swims.value = 0;
+      }
+      updateRoutineArchitect();
+    }
+
+    function switchRoutineMode(mode) {
+      window.routineMode = mode;
+      document.getElementById('modeBtnFreq')?.classList.toggle('active', mode === 'freq');
+      document.getElementById('modeBtnVolume')?.classList.toggle('active', mode === 'volume');
+
+      const boxFreq = document.getElementById('routineBoxFreq');
+      const boxVol = document.getElementById('routineBoxVolume');
+      if (boxFreq && boxVol) {
+        boxFreq.style.display = mode === 'freq' ? 'flex' : 'none';
+        boxVol.style.display = mode === 'volume' ? 'flex' : 'none';
+      }
+      updateRoutineArchitect();
+    }
+
+    function updateRoutineArchitect() {
+      const mode = window.routineMode || 'freq';
+      let totalWeeklyPts = 0;
+      let totalHours = 0;
+      let ptsPerHour = 0;
+      let stressScore = 0;
+      let longevity = 80;
+
+      if (mode === 'freq') {
+        const numRuns = parseInt(document.getElementById('sliderRuns')?.value || 0, 10);
+        const numGym = parseInt(document.getElementById('sliderGym')?.value || 0, 10);
+        const numWalks = parseInt(document.getElementById('sliderWalks')?.value || 0, 10);
+        const numRides = parseInt(document.getElementById('sliderRides')?.value || 0, 10);
+        const numSwims = parseInt(document.getElementById('sliderSwims')?.value || 0, 10);
+
+        const gymMult = getSlowMetMult(numGym);
+        if (document.getElementById('sliderValRuns')) document.getElementById('sliderValRuns').innerText = `${numRuns} days`;
+        if (document.getElementById('sliderValGym')) document.getElementById('sliderValGym').innerText = `${numGym} days (${gymMult.toFixed(2)}x Mult)`;
+        if (document.getElementById('sliderValWalks')) document.getElementById('sliderValWalks').innerText = `${numWalks} days`;
+        if (document.getElementById('sliderValRides')) document.getElementById('sliderValRides').innerText = `${numRides} days`;
+        if (document.getElementById('sliderValSwims')) document.getElementById('sliderValSwims').innerText = `${numSwims} days`;
+
+        const ptsPerRun = calcFootPoints(5.0, 5.5);
+        const totalRunPts = numRuns * ptsPerRun;
+        const ptsPerGym = (45.0 * 4.0) * gymMult;
+        const totalGymPts = numGym * ptsPerGym;
+        const ptsPerWalk = 5.0 * 35.0;
+        const totalWalkPts = numWalks * ptsPerWalk;
+        const ptsPerRide = calcCyclingPoints(20.0);
+        const totalRidePts = numRides * ptsPerRide;
+        const ptsPerSwim = 1.2 * 370.0;
+        const totalSwimPts = numSwims * ptsPerSwim;
+
+        totalWeeklyPts = Math.round(totalRunPts + totalGymPts + totalWalkPts + totalRidePts + totalSwimPts);
+
+        const runHours = (numRuns * 27.5) / 60.0;
+        const gymHours = (numGym * 45.0) / 60.0;
+        const walkHours = (numWalks * 55.0) / 60.0;
+        const rideHours = (numRides * 48.0) / 60.0;
+        const swimHours = (numSwims * 30.0) / 60.0;
+        totalHours = runHours + gymHours + walkHours + rideHours + swimHours;
+        ptsPerHour = totalHours > 0 ? Math.round(totalWeeklyPts / totalHours) : 0;
+
+        stressScore = Math.min(100, Math.round(numRuns * 14 + numRides * 4 + numGym * 5 + numSwims * 1 + numWalks * 1));
+        const totalActiveSessions = numRuns + numGym + numWalks + numRides + numSwims;
+        const estimatedRestDays = Math.max(0, 7 - Math.min(7, numRuns + (numGym > 0 ? 1 : 0) + (numWalks > 0 && numRuns === 0 ? 1 : 0)));
+
+        longevity = 80;
+        longevity += (numGym >= 2 ? 10 : (numGym === 1 ? 5 : -5));
+        longevity += (numWalks >= 2 ? 10 : 0);
+        longevity += (numSwims >= 1 ? 5 : 0);
+        if (numRuns >= 6) longevity -= 25;
+        if (numRuns >= 5 && numGym >= 5) longevity -= 25;
+        if (totalActiveSessions > 10) longevity -= 15;
+        if (numRuns <= 3 && numRuns >= 1) longevity += 5;
+        longevity = Math.max(20, Math.min(99, longevity));
+
+        const ptsEl = document.getElementById('routineTotalPts');
+        if (ptsEl) ptsEl.innerHTML = `${totalWeeklyPts.toLocaleString()} <span style="font-size:16px; font-weight:600; color:var(--text-muted);">pts / week</span>`;
+
+        const hrsEl = document.getElementById('routineTotalHours');
+        if (hrsEl) hrsEl.innerText = `~${totalHours.toFixed(1)} hrs / wk`;
+
+        const velEl = document.getElementById('routineVelocityDisplay');
+        if (velEl) velEl.innerText = `Points Velocity: ${ptsPerHour} pts / active hour`;
+
+        const coachEl = document.getElementById('routineCoachAdvice');
+        if (coachEl) {
+          if (numRuns >= 6 && numGym >= 4) {
+            coachEl.innerHTML = `<strong>⚠️ Severe Overuse Warning:</strong> Running ${numRuns} days and lifting ${numGym} days creates concurrent training interference (AMPK/mTOR clash). Substitute 2-3 runs with active walks to prevent tendonitis.`;
+          } else if (numRuns === 7) {
+            coachEl.innerHTML = `<strong>⚠️ 7-Day Running Grinder:</strong> Generating ~${totalWeeklyPts} pts, but 35,000+ continuous ground shocks with zero rest days risks shin splints and plantar fasciitis within 3-4 weeks. Add 1 complete rest day.`;
+          } else if (numRuns >= 2 && numGym >= 2 && (numWalks >= 1 || estimatedRestDays >= 1)) {
+            coachEl.innerHTML = `<strong>🌟 Elite Equilibrium Routine:</strong> Excellent split! You harvest strong running points (${totalRunPts} pts) while the gym provides joint armor and hits the Slow-MET consistency bonus (${totalGymPts} pts). Highly sustainable.`;
+          } else if (numWalks >= 5 && numRuns === 0) {
+            coachEl.innerHTML = `<strong>🚶‍♂️ The Pure Restorative Route:</strong> Zero orthopedic danger and maximum cardiovascular health benefits, but requires ~${totalHours.toFixed(1)} hours of walking to earn ${totalWeeklyPts} points. Add 1-2 moderate runs or gym workouts to boost points velocity!`;
+          } else {
+            coachEl.innerHTML = `<strong>⚖️ Balanced Schedule:</strong> Generating ${totalWeeklyPts} pts across ~${totalHours.toFixed(1)} hours. Maintain hydration, sleep 8+ hours, and take at least 1 non-negotiable rest day every 7-10 days.`;
+          }
+        }
+      } else {
+        // Mode: 'volume' (Budget in Hours & KM)
+        const budgetHrs = parseFloat(document.getElementById('sliderVolBudget')?.value || 6.0);
+        const runKm = parseFloat(document.getElementById('sliderVolRun')?.value || 15.0);
+        const gymHrs = parseFloat(document.getElementById('sliderVolGym')?.value || 2.5);
+        const walkKm = parseFloat(document.getElementById('sliderVolWalk')?.value || 10.0);
+        const rideKm = parseFloat(document.getElementById('sliderVolRide')?.value || 20.0);
+        const swimKm = parseFloat(document.getElementById('sliderVolSwim')?.value || 1.0);
+
+        const runHrs = (runKm * 5.5) / 60.0;
+        const walkHrs = (walkKm * 11.0) / 60.0;
+        const rideHrs = (rideKm * 2.4) / 60.0;
+        const swimHrs = (swimKm * 25.0) / 60.0;
+        totalHours = runHrs + gymHrs + walkHrs + rideHrs + swimHrs;
+
+        if (document.getElementById('sliderValVolBudget')) document.getElementById('sliderValVolBudget').innerText = `${budgetHrs.toFixed(1)} hours / week`;
+        if (document.getElementById('sliderValVolRun')) document.getElementById('sliderValVolRun').innerText = `${runKm.toFixed(1)} km (~${runHrs.toFixed(1)} hrs)`;
+        if (document.getElementById('sliderValVolGym')) document.getElementById('sliderValVolGym').innerText = `${gymHrs.toFixed(1)} hours`;
+        if (document.getElementById('sliderValVolWalk')) document.getElementById('sliderValVolWalk').innerText = `${walkKm.toFixed(1)} km (~${walkHrs.toFixed(1)} hrs)`;
+        if (document.getElementById('sliderValVolRide')) document.getElementById('sliderValVolRide').innerText = `${rideKm.toFixed(1)} km (~${rideHrs.toFixed(1)} hrs)`;
+        if (document.getElementById('sliderValVolSwim')) document.getElementById('sliderValVolSwim').innerText = `${swimKm.toFixed(1)} km (~${swimHrs.toFixed(1)} hrs)`;
+
+        const gymDaysEst = Math.max(1, Math.round(gymHrs / 0.75));
+        const gymMult = getSlowMetMult(gymDaysEst);
+
+        const ptsRun = calcFootPoints(runKm, 5.5);
+        const ptsGym = (gymHrs * 60.0 * 4.0) * gymMult;
+        const ptsWalk = walkKm * 35.0;
+        const ptsRide = calcCyclingPoints(rideKm);
+        const ptsSwim = swimKm * 380.0;
+
+        totalWeeklyPts = Math.round(ptsRun + ptsGym + ptsWalk + ptsRide + ptsSwim);
+        ptsPerHour = totalHours > 0 ? Math.round(totalWeeklyPts / totalHours) : 0;
+
+        stressScore = Math.min(100, Math.round((runKm * 2.2) + (rideKm * 0.4) + (gymHrs * 6.0) + (swimKm * 2.0) + (walkKm * 0.3)));
+
+        longevity = 80;
+        if (gymHrs >= 2.0) longevity += 12;
+        if (walkKm >= 8.0) longevity += 10;
+        if (swimKm >= 1.0) longevity += 8;
+        if (runKm >= 40.0) longevity -= 25;
+        if (totalHours > budgetHrs * 1.2) longevity -= 15;
+        longevity = Math.max(20, Math.min(99, longevity));
+
+        const ptsEl = document.getElementById('routineTotalPts');
+        if (ptsEl) ptsEl.innerHTML = `${totalWeeklyPts.toLocaleString()} <span style="font-size:16px; font-weight:600; color:var(--text-muted);">pts / week</span>`;
+
+        const hrsEl = document.getElementById('routineTotalHours');
+        const budgetDelta = totalHours - budgetHrs;
+        if (hrsEl) {
+          if (budgetDelta > 0.5) {
+            hrsEl.innerHTML = `<span style="color:#ef4444;">${totalHours.toFixed(1)} hrs</span> / ${budgetHrs.toFixed(1)}h budget (+${budgetDelta.toFixed(1)}h over)`;
+          } else {
+            hrsEl.innerHTML = `<span style="color:#22c55e;">${totalHours.toFixed(1)} hrs</span> / ${budgetHrs.toFixed(1)}h budget`;
+          }
+        }
+
+        const velEl = document.getElementById('routineVelocityDisplay');
+        if (velEl) velEl.innerText = `Points Velocity: ${ptsPerHour} pts / active hour (Budgeted: ${budgetHrs.toFixed(1)} hrs)`;
+
+        const coachEl = document.getElementById('routineCoachAdvice');
+        if (coachEl) {
+          if (totalHours > budgetHrs) {
+            coachEl.innerHTML = `<strong>⚠️ Time Budget Exceeded:</strong> You planned ${totalHours.toFixed(1)} active hours against a ${budgetHrs.toFixed(1)}h budget. Running (${runKm.toFixed(1)}km = ${runHrs.toFixed(1)}h) and Walking (${walkKm.toFixed(1)}km = ${walkHrs.toFixed(1)}h) consume the most time. Reduce walking distance or pick higher-velocity running/swimming to stay within budget!`;
+          } else if (runKm >= 35.0 && gymHrs >= 4.0) {
+            coachEl.innerHTML = `<strong>⚠️ Heavy Orthopedic Volume:</strong> ${runKm.toFixed(1)} km of running plus ${gymHrs.toFixed(1)} hrs of gym demands strict recovery. Ensure at least 2 non-running days per week to avoid patellar tendon overload.`;
+          } else {
+            coachEl.innerHTML = `<strong>🎯 Clean Volume Balance:</strong> Consuming ${totalHours.toFixed(1)} hours of your ${budgetHrs.toFixed(1)}h weekly budget, delivering ~${totalWeeklyPts.toLocaleString()} points (${ptsPerHour} pts/hr). Great time management!`;
+          }
+        }
+      }
+
+      const impactLabel = document.getElementById('routineImpactLabel');
+      const impactFill = document.getElementById('routineImpactFill');
+      if (impactFill && impactLabel) {
+        impactFill.style.width = `${stressScore}%`;
+        if (stressScore > 75) {
+          impactLabel.innerText = `⚠️ Extreme Overuse (${stressScore}/100)`;
+          impactLabel.style.color = '#ef4444';
+          impactFill.style.background = '#ef4444';
+        } else if (stressScore > 50) {
+          impactLabel.innerText = `🟡 Elevated Strain (${stressScore}/100)`;
+          impactLabel.style.color = '#f59e0b';
+          impactFill.style.background = '#f59e0b';
+        } else if (stressScore > 25) {
+          impactLabel.innerText = `🟢 Optimal Load (${stressScore}/100)`;
+          impactLabel.style.color = '#22c55e';
+          impactFill.style.background = '#22c55e';
+        } else {
+          impactLabel.innerText = `⚪ Light Recovery (${stressScore}/100)`;
+          impactLabel.style.color = '#38bdf8';
+          impactFill.style.background = '#38bdf8';
+        }
+      }
+
+      const longLabel = document.getElementById('routineLongevityLabel');
+      const longFill = document.getElementById('routineLongevityFill');
+      if (longFill && longLabel) {
+        longFill.style.width = `${longevity}%`;
+        longLabel.innerText = `${longevity} / 100`;
+        if (longevity >= 85) {
+          longLabel.style.color = '#22c55e';
+          longFill.style.background = '#22c55e';
+        } else if (longevity >= 65) {
+          longLabel.style.color = '#f59e0b';
+          longFill.style.background = '#f59e0b';
+        } else {
+          longLabel.style.color = '#ef4444';
+          longFill.style.background = '#ef4444';
+        }
+      }
+    }
+
+    function computeAthleteStats(activities) {
+      const statsMap = {};
+      const acts = activities || [];
+
+      (globalData && globalData.athletes ? globalData.athletes : []).forEach(a => {
+        statsMap[a.athlete_name] = {
+          athlete_name: a.athlete_name,
+          total_points: 0,
+          total_distance: 0,
+          total_duration_hours: 0,
+          total_activities: 0,
+          sports: {},
+          max_single_dist: 0,
+          max_single_duration: 0
+        };
+      });
+
+      acts.forEach(act => {
+        const name = act.athlete_name;
+        if (!name) return;
+        if (!statsMap[name]) {
+          statsMap[name] = {
+            athlete_name: name,
+            total_points: 0,
+            total_distance: 0,
+            total_duration_hours: 0,
+            total_activities: 0,
+            sports: {},
+            max_single_dist: 0,
+            max_single_duration: 0
+          };
+        }
+
+        const st = statsMap[name];
+        const pts = parseFloat(currentSchema === 'legacy' ? (act.points_legacy ?? act.points ?? 0) : (act.points_dynamic ?? act.points ?? 0));
+        const dist = parseFloat(act.distance_km || 0);
+        const durMin = parseFloat(act.duration_minutes || 0);
+
+        st.total_points += pts;
+        st.total_distance += dist;
+        st.total_duration_hours += durMin / 60;
+        st.total_activities += 1;
+
+        const sp = act.activity_type || 'Other';
+        st.sports[sp] = (st.sports[sp] || 0) + 1;
+        if (dist > st.max_single_dist) st.max_single_dist = dist;
+        if (durMin > st.max_single_duration) st.max_single_duration = durMin;
+      });
+
+      return statsMap;
+    }
+
+    function renderLeaderMetas(activities) {
+      const statsMap = computeAthleteStats(activities);
+      const athletes = Object.values(statsMap).filter(a => a.total_points > 0).sort((a, b) => b.total_points - a.total_points);
+
+      const tbody = document.getElementById('leaderMetasTbody');
+      if (!tbody) return;
+
+      if (athletes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:20px;">No active athlete data in this window.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = athletes.map((a, idx) => {
+        const sports = a.sports || {};
+        let topSport = 'Other';
+        let maxSportCount = 0;
+        Object.entries(sports).forEach(([sp, cnt]) => {
+          if (cnt > maxSportCount) {
+            maxSportCount = cnt;
+            topSport = sp;
+          }
+        });
+
+        let metaTitle = 'Balanced Polymath';
+        let metaBadgeStyle = 'background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3);';
+        let longevScore = '8.5 / 10';
+        let longevColor = '#22c55e';
+
+        const singleDist = a.max_single_dist || 0;
+        const singleDur = a.max_single_duration || 0;
+        const pts = a.total_points;
+        const actCount = a.total_activities;
+        const durHrs = a.total_duration_hours || 1;
+        const ptsPerHour = durHrs > 0 ? Math.round(pts / durHrs) : 0;
+
+        if (singleDist >= 40.0 || (singleDist >= 15.0 && (sports['Swim'] || 0) > 0)) {
+          metaTitle = '🔱 Apex Triathlete Titan';
+          metaBadgeStyle = 'background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.35);';
+          longevScore = '7.4 / 10';
+          longevColor = '#f59e0b';
+        } else if (singleDist >= 14.0 && topSport === 'Run') {
+          metaTitle = '⚡ Heavy Singularity (Long Run)';
+          metaBadgeStyle = 'background:rgba(252,76,2,0.18); color:var(--strava-orange); border:1px solid rgba(252,76,2,0.35);';
+          longevScore = '6.8 / 10';
+          longevColor = '#f59e0b';
+        } else if ((sports['Weight Training'] || 0) + (sports['Workout'] || 0) >= 4 && (sports['Walk'] || 0) >= 3) {
+          metaTitle = '⚖️ Interleaved Gym + Walk Master';
+          metaBadgeStyle = 'background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.35);';
+          longevScore = '9.6 / 10';
+          longevColor = '#22c55e';
+        } else if ((sports['Weight Training'] || 0) + (sports['Workout'] || 0) >= 3 && singleDur >= 75) {
+          metaTitle = '🏋️ Heavy Gym & Calisthenics';
+          metaBadgeStyle = 'background:rgba(168,85,247,0.18); color:#c084fc; border:1px solid rgba(168,85,247,0.35);';
+          longevScore = '8.9 / 10';
+          longevColor = '#22c55e';
+        } else if (topSport === 'Walk' && actCount >= 6) {
+          metaTitle = '🌿 High-Volume Walk Consistency';
+          metaBadgeStyle = 'background:rgba(34,197,94,0.18); color:#22c55e; border:1px solid rgba(34,197,94,0.35);';
+          longevScore = '9.9 / 10';
+          longevColor = '#22c55e';
+        } else if (actCount >= 5 && topSport === 'Run') {
+          metaTitle = '🔥 Continuous Running Grinder';
+          metaBadgeStyle = 'background:rgba(234,179,8,0.18); color:#fbbf24; border:1px solid rgba(234,179,8,0.35);';
+          longevScore = '7.2 / 10';
+          longevColor = '#f59e0b';
+        } else if (actCount > 0 && (pts / actCount) >= 600) {
+          metaTitle = '🏹 Apex Burst Specialist';
+          metaBadgeStyle = 'background:rgba(236,72,153,0.18); color:#f472b6; border:1px solid rgba(236,72,153,0.35);';
+          longevScore = '7.0 / 10';
+          longevColor = '#f59e0b';
+        }
+
+        return `
+          <tr>
+            <td>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="color:var(--text-dim); font-size:12px; font-weight:800;">#${idx+1}</span>
+                <strong style="color:#fff;">${a.athlete_name}</strong>
+              </div>
+            </td>
+            <td>
+              <span class="lead-meta-pill" style="${metaBadgeStyle}">${metaTitle}</span>
+            </td>
+            <td>
+              <span style="font-weight:700; color:#cbd5e1;">${topSport} (${maxSportCount} acts)</span>
+            </td>
+            <td>
+              <strong style="color:var(--gold);">${Math.round(pts).toLocaleString()} pts</strong>
+            </td>
+            <td>
+              <span style="color:var(--text-muted); font-size:12.5px;">${singleDist > 0 ? singleDist.toFixed(1) + ' km' : (singleDur > 0 ? singleDur.toFixed(0) + ' min' : 'N/A')}</span>
+            </td>
+            <td>
+              <span style="font-weight:700; color:#38bdf8;">${ptsPerHour} pts/hr</span>
+            </td>
+            <td>
+              <strong style="color:${longevColor};">${longevScore}</strong>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderMainMetaLab(activities) {
+      update10kVs5kSimulator();
+      updateRoutineArchitect();
+      renderLeaderMetas(activities);
+    }
 
     const SPORT_ICONS = {
       'Run': '🏃',
@@ -2327,6 +3942,12 @@ html_template = '''<!DOCTYPE html>
       if (hash.startsWith('#athlete=')) {
         const aid = hash.replace('#athlete=', '');
         openAthleteModal(aid);
+      } else if (hash === '#roadtrip' || hash === '#journey') {
+        switchFunPill('roadtrip');
+      } else if (hash === '#roulette' || hash === '#dare' || hash === '#bounty') {
+        switchFunPill('roulette');
+      } else if (hash === '#simulator' || hash === '#routine' || hash === '#metalab' || hash === '#meta') {
+        switchFunPill('simulator');
       }
     }
 
@@ -2526,6 +4147,9 @@ html_template = '''<!DOCTYPE html>
       renderRadarSection(filteredAthletes);
       renderDonutChart(sportBreakdown, totalSportPoints);
       renderLeaderboardTable(filteredAthletes);
+      renderMainRoadTrip(filteredActivities);
+      renderMainRoulette(filteredActivities);
+      renderMainMetaLab(filteredActivities);
 
       document.getElementById('resultsCounter').innerText = `Showing ${filteredAthletes.length} of ${globalData.athletes.length} athletes (${filteredActivities.length} activities)`;
     }
