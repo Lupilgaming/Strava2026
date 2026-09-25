@@ -127,7 +127,7 @@ activity_id,athlete_id,athlete_name,activity_type,datetime_utc,distance_km,durat
 20210427180,127833753,krishna A,Walk,"Thursday, September 17, 2026",1.16,13.95,40.6,40.6,116.0,12:02 /km,False,https://www.strava.com/activities/20210427180,MISLABELED_WALK
 20209167352,127833753,krishna A,Ride,"Thursday, September 17, 2026",4.44,20.95,61.63,61.63,177.6,4:43 /km,False,https://www.strava.com/activities/20209167352,
 20208728887,127833753,krishna A,Walk,"Thursday, September 17, 2026",1.51,19.85,52.85,52.85,151.0,13:09 /km,False,https://www.strava.com/activities/20208728887,
-20208633094,127833753,krishna A,Run,"Thursday, September 17, 2026",3.71,19.38,350.44,350.44,445.2,5:13 /km,False,https://www.strava.com/activities/20208633094,SENSOR_PACE_ANOMALY
+20208633094,127833753,krishna A,Run,"Thursday, September 17, 2026",3.68,19.38,345.34,345.34,441.6,5:16 /km,False,https://www.strava.com/activities/20208633094,SENSOR_PACE_ANOMALY
 20208518114,127833753,krishna A,Walk,"Thursday, September 17, 2026",0.83,9.07,29.05,29.05,83.0,10:56 /km,False,https://www.strava.com/activities/20208518114,
 20210518316,178305380,Luffy Stark,Walk,"Thursday, September 17, 2026",2.28,26.75,79.8,79.8,228.0,11:44 /km,False,https://www.strava.com/activities/20210518316,
 20215946659,177796904,Pradyumna Pandey,Walk,"Thursday, September 17, 2026",4.08,48.4,142.8,142.8,408.0,11:52 /km,False,https://www.strava.com/activities/20215946659,MISLABELED_WALK
@@ -329,3 +329,22 @@ activity_id,athlete_id,athlete_name,activity_type,datetime_utc,distance_km,durat
 20310716030,180697965,Prahlad Choudhary,Walk,"6:41 PM on Thursday, September 24, 2026",1.17,13.78,40.95,40.95,117.0,11:47 /km,False,https://www.strava.com/activities/20310716030,
 20306912158,180697965,Prahlad Choudhary,Walk,"12:55 PM on Thursday, September 24, 2026",0.85,7.55,29.75,29.75,85.0,8:53 /km,False,https://www.strava.com/activities/20306912158,
 20305602671,180697965,Prahlad Choudhary,Walk,"9:26 AM on Thursday, September 24, 2026",1.01,10.78,35.35,35.35,101.0,10:40 /km,False,https://www.strava.com/activities/20305602671,
+20323247406,178453532,Divyansh Singh,Run,"5:44 PM on Friday, September 25, 2026",3.11,18.37,270.2,270.2,373.2,5:54 /km,False,https://www.strava.com/activities/20323247406,
+20319517231,174727555,giftbabu yeluri,Walk,"Thursday, September 24, 2026",10.6,105.0,371.0,371.0,1060.0,9:54 /km,False,https://www.strava.com/activities/20319517231,
+20325410710,156538003,Satyaprakash Karsharma,Swim,"8:29 PM on Friday, September 25, 2026",0.75,18.83,276.9,276.9,262.5,2:31 /100m,False,https://www.strava.com/activities/20325410710,
+20320424006,178451353,Srijan Sameer,Walk,"12:49 PM on Friday, September 25, 2026",1.12,16.35,39.2,39.2,112.0,14:36 /km,False,https://www.strava.com/activities/20320424006,
+20325540600,125109915,Harsh Anand,Workout,"Friday, September 25, 2026",0.0,129.85,675.22,675.22,1298.5,,False,https://www.strava.com/activities/20325540600,
+20323302985,127833753,krishna A,Ride,"Friday, September 25, 2026",4.28,15.62,59.17,59.17,171.2,3:39 /km,False,https://www.strava.com/activities/20323302985,
+20320909920,127833753,krishna A,Walk,"Friday, September 25, 2026",2.57,18.83,89.95,89.95,257.0,7:20 /km,False,https://www.strava.com/activities/20320909920,
+20319493986,127833753,krishna A,Ride,"Friday, September 25, 2026",4.4,20.0,61.01,61.01,176.0,4:33 /km,False,https://www.strava.com/activities/20319493986,
+20319199589,177796904,Pradyumna Pandey,Walk,"Friday, September 25, 2026",1.25,14.23,43.75,43.75,125.0,11:23 /km,False,https://www.strava.com/activities/20319199589,
+20319091756,177796904,Pradyumna Pandey,Workout,"Thursday, September 24, 2026",0.0,72.17,375.28,375.28,721.7,,False,https://www.strava.com/activities/20319091756,
+20324233320,178220736,Saurabh Kandpal,Walk,"Friday, September 25, 2026",4.68,55.02,163.8,163.8,468.0,11:45 /km,False,https://www.strava.com/activities/20324233320,
+20324175165,178278060,Sumantha Madhyastha,Walk,"Friday, September 25, 2026",0.15,2.62,5.25,5.25,15.0,17:28 /km,False,https://www.strava.com/activities/20324175165,
+20324174939,178278060,Sumantha Madhyastha,Walk,"Friday, September 25, 2026",0.14,1.33,4.9,4.9,14.0,9:30 /km,False,https://www.strava.com/activities/20324174939,
+20319204231,180697965,Prahlad Choudhary,Walk,"9:28 AM on Friday, September 25, 2026",1.05,12.05,36.75,36.75,105.0,11:29 /km,False,https://www.strava.com/activities/20319204231,
+20321353463,1817894386,Ishani Bais,Weight Training,"Friday, September 25, 2026",0.0,30.15,132.66,132.66,301.5,,False,https://www.strava.com/activities/20321353463,
+20321353322,1817894386,Ishani Bais,Walk,"Friday, September 25, 2026",0.59,9.35,20.65,20.65,59.0,15:51 /km,False,https://www.strava.com/activities/20321353322,
+20321353303,1817894386,Ishani Bais,Walk,"Thursday, September 24, 2026",1.21,16.72,42.35,42.35,121.0,13:49 /km,False,https://www.strava.com/activities/20321353303,
+20321353212,1817894386,Ishani Bais,Weight Training,"Thursday, September 24, 2026",0.0,34.83,139.32,139.32,348.3,,False,https://www.strava.com/activities/20321353212,
+20321353216,1817894386,Ishani Bais,Walk,"Thursday, September 24, 2026",0.56,9.15,19.6,19.6,56.0,16:20 /km,False,https://www.strava.com/activities/20321353216,
