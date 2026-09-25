@@ -2468,8 +2468,8 @@ html_template = '''<!DOCTYPE html>
               <tr>
                 <td><span style="font-weight:600;">🏋️ Weight Training / Gym / Workout / Yoga</span></td>
                 <td>Duration (Time)</td>
-                <td style="color:var(--accent-purple); font-weight:700;">4 – 7 pts / min (240 – 420 /hr)</td>
-                <td>Cardio & resistance session with escalating weekly consistency multiplier (1.0x &rarr; 1.75x)</td>
+                <td style="color:var(--accent-purple); font-weight:700;">4 – 5.2 pts / min (240 – 312 /hr)</td>
+                <td>Cardio & resistance session with escalating weekly consistency multiplier (1.0x &rarr; 1.30x)</td>
               </tr>
               <tr>
                 <td><span style="font-weight:600;">🏊 Swimming</span></td>
@@ -2902,11 +2902,11 @@ html_template = '''<!DOCTYPE html>
 
     const DAILY_ROULETTE_QUESTS = [
       {
-        dayIdx: 0, dayName: "Sunday", sport: "Workout", icon: "🧘",
+        dayIdx: 0, dayName: "Sunday", sport: "Gym / Workout", icon: "🧘",
         title: "Active Recovery & Mobility Sunday",
-        desc: "Log at least 30 minutes of functional workout, yoga, or mobility training.",
-        criteria: "Workout >= 30 min", bonusPct: 15,
-        matchFn: (act) => /workout|yoga|pilates/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0
+        desc: "Log at least 30 minutes of functional workout, gym session, yoga, or mobility training.",
+        criteria: "Gym / Workout >= 30 min", bonusPct: 15,
+        matchFn: (act) => /workout|weight|gym|yoga|pilates/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0
       },
       {
         dayIdx: 1, dayName: "Monday", sport: "Run", icon: "🏃‍♂️",
@@ -2920,7 +2920,7 @@ html_template = '''<!DOCTYPE html>
         title: "Iron Forge Tuesday Strength",
         desc: "Log at least 35 minutes of gym weight training or resistance work.",
         criteria: "Gym / Weights >= 35 min", bonusPct: 15,
-        matchFn: (act) => /weight|gym|strength|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 35.0
+        matchFn: (act) => /weight|gym|strength|crossfit|workout/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 35.0
       },
       {
         dayIdx: 3, dayName: "Wednesday", sport: "Ride", icon: "🚴‍♂️",
@@ -2937,11 +2937,11 @@ html_template = '''<!DOCTYPE html>
         matchFn: (act) => /walk|hike/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 4.0
       },
       {
-        dayIdx: 5, dayName: "Friday", sport: "Swim / Workout", icon: "🏊‍♂️",
-        title: "Aqua Flow & Calisthenics Friday",
-        desc: "Log a swim of at least 800m or a 30+ min calisthenics/HIIT session.",
-        criteria: "Swim >= 800m or Workout >= 30 min", bonusPct: 15,
-        matchFn: (act) => (/swim/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 0.8) || (/workout|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0)
+        dayIdx: 5, dayName: "Friday", sport: "Swim / Gym", icon: "🏊‍♂️",
+        title: "Aqua Flow & Strength Friday",
+        desc: "Log a swim of at least 800m or a 30+ min gym, weight training, or calisthenics session.",
+        criteria: "Swim >= 800m or Gym/Weights >= 30 min", bonusPct: 15,
+        matchFn: (act) => (/swim/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 0.8) || (/workout|weight|gym|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0)
       },
       {
         dayIdx: 6, dayName: "Saturday", sport: "Endurance", icon: "⛰️",

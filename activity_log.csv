@@ -6906,3 +6906,44 @@ timestamp,activity_id,activity_url,athlete_id,athlete_name,status,error_message
 2026-09-26T00:14:01.592406,20235233007,https://www.strava.com/activities/20235233007,181899500,Athlete 181899500,PURGED_NON_MEMBER,
 2026-09-26T00:14:01.593412,20235292715,https://www.strava.com/activities/20235292715,159346942,Athlete 159346942,PURGED_NON_MEMBER,
 2026-09-26T00:14:01.594411,20311672393,https://www.strava.com/activities/20311672393,130615805,Athlete 130615805,PURGED_NON_MEMBER,
+2026-09-26T03:37:44.972904,20327531211,https://www.strava.com/activities/20327531211,178453532,Divyansh Singh,SUCCESS,
+2026-09-26T03:37:46.127854,20328986063,https://www.strava.com/activities/20328986063,178453532,Divyansh Singh,SUCCESS,
+2026-09-26T03:37:46.428662,20323247406,https://www.strava.com/activities/20323247406,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.429338,20311345660,https://www.strava.com/activities/20311345660,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.429338,20310256712,https://www.strava.com/activities/20310256712,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.430503,20307734789,https://www.strava.com/activities/20307734789,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.430503,20307460366,https://www.strava.com/activities/20307460366,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.431055,20307126150,https://www.strava.com/activities/20307126150,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.431055,20298318813,https://www.strava.com/activities/20298318813,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.431573,20297355423,https://www.strava.com/activities/20297355423,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.432107,20296052316,https://www.strava.com/activities/20296052316,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.432107,20293571514,https://www.strava.com/activities/20293571514,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.433171,20284515045,https://www.strava.com/activities/20284515045,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.433682,20282272836,https://www.strava.com/activities/20282272836,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.433682,20281502450,https://www.strava.com/activities/20281502450,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.434261,20270862903,https://www.strava.com/activities/20270862903,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.434792,20270897832,https://www.strava.com/activities/20270897832,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.435310,20262743864,https://www.strava.com/activities/20262743864,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.435310,20255148433,https://www.strava.com/activities/20255148433,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.435310,20234773911,https://www.strava.com/activities/20234773911,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.436328,20225429976,https://www.strava.com/activities/20225429976,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.436328,20215752355,https://www.strava.com/activities/20215752355,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.437596,20214499291,https://www.strava.com/activities/20214499291,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.438102,20213692033,https://www.strava.com/activities/20213692033,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.438639,20200691210,https://www.strava.com/activities/20200691210,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.439236,20199896990,https://www.strava.com/activities/20199896990,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.440293,20193831931,https://www.strava.com/activities/20193831931,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.440821,20181021854,https://www.strava.com/activities/20181021854,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.440821,20180078048,https://www.strava.com/activities/20180078048,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.441335,20180093723,https://www.strava.com/activities/20180093723,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.441858,20120497973,https://www.strava.com/activities/20120497973,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.441858,20120485588,https://www.strava.com/activities/20120485588,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.442397,20103416049,https://www.strava.com/activities/20103416049,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.442914,20103404501,https://www.strava.com/activities/20103404501,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:46.442914,20103393824,https://www.strava.com/activities/20103393824,178453532,Divyansh Singh,SUCCESS,Already in CSV
+2026-09-26T03:37:47.601144,17057440050,https://www.strava.com/activities/17057440050,178453532,Divyansh Singh,SUCCESS,
+2026-09-26T03:37:49.416697,18845057178,https://www.strava.com/activities/18845057178,178453532,Divyansh Singh,SUCCESS,
+2026-09-26T03:37:51.323956,17030281673,https://www.strava.com/activities/17030281673,178453532,Divyansh Singh,SUCCESS,
+2026-09-26T03:37:53.501971,16665479279,https://www.strava.com/activities/16665479279,178453532,Divyansh Singh,SKIPPED,Historical year 2025
+2026-09-26T03:37:55.119725,16552181880,https://www.strava.com/activities/16552181880,178453532,Divyansh Singh,SKIPPED,Historical year 2025
+2026-09-26T03:37:56.302289,16930171186,https://www.strava.com/activities/16930171186,178453532,Divyansh Singh,SUCCESS,

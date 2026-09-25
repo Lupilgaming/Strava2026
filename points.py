@@ -295,6 +295,8 @@ def calculate_legacy_points(activity_type: str, distance_km: float, duration_min
         if dist > 0.0:
             return round(max(dur * 10.0, dist * 70.0), 2)
         return round(dur * 10.0, 2)
+    elif any(k in t for k in ["weight", "gym", "workout", "crossfit", "strength"]):
+        return round(dur * 10.0, 2)
     else:
         if dist > 0.0 and not is_indoor:
             return round(max(dur * 10.0, dist * 40.0), 2)
@@ -539,6 +541,12 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
         row = dict(act)
         stype = str(row.get("activity_type", "Workout")).strip()
         act_id = str(row.get("activity_id", "")).strip()
+
+        # Standardize resistance and workout activities to Weight Training
+        if any(k in stype.lower() for k in ["weight", "gym", "workout", "crossfit", "strength"]):
+            stype = "Weight Training"
+            row["activity_type"] = "Weight Training"
+
         KNOWN_RAW_DISTANCES = {
             "20215946659": 8.61,  # Pradyumna Pandey Walk (logged 8.61 km in 48.4m at 5:37/km)
             "20208633094": 5.02,  # Krishna A Run (logged 5.02 km in 19.38m at 3:51/km)
@@ -558,6 +566,11 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
             dur = float(row.get("duration_minutes", 0.0) or 0.0)
         except (ValueError, TypeError):
             dist, dur = 0.0, 0.0
+
+        if stype == "Weight Training":
+            # Gym and weight training sessions do not accrue distance points
+            dist = 0.0
+            row["distance_km"] = 0.0
 
         aid = str(row.get("athlete_id") or row.get("athlete_name", "unknown")).strip()
         is_ind = str(row.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"] or is_indoor_ride(stype, dist)

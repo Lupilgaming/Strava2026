@@ -276,7 +276,7 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
     elif "trail" in type_lower: act_type = "Trail Run"
     elif "run" in type_lower: act_type = "Run"
     elif "ride" in type_lower or "cycle" in type_lower: act_type = "Ride"
-    elif "weight" in type_lower or "gym" in type_lower: act_type = "Weight Training"
+    elif "weight" in type_lower or "gym" in type_lower or "workout" in type_lower: act_type = "Weight Training"
     elif "yoga" in type_lower: act_type = "Yoga"
     elif "hike" in type_lower: act_type = "Hike"
     elif "swim" in type_lower: act_type = "Swim"
@@ -289,7 +289,10 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
     elif "row" in type_lower: act_type = "Rowing"
     else:
         # Default clause: clean title casing for any unseen sports
-        act_type = act_type.strip().title() if act_type.strip() else "Workout"
+        act_type = act_type.strip().title() if act_type.strip() else "Weight Training"
+
+    if act_type == "Weight Training":
+        distance_km = 0.0
 
     indoor_flag = is_indoor_ride(act_type, distance_km)
 

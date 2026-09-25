@@ -165,12 +165,22 @@ def clean_and_filter_activities(
             pass
 
         # 5. Recalculate Points accurately, detect indoor rides, and calculate pace
-        stype = row.get("activity_type", "Workout")
+        stype = row.get("activity_type", "Weight Training")
+        if any(k in stype.lower() for k in ["workout", "weight", "gym", "crossfit", "strength"]):
+            stype = "Weight Training"
+            row["activity_type"] = "Weight Training"
+            dist = 0.0
+            row["distance_km"] = "0.0"
+        else:
+            try:
+                dist = float(row.get("distance_km", 0.0) or 0.0)
+            except ValueError:
+                dist = 0.0
+
         try:
-            dist = float(row.get("distance_km", 0.0) or 0.0)
             dur = float(row.get("duration_minutes", 0.0) or 0.0)
         except ValueError:
-            dist, dur = 0.0, 0.0
+            dur = 0.0
 
         indoor_flag = is_indoor_ride(stype, dist)
         pace_str = ""

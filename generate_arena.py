@@ -3798,11 +3798,11 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
 
     const DAILY_ROULETTE_QUESTS = [
       {
-        dayIdx: 0, dayName: "Sunday", sport: "Workout", icon: "🧘",
+        dayIdx: 0, dayName: "Sunday", sport: "Gym / Workout", icon: "🧘",
         title: "Active Recovery & Mobility Sunday",
-        desc: "Log at least 30 minutes of functional workout, yoga, or mobility training.",
-        criteria: "Workout >= 30 min", bonusPct: 15,
-        matchFn: (act) => /workout|yoga|pilates/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0
+        desc: "Log at least 30 minutes of functional workout, gym session, yoga, or mobility training.",
+        criteria: "Gym / Workout >= 30 min", bonusPct: 15,
+        matchFn: (act) => /workout|weight|gym|yoga|pilates/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0
       },
       {
         dayIdx: 1, dayName: "Monday", sport: "Run", icon: "🏃‍♂️",
@@ -3816,7 +3816,7 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         title: "Iron Forge Tuesday Strength",
         desc: "Log at least 35 minutes of gym weight training or resistance work.",
         criteria: "Gym / Weights >= 35 min", bonusPct: 15,
-        matchFn: (act) => /weight|gym|strength|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 35.0
+        matchFn: (act) => /weight|gym|strength|crossfit|workout/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 35.0
       },
       {
         dayIdx: 3, dayName: "Wednesday", sport: "Ride", icon: "🚴‍♂️",
@@ -3833,11 +3833,11 @@ def build_arena(root_dir=None, year_dir=None, web_dir=None, export_dir=None):
         matchFn: (act) => /walk|hike/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 4.0
       },
       {
-        dayIdx: 5, dayName: "Friday", sport: "Swim / Workout", icon: "🏊‍♂️",
-        title: "Aqua Flow & Calisthenics Friday",
-        desc: "Log a swim of at least 800m or a 30+ min calisthenics/HIIT session.",
-        criteria: "Swim >= 800m or Workout >= 30 min", bonusPct: 15,
-        matchFn: (act) => (/swim/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 0.8) || (/workout|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0)
+        dayIdx: 5, dayName: "Friday", sport: "Swim / Gym", icon: "🏊‍♂️",
+        title: "Aqua Flow & Strength Friday",
+        desc: "Log a swim of at least 800m or a 30+ min gym, weight training, or calisthenics session.",
+        criteria: "Swim >= 800m or Gym/Weights >= 30 min", bonusPct: 15,
+        matchFn: (act) => (/swim/i.test(act.activity_type) && parseFloat(act.distance_km || 0) >= 0.8) || (/workout|weight|gym|crossfit/i.test(act.activity_type) && parseFloat(act.duration_minutes || 0) >= 30.0)
       },
       {
         dayIdx: 6, dayName: "Saturday", sport: "Endurance", icon: "⛰️",

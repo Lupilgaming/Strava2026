@@ -43,12 +43,20 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for r in reader:
-            act_type = str(r.get("activity_type", "Workout")).strip()
+            act_type = str(r.get("activity_type", "Weight Training")).strip()
+            if any(k in act_type.lower() for k in ["workout", "weight", "gym", "crossfit", "strength"]):
+                act_type = "Weight Training"
+                dist = 0.0
+            else:
+                try:
+                    dist = float(r.get("distance_km", 0.0) or 0.0)
+                except ValueError:
+                    dist = 0.0
+
             try:
-                dist = float(r.get("distance_km", 0.0) or 0.0)
                 dur = float(r.get("duration_minutes", 0.0) or 0.0)
             except ValueError:
-                dist, dur = 0.0, 0.0
+                dur = 0.0
 
             raw_dt = str(r.get("datetime_utc", "")).strip()
             iso_dt = ""
