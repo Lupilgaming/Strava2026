@@ -7347,3 +7347,250 @@ timestamp,activity_id,activity_url,athlete_id,athlete_name,status,error_message
 2026-09-27T00:21:03.461175,20235292715,https://www.strava.com/activities/20235292715,159346942,Athlete 159346942,PURGED_NON_MEMBER,
 2026-09-27T00:21:03.461175,20311672393,https://www.strava.com/activities/20311672393,130615805,Athlete 130615805,PURGED_NON_MEMBER,
 2026-09-27T00:21:07.952873,19184023245,https://www.strava.com/activities/19184023245,158271875,Athlete 158271875,PURGED_NON_MEMBER,
+2026-09-27T20:41:19.399111,17057440050,https://www.strava.com/activities/17057440050,178453532,Divyansh Singh,SUCCESS,
+2026-09-27T20:41:21.185024,18845057178,https://www.strava.com/activities/18845057178,178453532,Divyansh Singh,SUCCESS,
+2026-09-27T20:41:23.022320,17030281673,https://www.strava.com/activities/17030281673,178453532,Divyansh Singh,SUCCESS,
+2026-09-27T20:41:25.113381,16665479279,https://www.strava.com/activities/16665479279,178453532,Divyansh Singh,SKIPPED,Historical year 2025
+2026-09-27T20:41:27.031497,16552181880,https://www.strava.com/activities/16552181880,178453532,Divyansh Singh,SKIPPED,Historical year 2025
+2026-09-27T20:41:28.292876,16930171186,https://www.strava.com/activities/16930171186,178453532,Divyansh Singh,SUCCESS,
+2026-09-27T20:41:52.339355,8200160581,https://www.strava.com/activities/8200160581,24666680,Atul Lele,SKIPPED,Historical year 2022
+2026-09-27T20:41:54.311591,4465207083,https://www.strava.com/activities/4465207083,24666680,Atul Lele,SKIPPED,Historical year 2020
+2026-09-27T20:41:55.684189,2844345025,https://www.strava.com/activities/2844345025,24666680,Atul Lele,SKIPPED,Historical year 2019
+2026-09-27T20:41:58.286005,4367206209,https://www.strava.com/activities/4367206209,24666680,Atul Lele,SKIPPED,Historical year 2020
+2026-09-27T20:41:59.491465,4419020342,https://www.strava.com/activities/4419020342,24666680,Atul Lele,SKIPPED,Historical year 2020
+2026-09-27T20:42:00.708842,4427276105,https://www.strava.com/activities/4427276105,24666680,Atul Lele,SKIPPED,Historical year 2020
+2026-09-27T20:42:01.897717,15193358141,https://www.strava.com/activities/15193358141,24666680,Atul Lele,SKIPPED,Historical year 2025
+2026-09-27T20:42:24.148862,15361388643,https://www.strava.com/activities/15361388643,174727555,giftbabu yeluri,SKIPPED,Historical year 2025
+2026-09-27T20:42:25.312119,15129399172,https://www.strava.com/activities/15129399172,174727555,giftbabu yeluri,SKIPPED,Historical year 2025
+2026-09-27T20:42:53.610970,20345515175,https://www.strava.com/activities/20345515175,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:42:56.003387,16669707875,https://www.strava.com/activities/16669707875,156538003,Satyaprakash Karsharma,SKIPPED,Historical year 2025
+2026-09-27T20:42:57.427259,17882901610,https://www.strava.com/activities/17882901610,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:00.105265,19276843165,https://www.strava.com/activities/19276843165,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:02.416547,19858278242,https://www.strava.com/activities/19858278242,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:04.693629,16665479279,https://www.strava.com/activities/16665479279,156538003,Satyaprakash Karsharma,SKIPPED,Historical year 2025
+2026-09-27T20:43:06.710659,18629243190,https://www.strava.com/activities/18629243190,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:08.578878,16552181880,https://www.strava.com/activities/16552181880,156538003,Satyaprakash Karsharma,SKIPPED,Historical year 2025
+2026-09-27T20:43:11.563346,18712229852,https://www.strava.com/activities/18712229852,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:14.883171,17313681626,https://www.strava.com/activities/17313681626,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:17.268514,19080962061,https://www.strava.com/activities/19080962061,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:20.097538,17896158214,https://www.strava.com/activities/17896158214,156538003,Satyaprakash Karsharma,SUCCESS,
+2026-09-27T20:43:44.111101,20345700830,https://www.strava.com/activities/20345700830,178451353,Srijan Sameer,SUCCESS,
+2026-09-27T20:43:46.377677,20345486899,https://www.strava.com/activities/20345486899,178451353,Srijan Sameer,SUCCESS,
+2026-09-27T20:43:47.953296,20311672393,https://www.strava.com/activities/20311672393,178451353,Srijan Sameer,SUCCESS,
+2026-09-27T20:43:49.837097,16501394457,https://www.strava.com/activities/16501394457,178451353,Srijan Sameer,SKIPPED,Historical year 2025
+2026-09-27T20:43:51.577778,20210871424,https://www.strava.com/activities/20210871424,178451353,Srijan Sameer,SUCCESS,
+2026-09-27T20:43:53.671804,15623936153,https://www.strava.com/activities/15623936153,178451353,Srijan Sameer,SKIPPED,Historical year 2025
+2026-09-27T20:43:54.916326,16665479279,https://www.strava.com/activities/16665479279,178451353,Srijan Sameer,SKIPPED,Historical year 2025
+2026-09-27T20:43:56.760017,16552181880,https://www.strava.com/activities/16552181880,178451353,Srijan Sameer,SKIPPED,Historical year 2025
+2026-09-27T20:44:20.350818,17774914122,https://www.strava.com/activities/17774914122,132282073,Vishal Rohilla,SUCCESS,
+2026-09-27T20:44:22.086028,17774880979,https://www.strava.com/activities/17774880979,132282073,Vishal Rohilla,SUCCESS,
+2026-09-27T20:44:23.705314,10833015324,https://www.strava.com/activities/10833015324,132282073,Vishal Rohilla,SKIPPED,Historical year 2024
+2026-09-27T20:44:25.391989,15400947629,https://www.strava.com/activities/15400947629,132282073,Vishal Rohilla,SKIPPED,Historical year 2025
+2026-09-27T20:44:27.107557,16665479279,https://www.strava.com/activities/16665479279,132282073,Vishal Rohilla,SKIPPED,Historical year 2025
+2026-09-27T20:44:54.414254,20345171230,https://www.strava.com/activities/20345171230,180079292,aadhar sharma,SUCCESS,
+2026-09-27T20:44:56.051197,18729243274,https://www.strava.com/activities/18729243274,180079292,aadhar sharma,SUCCESS,
+2026-09-27T20:44:58.292340,16665479279,https://www.strava.com/activities/16665479279,180079292,aadhar sharma,SKIPPED,Historical year 2025
+2026-09-27T20:44:59.747308,16552181880,https://www.strava.com/activities/16552181880,180079292,aadhar sharma,SKIPPED,Historical year 2025
+2026-09-27T20:45:22.778298,20351328107,https://www.strava.com/activities/20351328107,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:24.412435,20351274143,https://www.strava.com/activities/20351274143,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:26.112073,20351232208,https://www.strava.com/activities/20351232208,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:27.870259,19761581124,https://www.strava.com/activities/19761581124,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:29.518148,19879648497,https://www.strava.com/activities/19879648497,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:31.413120,19768056148,https://www.strava.com/activities/19768056148,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:33.392509,16665479279,https://www.strava.com/activities/16665479279,199260633,Aadithyaa M,SKIPPED,Historical year 2025
+2026-09-27T20:45:34.862801,17879310513,https://www.strava.com/activities/17879310513,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:36.371240,17769073049,https://www.strava.com/activities/17769073049,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:45:37.969384,16925538084,https://www.strava.com/activities/16925538084,199260633,Aadithyaa M,SUCCESS,
+2026-09-27T20:46:24.986569,2807344641,https://www.strava.com/activities/2807344641,47622577,Abhinav Parashar,SKIPPED,Historical year 2019
+2026-09-27T20:46:49.501099,15440346696,https://www.strava.com/activities/15440346696,179642952,Abhishek Singh,SKIPPED,Historical year 2025
+2026-09-27T20:47:11.721561,15269793112,https://www.strava.com/activities/15269793112,178305741,Abhishek Verma,SKIPPED,Historical year 2025
+2026-09-27T20:47:57.624565,2812901794,https://www.strava.com/activities/2812901794,47506672,Achyuta M,SKIPPED,Historical year 2019
+2026-09-27T20:47:58.572926,2805446125,https://www.strava.com/activities/2805446125,47506672,Achyuta M,SKIPPED,Historical year 2019
+2026-09-27T20:48:21.101337,15360087970,https://www.strava.com/activities/15360087970,73528842,Adarsh Tripathi,SKIPPED,Historical year 2025
+2026-09-27T20:48:22.755957,15304271664,https://www.strava.com/activities/15304271664,73528842,Adarsh Tripathi,SKIPPED,Historical year 2025
+2026-09-27T20:48:46.835688,10554183204,https://www.strava.com/activities/10554183204,110412408,Adithya Jayan,SKIPPED,Historical year 2024
+2026-09-27T20:48:48.254877,10851591126,https://www.strava.com/activities/10851591126,110412408,Adithya Jayan,SKIPPED,Historical year 2024
+2026-09-27T20:48:49.628271,17815959257,https://www.strava.com/activities/17815959257,110412408,Adithya Jayan,SUCCESS,
+2026-09-27T20:49:56.075548,8196349452,https://www.strava.com/activities/8196349452,111265057,Anil Dalwani,SKIPPED,Historical year 2022
+2026-09-27T20:50:51.152360,3158773366,https://www.strava.com/activities/3158773366,47299421,Aniruddha P N,SKIPPED,Historical year 2020
+2026-09-27T20:50:53.444453,2810590883,https://www.strava.com/activities/2810590883,47299421,Aniruddha P N,SKIPPED,Historical year 2019
+2026-09-27T20:52:14.634515,15524236438,https://www.strava.com/activities/15524236438,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:52:15.856307,15522032358,https://www.strava.com/activities/15522032358,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:52:17.119593,15521256422,https://www.strava.com/activities/15521256422,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:52:18.136249,15511192580,https://www.strava.com/activities/15511192580,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:52:19.332401,15507298187,https://www.strava.com/activities/15507298187,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:52:20.450900,15501365835,https://www.strava.com/activities/15501365835,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:52:21.772828,15499181409,https://www.strava.com/activities/15499181409,178203464,Ashlesha Yerramsetty,SKIPPED,Historical year 2025
+2026-09-27T20:53:31.070272,15320291149,https://www.strava.com/activities/15320291149,43953896,debapriya sahu,SKIPPED,Historical year 2025
+2026-09-27T20:53:32.407909,15462818163,https://www.strava.com/activities/15462818163,43953896,debapriya sahu,SKIPPED,Historical year 2025
+2026-09-27T20:53:34.010995,15433026831,https://www.strava.com/activities/15433026831,43953896,debapriya sahu,SKIPPED,Historical year 2025
+2026-09-27T20:54:23.763187,15360798626,https://www.strava.com/activities/15360798626,179089572,Dhruv Makwana,SKIPPED,Historical year 2025
+2026-09-27T20:54:24.919041,15349067301,https://www.strava.com/activities/15349067301,179089572,Dhruv Makwana,SKIPPED,Historical year 2025
+2026-09-27T20:55:14.774925,15871311406,https://www.strava.com/activities/15871311406,178269218,drashti nariya,SKIPPED,Historical year 2025
+2026-09-27T20:55:59.221958,15360281324,https://www.strava.com/activities/15360281324,178271205,Eswar Pentakota,SKIPPED,Historical year 2025
+2026-09-27T20:56:00.386040,15262978356,https://www.strava.com/activities/15262978356,178271205,Eswar Pentakota,SKIPPED,Historical year 2025
+2026-09-27T20:56:01.549121,15270222996,https://www.strava.com/activities/15270222996,178271205,Eswar Pentakota,SKIPPED,Historical year 2025
+2026-09-27T20:57:09.696788,4231450354,https://www.strava.com/activities/4231450354,70284000,Harish M,SKIPPED,Historical year 2020
+2026-09-27T20:57:10.866799,4238224869,https://www.strava.com/activities/4238224869,70284000,Harish M,SKIPPED,Historical year 2020
+2026-09-27T20:57:11.931666,4229492723,https://www.strava.com/activities/4229492723,70284000,Harish M,SKIPPED,Historical year 2020
+2026-09-27T20:58:46.204556,15305538063,https://www.strava.com/activities/15305538063,178926458,Harshal Gokhale,SKIPPED,Historical year 2025
+2026-09-27T20:59:09.938585,10350690240,https://www.strava.com/activities/10350690240,128332560,Hrishikesh H,SKIPPED,Historical year 2023
+2026-09-27T21:00:44.450245,8092442309,https://www.strava.com/activities/8092442309,71937227,Juluri Radhika,SKIPPED,Historical year 2022
+2026-09-27T21:00:45.993684,6110538266,https://www.strava.com/activities/6110538266,71937227,Juluri Radhika,SKIPPED,Historical year 2021
+2026-09-27T21:00:47.705740,8129181757,https://www.strava.com/activities/8129181757,71937227,Juluri Radhika,SKIPPED,Historical year 2022
+2026-09-27T21:01:34.230197,19183713187,https://www.strava.com/activities/19183713187,180239706,Kamalapuram Madhu Sudana Rao,SUCCESS,
+2026-09-27T21:01:36.275982,19092864293,https://www.strava.com/activities/19092864293,180239706,Kamalapuram Madhu Sudana Rao,SUCCESS,
+2026-09-27T21:01:38.571421,19004721910,https://www.strava.com/activities/19004721910,180239706,Kamalapuram Madhu Sudana Rao,SUCCESS,
+2026-09-27T21:02:02.596190,15314697405,https://www.strava.com/activities/15314697405,178431281,Kaushik Chakravorty,SKIPPED,Historical year 2025
+2026-09-27T21:02:04.251901,15264971467,https://www.strava.com/activities/15264971467,178431281,Kaushik Chakravorty,SKIPPED,Historical year 2025
+2026-09-27T21:02:59.127804,2779382436,https://www.strava.com/activities/2779382436,47259158,Kiran Rajmohan,SKIPPED,Historical year 2019
+2026-09-27T21:03:00.727750,4417089395,https://www.strava.com/activities/4417089395,47259158,Kiran Rajmohan,SKIPPED,Historical year 2020
+2026-09-27T21:04:03.595767,20352193413,https://www.strava.com/activities/20352193413,127833753,krishna A,SUCCESS,
+2026-09-27T21:06:28.558253,17913370732,https://www.strava.com/activities/17913370732,70004704,Lakshmanan Balasubramanian,SUCCESS,
+2026-09-27T21:08:23.837755,15803503961,https://www.strava.com/activities/15803503961,47483671,Manish Mukherjee,SKIPPED,Historical year 2025
+2026-09-27T21:08:29.200596,15775091432,https://www.strava.com/activities/15775091432,47483671,Manish Mukherjee,SKIPPED,Historical year 2025
+2026-09-27T21:08:38.855983,2887860560,https://www.strava.com/activities/2887860560,47483671,Manish Mukherjee,SKIPPED,Historical year 2019
+2026-09-27T21:08:48.228136,2817881839,https://www.strava.com/activities/2817881839,47483671,Manish Mukherjee,SKIPPED,Historical year 2019
+2026-09-27T21:08:54.121469,2819886050,https://www.strava.com/activities/2819886050,47483671,Manish Mukherjee,SKIPPED,Historical year 2019
+2026-09-27T21:08:59.998406,2827555181,https://www.strava.com/activities/2827555181,47483671,Manish Mukherjee,SKIPPED,Historical year 2019
+2026-09-27T21:09:06.507084,2829948375,https://www.strava.com/activities/2829948375,47483671,Manish Mukherjee,SKIPPED,Historical year 2019
+2026-09-27T21:10:09.421167,6070319223,https://www.strava.com/activities/6070319223,47333673,Manoj Rajashekaraiah,SKIPPED,Historical year 2021
+2026-09-27T21:10:15.149132,6070130189,https://www.strava.com/activities/6070130189,47333673,Manoj Rajashekaraiah,SKIPPED,Historical year 2021
+2026-09-27T21:12:24.109723,15520063344,https://www.strava.com/activities/15520063344,180117147,Mitali Singal,FAILURE,HTTP 597
+2026-09-27T21:13:26.493990,19429901829,https://www.strava.com/activities/19429901829,178986659,MOHAMMED KAIF,SUCCESS,
+2026-09-27T21:13:33.537086,19417748510,https://www.strava.com/activities/19417748510,178986659,MOHAMMED KAIF,SUCCESS,
+2026-09-27T21:13:40.055133,19403121700,https://www.strava.com/activities/19403121700,178986659,MOHAMMED KAIF,SUCCESS,
+2026-09-27T21:14:38.663893,20345260275,https://www.strava.com/activities/20345260275,178279476,Muni Asheesh Potta,SUCCESS,
+2026-09-27T21:16:35.351895,15513183734,https://www.strava.com/activities/15513183734,164314860,Nikhila Gorja,SKIPPED,Historical year 2025
+2026-09-27T21:16:35.575827,15507853427,https://www.strava.com/activities/15507853427,164314860,Nikhila Gorja,FAILURE,HTTP 597
+2026-09-27T21:17:43.424284,16913354902,https://www.strava.com/activities/16913354902,64282861,nitin narayan,FAILURE,HTTP 597
+2026-09-27T21:17:49.996846,16874319437,https://www.strava.com/activities/16874319437,64282861,nitin narayan,SKIPPED,Historical year 2025
+2026-09-27T21:20:04.321952,15383665388,https://www.strava.com/activities/15383665388,162707894,Osho Anand,SKIPPED,Historical year 2025
+2026-09-27T21:20:10.231955,15383645804,https://www.strava.com/activities/15383645804,162707894,Osho Anand,SKIPPED,Historical year 2025
+2026-09-27T21:20:16.701162,15340297957,https://www.strava.com/activities/15340297957,162707894,Osho Anand,SKIPPED,Historical year 2025
+2026-09-27T21:20:54.289110,15416895759,https://www.strava.com/activities/15416895759,110269377,Pankaj Gupta,FAILURE,HTTP 597
+2026-09-27T21:22:37.849993,17952099818,https://www.strava.com/activities/17952099818,162204937,Parth Ahluwalia,SUCCESS,
+2026-09-27T21:25:18.443181,15532928197,https://www.strava.com/activities/15532928197,178305107,PEEYUSH KUMAR,SKIPPED,Historical year 2025
+2026-09-27T21:25:25.549916,15458090914,https://www.strava.com/activities/15458090914,178305107,PEEYUSH KUMAR,SKIPPED,Historical year 2025
+2026-09-27T21:25:25.786571,15452307709,https://www.strava.com/activities/15452307709,178305107,PEEYUSH KUMAR,FAILURE,HTTP 597
+2026-09-27T21:25:35.582981,15446780947,https://www.strava.com/activities/15446780947,178305107,PEEYUSH KUMAR,SKIPPED,Historical year 2025
+2026-09-27T21:25:47.612802,15434678476,https://www.strava.com/activities/15434678476,178305107,PEEYUSH KUMAR,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:27:22.868944,15484791124,https://www.strava.com/activities/15484791124,118605880,pooja bansal,SKIPPED,Historical year 2025
+2026-09-27T21:27:26.898861,15484720511,https://www.strava.com/activities/15484720511,118605880,pooja bansal,SKIPPED,Historical year 2025
+2026-09-27T21:27:31.270512,15466444015,https://www.strava.com/activities/15466444015,118605880,pooja bansal,SKIPPED,Historical year 2025
+2026-09-27T21:27:37.001288,15462946364,https://www.strava.com/activities/15462946364,118605880,pooja bansal,SKIPPED,Historical year 2025
+2026-09-27T21:27:42.157637,15462578636,https://www.strava.com/activities/15462578636,118605880,pooja bansal,SKIPPED,Historical year 2025
+2026-09-27T21:29:06.290425,15349167876,https://www.strava.com/activities/15349167876,178414517,Poornima Kulkarni,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:33:04.309691,15485537257,https://www.strava.com/activities/15485537257,110487247,Prakhar Agrawal,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:33:09.240246,15484950274,https://www.strava.com/activities/15484950274,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:13.232411,15469500520,https://www.strava.com/activities/15469500520,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:20.212324,15465183095,https://www.strava.com/activities/15465183095,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:23.261956,15464102972,https://www.strava.com/activities/15464102972,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:27.702646,15463550471,https://www.strava.com/activities/15463550471,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:36.385741,15447048425,https://www.strava.com/activities/15447048425,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:40.802729,15446539989,https://www.strava.com/activities/15446539989,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:33:46.980593,15418454276,https://www.strava.com/activities/15418454276,110487247,Prakhar Agrawal,SKIPPED,Historical year 2025
+2026-09-27T21:35:57.748989,20345444909,https://www.strava.com/activities/20345444909,70012491,Prasanth Kumar Narava,SUCCESS,
+2026-09-27T21:38:18.282693,20345287176,https://www.strava.com/activities/20345287176,50127060,Prateek Giri,SUCCESS,
+2026-09-27T21:38:24.111020,18173271691,https://www.strava.com/activities/18173271691,50127060,Prateek Giri,SUCCESS,
+2026-09-27T21:38:30.850456,18361454679,https://www.strava.com/activities/18361454679,50127060,Prateek Giri,SUCCESS,
+2026-09-27T21:38:37.198455,19628107742,https://www.strava.com/activities/19628107742,50127060,Prateek Giri,SUCCESS,
+2026-09-27T21:38:42.551136,16665479279,https://www.strava.com/activities/16665479279,50127060,Prateek Giri,SKIPPED,Historical year 2025
+2026-09-27T21:38:49.495015,16552181880,https://www.strava.com/activities/16552181880,50127060,Prateek Giri,SKIPPED,Historical year 2025
+2026-09-27T21:39:01.502529,13269566295,https://www.strava.com/activities/13269566295,50127060,Prateek Giri,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:39:07.389677,10776946513,https://www.strava.com/activities/10776946513,50127060,Prateek Giri,SKIPPED,Historical year 2024
+2026-09-27T21:39:47.935041,15531668534,https://www.strava.com/activities/15531668534,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:39:51.523026,15525960619,https://www.strava.com/activities/15525960619,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:39:59.288325,15522535923,https://www.strava.com/activities/15522535923,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:03.055053,15521506812,https://www.strava.com/activities/15521506812,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:06.921632,15521642025,https://www.strava.com/activities/15521642025,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:10.178413,15520762081,https://www.strava.com/activities/15520762081,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:17.534198,15516283158,https://www.strava.com/activities/15516283158,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:23.182553,15513482845,https://www.strava.com/activities/15513482845,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:35.202184,15509703506,https://www.strava.com/activities/15509703506,177388708,Pratyush Dargan,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:40:41.004470,15509107877,https://www.strava.com/activities/15509107877,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:40:52.589082,15508506885,https://www.strava.com/activities/15508506885,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:41:01.328562,15502471654,https://www.strava.com/activities/15502471654,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:41:07.773306,15500367234,https://www.strava.com/activities/15500367234,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:41:12.042334,15497718544,https://www.strava.com/activities/15497718544,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:41:16.192466,15496758509,https://www.strava.com/activities/15496758509,177388708,Pratyush Dargan,SKIPPED,Historical year 2025
+2026-09-27T21:42:09.140343,15509316682,https://www.strava.com/activities/15509316682,179564075,Praveen Kumar N,SKIPPED,Historical year 2025
+2026-09-27T21:42:14.387821,15497563944,https://www.strava.com/activities/15497563944,179564075,Praveen Kumar N,SKIPPED,Historical year 2025
+2026-09-27T21:44:09.673745,15308653381,https://www.strava.com/activities/15308653381,94585542,rajesh mittal,SKIPPED,Historical year 2025
+2026-09-27T21:45:01.983656,15416699500,https://www.strava.com/activities/15416699500,179095838,Raksha A R,SKIPPED,Historical year 2025
+2026-09-27T21:45:05.702887,15383348850,https://www.strava.com/activities/15383348850,179095838,Raksha A R,SKIPPED,Historical year 2025
+2026-09-27T21:45:17.718275,15371971651,https://www.strava.com/activities/15371971651,179095838,Raksha A R,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:45:20.800020,15359942308,https://www.strava.com/activities/15359942308,179095838,Raksha A R,SKIPPED,Historical year 2025
+2026-09-27T21:45:23.853362,15347652656,https://www.strava.com/activities/15347652656,179095838,Raksha A R,SKIPPED,Historical year 2025
+2026-09-27T21:46:05.287686,15485982124,https://www.strava.com/activities/15485982124,178345650,Ram Narayan K,SKIPPED,Historical year 2025
+2026-09-27T21:46:10.577591,15465705783,https://www.strava.com/activities/15465705783,178345650,Ram Narayan K,SKIPPED,Historical year 2025
+2026-09-27T21:46:13.317389,15458387527,https://www.strava.com/activities/15458387527,178345650,Ram Narayan K,SKIPPED,Historical year 2025
+2026-09-27T21:46:14.970503,15458397695,https://www.strava.com/activities/15458397695,178345650,Ram Narayan K,SKIPPED,Historical year 2025
+2026-09-27T21:46:16.985377,15458404457,https://www.strava.com/activities/15458404457,178345650,Ram Narayan K,SKIPPED,Historical year 2025
+2026-09-27T21:47:48.601855,6088208054,https://www.strava.com/activities/6088208054,11495141,Rohit Chatterjee,SKIPPED,Historical year 2021
+2026-09-27T21:47:50.504767,6072965555,https://www.strava.com/activities/6072965555,11495141,Rohit Chatterjee,SKIPPED,Historical year 2021
+2026-09-27T21:47:54.598613,6067719909,https://www.strava.com/activities/6067719909,11495141,Rohit Chatterjee,SKIPPED,Historical year 2021
+2026-09-27T21:48:43.945618,15418379626,https://www.strava.com/activities/15418379626,178280229,Ruchi Shankar,SKIPPED,Historical year 2025
+2026-09-27T21:49:09.577681,20346393256,https://www.strava.com/activities/20346393256,124224153,Sai Harshita,SUCCESS,
+2026-09-27T21:49:11.237107,12833651521,https://www.strava.com/activities/12833651521,124224153,Sai Harshita,SKIPPED,Historical year 2024
+2026-09-27T21:49:12.962122,11631975423,https://www.strava.com/activities/11631975423,124224153,Sai Harshita,SKIPPED,Historical year 2024
+2026-09-27T21:49:14.868449,11258252841,https://www.strava.com/activities/11258252841,124224153,Sai Harshita,SKIPPED,Historical year 2024
+2026-09-27T21:49:16.175539,13329826186,https://www.strava.com/activities/13329826186,124224153,Sai Harshita,SKIPPED,Historical year 2025
+2026-09-27T21:49:17.970413,17895341037,https://www.strava.com/activities/17895341037,124224153,Sai Harshita,SUCCESS,
+2026-09-27T21:49:30.385540,13436824197,https://www.strava.com/activities/13436824197,124224153,Sai Harshita,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:49:32.031541,16665479279,https://www.strava.com/activities/16665479279,124224153,Sai Harshita,SKIPPED,Historical year 2025
+2026-09-27T21:49:33.338510,16552181880,https://www.strava.com/activities/16552181880,124224153,Sai Harshita,SKIPPED,Historical year 2025
+2026-09-27T21:52:46.439932,15418072050,https://www.strava.com/activities/15418072050,178398946,Sannidhya  Bajpai,SKIPPED,Historical year 2025
+2026-09-27T21:52:47.493167,15418069799,https://www.strava.com/activities/15418069799,178398946,Sannidhya  Bajpai,SKIPPED,Historical year 2025
+2026-09-27T21:56:41.115073,15397785601,https://www.strava.com/activities/15397785601,118959550,Somalatha T,SKIPPED,Historical year 2025
+2026-09-27T21:56:42.219429,15340707541,https://www.strava.com/activities/15340707541,118959550,Somalatha T,SKIPPED,Historical year 2025
+2026-09-27T21:56:44.953060,9226475308,https://www.strava.com/activities/9226475308,118959550,Somalatha T,SKIPPED,Historical year 2023
+2026-09-27T21:56:46.402655,10141407565,https://www.strava.com/activities/10141407565,118959550,Somalatha T,SKIPPED,Historical year 2023
+2026-09-27T21:56:47.685997,11265463651,https://www.strava.com/activities/11265463651,118959550,Somalatha T,SKIPPED,Historical year 2024
+2026-09-27T21:56:48.868078,11381309812,https://www.strava.com/activities/11381309812,118959550,Somalatha T,SKIPPED,Historical year 2024
+2026-09-27T21:56:51.566483,10040514560,https://www.strava.com/activities/10040514560,118959550,Somalatha T,SKIPPED,Historical year 2023
+2026-09-27T21:57:37.199606,15421275121,https://www.strava.com/activities/15421275121,33675736,Sooraj Sekhar,SKIPPED,Historical year 2025
+2026-09-27T21:57:49.211513,16410237766,https://www.strava.com/activities/16410237766,33675736,Sooraj Sekhar,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T21:58:16.135392,13870090080,https://www.strava.com/activities/13870090080,88066726,Sowmya Narayanan,SKIPPED,Historical year 2025
+2026-09-27T21:58:21.021704,5553453383,https://www.strava.com/activities/5553453383,88066726,Sowmya Narayanan,SKIPPED,Historical year 2021
+2026-09-27T21:58:22.393368,6451563725,https://www.strava.com/activities/6451563725,88066726,Sowmya Narayanan,SKIPPED,Historical year 2021
+2026-09-27T21:59:13.424252,20345194784,https://www.strava.com/activities/20345194784,177609128,srikar ranganath,SUCCESS,
+2026-09-27T21:59:58.604781,20344826935,https://www.strava.com/activities/20344826935,123461241,Srinivas K R,SUCCESS,
+2026-09-27T22:00:01.902184,20344876759,https://www.strava.com/activities/20344876759,123461241,Srinivas K R,SUCCESS,
+2026-09-27T22:00:31.248196,15540454616,https://www.strava.com/activities/15540454616,179599619,Srinivas Veeramreddy,SKIPPED,Historical year 2025
+2026-09-27T22:00:43.268441,15529025860,https://www.strava.com/activities/15529025860,179599619,Srinivas Veeramreddy,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T22:00:55.718911,15514830040,https://www.strava.com/activities/15514830040,179599619,Srinivas Veeramreddy,FAILURE,"HTTPSConnectionPool(host='www.strava.com', port=443): Read timed out. (read timeout=12)"
+2026-09-27T22:00:57.490686,15500951219,https://www.strava.com/activities/15500951219,179599619,Srinivas Veeramreddy,SKIPPED,Historical year 2025
+2026-09-27T22:00:58.616939,15489439114,https://www.strava.com/activities/15489439114,179599619,Srinivas Veeramreddy,SKIPPED,Historical year 2025
+2026-09-27T22:00:59.752706,15481047065,https://www.strava.com/activities/15481047065,179599619,Srinivas Veeramreddy,SKIPPED,Historical year 2025
+2026-09-27T22:01:00.930222,15314440794,https://www.strava.com/activities/15314440794,179599619,Srinivas Veeramreddy,SKIPPED,Historical year 2025
+2026-09-27T22:02:17.294500,15525908663,https://www.strava.com/activities/15525908663,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:17.993301,15521371454,https://www.strava.com/activities/15521371454,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:24.501445,15521367962,https://www.strava.com/activities/15521367962,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:25.218881,15513437237,https://www.strava.com/activities/15513437237,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:25.949615,15511094069,https://www.strava.com/activities/15511094069,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:26.832385,15511086650,https://www.strava.com/activities/15511086650,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:28.118399,15501860226,https://www.strava.com/activities/15501860226,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:02:28.970604,15501854708,https://www.strava.com/activities/15501854708,128890667,Sudhish Raj G J,SKIPPED,Historical year 2025
+2026-09-27T22:03:38.693049,15451562272,https://www.strava.com/activities/15451562272,70100660,Sundarrajan Rangachari,SKIPPED,Historical year 2025
+2026-09-27T22:04:44.171042,15376185160,https://www.strava.com/activities/15376185160,180410819,Vijesh V,SKIPPED,Historical year 2025
+2026-09-27T22:04:45.285931,15372419617,https://www.strava.com/activities/15372419617,180410819,Vijesh V,SKIPPED,Historical year 2025
+2026-09-27T22:04:46.400356,15363960501,https://www.strava.com/activities/15363960501,180410819,Vijesh V,SKIPPED,Historical year 2025
+2026-09-27T22:06:15.889123,20345184887,https://www.strava.com/activities/20345184887,1127892,Yashwanth Nagaraja,SUCCESS,
+2026-09-27T22:06:17.211203,10547224487,https://www.strava.com/activities/10547224487,1127892,Yashwanth Nagaraja,SKIPPED,Historical year 2024
+2026-09-27T22:06:18.286833,18074916975,https://www.strava.com/activities/18074916975,1127892,Yashwanth Nagaraja,SUCCESS,
+2026-09-27T22:06:19.749801,7219273866,https://www.strava.com/activities/7219273866,1127892,Yashwanth Nagaraja,SKIPPED,Historical year 2022
+2026-09-27T22:06:21.644472,17401993340,https://www.strava.com/activities/17401993340,1127892,Yashwanth Nagaraja,SUCCESS,
+2026-09-27T22:06:23.786565,6520206563,https://www.strava.com/activities/6520206563,1127892,Yashwanth Nagaraja,SKIPPED,Historical year 2022
+2026-09-27T22:07:05.823044,15497938687,https://www.strava.com/activities/15497938687,180114717,yerraguntla manideep,SKIPPED,Historical year 2025
+2026-09-27T22:07:06.626907,15497908547,https://www.strava.com/activities/15497908547,180114717,yerraguntla manideep,SKIPPED,Historical year 2025
+2026-09-27T22:07:51.657169,20347933327,https://www.strava.com/activities/20347933327,2010990379,Sreekrishn Prabakaran,SUCCESS,
+2026-09-27T22:08:15.712842,20351030296,https://www.strava.com/activities/20351030296,180697965,Prahlad Choudhary,SUCCESS,
+2026-09-27T22:08:17.137118,20345879966,https://www.strava.com/activities/20345879966,180697965,Prahlad Choudhary,SUCCESS,
+2026-09-27T22:09:21.446029,19303840369,https://www.strava.com/activities/19303840369,70295518,Sandeep S K,FAILURE,HTTP 500
+2026-09-27T22:09:31.251382,6225586226,https://www.strava.com/activities/6225586226,70295518,Sandeep S K,FAILURE,HTTP 500
+2026-09-27T22:09:32.540567,6197279921,https://www.strava.com/activities/6197279921,70295518,Sandeep S K,SKIPPED,Historical year 2021
+2026-09-27T22:09:33.744641,6183185778,https://www.strava.com/activities/6183185778,70295518,Sandeep S K,SKIPPED,Historical year 2021
+2026-09-27T22:17:57.104566,20262346466,https://www.strava.com/activities/20262346466,180281837,rohit anand,PURGED_DELETED,
+2026-09-27T22:18:17.333582,20311672393,https://www.strava.com/activities/20311672393,130615805,Athlete 130615805,PURGED_NON_MEMBER,
+2026-09-27T22:18:18.937587,20344876759,https://www.strava.com/activities/20344876759,117937717,Athlete 117937717,PURGED_NON_MEMBER,
