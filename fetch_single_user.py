@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from dateutil import parser as dt_parser
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from points import convert_distance_to_km, convert_duration_to_minutes, calculate_activity_points, format_pace, is_indoor_ride
@@ -101,17 +102,23 @@ def resolve_athlete_name(athlete_id: str) -> str:
 
 def get_target_months(months_back: int = 2) -> list:
     today = datetime.date.today()
-    months = []
-    for i in range(months_back):
+    months = set()
+    for i in range(max(months_back, 2)):
         y = today.year
         m = today.month - i
         while m <= 0:
             m += 12
             y -= 1
-        months.append(f"{y}{m:02d}")
-    return months
+        months.add(f"{y}{m:02d}")
+    # Explicitly include active competition months (September & October 2026)
+    months.add("202609")
+    months.add("202610")
+    if today.year == 2026 and today.month >= 9:
+        for m in range(9, today.month + 1):
+            months.add(f"2026{m:02d}")
+    return sorted(list(months))
 
-def discover_activity_ids(session: requests.Session, athlete_id: str, months_back: int = 1) -> list:
+def discover_activity_ids(session: requests.Session, athlete_id: str, months_back: int = 2) -> list:
     cfg = load_config()
     session_cookie = cfg.get("session_cookies", {}).get("_strava4_session", "")
     target_months = get_target_months(months_back=months_back)
@@ -317,7 +324,7 @@ def parse_activity_page(html: str, act_id: str, athlete_id: str, athlete_name: s
     }
 
 
-def fetch_single_user(athlete_id: str, months_back: int = 1, activities_csv: str = "activities.csv", log_csv: str = "activity_log.csv"):
+def fetch_single_user(athlete_id: str, months_back: int = 2, activities_csv: str = "activities.csv", log_csv: str = "activity_log.csv"):
     m = re.search(r"/athletes/(\d+)", str(athlete_id))
     if m:
         athlete_id = m.group(1)
@@ -358,12 +365,20 @@ def fetch_single_user(athlete_id: str, months_back: int = 1, activities_csv: str
                 if r.status_code == 200:
                     record = parse_activity_page(r.text, act_id, athlete_id, athlete_name, act_url)
                     
-                    # Ensure activity is in current year 2026 (reject historical PRs from 2025 or earlier)
+                    # Ensure activity is in current year 2026 and within competition window (Sept 14, 2026 onwards)
                     dt_str = record.get("datetime_utc", "")
                     m_prev_year = re.search(r"\b(202[0-5]|201\d)\b", dt_str)
                     if m_prev_year:
                         log_activity_status(log_csv, act_id, act_url, athlete_id, athlete_name, "SKIPPED", f"Historical year {m_prev_year.group(1)}")
                         continue
+                    try:
+                        clean_dt = dt_str.replace(" on ", " ")
+                        parsed_dt = dt_parser.parse(clean_dt)
+                        if parsed_dt.year != 2026 or parsed_dt.date() < datetime.date(2026, 9, 14):
+                            log_activity_status(log_csv, act_id, act_url, athlete_id, athlete_name, "SKIPPED", f"Outside competition window ({parsed_dt.date()})")
+                            continue
+                    except Exception:
+                        pass
 
                     append_activity_to_csv(activities_csv, record)
                     existing_ids.add(act_id)

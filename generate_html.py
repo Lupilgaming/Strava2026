@@ -2248,7 +2248,7 @@ html_template = '''<!DOCTYPE html>
         </select>
         <select id="dateFilter" class="select-input">
           <option value="CONTEST" selected>🏆 Contest: Sep 14 - Latest</option>
-          <option value="ALL">All Time (September 2026)</option>
+          <option value="ALL">All Time (Competition Window)</option>
           <option value="PAST_7_DAYS">Past 7 Days</option>
           <option value="PAST_14_DAYS">Past 14 Days</option>
           <option value="PAST_20_DAYS">Past 20 Days</option>

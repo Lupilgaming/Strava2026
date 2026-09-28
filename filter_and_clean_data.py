@@ -3,6 +3,7 @@ import sys
 import csv
 import json
 import shutil
+import datetime
 import argparse
 from collections import defaultdict
 from dateutil import parser as dt_parser
@@ -33,7 +34,7 @@ def clean_and_filter_activities(
     print(" STRAVA 2026 DATA FILTER & SANITIZATION PIPELINE")
     print(f" Input: {os.path.abspath(input_csv)}")
     print(f" Memberlist: {os.path.abspath(memberlist_csv)}")
-    print(f" Competition Window Only: {competition_only} (September 2026 onwards)")
+    print(f" Competition Window Only: {competition_only} (September 14, 2026 onwards)")
     print("============================================================\n")
 
     # Load club members
@@ -148,13 +149,15 @@ def clean_and_filter_activities(
             row["duration_minutes"] = "26.55"
             fixed_timer_glitches += 1
 
-        # 4. Filter by Competition Period (September 2026 onwards - August pruned)
+        # 4. Filter by Competition Period (September 14, 2026 onwards - pre-competition data pruned)
         raw_dt = row.get("datetime_utc", "")
         clean_dt = raw_dt.replace(" on ", " ")
         try:
             dt = dt_parser.parse(clean_dt)
+            act_date = dt.date()
             if competition_only:
-                if dt.year != 2026 or dt.month < 9:
+                # Only competition dates: September 14, 2026 onwards (prunes Sept 1-13 and August)
+                if dt.year != 2026 or act_date < datetime.date(2026, 9, 14):
                     filtered_out_of_window += 1
                     continue
             else:

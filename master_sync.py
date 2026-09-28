@@ -126,7 +126,7 @@ def run_pipeline(
     # =========================================================================
     # STEP 2: Scrape Latest Activities & Discover New Ones
     # =========================================================================
-    log("\n[STEP 2/7] Scraping Active Club Activities for August & September 2026...")
+    log("\n[STEP 2/7] Scraping Active Club Activities for September & October 2026...")
     session = load_session()
     activities_csv = "activities.csv"
     activity_log_csv = "activity_log.csv"
@@ -153,8 +153,8 @@ def run_pipeline(
         for idx, (aid, aname) in enumerate(athlete_list, 1):
             log(f" -> [{idx}/{len(athlete_list)}] Discovering activities for {aname} (ID: {aid})...")
             try:
-                # Discover active activities for current contest month (Sep 2026 onwards)
-                act_ids = discover_activity_ids(session, aid, months_back=1)
+                # Discover active activities for contest months (Sep & Oct 2026 onwards)
+                act_ids = discover_activity_ids(session, aid, months_back=2)
                 discovered_active_by_athlete[aid] = set(act_ids)
                 log(f"    Discovered {len(act_ids)} activity link(s) on Strava.")
 
@@ -167,12 +167,20 @@ def run_pipeline(
                             if resp.status_code == 200:
                                 rec = parse_activity_page(resp.text, act_id, aid, aname, act_url)
                                 
-                                # Verify 2026 date
+                                # Verify 2026 date and competition window (Sep 14, 2026 onwards)
                                 dt_str = rec.get("datetime_utc", "")
                                 m_prev = re.search(r"\b(202[0-5]|201\d)\b", dt_str)
                                 if m_prev:
                                     log_activity_status(activity_log_csv, act_id, act_url, aid, aname, "SKIPPED", f"Historical year {m_prev.group(1)}")
                                     continue
+                                try:
+                                    clean_dt = dt_str.replace(" on ", " ")
+                                    c_dt = dt_parser.parse(clean_dt)
+                                    if c_dt.year != 2026 or c_dt.date() < datetime.date(2026, 9, 14):
+                                        log_activity_status(activity_log_csv, act_id, act_url, aid, aname, "SKIPPED", f"Outside competition window ({c_dt.date()})")
+                                        continue
+                                except Exception:
+                                    pass
 
                                 append_activity_to_csv(activities_csv, rec)
                                 existing_activities[act_id] = rec
