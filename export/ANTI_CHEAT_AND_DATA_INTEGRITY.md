@@ -59,9 +59,9 @@ Strava provides two distinct temporal metrics:
 ## 3. Dynamic Walk vs. Run Segregation (Wide-Threshold Model)
 
 Self-declared labels on Strava are frequently inverted:
-* Athletes often label $6:20\text{ min/km}$ runs as "Walk" (e.g., Narendra Babu's $5.5\text{ km}$ at $6:26\text{ /km}$).
+* Athletes often label $6:20\text{ min/km}$ runs as "Walk" (e.g., brisk jogging at $6:26\text{ /km}$).
 * Casual strolls at $14:00\text{ min/km}$ are occasionally tagged as "Run" for higher points.
-* Endurance runners and beginners legitimately run/jog at $8:00 - 9:30\text{ min/km}$ (e.g., Sai Harshita's $15.0\text{ km}$ at $8:40\text{ /km}$).
+* Endurance runners and beginners legitimately run/jog at $8:00 - 9:30\text{ min/km}$ (e.g., aerobic recovery runs at $8:40\text{ /km}$).
 
 To be fair to beginner runners while preventing walking from gaming run multipliers, we establish a **3-Zone Wide-Threshold Boundary Model**:
 
@@ -135,14 +135,14 @@ When an activity has missing fields due to device dropout or scraper limits, our
 
 ### Leaderboard Impact Simulation on Club Data
 
-| Athlete | Current Points | Option A (100-Base) | Option B (Caloric/MET) | Option C (Balanced Legacy) |
+| Archetype Profile | Current Points | Option A (100-Base) | Option B (Caloric/MET) | Option C (Balanced Legacy) |
 | :--- | :---: | :---: | :---: | :---: |
-| **Satyaprakash Karsharma** (52 acts) | 41,086.7 | **26,856.0** | 3,824.5 | **33,731.2** |
-| **Muni Asheesh Potta** (7 acts) | 9,534.0 | **7,945.0** | 1,191.8 | **9,534.0** |
-| **Sai Harshita** (15 acts) | 8,902.2 | **7,277.5** | 1,074.2 | **8,775.3** |
-| **srikar ranganath** (8 acts) | 7,171.2 | **5,976.0** | 896.4 | **7,171.2** |
-| **Srinivas K R** (2 acts) | 4,435.2 | **3,696.0** | 554.4 | **4,435.2** |
-| **Divyansh** (5 acts) | 2,480.0 | **1,528.0** | 247.0 | **2,045.0** |
+| **High-Mileage Ultra Runner** (52 acts) | 41,086.7 | **26,856.0** | 3,824.5 | **33,731.2** |
+| **Half-Marathon Specialist** (7 acts) | 9,534.0 | **7,945.0** | 1,191.8 | **9,534.0** |
+| **Consistent Aerobic Runner** (15 acts) | 8,902.2 | **7,277.5** | 1,074.2 | **8,775.3** |
+| **Multi-Sport / Swimmer** (8 acts) | 7,171.2 | **5,976.0** | 896.4 | **7,171.2** |
+| **Weekend Endurance Cyclist** (2 acts) | 4,435.2 | **3,696.0** | 554.4 | **4,435.2** |
+| **Cross-Training Regular** (5 acts) | 2,480.0 | **1,528.0** | 247.0 | **2,045.0** |
 
 ### Why Option A (Normalized 100-Base) is Recommended:
 1. **Mental Math is Instant**: Running $1\text{ km} = 100\text{ pts}$. A $5\text{K} = 500\text{ pts}$. A $10\text{K} = 1,000\text{ pts}$.
@@ -158,18 +158,20 @@ Strength training, weightlifting, HIIT, and studio workouts impose high muscular
 
 To lower the barrier for newcomers and reward dedicated gym regulars without causing score runaway, the system incorporates an **Escalating Weekly Consistency Multiplier**:
 
-| Active Gym Days in Week | Multiplier Tier | Effective Rate | 60-Min Workout Score |
+| Qualifying Weekday Gym Days in Week (Descending Day Total) | Multiplier Tier | Effective Rate | 60-Min Workout Score |
 | :---: | :---: | :---: | :---: |
-| **Day 1** (Introductory) | **1.00×** (Base) | $4.0\text{ pts/min}$ | **240 pts** |
-| **Day 2** (Committed) | **1.25×** (+25%) | $5.0\text{ pts/min}$ | **300 pts** |
-| **Day 3** (Consistent) | **1.50×** (+50%) | $6.0\text{ pts/min}$ | **360 pts** |
-| **Day 4+** (Iron Discipline) | **1.75×** (+75%) | $7.0\text{ pts/min}$ | **420 pts** |
+| **Day Rank 1** (Largest Day Total Time) | **1.00×** (Base) | $4.0\text{ pts/min}$ | **240 pts** |
+| **Day Rank 2** (2nd Largest Day Total) | **1.10×** (+10%) | $4.4\text{ pts/min}$ | **264 pts** |
+| **Day Rank 3** (3rd Largest Day Total) | **1.20×** (+20%) | $4.8\text{ pts/min}$ | **288 pts** |
+| **Day Rank 4+** (Smaller Day Totals) | **1.30×** (+30%) | $5.2\text{ pts/min}$ | **312 pts** |
 
 ### Anti-Gaming & Scope Rules:
 1. **Eligible Sports**: Weight Training, Gym, Workout, Yoga, Pilates, CrossFit, Strength Training.
 2. **Excluded Sports**: Running, Swimming, Cycling, and Walking are strictly outside this system (they already accumulate distance and speed continuously).
-3. **Minimum Moving Time Floor**: $\ge 25\text{ minutes}$ of active moving time to qualify.
-4. **Calendar Day Cap**: At most 1 qualifying credit per calendar day advances the weekly tier.
+3. **Calendar-Day Aggregation & Split-Session Immunity**: Multipliers are applied per calendar date based on the athlete's cumulative credited resistance time on that day. An athlete who logs a single 90-minute session vs. an athlete who splits it into two 45-minute sessions receives the identical daily total time, identical date rank, and identical multiplier. Splitting sessions provides zero mathematical advantage.
+4. **Descending Daily Duration Ordering**: Qualifying weekday gym dates ($\ge 25\text{ minutes}$ daily moving time) within each ISO week are ranked in descending order of day total duration. The largest daily total always receives the baseline 1.00× rate (no bonus), while bonuses exclusively apply to smaller subsequent training days.
+5. **Weekend Multiplier Removal**: All gym / resistance sessions logged on Saturday or Sunday strictly receive the baseline 1.00× rate ($4.0\text{ pts/min}$, zero consistency bonus) and do not advance weekday consistency tiers. This ensures athletes cannot use massive multi-hour weekend gym sessions to gain unearned point differentials over outdoor runners and half-marathoners.
+6. **Daily Calendar Cap (Max 2.0 Hours / 120 Minutes per Day)**: The maximum credited gym/resistance duration per athlete on any single calendar day is capped at **120.0 minutes (2.0 hours)**. Any gym duration logged beyond 120 minutes on the same calendar date receives 0 points and is transparently flagged with `⏱️ Daily Gym Cap Exceeded (Max 2h/day)`. Legitimate daily workouts up to 2 hours are credited in full.
 
 ---
 
@@ -205,7 +207,7 @@ $$\mathbf{\text{Ride Points} = \text{round}(d \times \text{Rate}(d), 2)}$$
 ### The Logged-in Viewer Footer Vulnerability:
 When scraping athlete profiles on Strava while authenticated using a session cookie (e.g. `_strava4_session`), Strava's global template injects a bottom promo module (`.footer-promos .recent-activities`). This module renders recent activity links belonging to the **authenticated session holder**, regardless of whose profile page is currently being viewed.
 
-If an athlete's profile DOM is scanned indiscriminately for `/activities/\d+` links, the session owner's newest activities can be picked up during another member's crawl, leading to misattribution (e.g., activity `20193831931` belonging to Divyansh Singh being indexed under Abhidi Gupta).
+If an athlete's profile DOM is scanned indiscriminately for `/activities/\d+` links, the session owner's newest activities can be picked up during another member's crawl, leading to misattribution (e.g., crawler session activities being indexed under the inspected member).
 
 ### Architectural Prevention & Remediation:
 1. **DOM Scoping & Promo Decomposition**:
@@ -213,7 +215,7 @@ If an athlete's profile DOM is scanned indiscriminately for `/activities/\d+` li
 2. **Deterministic Author Extraction**:
    In `parse_activity_page()`, athlete identity is never inherited from the discovery caller. Instead, the author ID is extracted directly from the parsed page's `__NEXT_DATA__` state object and verified against the DOM `.activity-summary` author profile link.
 3. **Canonical Memberlist Normalization**:
-   In `filter_and_clean_data.py`, all athlete names are standardized against the authoritative `memberlist.csv` registry, preventing split identities across spelling variations (e.g. unifying "Divyansh" and "Divyansh Singh").
+   In `filter_and_clean_data.py`, all athlete names are standardized against the authoritative `memberlist.csv` registry, preventing split identities across spelling variations (e.g. unifying shorthand first-names and official full names).
 
 ---
 

@@ -361,10 +361,10 @@ html_template = '''<!DOCTYPE html>
     }
 
     .podium-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      justify-content: center;
       gap: 20px;
-      margin-bottom: 40px;
+      margin-bottom: 35px;
     }
 
     .podium-card {
@@ -379,6 +379,31 @@ html_template = '''<!DOCTYPE html>
       border: 1px solid var(--card-border);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .division-tab-btn {
+      padding: 7px 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border-radius: 9px;
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+    .division-tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .division-tab-btn.active {
+      background: var(--strava-orange);
+      color: #fff;
+      border-color: var(--strava-orange);
+      box-shadow: 0 4px 14px var(--orange-glow);
     }
     .podium-card:hover {
       transform: translateY(-6px);
@@ -2147,7 +2172,7 @@ html_template = '''<!DOCTYPE html>
     <!-- Podium Section -->
     <div class="section-title">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-      Top Competitors Podium
+      Club Leaderboard — Active Champion (#1)
     </div>
     <div id="podiumSection" class="podium-container"></div>
 
@@ -2160,7 +2185,7 @@ html_template = '''<!DOCTYPE html>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fc4c02" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
             Multi-Dimensional Athlete Radar
           </div>
-          <span class="viz-badge">Top 5 Compared</span>
+          <span class="viz-badge" id="radarBadge">Division Compared</span>
         </div>
         <div class="chart-box">
           <canvas id="radarChart"></canvas>
@@ -2180,6 +2205,37 @@ html_template = '''<!DOCTYPE html>
         <div class="chart-box">
           <canvas id="donutChart"></canvas>
         </div>
+      </div>
+
+      <!-- Athlete Progression & Trends Chart -->
+      <div class="viz-card" style="grid-column: 1 / -1; margin-top: 5px;">
+        <div class="viz-header">
+          <div class="viz-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            Athlete Progression & Cumulative Points Trends
+          </div>
+          <span class="viz-badge" id="trendBadge">Daily Trajectory</span>
+        </div>
+        <div class="chart-box" style="min-height: 340px; max-height: 420px; height: 380px;">
+          <canvas id="trendChart"></canvas>
+        </div>
+        <div id="trendPills" class="radar-pills"></div>
+      </div>
+    </div>
+
+    <!-- Division Selector -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px; padding:12px 16px; background:rgba(30, 41, 59, 0.5); border:1px solid var(--card-border); border-radius:14px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Division:</span>
+        <button id="tabDivCommunity" class="division-tab-btn active" onclick="setDivision('community')">
+          🏃 Everyday Athletes Division
+        </button>
+        <button id="tabDivAll" class="division-tab-btn" onclick="setDivision('all')">
+          🌐 Full Club Roster
+        </button>
+      </div>
+      <div id="divisionStatus" style="font-size:12px; color:var(--accent-green); font-weight:600;">
+        ⚡ Everyday Athletes View (Top 5 Elite segregated to Titans Board below)
       </div>
     </div>
 
@@ -2240,6 +2296,78 @@ html_template = '''<!DOCTYPE html>
         </thead>
         <tbody id="leaderboardTbody"></tbody>
       </table>
+    </div>
+
+    <!-- =========================================================================
+         ELITE DIVISION SCOREBOARD & GRAPHS (TOP 5 TITANS)
+         ========================================================================= -->
+    <div id="eliteDivisionSection" class="elite-division-container" style="margin-top: 50px; padding-top: 30px; border-top: 2px dashed rgba(251, 191, 36, 0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+        <div>
+          <div class="section-title" style="margin-bottom:4px; display:inline-flex; align-items:center; gap:8px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span style="background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; font-size:20px;">
+              ⚡ Elite Division — Hall of Titans (Top 5 Competitors)
+            </span>
+          </div>
+          <div style="font-size: 12.5px; color: var(--text-muted);">
+            High-mileage endurance athletes and multi-hour specialists segregated to foster active competition and parity for everyday club athletes.
+          </div>
+        </div>
+        <span class="viz-badge" style="background:rgba(251,191,36,0.15); color:#fbbf24; border:1px solid rgba(251,191,36,0.35); font-weight:700;">
+          🏆 Segregated Elite Tier
+        </span>
+      </div>
+
+      <!-- Elite Visualizations Grid -->
+      <div class="viz-grid" style="margin-bottom: 24px;">
+        <!-- Elite Radar Chart -->
+        <div class="viz-card">
+          <div class="viz-header">
+            <div class="viz-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Elite Radar Comparison
+            </div>
+            <span class="viz-badge" style="background:rgba(251,191,36,0.15); color:#fbbf24;">Top 5 Titans</span>
+          </div>
+          <div class="chart-box">
+            <canvas id="eliteRadarChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Elite Progression Chart -->
+        <div class="viz-card">
+          <div class="viz-header">
+            <div class="viz-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Elite Progression & Point Surge Curves
+            </div>
+            <span class="viz-badge" style="background:rgba(245,158,11,0.15); color:#f59e0b;">Titan Trajectories</span>
+          </div>
+          <div class="chart-box" style="min-height: 320px; max-height: 400px; height: 360px;">
+            <canvas id="eliteTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Elite Table -->
+      <div class="table-container" style="border: 1px solid rgba(251, 191, 36, 0.25); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="color:var(--gold);">Elite Rank</th>
+              <th>Titan Athlete</th>
+              <th>Activities</th>
+              <th>Sports</th>
+              <th>Distance</th>
+              <th>Duration</th>
+              <th style="color:var(--gold);">Points (⚡ Dynamic)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="eliteLeaderboardTbody"></tbody>
+        </table>
+      </div>
     </div>
 
   </div>
@@ -2399,7 +2527,7 @@ html_template = '''<!DOCTYPE html>
           </table>
 
           <div style="font-size:11.5px; color:var(--text-dim); line-height:1.4;">
-            🛡️ <em>Integrity Controls:</em> Qualifying session threshold is &ge; 25 minutes moving time. At most <strong>1 credit per calendar day</strong> increments the weekly tier (multiple sessions on the same day receive points at that day's tier but do not double-advance the streak).
+            🛡️ <em>Integrity Controls:</em> Qualifying session threshold is &ge; 25 minutes moving time. <strong>Daily Gym Cap:</strong> Max 2.0 hours (120 mins) per calendar date. <strong>Weekend Multiplier Removal:</strong> All weekend gym sessions strictly receive 1.00&times; base rate (4.0 pts/min, zero bonus). <strong>Descending Weekly Order:</strong> Weekday gym sessions are ranked descending by duration so bonuses apply strictly to subsequent smaller sessions.
           </div>
         </div>
 
@@ -2845,6 +2973,10 @@ html_template = '''<!DOCTYPE html>
                 <strong style="color:#fff;">3. Motorized Velocity Suppression:</strong><br>
                 Any foot activity logged with sustained velocity &gt; 18 km/h (&lt; 3:20 /km pace, exceeding human aerobic thresholds) is automatically flagged for vehicle transit and normalized to duration-based median walking pace.
               </div>
+              <div>
+                <strong style="color:#fff;">4. Daily Gym Cap & Multiplier Normalization:</strong><br>
+                To eliminate score inflation from split multi-hour gym logs on the same date, credited resistance duration is strictly capped at 2.0 hours (120 mins) per calendar date. Any excess time is credited at 0 points. Weekend gym workouts receive base 1.00&times; (no multipliers), and weekday gym workouts are ranked descending so multipliers only apply to smaller subsequent sessions.
+              </div>
             </div>
           </div>
 
@@ -2868,7 +3000,12 @@ html_template = '''<!DOCTYPE html>
     let currentFilteredActivities = [];
     let radarChartInstance = null;
     let donutChartInstance = null;
+    let trendChartInstance = null;
+    let eliteRadarChartInstance = null;
+    let eliteTrendChartInstance = null;
+    let currentDivision = 'community'; // 'community' | 'all'
     let selectedRadarAthleteIds = new Set();
+    let selectedTrendAthleteIds = new Set();
     let currentSchema = localStorage.getItem('strava_scoring_schema') || 'dynamic';
     let currentTheme = 'default';
     let lastSportBreakdown = null;
@@ -3786,6 +3923,9 @@ html_template = '''<!DOCTYPE html>
         if (radarChartInstance && lastFilteredAthletes) {
           renderRadarSection(lastFilteredAthletes);
         }
+        if (trendChartInstance && lastFilteredAthletes && currentFilteredActivities) {
+          renderTrendSection(lastFilteredAthletes, currentFilteredActivities);
+        }
       }
     }
 
@@ -4143,15 +4283,31 @@ html_template = '''<!DOCTYPE html>
       lastFilteredAthletes = filteredAthletes;
 
       renderSummary(summaryPayload);
-      renderPodium(filteredAthletes);
-      renderRadarSection(filteredAthletes);
+
+      // Segregate Top 5 Elite Titans from Everyday Athletes
+      const allEliteIds = new Set((globalData.athletes || []).slice(0, 5).map(a => a.athlete_id));
+      const eliteAthletes = filteredAthletes.filter(a => allEliteIds.has(a.athlete_id));
+      const communityAthletes = filteredAthletes.filter(a => !allEliteIds.has(a.athlete_id));
+
+      const isCommView = currentDivision === 'community';
+      const activeList = (isCommView && communityAthletes.length > 0) ? communityAthletes : filteredAthletes;
+
+      renderPodium(activeList, isCommView && communityAthletes.length > 0);
+      renderRadarSection(activeList);
       renderDonutChart(sportBreakdown, totalSportPoints);
-      renderLeaderboardTable(filteredAthletes);
+      renderTrendSection(activeList, filteredActivities);
+      renderLeaderboardTable(activeList, isCommView && communityAthletes.length > 0);
+      renderEliteSection(eliteAthletes, filteredActivities);
+
       renderMainRoadTrip(filteredActivities);
       renderMainRoulette(filteredActivities);
       renderMainMetaLab(filteredActivities);
 
-      document.getElementById('resultsCounter').innerText = `Showing ${filteredAthletes.length} of ${globalData.athletes.length} athletes (${filteredActivities.length} activities)`;
+      if (isCommView && communityAthletes.length > 0) {
+        document.getElementById('resultsCounter').innerText = `Showing ${communityAthletes.length} Everyday Athletes (${filteredActivities.length} activities) • Top 5 Elite segregated to Titans Board below`;
+      } else {
+        document.getElementById('resultsCounter').innerText = `Showing all ${filteredAthletes.length} athletes (${filteredActivities.length} activities)`;
+      }
     }
 
     function renderSummary(s) {
@@ -4162,46 +4318,43 @@ html_template = '''<!DOCTYPE html>
       document.getElementById('sumPoints').innerHTML = `${s.total_points.toLocaleString()} <span style="font-size: 15px; font-weight: 600;">pts</span>`;
     }
 
-    function renderPodium(athletes) {
+    function renderPodium(athletes, isCommunity = false) {
       const podiumEl = document.getElementById('podiumSection');
       podiumEl.innerHTML = '';
       if (!athletes || athletes.length === 0) {
-        podiumEl.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">No athletes match active filters</div>';
+        podiumEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">No athletes match active filters</div>';
         return;
       }
 
-      const top3 = athletes.slice(0, 3);
-      const classes = ['gold', 'silver', 'bronze'];
-      const medals = ['🥇 Gold', '🥈 Silver', '🥉 Bronze'];
-
-      top3.forEach((ath, i) => {
-        const initials = ath.athlete_name.split(' ').map(n => n[0]).join('').slice(0, 2);
-        const card = document.createElement('div');
-        card.className = `podium-card ${classes[i]}`;
-        card.onclick = () => openAthleteModal(ath.athlete_id);
-        card.title = `Click to view all activities for ${ath.athlete_name}`;
-        card.innerHTML = `
-          <div class="podium-badge">${medals[i]}</div>
-          <div class="podium-avatar">${initials}</div>
-          <div class="podium-name">${ath.athlete_name}</div>
-          <div class="podium-points">${ath.total_points.toLocaleString()} pts</div>
-          <div class="podium-stats">
-            <div class="podium-stat-item">
-              <span>Distance</span>
-              <span class="podium-stat-val">🏃 ${ath.total_distance_km} km</span>
-            </div>
-            <div class="podium-stat-item">
-              <span>Duration</span>
-              <span class="podium-stat-val">⏱️ ${Math.round(ath.total_duration_minutes)} m</span>
-            </div>
-            <div class="podium-stat-item">
-              <span>Acts</span>
-              <span class="podium-stat-val">⚡ ${ath.total_activities}</span>
-            </div>
+      // Keep leaderboard showing top 1 only - hide silver and bronze for now
+      const ath = athletes[0];
+      const initials = ath.athlete_name.split(' ').map(n => n[0]).join('').slice(0, 2);
+      const card = document.createElement('div');
+      card.className = 'podium-card gold';
+      card.onclick = () => openAthleteModal(ath.athlete_id);
+      card.title = `Click to view all activities for ${ath.athlete_name}`;
+      const badgeText = isCommunity ? '⭐ Everyday Division Leader (#1)' : '🥇 Active Club Champion (#1)';
+      card.innerHTML = `
+        <div class="podium-badge">${badgeText}</div>
+        <div class="podium-avatar">${initials}</div>
+        <div class="podium-name">${ath.athlete_name}</div>
+        <div class="podium-points">${ath.total_points.toLocaleString()} pts</div>
+        <div class="podium-stats">
+          <div class="podium-stat-item">
+            <span>Distance</span>
+            <span class="podium-stat-val">🏃 ${ath.total_distance_km} km</span>
           </div>
-        `;
-        podiumEl.appendChild(card);
-      });
+          <div class="podium-stat-item">
+            <span>Duration</span>
+            <span class="podium-stat-val">⏱️ ${Math.round(ath.total_duration_minutes)} m</span>
+          </div>
+          <div class="podium-stat-item">
+            <span>Acts</span>
+            <span class="podium-stat-val">⚡ ${ath.total_activities}</span>
+          </div>
+        </div>
+      `;
+      podiumEl.appendChild(card);
     }
 
     function renderRadarSection(athletes) {
@@ -4395,7 +4548,210 @@ html_template = '''<!DOCTYPE html>
       });
     }
 
-    function renderLeaderboardTable(list) {
+    function renderTrendSection(athletes, activities) {
+      if (!athletes || athletes.length === 0) return;
+      const availableIds = new Set(athletes.map(a => a.athlete_id));
+      for (const id of Array.from(selectedTrendAthleteIds)) {
+        if (!availableIds.has(id)) selectedTrendAthleteIds.delete(id);
+      }
+      if (selectedTrendAthleteIds.size === 0) {
+        athletes.slice(0, 5).forEach(a => selectedTrendAthleteIds.add(a.athlete_id));
+      }
+
+      const pillsContainer = document.getElementById('trendPills');
+      if (pillsContainer) {
+        pillsContainer.innerHTML = '';
+        const displayAthletes = athletes.slice(0, 10);
+        const isObs = currentTheme === 'obsidian';
+        const colors = isObs
+          ? ['#f59e0b', '#38bdf8', '#f43f5e', '#10b981', '#a855f7', '#e2e8f0', '#0ea5e9', '#ec4899', '#84cc16', '#06b6d4']
+          : ['#fc4c02', '#38bdf8', '#22c55e', '#a855f7', '#fbbf24', '#f43f5e', '#06b6d4', '#eab308', '#10b981', '#ec4899'];
+
+        displayAthletes.forEach((ath, idx) => {
+          const isSel = selectedTrendAthleteIds.has(ath.athlete_id);
+          const pill = document.createElement('div');
+          const color = colors[idx % colors.length];
+          pill.className = `radar-pill ${isSel ? 'active' : ''}`;
+          pill.style.color = isSel ? color : 'var(--text-muted)';
+          pill.style.borderColor = isSel ? color : 'var(--card-border)';
+          pill.innerHTML = `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${color};"></span> ${ath.athlete_name}`;
+          pill.onclick = () => {
+            if (selectedTrendAthleteIds.has(ath.athlete_id)) {
+              if (selectedTrendAthleteIds.size > 1) selectedTrendAthleteIds.delete(ath.athlete_id);
+            } else {
+              selectedTrendAthleteIds.add(ath.athlete_id);
+            }
+            renderTrendSection(athletes, activities);
+          };
+          pillsContainer.appendChild(pill);
+        });
+      }
+
+      const chartAthletes = athletes.filter(a => selectedTrendAthleteIds.has(a.athlete_id));
+      renderTrendChart(chartAthletes, activities);
+    }
+
+    function renderTrendChart(selectedAthletes, activities) {
+      const canvas = document.getElementById('trendChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (trendChartInstance) trendChartInstance.destroy();
+
+      if (!activities || activities.length === 0 || !selectedAthletes || selectedAthletes.length === 0) {
+        return;
+      }
+
+      const isObs = currentTheme === 'obsidian';
+      const colors = isObs
+        ? ['#f59e0b', '#38bdf8', '#f43f5e', '#10b981', '#a855f7', '#e2e8f0', '#0ea5e9', '#ec4899', '#84cc16', '#06b6d4']
+        : ['#fc4c02', '#38bdf8', '#22c55e', '#a855f7', '#fbbf24', '#f43f5e', '#06b6d4', '#eab308', '#10b981', '#ec4899'];
+
+      const dateSet = new Set();
+      activities.forEach(act => {
+        let dStr = '';
+        if (act.datetime_iso && act.datetime_iso.length >= 10) {
+          dStr = act.datetime_iso.slice(0, 10);
+        } else if (act.datetime_utc) {
+          try {
+            const clean = String(act.datetime_utc).replace(' on ', ' ');
+            const d = new Date(clean);
+            if (!isNaN(d.getTime())) dStr = d.toISOString().slice(0, 10);
+          } catch(e) {}
+        }
+        if (dStr) dateSet.add(dStr);
+      });
+
+      const sortedDates = Array.from(dateSet).sort();
+      if (sortedDates.length === 0) return;
+
+      const labels = sortedDates.map(dStr => {
+        try {
+          const parts = dStr.split('-');
+          const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        } catch(e) {
+          return dStr;
+        }
+      });
+
+      const athleteDailyMap = {};
+      selectedAthletes.forEach(ath => {
+        athleteDailyMap[String(ath.athlete_id)] = {};
+        sortedDates.forEach(d => {
+          athleteDailyMap[String(ath.athlete_id)][d] = 0;
+        });
+      });
+
+      activities.forEach(act => {
+        const aid = String(act.athlete_id);
+        if (athleteDailyMap[aid]) {
+          let dStr = '';
+          if (act.datetime_iso && act.datetime_iso.length >= 10) {
+            dStr = act.datetime_iso.slice(0, 10);
+          } else if (act.datetime_utc) {
+            try {
+              const clean = String(act.datetime_utc).replace(' on ', ' ');
+              const d = new Date(clean);
+              if (!isNaN(d.getTime())) dStr = d.toISOString().slice(0, 10);
+            } catch(e) {}
+          }
+          if (dStr && athleteDailyMap[aid][dStr] !== undefined) {
+            const isLeg = currentSchema === 'legacy_2025';
+            const pts = (isLeg ? act.points_legacy : act.points_dynamic) || act.points || 0;
+            athleteDailyMap[aid][dStr] += pts;
+          }
+        }
+      });
+
+      const datasets = selectedAthletes.map((ath, idx) => {
+        const color = colors[idx % colors.length];
+        let cumulative = 0;
+        const data = [];
+        const dailyGain = [];
+        sortedDates.forEach(d => {
+          const gain = athleteDailyMap[String(ath.athlete_id)][d] || 0;
+          cumulative += gain;
+          data.push(Math.round(cumulative * 100) / 100);
+          dailyGain.push(Math.round(gain * 100) / 100);
+        });
+        return {
+          label: ath.athlete_name,
+          data: data,
+          dailyGain: dailyGain,
+          borderColor: color,
+          backgroundColor: color + '15',
+          pointBackgroundColor: color,
+          pointBorderColor: isObs ? '#0f172a' : '#fff',
+          pointRadius: sortedDates.length > 20 ? 3 : 4,
+          pointHoverRadius: 6,
+          borderWidth: 2.2,
+          tension: 0.25,
+          fill: false
+        };
+      });
+
+      trendChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          scales: {
+            x: {
+              grid: { color: isObs ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.08)' },
+              ticks: {
+                color: '#94a3b8',
+                font: { family: 'Inter', size: window.innerWidth < 768 ? 10 : 11 }
+              }
+            },
+            y: {
+              grid: { color: isObs ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.08)' },
+              ticks: {
+                color: '#94a3b8',
+                font: { family: 'Inter', size: window.innerWidth < 768 ? 10 : 11 },
+                callback: function(val) { return val.toLocaleString() + ' pts'; }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#f8fafc',
+                font: { family: 'Inter', size: window.innerWidth < 768 ? 11 : 12, weight: '500' },
+                boxWidth: 12,
+                padding: 10
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#fff',
+              bodyColor: '#cbd5e1',
+              borderColor: 'rgba(255, 255, 255, 0.15)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                label: function(context) {
+                  const cum = context.parsed.y;
+                  const gain = context.dataset.dailyGain ? context.dataset.dailyGain[context.dataIndex] : 0;
+                  const gainStr = gain > 0 ? ` (+${gain.toLocaleString()} pts)` : '';
+                  return ` ${context.dataset.label}: ${cum.toLocaleString()} pts${gainStr}`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderLeaderboardTable(list, isCommunity = false) {
       const tbody = document.getElementById('leaderboardTbody');
       tbody.innerHTML = '';
       if (!list || list.length === 0) {
@@ -4404,11 +4760,19 @@ html_template = '''<!DOCTYPE html>
       }
 
       list.forEach((ath, idx) => {
-        const rank = idx + 1;
-        let rankHtml = `#${rank}`;
-        if (rank === 1) rankHtml = `<span class="rank-top1">🥇 #1</span>`;
-        else if (rank === 2) rankHtml = `<span class="rank-top2">🥈 #2</span>`;
-        else if (rank === 3) rankHtml = `<span class="rank-top3">🥉 #3</span>`;
+        const divRank = idx + 1;
+        let rankHtml = '';
+        if (isCommunity) {
+          if (divRank === 1) rankHtml = `<span class="rank-top1">🥇 Div #1</span> <span style="font-size:10px; color:var(--text-dim); background:rgba(255,255,255,0.06); padding:2px 5px; border-radius:4px; margin-left:3px;">Club #${ath.rank}</span>`;
+          else if (divRank === 2) rankHtml = `<span class="rank-top2">🥈 Div #2</span> <span style="font-size:10px; color:var(--text-dim); background:rgba(255,255,255,0.06); padding:2px 5px; border-radius:4px; margin-left:3px;">Club #${ath.rank}</span>`;
+          else if (divRank === 3) rankHtml = `<span class="rank-top3">🥉 Div #3</span> <span style="font-size:10px; color:var(--text-dim); background:rgba(255,255,255,0.06); padding:2px 5px; border-radius:4px; margin-left:3px;">Club #${ath.rank}</span>`;
+          else rankHtml = `<strong>#${divRank}</strong> <span style="font-size:10px; color:var(--text-dim); background:rgba(255,255,255,0.06); padding:2px 5px; border-radius:4px; margin-left:3px;">Club #${ath.rank}</span>`;
+        } else {
+          if (ath.rank === 1) rankHtml = `<span class="rank-top1">🥇 #1</span>`;
+          else if (ath.rank === 2) rankHtml = `<span class="rank-top2">🥈 #2</span>`;
+          else if (ath.rank === 3) rankHtml = `<span class="rank-top3">🥉 #3</span>`;
+          else rankHtml = `#${ath.rank}`;
+        }
 
         const initials = ath.athlete_name.split(' ').map(n => n[0]).join('').slice(0, 2);
         const avatarBg = getAvatarColor(ath.athlete_name);
@@ -4445,6 +4809,323 @@ html_template = '''<!DOCTYPE html>
           </td>
         `;
         tbody.appendChild(tr);
+      });
+    }
+
+    function setDivision(div) {
+      currentDivision = div;
+      const btnComm = document.getElementById('tabDivCommunity');
+      const btnAll = document.getElementById('tabDivAll');
+      const status = document.getElementById('divisionStatus');
+      if (div === 'community') {
+        if (btnComm) btnComm.classList.add('active');
+        if (btnAll) btnAll.classList.remove('active');
+        if (status) status.innerText = '⚡ Everyday Athletes View (Top 5 Elite segregated to Titans Board below)';
+      } else {
+        if (btnComm) btnComm.classList.remove('active');
+        if (btnAll) btnAll.classList.add('active');
+        if (status) status.innerText = '🌐 Full Club Standings (All Athletes)';
+      }
+      if (globalData) renderDashboard();
+    }
+
+    function renderEliteSection(eliteAthletes, activities) {
+      const tbody = document.getElementById('eliteLeaderboardTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      if (!eliteAthletes || eliteAthletes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">No elite athletes to display</td></tr>';
+        return;
+      }
+
+      eliteAthletes.forEach((ath, idx) => {
+        const eliteRank = idx + 1;
+        let badgeHtml = '';
+        if (eliteRank === 1) {
+          badgeHtml = '<span style="background:rgba(251,191,36,0.22); color:#fbbf24; border:1px solid rgba(251,191,36,0.5); padding:3px 9px; border-radius:6px; font-weight:800; font-size:11px;">⚡ Titan #1</span>';
+        } else if (eliteRank === 2) {
+          badgeHtml = '<span style="background:rgba(203,213,225,0.22); color:#cbd5e1; border:1px solid rgba(203,213,225,0.5); padding:3px 9px; border-radius:6px; font-weight:800; font-size:11px;">⚡ Titan #2</span>';
+        } else if (eliteRank === 3) {
+          badgeHtml = '<span style="background:rgba(217,119,6,0.22); color:#f59e0b; border:1px solid rgba(217,119,6,0.5); padding:3px 9px; border-radius:6px; font-weight:800; font-size:11px;">⚡ Titan #3</span>';
+        } else {
+          badgeHtml = `<span style="background:rgba(56,189,248,0.18); color:#38bdf8; border:1px solid rgba(56,189,248,0.4); padding:3px 9px; border-radius:6px; font-weight:700; font-size:11px;">⚡ Titan #${eliteRank}</span>`;
+        }
+
+        const initials = ath.athlete_name.split(' ').map(n => n[0]).join('').slice(0, 2);
+        const avatarBg = getAvatarColor(ath.athlete_name);
+        const sportTags = (ath.activity_types || []).slice(0, 3).map(st => `
+          <span class="sport-tag">${getSportIcon(st)} ${st}</span>
+        `).join('');
+
+        const hours = Math.floor(ath.total_duration_minutes / 60);
+        const mins = Math.round(ath.total_duration_minutes % 60);
+        const durFormatted = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+
+        const tr = document.createElement('tr');
+        tr.onclick = () => openAthleteModal(ath.athlete_id);
+        tr.title = `Click to view profile for ${ath.athlete_name}`;
+        tr.style.cursor = 'pointer';
+        tr.innerHTML = `
+          <td class="rank-cell">${badgeHtml}</td>
+          <td>
+            <div class="athlete-cell">
+              <div class="athlete-badge" style="background: ${avatarBg};">${initials}</div>
+              <div>
+                <div class="athlete-name" style="font-weight:700;">${ath.athlete_name}</div>
+                <div class="sport-tags">${sportTags}</div>
+              </div>
+            </div>
+          </td>
+          <td><span style="font-weight: 600;">${ath.total_activities}</span></td>
+          <td>${ath.unique_types}</td>
+          <td style="font-weight: 600;">${ath.total_distance_km} km</td>
+          <td>${durFormatted}</td>
+          <td class="points-cell" style="color:var(--gold); font-weight:800;">${ath.total_points.toLocaleString()} pts</td>
+          <td>
+            <button class="btn btn-outline" style="padding: 4px 10px; font-size: 11px; border-color:rgba(251,191,36,0.4); color:var(--gold);">View ↗</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      renderEliteRadarChart(eliteAthletes);
+      renderEliteTrendChart(eliteAthletes, activities);
+    }
+
+    function renderEliteRadarChart(eliteAthletes) {
+      const canvas = document.getElementById('eliteRadarChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (eliteRadarChartInstance) eliteRadarChartInstance.destroy();
+
+      const colors = ['#fbbf24', '#38bdf8', '#22c55e', '#a855f7', '#f43f5e'];
+
+      const datasets = eliteAthletes.map((ath, idx) => {
+        const color = colors[idx % colors.length];
+        return {
+          label: ath.athlete_name,
+          data: [
+            ath.radar_metrics.distance,
+            ath.radar_metrics.duration,
+            ath.radar_metrics.points,
+            ath.radar_metrics.frequency,
+            ath.radar_metrics.diversity
+          ],
+          rawMetrics: {
+            dist: ath.total_distance_km,
+            dur: ath.total_duration_minutes,
+            pts: ath.total_points,
+            cnt: ath.total_activities,
+            div: ath.unique_types
+          },
+          backgroundColor: color + '22',
+          borderColor: color,
+          pointBackgroundColor: color,
+          pointBorderColor: '#fff',
+          pointHoverRadius: 6,
+          borderWidth: 2
+        };
+      });
+
+      eliteRadarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Distance', 'Duration', 'Points', 'Frequency', 'Diversity'],
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              pointLabels: {
+                color: '#cbd5e1',
+                font: { family: 'Inter', size: 11, weight: '600' }
+              },
+              ticks: { display: false, maxTicksLimit: 5 },
+              suggestedMin: 0,
+              suggestedMax: 100
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#f8fafc',
+                font: { family: 'Inter', size: 11, weight: '500' },
+                boxWidth: 10,
+                padding: 8
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#fff',
+              bodyColor: '#cbd5e1',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                label: function(context) {
+                  const val = context.parsed.r;
+                  const raw = context.dataset.rawMetrics;
+                  let rawStr = '';
+                  if (context.dataIndex === 0) rawStr = ` (${raw.dist} km)`;
+                  else if (context.dataIndex === 1) rawStr = ` (${Math.round(raw.dur)} mins)`;
+                  else if (context.dataIndex === 2) rawStr = ` (${raw.pts} pts)`;
+                  else if (context.dataIndex === 3) rawStr = ` (${raw.cnt} acts)`;
+                  else if (context.dataIndex === 4) rawStr = ` (${raw.div} sports)`;
+                  return `${context.dataset.label}: ${val}%${rawStr}`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderEliteTrendChart(eliteAthletes, activities) {
+      const canvas = document.getElementById('eliteTrendChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (eliteTrendChartInstance) eliteTrendChartInstance.destroy();
+
+      if (!activities || activities.length === 0 || !eliteAthletes || eliteAthletes.length === 0) {
+        return;
+      }
+
+      const colors = ['#fbbf24', '#38bdf8', '#22c55e', '#a855f7', '#f43f5e'];
+
+      const dateSet = new Set();
+      activities.forEach(act => {
+        let dStr = '';
+        if (act.datetime_iso && act.datetime_iso.length >= 10) {
+          dStr = act.datetime_iso.slice(0, 10);
+        } else if (act.datetime_utc) {
+          try {
+            const clean = String(act.datetime_utc).replace(' on ', ' ');
+            const d = new Date(clean);
+            if (!isNaN(d.getTime())) dStr = d.toISOString().slice(0, 10);
+          } catch(e) {}
+        }
+        if (dStr) dateSet.add(dStr);
+      });
+
+      const sortedDates = Array.from(dateSet).sort();
+      if (sortedDates.length === 0) return;
+
+      const labels = sortedDates.map(dStr => {
+        try {
+          const parts = dStr.split('-');
+          const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        } catch(e) {
+          return dStr;
+        }
+      });
+
+      const athleteDailyMap = {};
+      eliteAthletes.forEach(ath => {
+        athleteDailyMap[String(ath.athlete_id)] = {};
+        sortedDates.forEach(d => {
+          athleteDailyMap[String(ath.athlete_id)][d] = 0;
+        });
+      });
+
+      activities.forEach(act => {
+        const aid = String(act.athlete_id);
+        if (athleteDailyMap[aid]) {
+          let dStr = '';
+          if (act.datetime_iso && act.datetime_iso.length >= 10) {
+            dStr = act.datetime_iso.slice(0, 10);
+          } else if (act.datetime_utc) {
+            try {
+              const clean = String(act.datetime_utc).replace(' on ', ' ');
+              const d = new Date(clean);
+              if (!isNaN(d.getTime())) dStr = d.toISOString().slice(0, 10);
+            } catch(e) {}
+          }
+          if (dStr && athleteDailyMap[aid][dStr] !== undefined) {
+            const isLeg = currentSchema === 'legacy_2025';
+            const pts = (isLeg ? act.points_legacy : act.points_dynamic) || act.points || 0;
+            athleteDailyMap[aid][dStr] += pts;
+          }
+        }
+      });
+
+      const datasets = eliteAthletes.map((ath, idx) => {
+        const color = colors[idx % colors.length];
+        let cumulative = 0;
+        const data = [];
+        const dailyGain = [];
+        sortedDates.forEach(d => {
+          const gain = athleteDailyMap[String(ath.athlete_id)][d] || 0;
+          cumulative += gain;
+          data.push(Math.round(cumulative * 100) / 100);
+          dailyGain.push(Math.round(gain * 100) / 100);
+        });
+        return {
+          label: ath.athlete_name,
+          data: data,
+          dailyGain: dailyGain,
+          borderColor: color,
+          backgroundColor: color + '15',
+          borderWidth: 2.5,
+          tension: 0.3,
+          pointRadius: 2,
+          pointHoverRadius: 6,
+          pointBackgroundColor: color,
+          fill: false
+        };
+      });
+
+      eliteTrendChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8', font: { family: 'Inter', size: 10 } }
+            },
+            y: {
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: {
+                color: '#94a3b8',
+                font: { family: 'Inter', size: 10 },
+                callback: function(val) { return val.toLocaleString() + ' pt'; }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#f8fafc', font: { family: 'Inter', size: 11, weight: '500' }, boxWidth: 10, padding: 8 }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#fff',
+              bodyColor: '#cbd5e1',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                label: function(context) {
+                  const val = context.parsed.y;
+                  const gain = context.dataset.dailyGain[context.dataIndex] || 0;
+                  return `${context.dataset.label}: ${val.toLocaleString()} pts (+${gain.toLocaleString()} today)`;
+                }
+              }
+            }
+          }
+        }
       });
     }
 
@@ -4492,6 +5173,11 @@ html_template = '''<!DOCTYPE html>
         } else if (act.integrity_flag === 'VEHICLE_SPEED') {
           integrityBadge = `<span title="Speed exceeded 18 km/h on foot sport. Normalized to median pace." style="background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">🚗 Vehicle Velocity Adjusted</span>`;
           distTitle = `title="Logged: ${act.original_distance_km || act.distance_km} km (Pace ${act.original_pace || act.pace}). Speed exceeded 18 km/h, normalized."`;
+        } else if (act.integrity_flag === 'DAILY_GYM_CAP_EXCEEDED') {
+          const credMin = Math.round(act.duration_minutes);
+          const origMin = Math.round(act.original_duration_minutes || act.duration_minutes);
+          integrityBadge = `<span title="Gym session exceeded daily calendar cap of 2.0 hrs (120 mins). Credited ${credMin}m out of ${origMin}m logged." style="background:rgba(245,158,11,0.18); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:1px 6px; border-radius:4px; font-size:10px; margin-left:4px;">⏱️ Daily Gym Cap (Max 2h/day)</span>`;
+          distTitle = `title="Logged: ${origMin} mins. Credited: ${credMin} mins (capped at daily 2-hour resistance limit)."`;
         }
 
         const isOutsideFilter = showAll && currentFilteredActivities && !currentFilteredActivities.some(a => a.activity_id === act.activity_id);
@@ -4509,8 +5195,8 @@ html_template = '''<!DOCTYPE html>
               </span>
             </td>
             <td style="color: var(--text-muted); font-size: 13px;">${dateDisplay}</td>
-            <td style="font-weight:600;" ${distTitle}>${act.distance_km} km ${act.integrity_flag ? '<span style="color:#f87171; font-size:11px;" title="Adjusted by integrity filter">*</span>' : ''}</td>
-            <td>${Math.round(act.duration_minutes)} mins</td>
+            <td style="font-weight:600;" ${distTitle}>${act.distance_km} km ${act.integrity_flag && act.integrity_flag !== 'DAILY_GYM_CAP_EXCEEDED' ? '<span style="color:#f87171; font-size:11px;" title="Adjusted by integrity filter">*</span>' : ''}</td>
+            <td ${act.integrity_flag === 'DAILY_GYM_CAP_EXCEEDED' ? distTitle : ''}>${Math.round(act.duration_minutes)} mins ${act.integrity_flag === 'DAILY_GYM_CAP_EXCEEDED' ? '<span style="color:#fbbf24; font-size:11px;" title="Capped to daily max 2.0 hours">*</span>' : ''}</td>
             <td>${paceDisplay}</td>
             <td style="font-weight:700; color:var(--strava-orange);">${actPts} pts</td>
             <td>

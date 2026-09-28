@@ -349,6 +349,7 @@ def recover_missing_activity_data(activity_type: str, distance_km: Any, duration
 
 CYCLING_BASE_RATE = 25.0
 CYCLING_CEILING_FACTOR = 0.4076
+DAILY_GYM_CAP_MINUTES = 120.0  # Daily calendar day cap for gym/resistance sessions (max 2.0 hours/day)
 
 def is_slow_met_activity(activity_type: str) -> bool:
     """Identifies slow-MET resistance, gym, and studio activities that qualify for consistency bonuses."""
@@ -357,13 +358,23 @@ def is_slow_met_activity(activity_type: str) -> bool:
         return False
     return any(k in t for k in ["weight", "gym", "workout", "yoga", "pilates", "crossfit", "strength"])
 
-def get_slow_met_multiplier(day_count_in_week: int) -> float:
-    """Escalating weekly frequency multiplier for slow-MET activities (calibrated consistency bonus)."""
-    if day_count_in_week <= 1:
+def get_slow_met_multiplier(activity_rank_in_week: int) -> float:
+    """
+    Weekly descending-duration consistency multiplier for slow-MET activities:
+    To prevent swooping in with unrealistically large times later in the week,
+    gym activities within each week are ordered descending by duration.
+    The largest activity receives no bonus (1.00x), while bonuses only apply
+    to smaller/subsequent activities:
+      - Rank 1 (Largest duration): 1.00x (Base rate)
+      - Rank 2 (2nd largest): 1.10x (+10%)
+      - Rank 3 (3rd largest): 1.20x (+20%)
+      - Rank 4+ (Smaller activities): 1.30x (+30%)
+    """
+    if activity_rank_in_week <= 1:
         return 1.00
-    elif day_count_in_week == 2:
+    elif activity_rank_in_week == 2:
         return 1.10
-    elif day_count_in_week == 3:
+    elif activity_rank_in_week == 3:
         return 1.20
     else:
         return 1.30
@@ -434,10 +445,10 @@ def calculate_cyclist_percentile_scoring(
 def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "100_base") -> List[Dict[str, Any]]:
     """
     Applies cohort-wide scoring rules across a full activity list:
-    1. Slow-MET weekly frequency multiplier (1.0x -> 1.25x -> 1.5x -> 1.75x) for Gym, Weights, Workout, Yoga.
-       - Qualifying duration: >= 25.0 minutes moving time.
-       - Max 1 credit per calendar day per athlete.
-       - Tiers applied within each Monday-Sunday ISO week.
+    1. Slow-MET weekly consistency multiplier for Gym, Weights, Workout, Yoga:
+       - Weekend Removal: All sessions on Saturday and Sunday strictly receive 1.00x (no bonus).
+       - Weekday Sessions (Mon-Fri): Qualifying sessions (>= 25 min) arranged in descending order of duration.
+       - The largest weekday session receives 1.00x, with bonuses (1.10x, 1.20x, 1.30x) applied to smaller weekday sessions.
     2. Cycling Percentile Scoring:
        - Benchmarked against all-time cohort (historical archive + current contest).
        - Ceiling = current_pts_per_km * max_km * factor (as 100th percentile).
@@ -461,15 +472,27 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
         indexed.append((dt, idx, act))
     indexed.sort(key=lambda x: x[0])
 
-    # 2. Gather cyclist contest totals and slow-MET weekly active days
+    # 2. Gather cyclist contest totals and slow-MET weekly activities (weekday vs weekend)
     cyclist_totals = collections.defaultdict(float)
-    athlete_week_days = collections.defaultdict(lambda: collections.defaultdict(dict))
+    athlete_weekday_gym = collections.defaultdict(lambda: collections.defaultdict(list))
+    athlete_weekend_gym = collections.defaultdict(lambda: collections.defaultdict(list))
+
+    # Daily calendar cap tracking for gym/resistance activities (max 120.0 min = 2.0 hrs per calendar day)
+    athlete_day_gym_credited = collections.defaultdict(lambda: collections.defaultdict(float))
+    gym_act_capped_info = {}
 
     for dt, idx, act in indexed:
         stype = str(act.get("activity_type", "")).strip()
         try:
-            dist = float(act.get("distance_km", 0.0) or 0.0)
-            dur = float(act.get("duration_minutes", 0.0) or 0.0)
+            if act.get("original_distance_km") and str(act.get("original_distance_km")).strip() != "":
+                dist = float(act.get("original_distance_km"))
+            else:
+                dist = float(act.get("distance_km", 0.0) or 0.0)
+
+            if act.get("original_duration_minutes") and str(act.get("original_duration_minutes")).strip() != "":
+                dur = float(act.get("original_duration_minutes"))
+            else:
+                dur = float(act.get("duration_minutes", 0.0) or 0.0)
         except (ValueError, TypeError):
             dist, dur = 0.0, 0.0
 
@@ -479,13 +502,48 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
         if ("ride" in stype.lower() or "cycle" in stype.lower()) and dist > 0.0 and not is_ind:
             cyclist_totals[aid] += dist
 
-        if is_slow_met_activity(stype) and dur >= 25.0:
-            wk = f"{dt.year}-W{dt.isocalendar()[1]}"
-            day_str = dt.strftime("%Y-%m-%d")
-            week_dict = athlete_week_days[aid][wk]
-            if day_str not in week_dict:
-                day_num = len(week_dict) + 1
-                week_dict[day_str] = day_num
+        if is_slow_met_activity(stype):
+            date_str = dt.strftime("%Y-%m-%d")
+            already_credited = athlete_day_gym_credited[aid][date_str]
+            credited_dur = max(0.0, min(dur, DAILY_GYM_CAP_MINUTES - already_credited))
+            athlete_day_gym_credited[aid][date_str] += credited_dur
+            if dur > credited_dur:
+                gym_act_capped_info[idx] = (dur, credited_dur)
+
+    # Assign day-based gym multipliers:
+    # 1. Weekend gym days (Sat & Sun): strictly 1.00x base rate (no consistency bonus on weekends)
+    # 2. Weekday gym days (Mon-Fri): active qualifying gym days (total daily time >= 25.0 min)
+    #    are ranked in descending order of day total duration:
+    #      Rank 1 day (largest total time day): 1.00x (base rate)
+    #      Rank 2 day: 1.10x (+10%)
+    #      Rank 3 day: 1.20x (+20%)
+    #      Rank 4+ days: 1.30x (+30%)
+    #    Days with total time < 25.0 min receive base 1.00x.
+    # Each gym activity inherits its calendar date's multiplier.
+    # This guarantees complete immunity against breaking workouts into multiple split sessions!
+    athlete_day_mult = collections.defaultdict(dict)
+    athlete_weekday_gym_days = collections.defaultdict(lambda: collections.defaultdict(list))
+
+    for aid, days in athlete_day_gym_credited.items():
+        for date_str, total_credited in days.items():
+            dt_day = datetime.strptime(date_str, "%Y-%m-%d")
+            wk = f"{dt_day.year}-W{dt_day.isocalendar()[1]:02d}"
+            if dt_day.weekday() in [5, 6]:
+                # Weekend gym days strictly 1.00x base
+                athlete_day_mult[aid][date_str] = 1.00
+            else:
+                athlete_weekday_gym_days[aid][wk].append((date_str, total_credited))
+
+    for aid, weeks in athlete_weekday_gym_days.items():
+        for wk, day_list in weeks.items():
+            qual = [d for d in day_list if d[1] >= 25.0]
+            non_qual = [d for d in day_list if d[1] < 25.0]
+            # Sort descending by day total time
+            qual_sorted = sorted(qual, key=lambda d: (-d[1], d[0]))
+            for rank, (date_str, total_dur) in enumerate(qual_sorted, 1):
+                athlete_day_mult[aid][date_str] = get_slow_met_multiplier(rank)
+            for date_str, total_dur in non_qual:
+                athlete_day_mult[aid][date_str] = 1.00
 
     # 3. Compute cycling percentile metrics across combined cohort
     hist_cohort = get_historical_cycling_cohort()
@@ -563,22 +621,40 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
                 dist = float(row.get("original_distance_km"))
             else:
                 dist = float(row.get("distance_km", 0.0) or 0.0)
-            dur = float(row.get("duration_minutes", 0.0) or 0.0)
+            if row.get("original_duration_minutes") and str(row.get("original_duration_minutes")).strip() != "":
+                dur = float(row.get("original_duration_minutes"))
+            else:
+                dur = float(row.get("duration_minutes", 0.0) or 0.0)
         except (ValueError, TypeError):
             dist, dur = 0.0, 0.0
 
-        if stype == "Weight Training":
-            # Gym and weight training sessions do not accrue distance points
-            dist = 0.0
-            row["distance_km"] = 0.0
+        # Integrity Layer & Anomaly Auto-Adjustment
+        integrity_flag = ""
+        integrity_badge = ""
+
+        if is_slow_met_activity(stype):
+            if stype == "Weight Training":
+                # Gym and weight training sessions do not accrue distance points
+                dist = 0.0
+                row["distance_km"] = 0.0
+            if orig_idx in gym_act_capped_info:
+                raw_d, cred_d = gym_act_capped_info[orig_idx]
+                dur = cred_d
+                row["duration_minutes"] = round(cred_d, 2)
+                row["original_duration_minutes"] = round(raw_d, 2)
+                integrity_flag = "DAILY_GYM_CAP_EXCEEDED"
+                if cred_d > 0.0:
+                    integrity_badge = f"⏱️ Daily Gym Cap Exceeded (credited {round(cred_d, 1)}m / max 2h/day)"
+                else:
+                    integrity_badge = "⏱️ Daily Gym Cap Exceeded (0m credited / daily 2h max reached)"
+            else:
+                row["duration_minutes"] = round(dur, 2)
+                row["original_duration_minutes"] = round(dur, 2)
 
         aid = str(row.get("athlete_id") or row.get("athlete_name", "unknown")).strip()
         is_ind = str(row.get("is_indoor", "")).strip().lower() in ["true", "1", "yes"] or is_indoor_ride(stype, dist)
         pace_val = format_pace(dist, dur, sport=stype) if dist > 0.0 else str(row.get("pace", "")).strip()
 
-        # Integrity Layer & Anomaly Auto-Adjustment
-        integrity_flag = ""
-        integrity_badge = ""
         adj_dist = dist
         adj_pace = dur / dist if dist > 0.0 else 0.0
         speed_kmh = (dist / dur) * 60.0 if dur > 0.0 else 0.0
@@ -618,13 +694,11 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
 
         adj_pace_str = format_pace(adj_dist, dur, sport=stype) if adj_dist > 0.0 else pace_val
 
-        # Slow-MET multiplier
+        # Slow-MET multiplier (day-based descending consistency model)
         mult = 1.00
         if is_slow_met_activity(stype):
-            wk = f"{dt.year}-W{dt.isocalendar()[1]}"
-            day_str = dt.strftime("%Y-%m-%d")
-            day_num = athlete_week_days[aid][wk].get(day_str, 1)
-            mult = get_slow_met_multiplier(day_num)
+            date_str = dt.strftime("%Y-%m-%d")
+            mult = athlete_day_mult[aid].get(date_str, 1.00)
 
         # Cycling rate calculation (Option B: Continuous Distance Curve)
         cyc_rate = None
@@ -647,6 +721,8 @@ def apply_dataset_scoring_rules(activities: List[Dict[str, Any]], scale: str = "
         row["points_legacy"] = round(pts_leg, 2)
         row["distance_km"] = round(adj_dist, 2)
         row["duration_minutes"] = round(dur, 2)
+        if "original_duration_minutes" not in row:
+            row["original_duration_minutes"] = round(dur, 2)
         row["pace"] = adj_pace_str
         row["is_indoor"] = is_ind
         row["integrity_flag"] = integrity_flag

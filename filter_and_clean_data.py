@@ -194,6 +194,10 @@ def clean_and_filter_activities(
         row["duration_minutes"] = str(round(dur, 2))
         row["pace"] = pace_str
         row["is_indoor"] = "true" if indoor_flag else "false"
+        if "original_distance_km" not in row or not str(row.get("original_distance_km", "")).strip():
+            row["original_distance_km"] = str(round(dist, 2))
+        if "original_duration_minutes" not in row or not str(row.get("original_duration_minutes", "")).strip():
+            row["original_duration_minutes"] = str(round(dur, 2))
 
         cleaned_activities.append(row)
 
@@ -212,7 +216,7 @@ def clean_and_filter_activities(
         "activity_id", "athlete_id", "athlete_name", "activity_type",
         "datetime_utc", "distance_km", "duration_minutes", "points",
         "points_dynamic", "points_legacy", "pace", "is_indoor", "activity_url",
-        "integrity_flag"
+        "integrity_flag", "original_duration_minutes", "original_distance_km"
     ]
 
 

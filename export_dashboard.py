@@ -79,6 +79,9 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
             pts_dyn = calculate_dynamic_points(act_type, dist, dur, pace_str=pace_val, is_indoor=is_ind)
             pts_leg = calculate_legacy_points(act_type, dist, dur, is_indoor=is_ind)
 
+            orig_dist = float(r.get("original_distance_km")) if r.get("original_distance_km") and str(r.get("original_distance_km")).strip() != "" else round(dist, 2)
+            orig_dur = float(r.get("original_duration_minutes")) if r.get("original_duration_minutes") and str(r.get("original_duration_minutes")).strip() != "" else round(dur, 2)
+
             activities.append({
                 "activity_id": str(r.get("activity_id", "")),
                 "athlete_id": str(r.get("athlete_id", "")),
@@ -94,7 +97,9 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
                 "points_legacy": round(pts_leg, 2),
                 "pace": pace_val,
                 "is_indoor": is_ind,
-                "activity_url": str(r.get("activity_url", ""))
+                "activity_url": str(r.get("activity_url", "")),
+                "original_distance_km": orig_dist,
+                "original_duration_minutes": orig_dur
             })
 
     # Apply cohort-wide dynamic scoring rules (cycling percentile + slow-MET weekly multiplier)
@@ -241,7 +246,8 @@ def generate_dashboard_json(csv_path: str = "activities.csv", output_paths: List
         "activity_id", "athlete_id", "athlete_name", "activity_type",
         "datetime_utc", "distance_km", "duration_minutes",
         "points", "points_dynamic", "points_legacy",
-        "pace", "is_indoor", "activity_url", "integrity_flag"
+        "pace", "is_indoor", "activity_url", "integrity_flag",
+        "original_duration_minutes", "original_distance_km"
     ]
 
     csv_destinations = [
