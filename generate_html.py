@@ -4303,10 +4303,13 @@ html_template = '''<!DOCTYPE html>
       renderMainRoulette(filteredActivities);
       renderMainMetaLab(filteredActivities);
 
+      const eliteSec = document.getElementById('eliteDivisionSection');
       if (isCommView && communityAthletes.length > 0) {
         document.getElementById('resultsCounter').innerText = `Showing ${communityAthletes.length} Everyday Athletes (${filteredActivities.length} activities) • Top 5 Elite segregated to Titans Board below`;
+        if (eliteSec) eliteSec.style.display = 'block';
       } else {
         document.getElementById('resultsCounter').innerText = `Showing all ${filteredAthletes.length} athletes (${filteredActivities.length} activities)`;
+        if (eliteSec) eliteSec.style.display = 'none';
       }
     }
 
@@ -4817,17 +4820,22 @@ html_template = '''<!DOCTYPE html>
       const btnComm = document.getElementById('tabDivCommunity');
       const btnAll = document.getElementById('tabDivAll');
       const status = document.getElementById('divisionStatus');
+      const eliteSec = document.getElementById('eliteDivisionSection');
       if (div === 'community') {
         if (btnComm) btnComm.classList.add('active');
         if (btnAll) btnAll.classList.remove('active');
         if (status) status.innerText = '⚡ Everyday Athletes View (Top 5 Elite segregated to Titans Board below)';
+        if (eliteSec) eliteSec.style.display = 'block';
       } else {
         if (btnComm) btnComm.classList.remove('active');
         if (btnAll) btnAll.classList.add('active');
         if (status) status.innerText = '🌐 Full Club Standings (All Athletes)';
+        if (eliteSec) eliteSec.style.display = 'none';
       }
-      if (globalData) renderDashboard();
+      if (globalData) applyFilters();
     }
+    window.setDivision = setDivision;
+    window.renderDashboard = applyFilters;
 
     function renderEliteSection(eliteAthletes, activities) {
       const tbody = document.getElementById('eliteLeaderboardTbody');
